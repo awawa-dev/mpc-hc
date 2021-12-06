@@ -31,6 +31,7 @@
  // be removed from mpc-hc. Upon removal, also remove icon resources.
 
  //#define INCLUDE_SUBDB
+#define INCLUDE_SUB_ADDIC7ED
 
 #define DEFINE_SUBTITLESPROVIDER_BEGIN(P, U, I, F)                                     \
 class P final : public SubtitlesProvider {                                             \
@@ -89,6 +90,15 @@ DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "https://napisy24.pl/", IDI_N24, SPF_HA
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
 
+#ifdef INCLUDE_SUB_ADDIC7ED
+#define SUB_ADDIC7ED_AGENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
+DEFINE_SUBTITLESPROVIDER_BEGIN(Addic7ed, "https://www.addic7ed.com/", IDI_ADDIC7ED, SPF_SEARCH)
+CString cookie;
+SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
+bool    NeedLogin() override;
+DEFINE_SUBTITLESPROVIDER_END
+#endif
+
 static const struct {
     const char* code;
     const char* name;
@@ -113,4 +123,44 @@ static const struct {
     { /*51*/ "vi", "Vietnamese" },              { /*52*/ "fa", "Farsi" },                  { /*53*/ "ca", "Catalan" },
     { /*54*/ "id", "Indonesian" },              { /*55*/ "ms", "Malay" },                  { /*56*/ "si", "Sinhala" },
     { /*57*/ "kl", "Greenlandic" },             { /*58*/ "kk", "Kazakh" },                 { /*59*/ "bn", "Bengali" },
+};
+
+static const struct {
+    const char* code;
+    const char* name;
+} Addic7ed_languages[] = {
+    { /*29*/ "sq", "Albanian" },
+    { /*12*/ "ar", "Arabic" },
+    {        "bs", "Bosnian" },
+    { /*33*/ "bg", "Bulgarian" },
+    { /*53*/ "ca", "Catalan" },
+    { /*38*/ "hr", "Croatian" },
+    { /* 7*/ "cs", "Czech" },
+    { /*24*/ "da", "Danish" },
+    { /*23*/ "nl", "Dutch" },
+    { /* 2*/ "en", "English" },
+    { /*31*/ "fi", "Finnish" },
+    { /* 8*/ "fr", "French" },
+    { /*49*/ "ga", "Irish" },
+    { /* 5*/ "de", "German" },
+    {        "el", "Greek" },
+    { /*22*/ "he", "Hebrew" },
+    { /*15*/ "hu", "Hungarian" },
+    { /*54*/ "id", "Indonesian" },
+    { /* 9*/ "it", "Italian" },    
+    { /*52*/ "fa", "Farsi" },
+    { /* 4*/ "ko", "Korean" },
+    { /*35*/ "mk", "Macedonian" },
+    { /* 3*/ "no", "Norwegian" },
+    { /*26*/ "pl", "Polish" },
+    { /*32*/ "pt", "Portuguese" },
+    {        "pb", "Portuguese (Brazilian)"},
+    { /*13*/ "ro", "Romanian" },
+    { /*27*/ "ru", "Russian" },
+    { /* 1*/ "sl", "Slovenian" },
+    { /*28*/ "es", "Spanish" },
+    {        "es", "Spanish (Latin America)"},
+    {        "sv", "Swedish"},
+    { /*47*/ "sr", "Serbian (Cyrillic)"},
+    { /*30*/ "tr", "Turkish" }
 };

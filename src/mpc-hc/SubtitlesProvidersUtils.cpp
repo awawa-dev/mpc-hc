@@ -615,7 +615,7 @@ std::string SubtitlesProvidersUtils::StringGenerateUniqueKey()
 }
 
 HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const stringMap& headers,
-                                                std::string& data, bool bAutoRedirect, DWORD* dwStatusCode)
+                                                std::string& data, bool bAutoRedirect, DWORD* dwStatusCode, CString* cookie)
 {
     data.clear();
     try {
@@ -634,19 +634,31 @@ HRESULT SubtitlesProvidersUtils::StringDownload(const std::string& url, const st
                                                              INTERNET_FLAG_TRANSFER_BINARY | INTERNET_FLAG_EXISTING_CONNECT | (bAutoRedirect ? INTERNET_FLAG_NO_AUTO_REDIRECT : NULL),
                                                              UTF8To16(strHeaders.c_str())));
 
-        DWORD total_length = 0, length = 0, index = 0;
-        while (pHttpFile->QueryInfo(HTTP_QUERY_CONTENT_LENGTH, length, &index)) {
-            total_length += length;
+        // if we need just a cookie do not download the content
+        if (cookie != nullptr)
+        {
+            CString tempCookie;
+            if (pHttpFile->QueryInfo(HTTP_QUERY_SET_COOKIE, tempCookie))
+            {
+                (*cookie) = tempCookie;
+            }
         }
+        else
+        {
+            DWORD total_length = 0, length = 0, index = 0;
+            while (pHttpFile->QueryInfo(HTTP_QUERY_CONTENT_LENGTH, length, &index)) {
+                total_length += length;
+            }
 
-        data.reserve(std::max((size_t)total_length, (size_t)pHttpFile->GetLength()));
+            data.reserve(std::max((size_t)total_length, (size_t)pHttpFile->GetLength()));
 
-        std::vector<char> buff(1024);
-        for (int len = 0; (len = pHttpFile->Read(&buff[0], (UINT)buff.size())) > 0; data.append(&buff[0], len));
+            std::vector<char> buff(1024);
+            for (int len = 0; (len = pHttpFile->Read(&buff[0], (UINT)buff.size())) > 0; data.append(&buff[0], len));
+        }
 
         if (dwStatusCode) {
             pHttpFile->QueryInfoStatusCode(*dwStatusCode);
-        }
+        }    
 
         pHttpFile->Close(); // must close it because the destructor doesn't seem to do it and we will get an exception when "is" is destroying
     } catch (CInternetException* ie) {

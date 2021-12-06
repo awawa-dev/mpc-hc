@@ -59,6 +59,9 @@ void SubtitlesProviders::RegisterProviders()
     Register<SubDB>(this);
 #endif
     Register<Napisy24>(this);
+#ifdef INCLUDE_SUB_ADDIC7ED
+    Register<Addic7ed>(this);
+#endif
 }
 
 /******************************************************************************
@@ -1011,3 +1014,271 @@ const std::set<std::string>& Napisy24::Languages() const
     static std::set<std::string> result = {"pl"};
     return result;
 }
+
+/******************************************************************************
+** Addic7ed
+******************************************************************************/
+
+#ifdef INCLUDE_SUB_ADDIC7ED
+
+SRESULT Addic7ed::Search(const SubtitlesInfo& pFileInfo)
+{
+    // validate cookie, it's necessary
+    if (cookie.IsEmpty())
+        return SR_FAILED;
+
+    // prepare the form (GET)
+    stringMap headers({{ "User-Agent", SUB_ADDIC7ED_AGENT }});
+    std::string data;
+    std::string url = Url() + "search.php";
+    std::string content = "search=";
+    CT2CA pszConvertedAnsiString(cookie);
+
+    // restore cookie, it's needed for downloading
+    headers.insert({ "Set-Cookie", (LPSTR)pszConvertedAnsiString });
+
+    // escape the search term
+    CString searchTerm = (!pFileInfo.manualSearchString.IsEmpty()) ? pFileInfo.manualSearchString : CString(pFileInfo.fileName.c_str());
+    const ULONG bufsizefilename = 512;
+    ULONG convertSizeParam = bufsizefilename;
+    wchar_t convertBuffer[bufsizefilename];
+
+    if (InternetCanonicalizeUrl(searchTerm, convertBuffer, &convertSizeParam, 0))
+    {
+        std::wstring ws(convertBuffer);
+        std::string convert(ws.begin(), ws.end());
+        content = content + convert;
+    }
+
+    // search for subtitles using GET request
+    DWORD status = 0;
+    url = url + "?" + content;
+    LOG(LOG_INPUT, std::string(url).c_str());
+    StringDownload(url, headers, data, false, &status);
+
+    if (data.length() < 128 || status != 200)
+    {
+        LOG(LOG_INPUT, ("Error during downloading the search result"));
+        return SR_FAILED;
+    }
+
+    /*
+    // TESTING CODE ON SAVED RESULTS
+    #include <fstream>
+    std::ofstream dout1;
+    dout1.open("D:/a/"+ pFileInfo.fileName +".txt", std::ios::out | std::ios::binary | std::ios::trunc);
+    dout1 << data;
+    dout1 << std::flush;
+    dout1.flush();
+    dout1.close();
+
+    std::string data;
+    std::ifstream dout1;
+    std::stringstream buffer;
+    dout1.open("D:/a/"+ pFileInfo.fileName +".txt", std::ios::in | std::ios::binary);
+    buffer << dout1.rdbuf();
+    data = buffer.str();
+    dout1.close();
+    */
+
+   
+    // current constant token from their webpages, could change after their updates    
+    std::string currentLine;
+    std::istringstream lineStream(data);
+    const auto languages = LanguagesISO6391();
+
+    const std::string newSubtitleItemToken = "<div id=\"";
+    const std::string downloadLinkToken = "<a class=\"buttonDownload\" href=\"/";
+    const std::string languageToken = "class=\"language\">";
+    const std::string noresultToken = "0 results found";
+    const std::string releaseInfoStartToken = "class=\"NewsTitle\">";
+    const std::string releaseInfoEndToken = "/>";
+    const std::string releaseInfoCloseToken = ", Duration:";
+    const std::string downloadsCountToken = u8"Downloads · ";
+    const std::string hearingImpairedToken = "Hearing Impaired";
+
+    std::size_t foundIndex,secondIndex,thirdIndex;
+    std::string foundLink, foundLanguage, foundReleaseInfo;
+    int downloadCount = INT_ERROR;
+    bool hearingImpaired = false;
+
+   
+    // parse the result
+    while (std::getline(lineStream, currentLine, '\n')) {
+        if (currentLine.find(noresultToken) != std::string::npos)
+        {
+            LOG(LOG_INPUT, ("No results"));
+            return SR_FAILED;
+        }
+
+        // check hearing impaired info
+        if (currentLine.find(hearingImpairedToken) != std::string::npos)
+            hearingImpaired = true;
+
+        // check download count info
+        foundIndex = currentLine.find(downloadsCountToken);
+        if (foundIndex != std::string::npos)
+        {
+            std::string downNum;
+            for (size_t i = foundIndex + downloadsCountToken.length(); i < currentLine.length(); ++i)
+            {
+                char inChar = currentLine.at(i);
+                if ((inChar >= '0' && inChar <= '9') || inChar == ' ')
+                    downNum.push_back(inChar);
+                else
+                    break;
+            }
+            if (!downNum.empty())
+            {
+                int parseCount = strtol(downNum.c_str(), NULL, 0);
+                if (parseCount > 0)
+                    downloadCount = parseCount;
+            }
+            continue;
+        }
+
+        // check release info
+        foundIndex = currentLine.find(releaseInfoStartToken);
+        if (foundIndex != std::string::npos)
+        {
+            secondIndex = currentLine.find(releaseInfoEndToken, foundIndex + releaseInfoStartToken.length() + 1);
+            if (secondIndex != std::string::npos)
+            {
+                thirdIndex = currentLine.find(releaseInfoCloseToken, secondIndex + releaseInfoEndToken.length() + 1);
+                if (thirdIndex != std::string::npos)
+                {
+                    size_t helper = secondIndex + releaseInfoEndToken.length();
+                    foundReleaseInfo = currentLine.substr(helper, thirdIndex - helper);
+                }
+            }
+            continue;
+        }
+     
+
+        // check download link
+        foundIndex = currentLine.find(downloadLinkToken);
+        if (foundIndex != std::string::npos)
+        {
+            secondIndex = currentLine.find("\"", foundIndex + downloadLinkToken .length() + 1);
+            if (secondIndex != std::string::npos)
+            {
+                size_t helper = foundIndex + downloadLinkToken.length();
+                foundLink = currentLine.substr(helper, secondIndex - helper);
+            }
+            continue;
+        }
+
+        // check langueage
+        foundIndex = currentLine.find(languageToken);
+        if (foundIndex != std::string::npos)
+        {
+            secondIndex = currentLine.find("<", foundIndex + languageToken.length() + 1);
+            if (secondIndex != std::string::npos)
+            {
+                size_t helper = foundIndex + languageToken.length();
+                foundLanguage = currentLine.substr(helper, secondIndex - helper);
+
+                bool foundISO = false;
+                for (auto lang : Addic7ed_languages)
+                {
+                    if (lang.name == foundLanguage &&
+                        (languages.empty() || (std::find(languages.begin(), languages.end(), lang.code) != languages.end())))
+                    {
+
+                        foundISO = true;
+                        foundLanguage = lang.code;
+                        break;
+                    }
+                }
+                // check if unknown language
+                if (!foundISO)
+                    foundLanguage.clear();
+            }
+            continue;
+        }
+
+        // check if new item begins, save the old result if found
+        foundIndex = currentLine.find(newSubtitleItemToken);
+        if (foundIndex != std::string::npos)
+        {
+            if (!foundLanguage.empty() && !foundLink.empty())
+            {
+                SubtitlesInfo subtitleInfo;
+                subtitleInfo.fileContents = "";
+                subtitleInfo.languageCode = foundLanguage;
+                subtitleInfo.url = Url() + foundLink;
+                subtitleInfo.title = foundReleaseInfo;
+                subtitleInfo.fileName = pFileInfo.fileName + "." + pFileInfo.fileExtension;
+                subtitleInfo.downloadCount = downloadCount;
+                subtitleInfo.hearingImpaired = hearingImpaired;
+                subtitleInfo.discNumber = 1;
+                subtitleInfo.discCount = 1;
+
+                Set(subtitleInfo);
+            }
+            
+            foundLanguage.clear();
+            foundLink.clear();
+            foundReleaseInfo.clear();
+            hearingImpaired = false;
+            downloadCount = INT_ERROR;
+        }
+    }
+    
+    return SR_SUCCEEDED;
+}
+
+SRESULT Addic7ed::Download(SubtitlesInfo& subtitlesInfo)
+{
+    // request for subtitles from Addic7ed (send them their cookie first)
+    stringMap headers({ { "User-Agent", SUB_ADDIC7ED_AGENT } });
+    std::string url = subtitlesInfo.url;
+    DWORD dwStatusCode = 0;
+    CT2CA pszConvertedAnsiString(cookie);
+
+    // restore cookie, it's needed for downloading
+    headers.insert({ "Set-Cookie", (LPSTR)pszConvertedAnsiString });
+    headers.insert({ "Referer",  Url() });
+
+    LOG(LOG_INPUT, url.c_str());
+
+    if (StringDownload(url, headers, subtitlesInfo.fileContents, false, &dwStatusCode)!= S_OK || dwStatusCode != 200)
+        return SR_FAILED;
+    else
+        return SR_SUCCEEDED;
+}
+
+const std::set<std::string>& Addic7ed::Languages() const
+{
+    static std::once_flag initialized;
+    static std::set<std::string> result;
+
+    std::call_once(initialized, [this]() {
+        for (const auto& iter : Addic7ed_languages) {
+            if (strlen(iter.code)) {
+                result.emplace(iter.code);
+            }
+        }
+    });
+
+    return result;
+}
+
+bool Addic7ed::NeedLogin()
+{
+    return cookie.IsEmpty();
+}
+
+SRESULT Addic7ed::Login(const std::string& sUserName, const std::string& sPassword)
+{
+    // request for a new Addic7ed cookie
+    stringMap headers({{ "User-Agent", SUB_ADDIC7ED_AGENT }});
+    std::string data;   
+    std::string url = Url();
+    DWORD status = 0;
+    StringDownload(url, headers, data, false, &status, &cookie);
+
+    return (!cookie.IsEmpty())? SR_SUCCEEDED : SR_FAILED;
+}
+#endif
+

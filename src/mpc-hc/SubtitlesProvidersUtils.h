@@ -73,7 +73,7 @@ namespace SubtitlesProvidersUtils
     std::string StringGenerateUniqueKey();
 
     HRESULT StringDownload(const std::string& url, const stringMap& headers, std::string& data,
-                           bool bAutoRedirect = true, DWORD* dwStatusCode = nullptr);
+                           bool bAutoRedirect = true, DWORD* dwStatusCode = nullptr, CString* cookie = nullptr);
     HRESULT StringUpload(const std::string& url, const stringMap& headers, const std::string& content, std::string& data,
                          bool bAutoRedirect = true, DWORD* dwStatusCode = nullptr);
 
