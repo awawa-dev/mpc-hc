@@ -2827,8 +2827,6 @@ STSStyle* CSimpleTextSubtitle::GetStyle(int i)
         m_styles.Lookup(_T("Default"), style);
     }
 
-    ASSERT(style);
-
     return style;
 }
 

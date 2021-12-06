@@ -2743,7 +2743,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         CComPtr<IDvdState> pStateData;
         switch (evCode) {
             case EC_PAUSED:
-                m_CachedFilterState = -1;
+                if (!m_fFrameSteppingActive && m_CachedFilterState != State_Paused) {
+                    UpdateCachedMediaState();
+                }
                 break;
             case EC_COMPLETE:
                 UpdateCachedMediaState();
@@ -3630,7 +3632,7 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
 
         if (msg.IsEmpty()) {
             int msg_id = 0;
-            switch (GetMediaState()) {
+            switch (m_CachedFilterState) {
                 case State_Stopped:
                     msg_id = IDS_CONTROLS_STOPPED;
                     break;

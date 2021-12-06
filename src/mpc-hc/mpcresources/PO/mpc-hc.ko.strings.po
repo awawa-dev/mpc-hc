@@ -656,7 +656,7 @@ msgstr ""
 msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid ""
 "Enter your preferred languages here.\n"
-"For example, type: \"eng jap swe\""
+"For example, type: \"eng jpn swe\""
 msgstr ""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"

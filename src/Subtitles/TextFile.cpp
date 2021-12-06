@@ -625,7 +625,20 @@ BOOL CTextFile::ReadString(CStringW& str)
                     m_posInBuffer++;
                     break;
                 } else if (m_wbuffer[nCharsRead] == L'\r') {
-                    nCharsRead--; // Skip \r
+                    // check if it is followed by a '\n'
+                    if (m_posInBuffer + 1 >= m_nInBuffer) {
+                        bLineEndFound = FillBuffer();
+                    }
+                    if (!bLineEndFound && Utf8::isSingleByte(m_buffer[m_posInBuffer+1]) && ((m_buffer[m_posInBuffer+1] & 0x7f) == L'\n')) {
+                        nCharsRead--; // Skip '\r'
+                    } else {
+                        // Add the missing '\n'
+                        nCharsRead++;
+                        m_wbuffer[nCharsRead] = L'\n';
+                        bLineEndFound = true;
+                        m_posInBuffer++;
+                        break;
+                    }
                 }
             }
 
