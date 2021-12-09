@@ -1168,7 +1168,6 @@ public:
     void        SetAudioDelay(REFERENCE_TIME rtShift);
     void        SetSubtitleDelay(int delay_ms, bool relative = false);
     //void      AutoSelectTracks();
-    bool        IsRealEngineCompatible(CString strFilename) const;
     void        SetTimersPlay();
     void        KillTimerDelayedSeek();
     void        KillTimersStop();

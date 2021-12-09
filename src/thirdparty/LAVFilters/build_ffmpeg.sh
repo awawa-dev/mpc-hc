@@ -52,12 +52,12 @@ copy_libs() {
   cp lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
   if [ "${COMPILER}" == "GCC" ]; then
     #${cross_prefix}strip ${FFMPEG_DLL_PATH}/*-lav-*.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avcodec-lav-58.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avfilter-lav-7.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avformat-lav-58.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avresample-lav-4.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avutil-lav-56.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swscale-lav-5.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avcodec-lav-59.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avfilter-lav-8.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avformat-lav-59.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avutil-lav-57.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swresample-lav-4.dll
+    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swscale-lav-6.dll
   fi
   cp -u lib*/*.lib ${FFMPEG_LIB_PATH}
 }
@@ -91,11 +91,10 @@ configure() {
     --disable-cuvid                 \
     --disable-nvenc                 \
     --disable-mediafoundation       \
-    --enable-avresample             \
+    --enable-swresample             \
     --enable-avisynth               \
     --disable-avdevice              \
     --disable-postproc              \
-    --disable-swresample            \
     --disable-encoders              \
     --disable-devices               \
     --disable-programs              \

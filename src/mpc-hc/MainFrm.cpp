@@ -8083,7 +8083,7 @@ void CMainFrame::OnPlayPlaypause()
         } else if (fs == State_Stopped || fs == State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
         }
-    } else if (GetLoadState() == MLS::CLOSED && !IsPlaylistEmpty()) {
+    } else if (GetLoadState() == MLS::CLOSED && !m_fFullScreen && !IsPlaylistEmpty()) {
         SendMessage(WM_COMMAND, ID_PLAY_PLAY);        
     }
 }
@@ -12032,16 +12032,14 @@ void CMainFrame::SetBalance(int balance)
 // Open/Close
 //
 
-bool CMainFrame::IsRealEngineCompatible(CString strFilename) const
+bool PathIsOnOpticalDisc(CString path)
 {
-    // Real Media engine didn't support Unicode filename (nor filenames with # characters)
-    for (int i = 0; i < strFilename.GetLength(); i++) {
-        WCHAR Char = strFilename[i];
-        if (Char < 32 || Char > 126 || Char == 35) {
-            return false;
-        }
+    if (path.GetLength() >= 3 && path[1] == L':' && path[2] == L'\\') {
+        CString drive = path.Left(3);
+        UINT type = GetDriveType(drive);
+        return type == DRIVE_CDROM && !IsDriveVirtual(drive);
     }
-    return true;
+    return false;
 }
 
 // Called from GraphThread
@@ -12056,11 +12054,13 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
 
     m_pGB_preview = nullptr;
     m_bUseSeekPreview = s.fSeekPreview && ::IsWindow(m_wndPreView.m_hWnd);
-    if (OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD)) {
-        CString fn = pFileData->fns.GetHead();
-        if (!fn.IsEmpty() && ((fn.Find(L"://") >= 0) || IsAudioFilename(fn))) {
-            // disable seek preview for streaming data and audio files
-            m_bUseSeekPreview = false;
+    if (m_bUseSeekPreview) {
+        if (OpenFileData* pFileData = dynamic_cast<OpenFileData*>(pOMD)) {
+            CString fn = pFileData->fns.GetHead();
+            if (!fn.IsEmpty() && ((fn.Find(L"://") >= 0) || IsAudioFilename(fn) || PathIsOnOpticalDisc(fn))) {
+                // disable seek preview for: streaming data, audio files, files on optical disc
+                m_bUseSeekPreview = false;
+            }
         }
     }
 
@@ -12099,9 +12099,7 @@ void CMainFrame::OpenCreateGraphObject(OpenMediaData* pOMD)
         m_pGB = DEBUG_NEW CFGManagerDVD(_T("CFGManagerDVD"), nullptr, m_pVideoWnd->m_hWnd);
 
         if (m_bUseSeekPreview) {
-            CString drive = pOpenDVDData->path.Left(2);
-            UINT type = GetDriveType(drive);
-            if (type != DRIVE_CDROM || IsDriveVirtual(drive)) { //no preview seeking for spinning disks
+            if (!PathIsOnOpticalDisc(pOpenDVDData->path)) {
                 m_pGB_preview = DEBUG_NEW CFGManagerDVD(L"CFGManagerDVD", nullptr, m_wndPreView.GetVideoHWND(), true);
             }
         }
@@ -17218,9 +17216,6 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
         ASSERT(GetLoadState() == MLS::CLOSED);
     }
 
-    ASSERT(!m_bOpenMediaActive);
-    m_bOpenMediaActive = true;
-
     // if the file is on some removable drive and that drive is missing,
     // we yell at user before even trying to construct the graph
     if (pFileData) {
@@ -17250,6 +17245,9 @@ void CMainFrame::OpenMedia(CAutoPtr<OpenMediaData> pOMD)
             }
         }
     }
+
+    ASSERT(!m_bOpenMediaActive);
+    m_bOpenMediaActive = true;
 
     // clear BD playlist if we are not currently opening something from it
     if (!m_bIsBDPlay) {
