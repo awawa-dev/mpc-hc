@@ -777,12 +777,14 @@ bool CWebTextFile::Open(LPCTSTR lpszFileName)
 
         BYTE buff[1024];
         int len, total = 0;
-        while ((len = f->Read(buff, 1024)) == 1024 && (m_llMaxSize < 0 || (total += 1024) < m_llMaxSize)) {
+        while ((len = f->Read(buff, 1024)) == 1024 && (m_llMaxSize < 0 || (total += 1024) <= m_llMaxSize)) {
             temp.Write(buff, len);
         }
         if (len > 0) {
+            total += len;
             temp.Write(buff, len);
         }
+        ASSERT(m_llMaxSize < 0 || total <= m_llMaxSize);
 
         m_tempfn = fn;
 

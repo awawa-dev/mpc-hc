@@ -82,7 +82,7 @@ class CWebTextFile : public CTextFile
     CString m_tempfn;
 
 public:
-    CWebTextFile(CTextFile::enc e = DEFAULT_ENCODING, LONGLONG llMaxSize = 1024 * 1024);
+    CWebTextFile(CTextFile::enc e = DEFAULT_ENCODING, LONGLONG llMaxSize = 64 * 1024 * 1024);
 
     bool Open(LPCTSTR lpszFileName);
     bool Save(LPCTSTR lpszFileName, enc e /*= DEFAULT_ENCODING*/);

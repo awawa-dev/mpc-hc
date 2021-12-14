@@ -119,7 +119,7 @@ BOOL CPPageTweaks::OnInitDialog()
 
     m_fSeekPreview = s.fSeekPreview;
     m_iSeekPreviewSize = s.iSeekPreviewSize;
-    m_SeekPreviewSizeCtrl.SetRange32(10, 40);
+    m_SeekPreviewSizeCtrl.SetRange32(5, 40);
 
     m_fFastSeek = s.bFastSeek;
     m_FastSeekMethod.AddString(ResStr(IDS_FASTSEEK_LATEST));
