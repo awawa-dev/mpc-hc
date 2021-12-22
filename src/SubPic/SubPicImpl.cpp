@@ -121,7 +121,7 @@ STDMETHODIMP CSubPicImpl::GetDirtyRect(RECT* pDirtyRect) const
 STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
                                            RECT* pRcSource, RECT* pRcDest,
                                            const double videoStretchFactor /*= 1.0*/,
-                                           int xOffsetInPixels /*= 0*/) const
+                                           int xOffsetInPixels /*= 0*/, int yOffsetInPixels /*= 0*/) const
 {
     CheckPointer(pRcSource, E_POINTER);
     CheckPointer(pRcDest,   E_POINTER);
@@ -174,7 +174,7 @@ STDMETHODIMP CSubPicImpl::GetSourceAndDest(RECT rcWindow, RECT rcVideo,
         CRect rcTemp = m_rcDirty;
         *pRcSource = rcTemp;
 
-        rcTemp.OffsetRect(m_virtualTextureTopLeft + CPoint(xOffsetInPixels, 0));
+        rcTemp.OffsetRect(m_virtualTextureTopLeft + CPoint(xOffsetInPixels, yOffsetInPixels));
 
         rcTemp = CRect(lround(rcTemp.left   * scaleX),
                        lround(rcTemp.top    * scaleY),

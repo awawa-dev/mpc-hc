@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-12-02 15:05:33+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -521,6 +521,22 @@ msgstr ""
 
 msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
+msgstr ""
+
+msgctxt "IDS_SUB_POS_DOWN"
+msgid "Move subtitle down"
+msgstr ""
+
+msgctxt "IDS_SUB_POS_UP"
+msgid "Move subtitle up"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_DEC"
+msgid "Decrease subtitle text size"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_INC"
+msgid "Increase subtitle text size"
 msgstr ""
 
 msgctxt "IDD_PPAGEPLAYBACK"
@@ -1841,11 +1857,11 @@ msgid "Goto Next Subtitle"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_102"
-msgid "Shift Subtitle Left"
+msgid "Subresync: shift -100ms"
 msgstr ""
 
 msgctxt "IDS_MPLAYERC_103"
-msgid "Shift Subtitle Right"
+msgid "Subresync: shift +100ms"
 msgstr ""
 
 msgctxt "IDS_AG_SEEKSET"

@@ -88,7 +88,7 @@ public IUnknown {
     STDMETHOD(GetSourceAndDest)(RECT rcWindow /*[in]*/, RECT rcVideo /*[in]*/,
                                 RECT* pRcSource /*[out]*/,  RECT* pRcDest /*[out]*/,
                                 const double videoStretchFactor = 1.0 /*[in]*/,
-                                int xOffsetInPixels = 1 /*[in]*/) const PURE;
+                                int xOffsetInPixels = 0 /*[in]*/, int yOffsetInPixels = 0 /*[in]*/) const PURE;
     STDMETHOD(SetVirtualTextureSize)(const SIZE pSize, const POINT pTopLeft) PURE;
     STDMETHOD(GetRelativeTo)(RelativeTo* pRelativeTo /*[out]*/) const PURE;
     STDMETHOD(SetRelativeTo)(RelativeTo relativeTo /*[in]*/) PURE;

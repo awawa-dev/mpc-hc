@@ -729,6 +729,14 @@
 #define PLAYER_PLAYLIST_LVN_ITEMCHANGED 24048
 #define IDF_LOGO4                       24050
 #define ID_SUBTITLES_DEFAULT_STYLE      24051
+#define ID_SUB_POS_DOWN                 24052
+#define ID_SUB_POS_UP                   24053
+#define ID_SUB_FONT_SIZE_DEC            24054
+#define ID_SUB_FONT_SIZE_INC            24055
+#define IDS_SUB_POS_DOWN                24056
+#define IDS_SUB_POS_UP                  24057
+#define IDS_SUB_FONT_SIZE_DEC           24058
+#define IDS_SUB_FONT_SIZE_INC           24059
 #define ID_VIEW_TEARING_TEST            32769
 #define ID_FILE_OPENDISC                32774
 #define ID_SHADERS                      32775
@@ -737,8 +745,8 @@
 #define ID_D3DFULLSCREEN_TOGGLE         32779
 #define ID_GOTO_PREV_SUB                32780
 #define ID_GOTO_NEXT_SUB                32781
-#define ID_SHIFT_SUB_DOWN               32782
-#define ID_SHIFT_SUB_UP                 32783
+#define ID_SUBRESYNC_SHIFT_DOWN         32782
+#define ID_SUBRESYNC_SHIFT_UP           32783
 #define ID_VIEW_DISPLAY_RENDERER_STATS  32784
 #define ID_VIEW_RESET_RENDERER_STATS    32785
 #define IDS_AG_CLOSE                    32830

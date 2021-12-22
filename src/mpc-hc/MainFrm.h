@@ -636,7 +636,7 @@ public:
 
     OAFilterState GetMediaStateDirect() const;
     OAFilterState GetMediaState() const;
-    void CMainFrame::UpdateCachedMediaState();
+    OAFilterState CMainFrame::UpdateCachedMediaState();
     bool MediaControlRun(bool waitforcompletion = false);
     bool MediaControlPause(bool waitforcompletion = false);
     bool MediaControlStop(bool waitforcompletion = false);
@@ -1048,8 +1048,10 @@ public:
     afx_msg void OnViewOSDShowFileName();
     afx_msg void OnD3DFullscreenToggle();
     afx_msg void OnGotoSubtitle(UINT nID);
-    afx_msg void OnShiftSubtitle(UINT nID);
+    afx_msg void OnSubresyncShiftSub(UINT nID);
     afx_msg void OnSubtitleDelay(UINT nID);
+    afx_msg void OnSubtitlePos(UINT nID);
+    afx_msg void OnSubtitleFontSize(UINT nID);
 
     afx_msg void OnPlayPlay();
     afx_msg void OnPlayPause();
@@ -1172,7 +1174,7 @@ public:
     void        KillTimerDelayedSeek();
     void        KillTimersStop();
     void        AdjustStreamPosPoller(bool restart);
-
+    void        ResetSubtitlePosAndSize(bool repaint = false);
 
     // MPC API functions
     void        ProcessAPICommand(COPYDATASTRUCT* pCDS);

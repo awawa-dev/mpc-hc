@@ -268,11 +268,13 @@ bool CMouse::MVRUp(UINT nFlags, const CPoint& point)
 // Left button
 void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
 {
-    if (m_pMainFrame->isSafeZone(point)) return;
-    GetWnd().SetFocus();
     m_bLeftDown = false;
+    GetWnd().SetFocus();
     SetCursor(nFlags, point);
     if (MVRDown(nFlags, point)) {
+        return;
+    }
+    if (!UsingMVR() && m_pMainFrame->isSafeZone(point)) {
         return;
     }
     bool bIsOnFS = IsOnFullscreenWindow();
@@ -287,6 +289,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     if (m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonDown(nFlags, point)) {
         return;
     }
+
     m_bLeftDown = true;
     bool bDouble = false;
     if (m_bLeftDoubleStarted &&

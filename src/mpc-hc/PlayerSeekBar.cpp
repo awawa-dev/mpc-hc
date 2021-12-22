@@ -847,7 +847,7 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 
         checkHover(point);
 
-        const OAFilterState fs = m_pMainFrame->GetMediaState();
+        const OAFilterState fs = m_pMainFrame->m_CachedFilterState;
         if (fs != -1) {
             if (m_pMainFrame->CanPreviewUse()) {
                 UpdateToolTipPosition(point);

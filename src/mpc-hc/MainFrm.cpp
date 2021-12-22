@@ -501,8 +501,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_COMMAND(ID_VIEW_OSD_SHOW_FILENAME, OnViewOSDShowFileName)
     ON_COMMAND(ID_D3DFULLSCREEN_TOGGLE, OnD3DFullscreenToggle)
     ON_COMMAND_RANGE(ID_GOTO_PREV_SUB, ID_GOTO_NEXT_SUB, OnGotoSubtitle)
-    ON_COMMAND_RANGE(ID_SHIFT_SUB_DOWN, ID_SHIFT_SUB_UP, OnShiftSubtitle)
+    ON_COMMAND_RANGE(ID_SUBRESYNC_SHIFT_DOWN, ID_SUBRESYNC_SHIFT_UP, OnSubresyncShiftSub)
     ON_COMMAND_RANGE(ID_SUB_DELAY_DOWN, ID_SUB_DELAY_UP, OnSubtitleDelay)
+    ON_COMMAND_RANGE(ID_SUB_POS_DOWN, ID_SUB_POS_UP, OnSubtitlePos)
+    ON_COMMAND_RANGE(ID_SUB_FONT_SIZE_DEC, ID_SUB_FONT_SIZE_INC, OnSubtitleFontSize)
 
     ON_COMMAND(ID_PLAY_PLAY, OnPlayPlay)
     ON_COMMAND(ID_PLAY_PAUSE, OnPlayPause)
@@ -2391,7 +2393,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                 SendNowPlayingToApi();
             }
 
-            if (GetMediaState() == State_Running && !m_fAudioOnly) {
+            if (m_CachedFilterState == State_Running && !m_fAudioOnly) {
                 BOOL fActive = FALSE;
                 if (SystemParametersInfo(SPI_GETSCREENSAVEACTIVE, 0, &fActive, 0) && fActive) {
                     SystemParametersInfo(SPI_SETSCREENSAVEACTIVE, FALSE,   nullptr, SPIF_SENDWININICHANGE);
@@ -2743,9 +2745,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
         CComPtr<IDvdState> pStateData;
         switch (evCode) {
             case EC_PAUSED:
-                if (!m_fFrameSteppingActive && m_CachedFilterState != State_Paused) {
-                    UpdateCachedMediaState();
-                }
+                UpdateCachedMediaState();
                 break;
             case EC_COMPLETE:
                 UpdateCachedMediaState();
@@ -2763,6 +2763,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 if (m_fFrameSteppingActive) {
                     m_nStepForwardCount++;
                 }
+                UpdateCachedMediaState();
                 break;
             case EC_DEVICE_LOST:
                 UpdateCachedMediaState();
@@ -3163,6 +3164,9 @@ LRESULT CMainFrame::OnNcHitTest(CPoint point)
 
 void CMainFrame::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar)
 {
+    // pScrollBar is null when making horizontal scroll with pen tablet
+    if (!pScrollBar) return;
+    
     if (pScrollBar->IsKindOf(RUNTIME_CLASS(CVolumeCtrl))) {
         OnPlayVolume(0);
     } else if (pScrollBar->IsKindOf(RUNTIME_CLASS(CPlayerSeekBar)) && GetLoadState() == MLS::LOADED) {
@@ -4868,13 +4872,6 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
                 if (onlysubs && !subInputSelected.pSubStream) {
                     // first one
                     subInputSelected = subInput;
-                    AfxGetAppSettings().fEnableSubtitles = true;
-                    SetSubtitle(subInputSelected);
-
-                    CPath fn(subfile);
-                    fn.StripPath();
-                    CString statusmsg(static_cast<LPCTSTR>(fn));
-                    SendStatusMessage(statusmsg + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
                 }
             }
         }
@@ -4884,6 +4881,13 @@ void CMainFrame::OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect)
     }
 
     if (onlysubs && subInputSelected.pSubStream) {
+        AfxGetAppSettings().fEnableSubtitles = true;
+        SetSubtitle(subInputSelected);
+
+        CPath fn(subfile);
+        fn.StripPath();
+        CString statusmsg(static_cast<LPCTSTR>(fn));
+        SendStatusMessage(statusmsg + ResStr(IDS_SUB_LOADED_SUCCESS), 3000);
         // subtitles have been loaded, we are done now
         return;
     }
@@ -7533,6 +7537,9 @@ void CMainFrame::OnViewPanNScan(UINT nID)
 
     switch (nID) {
         case ID_VIEW_RESET:
+            // Subtitle overrides
+            ResetSubtitlePosAndSize(true);
+            // Pan&Scan
             m_ZoomX = m_ZoomY = 1.0;
             m_PosX = m_PosY = 0.5;
             m_AngleX = m_AngleY = m_AngleZ = 0;
@@ -7981,9 +7988,6 @@ void CMainFrame::OnPlayPlay()
             MoveVideoWindow(false, true);
         }
 
-        // Restart playback
-        MediaControlRun();
-
         if (m_fFrameSteppingActive) {
             m_pFS->CancelStep();
             m_fFrameSteppingActive = false;
@@ -7992,6 +7996,9 @@ void CMainFrame::OnPlayPlay()
             m_pBA->put_Volume(m_wndToolBar.Volume);
         }
         m_nStepForwardCount = 0;
+
+        // Restart playback
+        MediaControlRun();
 
         SetAlwaysOnTop(s.iOnTop);
 
@@ -8051,11 +8058,10 @@ void CMainFrame::OnPlayPause()
     }
 
     if (GetLoadState() == MLS::LOADED) {
-
         if (GetPlaybackMode() == PM_FILE
                 || GetPlaybackMode() == PM_DVD
                 || GetPlaybackMode() == PM_ANALOG_CAPTURE) {
-            MediaControlPause();
+            MediaControlPause(true);
         } else {
             ASSERT(FALSE);
         }
@@ -8243,11 +8249,18 @@ void CMainFrame::OnPlayFramestep(UINT nID)
     KillTimerDelayedSeek();
 
     m_OSD.EnableShowMessage(false);
-    if (nID == ID_PLAY_FRAMESTEP && m_pFS) {
-        if (GetMediaState() != State_Paused) {
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-        }
 
+    if (m_CachedFilterState == State_Paused) {
+        // Double check the state, because graph may have silently gone into a running state after performing a framestep
+        if (UpdateCachedMediaState() != State_Paused) {
+            MediaControlPause(true);
+        }
+    } else {
+        KillTimer(TIMER_STATS);
+        MediaControlPause(true);
+    }
+
+    if (nID == ID_PLAY_FRAMESTEP && m_pFS) {
         // To support framestep back, store the initial position when
         // stepping forward
         if (m_nStepForwardCount == 0) {
@@ -8267,10 +8280,6 @@ void CMainFrame::OnPlayFramestep(UINT nID)
 
         m_pFS->Step(1, nullptr);
     } else if (m_pMS && (m_nStepForwardCount == 0) && (S_OK == m_pMS->IsFormatSupported(&TIME_FORMAT_FRAME))) {
-        if (GetMediaState() != State_Paused) {
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-        }
-
         if (SUCCEEDED(m_pMS->SetTimeFormat(&TIME_FORMAT_FRAME))) {
             REFERENCE_TIME rtCurPos;
 
@@ -8282,10 +8291,6 @@ void CMainFrame::OnPlayFramestep(UINT nID)
             m_pMS->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
         }
     } else { // nID == ID_PLAY_FRAMESTEP_BACK
-        if (GetMediaState() != State_Paused) {
-            SendMessage(WM_COMMAND, ID_PLAY_PAUSE);
-        }
-
         const REFERENCE_TIME rtAvgTimePerFrame = std::llround(GetAvgTimePerFrame() * 10000000LL);
         REFERENCE_TIME rtCurPos = 0;
         
@@ -8521,7 +8526,12 @@ void CMainFrame::OnPlayChangeRate(UINT nID)
 
         if (nID == ID_PLAY_INCRATE) {
             if (s.nSpeedStep > 0) {
-                SetPlayingRate(m_dSpeedRate + dSpeedStep);
+                if (m_dSpeedRate <= 0.05) {
+                    double newrate = 1.0 - (95 / s.nSpeedStep) * dSpeedStep;
+                    SetPlayingRate(newrate > 0.05 ? newrate : newrate + dSpeedStep);
+                } else {
+                    SetPlayingRate(m_dSpeedRate + dSpeedStep);
+                }
             } else {
                 SetPlayingRate(m_dSpeedRate * 2.0);
             }
@@ -10624,8 +10634,9 @@ OAFilterState CMainFrame::GetMediaState() const
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
         if (m_CachedFilterState != -1) {
-            #if DEBUG & 0
-            ASSERT(GetMediaStateDirect() == m_CachedFilterState);
+            #if DEBUG & 1
+            ret = GetMediaStateDirect();
+            ASSERT(ret == m_CachedFilterState || m_fFrameSteppingActive);
             #endif
             return m_CachedFilterState;
         } else {
@@ -10635,9 +10646,10 @@ OAFilterState CMainFrame::GetMediaState() const
     return ret;
 }
 
-void CMainFrame::UpdateCachedMediaState()
+OAFilterState CMainFrame::UpdateCachedMediaState()
 {
     m_CachedFilterState = GetMediaStateDirect();
+    return m_CachedFilterState;
 }
 
 bool CMainFrame::MediaControlRun(bool waitforcompletion)
@@ -10664,7 +10676,6 @@ bool CMainFrame::MediaControlPause(bool waitforcompletion)
 {
     m_dwLastPause = GetTickCount64();
     if (m_pMC) {
-        ASSERT(m_CachedFilterState != State_Paused);
         m_CachedFilterState = State_Paused;
         if (FAILED(m_pMC->Pause())) {
             // still in transition to paused state
@@ -16120,6 +16131,7 @@ void CMainFrame::SetSubtitle(const SubtitleInput& subInput, bool skip_lcid /* = 
     TRACE(_T("CMainFrame::SetSubtitle\n"));
 
     CAppSettings& s = AfxGetAppSettings();
+    ResetSubtitlePosAndSize(false);
 
     {
         CAutoLock cAutoLock(&m_csSubLock);
@@ -16287,6 +16299,9 @@ void CMainFrame::ReloadSubtitle()
             m_pSubStreams.GetNext(pos).pSubStream->Reload();
         }
     }
+
+    ResetSubtitlePosAndSize(false);
+
     SetSubtitle(0, true);
     m_wndSubresyncBar.ReloadSubtitle();
 }
@@ -17936,10 +17951,10 @@ afx_msg void CMainFrame::OnGotoSubtitle(UINT nID)
     }
 }
 
-afx_msg void CMainFrame::OnShiftSubtitle(UINT nID)
+afx_msg void CMainFrame::OnSubresyncShiftSub(UINT nID)
 {
     if (m_nCurSubtitle >= 0) {
-        long lShift = (nID == ID_SHIFT_SUB_DOWN) ? -100 : 100;
+        long lShift = (nID == ID_SUBRESYNC_SHIFT_DOWN) ? -100 : 100;
         CString strSubShift;
 
         if (m_wndSubresyncBar.ShiftSubtitle(m_nCurSubtitle, lShift, m_rtCurSubPos)) {
@@ -17964,6 +17979,82 @@ afx_msg void CMainFrame::OnSubtitleDelay(UINT nID)
 
     SetSubtitleDelay(nDelayStep, /*relative=*/ true);
 }
+
+afx_msg void CMainFrame::OnSubtitlePos(UINT nID)
+{
+    if (m_pCAP) {
+        CAppSettings& s = AfxGetAppSettings();
+        switch (nID) {
+        case ID_SUB_POS_DOWN:
+            s.m_RenderersSettings.subPicVerticalShift += 2;
+            break;
+        case ID_SUB_POS_UP:
+            s.m_RenderersSettings.subPicVerticalShift -= 2;
+            break;
+        }
+
+        if (GetMediaState() != State_Running) {
+            m_pCAP->Paint(false);
+        }
+    }
+}
+
+afx_msg void CMainFrame::OnSubtitleFontSize(UINT nID)
+{
+    if (m_pCAP && m_pCurrentSubInput.pSubStream) {
+        CLSID clsid;
+        m_pCurrentSubInput.pSubStream->GetClassID(&clsid);
+        if (clsid == __uuidof(CRenderedTextSubtitle)) {
+            CAppSettings& s = AfxGetAppSettings();
+            switch (nID) {
+            case ID_SUB_FONT_SIZE_DEC:
+                s.m_RenderersSettings.fontScaleOverride -= 0.05;
+                break;
+            case ID_SUB_FONT_SIZE_INC:
+                s.m_RenderersSettings.fontScaleOverride += 0.05;
+                break;
+            }
+
+            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pCurrentSubInput.pSubStream;
+            {
+                CAutoLock cAutoLock(&m_csSubLock);
+                pRTS->Deinit();
+            }
+            InvalidateSubtitle();
+
+            if (GetMediaState() != State_Running) {
+                m_pCAP->Paint(false);
+            }
+        }
+    }
+}
+
+void CMainFrame::ResetSubtitlePosAndSize(bool repaint /* = false*/)
+{
+    CAppSettings& s = AfxGetAppSettings();
+    bool changed = (s.m_RenderersSettings.fontScaleOverride != 1.0) || (s.m_RenderersSettings.subPicVerticalShift != 0);
+
+    s.m_RenderersSettings.fontScaleOverride = 1.0;
+    s.m_RenderersSettings.subPicVerticalShift = 0;
+
+    if (changed && repaint && m_pCAP && m_pCurrentSubInput.pSubStream) {
+        CLSID clsid;
+        m_pCurrentSubInput.pSubStream->GetClassID(&clsid);
+        if (clsid == __uuidof(CRenderedTextSubtitle)) {
+            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pCurrentSubInput.pSubStream;
+            {
+                CAutoLock cAutoLock(&m_csSubLock);
+                pRTS->Deinit();
+            }
+            InvalidateSubtitle();
+
+            if (GetMediaState() != State_Running) {
+                m_pCAP->Paint(false);
+            }
+        }
+    }
+}
+
 
 void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 {
@@ -18897,7 +18988,7 @@ LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
         }
     }
 
-    if (message == WM_NCLBUTTONDOWN && wParam == HTCAPTION) {
+    if (message == WM_NCLBUTTONDOWN && wParam == HTCAPTION && !m_pMVRSR) {
         CPoint pt = CPoint(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
         ScreenToClient(&pt);
         if (isSafeZone(pt)) {
@@ -19800,13 +19891,6 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
     if (!ydl.GetHttpStreams(streams, listinfo)) {
         return false;
     }
-
-    if (streams.GetCount() > 0) {
-        if (streams.GetHead().video_url != url && streams.GetHead().audio_url != url) {
-            m_sydlLastProcessURL.Empty();
-        }
-    }
-
 
     if (!append && !replace) {
         m_wndPlaylistBar.Empty();

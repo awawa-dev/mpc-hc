@@ -98,13 +98,16 @@ HRESULT CSubPicAllocatorPresenterImpl::AlphaBltSubPic(const CRect& windowRect,
                                                    const CRect& videoRect,
                                                    SubPicDesc* pTarget /*= nullptr*/,
                                                    const double videoStretchFactor /*= 1.0*/,
-                                                   int xOffsetInPixels /*= 0*/)
+                                                   int xOffsetInPixels /*= 0*/, int yOffsetInPixels /*= 0*/)
 {
     CComPtr<ISubPic> pSubPic;
     if (m_pSubPicQueue->LookupSubPic(m_rtNow, !IsRendering(), pSubPic)) {
         CRect rcSource, rcDest;
+
+        const CRenderersSettings& r = GetRenderersSettings();
+        int yOffset = yOffsetInPixels + r.subPicVerticalShift;
         if (SUCCEEDED(pSubPic->GetSourceAndDest(windowRect, videoRect, rcSource, rcDest,
-                                                videoStretchFactor, xOffsetInPixels))) {
+                                                videoStretchFactor, xOffsetInPixels, yOffset))) {
             return pSubPic->AlphaBlt(rcSource, rcDest, pTarget);
         }
     }
@@ -236,6 +239,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProv
 
     if (m_pAllocator) {
         m_pAllocator->FreeStatic();
+        m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
     }
 
     if (m_pSubPicQueue) {

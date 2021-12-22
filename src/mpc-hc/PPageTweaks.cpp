@@ -205,7 +205,7 @@ BOOL CPPageTweaks::OnApply()
     pFrame->UpdateThumbarButton();
 
     s.fSeekPreview = !!m_fSeekPreview;
-    if (m_iSeekPreviewSize < 10) m_iSeekPreviewSize = 10;
+    if (m_iSeekPreviewSize < 5) m_iSeekPreviewSize = 5;
     if (m_iSeekPreviewSize > 40) m_iSeekPreviewSize = 40;
     if (s.iSeekPreviewSize != m_iSeekPreviewSize) {
         s.iSeekPreviewSize = m_iSeekPreviewSize;

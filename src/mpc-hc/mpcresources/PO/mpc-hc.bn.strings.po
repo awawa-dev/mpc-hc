@@ -540,6 +540,22 @@ msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
 msgstr "থাম্ব্‌নেইলসমূহ সেইভ করি"
 
+msgctxt "IDS_SUB_POS_DOWN"
+msgid "Move subtitle down"
+msgstr ""
+
+msgctxt "IDS_SUB_POS_UP"
+msgid "Move subtitle up"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_DEC"
+msgid "Decrease subtitle text size"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_INC"
+msgid "Increase subtitle text size"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
 msgstr "প্লেব্যাক"
@@ -1965,12 +1981,12 @@ msgid "Goto Next Subtitle"
 msgstr "পরবর্তী সাবটাইটেলে যাই"
 
 msgctxt "IDS_MPLAYERC_102"
-msgid "Shift Subtitle Left"
-msgstr "সাবটাইটেলের অবস্থান বামে সরাই"
+msgid "Subresync: shift -100ms"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_103"
-msgid "Shift Subtitle Right"
-msgstr "সাবটাইটেলের অবস্থান ডানে সরাই"
+msgid "Subresync: shift +100ms"
+msgstr ""
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"

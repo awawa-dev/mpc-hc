@@ -2651,6 +2651,14 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_SUB_POS_DOWN        "Move subtitle down"
+    IDS_SUB_POS_UP          "Move subtitle up"
+    IDS_SUB_FONT_SIZE_DEC   "Decrease subtitle text size"
+    IDS_SUB_FONT_SIZE_INC   "Increase subtitle text size"
+END
+
+STRINGTABLE
+BEGIN
     IDD_PPAGEPLAYBACK       "Playback"
     IDD_PPAGEPLAYER         "Player"
     IDD_PPAGEDVD            "Playback::DVD"
@@ -3123,8 +3131,8 @@ BEGIN
     IDS_MPLAYERC_99         "Toggle Direct3D fullscreen"
     IDS_MPLAYERC_100        "Goto Prev Subtitle"
     IDS_MPLAYERC_101        "Goto Next Subtitle"
-    IDS_MPLAYERC_102        "Shift Subtitle Left"
-    IDS_MPLAYERC_103        "Shift Subtitle Right"
+    IDS_MPLAYERC_102        "Subresync: shift -100ms"
+    IDS_MPLAYERC_103        "Subresync: shift +100ms"
     IDS_AG_SEEKSET          "Jump to Beginning"
     IDS_OSD_SHOW_FILENAME   "OSD: Show File Name"
     IDS_PLAY_DVD            "Play DVD"

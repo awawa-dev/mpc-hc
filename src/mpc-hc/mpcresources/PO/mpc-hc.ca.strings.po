@@ -547,6 +547,22 @@ msgctxt "IDS_FILE_SAVE_THUMBNAILS"
 msgid "Save thumbnails"
 msgstr "Desa les miniatures"
 
+msgctxt "IDS_SUB_POS_DOWN"
+msgid "Move subtitle down"
+msgstr ""
+
+msgctxt "IDS_SUB_POS_UP"
+msgid "Move subtitle up"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_DEC"
+msgid "Decrease subtitle text size"
+msgstr ""
+
+msgctxt "IDS_SUB_FONT_SIZE_INC"
+msgid "Increase subtitle text size"
+msgstr ""
+
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
 msgstr "Reproducció"
@@ -1990,12 +2006,12 @@ msgid "Goto Next Subtitle"
 msgstr "Ves al subtítol següent"
 
 msgctxt "IDS_MPLAYERC_102"
-msgid "Shift Subtitle Left"
-msgstr "Desplaça el subtítol cap a l'esquerra"
+msgid "Subresync: shift -100ms"
+msgstr ""
 
 msgctxt "IDS_MPLAYERC_103"
-msgid "Shift Subtitle Right"
-msgstr "Desplaça el subtítol cap a la dreta"
+msgid "Subresync: shift +100ms"
+msgstr ""
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"

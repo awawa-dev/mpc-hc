@@ -27,6 +27,7 @@
 #include "RTS.h"
 #include "../DSUtil/PathUtils.h"
 #include <ppl.h>
+#include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 
 // WARNING: this isn't very thread safe, use only one RTS a time. We should use TLS in future.
 static HDC g_hDC;
@@ -2752,6 +2753,11 @@ CSubtitle* CRenderedTextSubtitle::GetSubtitle(int entry)
         }
     } else if (m_ePARCompensationType == EPCTAccurateSize || m_ePARCompensationType == EPCTAccurateSize_ISR) {
         dFontScaleXCompensation = m_dPARCompensation;
+    }
+
+    const CRenderersSettings& r = GetRenderersSettings();
+    if (r.fontScaleOverride != 1.0) {
+        stss.fontSize *= r.fontScaleOverride;
     }
 
     STSStyle orgstss = stss;

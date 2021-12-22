@@ -69,7 +69,7 @@ protected:
                            const CRect& videoRect,
                            SubPicDesc* pTarget = nullptr,
                            const double videoStretchFactor = 1.0,
-                           int xOffsetInPixels = 0);
+                           int xOffsetInPixels = 0, int yOffsetInPixels = 0);
 
     void UpdateXForm();
     HRESULT CreateDIBFromSurfaceData(D3DSURFACE_DESC desc, D3DLOCKED_RECT r, BYTE* lpDib) const;

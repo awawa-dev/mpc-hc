@@ -98,7 +98,7 @@ public:
     STDMETHODIMP SetVirtualTextureSize(const SIZE pSize, const POINT pTopLeft);
     STDMETHODIMP GetSourceAndDest(RECT rcWindow, RECT rcVideo, RECT* pRcSource,
                                   RECT* pRcDest, const double videoStretchFactor = 1.0,
-                                  int xOffsetInPixels = 1) const;
+                                  int xOffsetInPixels = 0, int yOffsetInPixels = 0) const;
     STDMETHODIMP GetRelativeTo(RelativeTo* pRelativeTo) const;
     STDMETHODIMP SetRelativeTo(RelativeTo relativeTo);
 

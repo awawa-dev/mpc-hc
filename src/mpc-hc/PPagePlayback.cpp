@@ -120,7 +120,7 @@ BOOL CPPagePlayback::OnInitDialog()
     m_VolumeStepCtrl.SetRange32(1, 25);
     m_nSpeedStep = s.nSpeedStep;
     m_SpeedStepCtrl.SetPos32(m_nSpeedStep);
-    m_SpeedStepCtrl.SetRange32(0, 100);
+    m_SpeedStepCtrl.SetRange32(0, 75);
     m_iLoopForever = s.fLoopForever ? 1 : 0;
     m_iLoopMode = static_cast<int>(s.eLoopMode);
     m_nLoops = s.nLoops;
@@ -164,7 +164,7 @@ BOOL CPPagePlayback::OnInitDialog()
     CorrectComboListWidth(m_LoopMode);
 
     // set the spinner acceleration value
-    UDACCEL accel = { 0, 10 };
+    UDACCEL accel = { 0, 5 };
     m_SpeedStepCtrl.SetAccel(1, &accel);
 
     EnableThemedDialogTooltips(this);
