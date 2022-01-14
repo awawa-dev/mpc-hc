@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Андрей Станков <astankov84@gmail.com>, 2021\n"
 "Language-Team: Bulgarian (https://www.transifex.com/mpchc/teams/106126/bg/)\n"
@@ -689,8 +689,6 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Въведете предпочитаните езици тук.\n"
-"Например напишете: \"eng jpn swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -4445,7 +4443,7 @@ msgstr "/regvid\t\tСъздава файлови асоциации за вид�
 
 msgctxt "IDS_CMD_REGAUD"
 msgid "/regaud\t\tCreate file associations for audio files"
-msgstr "/regaud\t\tСъздава файлови асоциации за аудио файлове"
+msgstr "/regaud\tСъздава файлови асоциации за аудио файлове"
 
 msgctxt "IDS_CMD_REGPL"
 msgid "/regpl\t\tCreate file associations for playlist files"

@@ -113,7 +113,7 @@ inline static void convert_int24_to_float_sse2(float* pOut, BYTE* pIn, const siz
 		__m128i __tmpIn  = _mm_setzero_si128();
 		__m128  __tmpOut = _mm_setzero_ps();
 
-		for (; k < allsamples - 3; k += 4) {
+		for (; k < allsamples - 4; k += 4) {
 			__tmpIn = _mm_setr_epi32(GETINT(0), GETINT(1),     // in = pIn
 									 GETINT(2), GETINT(3));
 			__tmpIn = _mm_sll_epi32(__tmpIn, __shift);         // in << 8

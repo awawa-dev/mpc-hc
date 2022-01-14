@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: ageback <yeskky@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/mpchc/teams/106126/zh_CN/)\n"
@@ -198,8 +198,8 @@ msgid "About"
 msgstr "关于"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2021 clsid2 and others"
-msgstr "版权所有 2002-2021 clsid2和其他开发者"
+msgid "Copyright 2002-2022 clsid2 and others"
+msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -364,7 +364,7 @@ msgstr "总是打开默认的位置:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "DVD 导航器及外部 OGM 分离器的首选语言"
+msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -1278,7 +1278,7 @@ msgstr "搜索"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "另存为..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"

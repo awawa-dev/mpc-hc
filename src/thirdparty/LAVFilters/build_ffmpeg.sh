@@ -3,12 +3,6 @@
 echo "$(pwd)" | grep -q '[[:blank:]]' &&
   echo "Out of tree builds are impossible with whitespace in source path." && exit 1
 
-if [ "${4}" == "VS2015" ]; then
-  bin_folder=bin15
-else
-  bin_folder=bin
-fi
-
 if [ "${1}" == "x64" ]; then
   arch=x86_64
   archdir=x64
@@ -24,12 +18,12 @@ else
 fi
 
 if [ "${2}" == "Debug" ]; then
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}_Debug/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}_Debug/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}d
   cross_prefix=
   COMPILER=MSVC
 else
-  FFMPEG_DLL_PATH=$(readlink -f ../../..)/${bin_folder}/${mpc_hc_folder}/${lav_folder}
+  FFMPEG_DLL_PATH=$(readlink -f ../../..)/bin/${mpc_hc_folder}/${lav_folder}
   BASEDIR=$(pwd)/src/bin_${archdir}
   COMPILER=GCC
 fi
@@ -77,6 +71,7 @@ configure() {
     --disable-static                \
     --enable-gpl                    \
     --enable-version3               \
+    --disable-autodetect            \
     --enable-w32threads             \
     --disable-demuxer=matroska      \
     --disable-filters               \
@@ -86,34 +81,35 @@ configure() {
     --enable-muxer=spdif            \
     --disable-bsfs                  \
     --enable-bsf=extract_extradata,vp9_superframe_split \
-    --disable-cuda                  \
-    --disable-cuda-llvm             \
-    --disable-cuvid                 \
-    --disable-nvenc                 \
-    --disable-mediafoundation       \
-    --enable-swresample             \
-    --enable-avisynth               \
     --disable-avdevice              \
     --disable-postproc              \
     --disable-encoders              \
     --disable-devices               \
     --disable-programs              \
     --disable-doc                   \
+    --enable-avisynth               \
+    --enable-d3d11va                \
+    --enable-dxva2                  \
+    --enable-zlib                   \
     --build-suffix=-lav             \
     --arch=${arch}"
 
   if [ "${COMPILER}" == "GCC" ]; then
     OPTIONS="${OPTIONS}             \
+    --disable-debug                 \
+    --enable-bzlib                  \
+    --enable-gnutls                 \
+     --enable-gmp                   \
     --enable-libdav1d               \
     --enable-libspeex               \
     --enable-libopencore-amrnb      \
     --enable-libopencore-amrwb      \
-    --disable-debug                 \
-    --disable-schannel              \
-    --enable-gnutls                 \
     --enable-libxml2                \
-    --disable-stripping             \
-    --enable-gmp"
+    --disable-stripping"
+  fi
+  
+  if [ "${COMPILER}" == "MSVC" ]; then
+    OPTIONS="${OPTIONS} --enable-schannel"
   fi
   
   EXTRA_LDFLAGS=""

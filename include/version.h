@@ -57,7 +57,7 @@
 #endif
 
 #define MPC_COMP_NAME_STR       _T("MPC-HC Team")
-#define MPC_COPYRIGHT_STR       _T("Copyright 2002-2021 clsid2 and others")
+#define MPC_COPYRIGHT_STR       _T("Copyright 2002-2022 clsid2 and others")
 #define MPC_VERSION_COMMENTS    WEBSITE_URL
 
 

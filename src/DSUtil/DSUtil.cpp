@@ -740,6 +740,7 @@ CString BinToCString(const BYTE* ptr, size_t len)
 
 void FindFiles(CString fn, CAtlList<CString>& files)
 {
+    ExtendMaxPathLengthIfNeeded(fn, MAX_PATH);
     CString path = fn;
     path.Replace('/', '\\');
     path = path.Left(path.ReverseFind('\\') + 1);

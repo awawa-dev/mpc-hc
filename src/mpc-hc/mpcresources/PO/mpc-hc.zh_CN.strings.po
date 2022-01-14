@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# CyanVesper <SharpNight93@gmail.com>, 2020
 # lifegpc <g1710431395@gmail.com>, 2021
 # BCZJG6GT <luticliu@foxmail.com>, 2021
+# CyanVesper <SharpNight93@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-05-04 16:20:41+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: BCZJG6GT <luticliu@foxmail.com>, 2021\n"
+"Last-Translator: CyanVesper <SharpNight93@gmail.com>, 2021\n"
 "Language-Team: Chinese (China) (https://www.transifex.com/mpchc/teams/106126/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -682,8 +682,6 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"请在这里输入您预设的语言。\n"
-"例如, 输入: \"eng jpn swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -873,7 +871,7 @@ msgstr "同步渲染器"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_MPC_REND"
 msgid "MPC Audio Renderer"
-msgstr ""
+msgstr "MPC 音频渲染器"
 
 msgctxt "IDS_PPAGE_OUTPUT_SURF_OFFSCREEN"
 msgid "Regular offscreen plain surface"
@@ -929,7 +927,7 @@ msgstr "空 (未压缩)"
 
 msgctxt "IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND"
 msgid "SaneAR Audio Renderer"
-msgstr ""
+msgstr "SaneAR 音频渲染器"
 
 msgctxt "IDS_EMB_RESOURCES_VIEWER_NAME"
 msgid "Name"
@@ -4111,7 +4109,7 @@ msgid ""
 "\"pathname\"\tThe main file or directory to be loaded\n"
 "\t\t(wildcards allowed, \"-\" denotes standard input)"
 msgstr ""
-"\"路径名称\"\t\t要加载的主文件或文件夹\n"
+"\"路径名称\"\t要加载的主文件或文件夹\n"
 "\t\t(允许使用通配符，“-”表示标准输入)"
 
 msgctxt "IDS_CMD_DUB"
@@ -4187,7 +4185,7 @@ msgstr "/standby\t\t播放完毕后将操作系统置于待机模式"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\t播放完毕后将操作系统置于休眠模式"
+msgstr "/hibernate\t\t在回放后休眠操作系统"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
@@ -4486,92 +4484,92 @@ msgstr "在最近播放列表中使用标题。"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR"
 msgid "Display current A-B repeat marks in status bar."
-msgstr ""
+msgstr "在状态栏中显示当前的 A-B 重播标记。"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR"
 msgid "Display video info (codec name, resolution) in status bar."
-msgstr ""
+msgstr "在状态栏中显示视频信息 (编码名称、分辨率) 。"
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
-msgstr ""
+msgstr "WASAPI 模式:"
 
 msgctxt "IDS_ARS_EXCLUSIVE"
 msgid "Exclusive"
-msgstr ""
+msgstr "独占"
 
 msgctxt "IDS_ARS_SHARED"
 msgid "Shared"
-msgstr ""
+msgstr "共享"
 
 msgctxt "IDS_ARS_BITEXACT_OUTPUT"
 msgid "Allow bit-exact output"
-msgstr ""
+msgstr "允许精确对位式输出"
 
 msgctxt "IDS_ARS_SYSTEM_LAYOUT_CHANNELS"
 msgid "Use system layout channels"
-msgstr ""
+msgstr "使用系统布局通道"
 
 msgctxt "IDS_ARS_SOUND_DEVICE"
 msgid "Sound Device:"
-msgstr ""
+msgstr "音响设备:"
 
 msgctxt "IDS_ARS_RELEASE_DEVICE_IDLE"
 msgid "Release device when idle"
-msgstr ""
+msgstr "空闲时释放设备"
 
 msgctxt "IDS_ARS_CROSSFEED"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr ""
+msgstr "启用立体声交叉馈音 (用于耳机)"
 
 msgctxt "IDS_ARS_DEVICE_PERIOD"
 msgid "Device buffer:"
-msgstr ""
+msgstr "设备缓冲区:"
 
 msgctxt "IDS_ARS_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr ""
+msgstr "不检查格式支持"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
-msgstr ""
+msgstr "状态"
 
 msgctxt "IDS_ARS_DEVICE"
 msgid "Device:"
-msgstr ""
+msgstr "设备:"
 
 msgctxt "IDS_ARS_MODE"
 msgid "Mode:"
-msgstr ""
+msgstr "模式:"
 
 msgctxt "IDS_ARS_INPUT"
 msgid "Input"
-msgstr ""
+msgstr "输入"
 
 msgctxt "IDS_ARS_OUTPUT"
 msgid "Output"
-msgstr ""
+msgstr "输出"
 
 msgctxt "IDS_ARS_FORMAT"
 msgid "Format:"
-msgstr ""
+msgstr "格式:"
 
 msgctxt "IDS_ARS_SAMPLERATE"
 msgid "Sample rate:"
-msgstr ""
+msgstr "采样率:"
 
 msgctxt "IDS_ARS_CHANNELS"
 msgid "Channels:"
-msgstr ""
+msgstr "通道:"
 
 msgctxt "IDS_ARS_WASAPI_METHOD"
 msgid "WASAPI method:"
-msgstr ""
+msgstr "WASAPI 方法:"
 
 msgctxt "IDS_ARS_DUMMY_CHANNELS"
 msgid "Don't fill channels when upmixing"
-msgstr ""
+msgstr "在上混时不要填充通道"
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
-msgstr ""
+msgstr "默认"

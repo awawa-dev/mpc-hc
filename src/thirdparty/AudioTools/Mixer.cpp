@@ -411,21 +411,25 @@ int CMixer::CalcOutSamples(int in_samples)
 void CMixer::FlushBuffers()
 {
 	if (m_in_samplerate != m_out_samplerate) {
-		// Close SWR Context
-		swr_close(m_pSWRCxt);
+        if (!m_ActualContext || !m_matrix_dbl) {
+            Init();
+        } else {
+            // Close SWR Context
+            swr_close(m_pSWRCxt);
 
-		// Set Matrix on the context
-		int ret = swr_set_matrix(m_pSWRCxt, m_matrix_dbl, av_popcount(m_in_layout));
-		if (ret < 0) {
-			DLog(L"CMixer::FlushBuffers() : swr_set_matrix failed");
-			return;
-		}
+            // Set Matrix on the context
+            int ret = swr_set_matrix(m_pSWRCxt, m_matrix_dbl, av_popcount(m_in_layout));
+            if (ret < 0) {
+                DLog(L"CMixer::FlushBuffers() : swr_set_matrix failed");
+                return;
+            }
 
-		// init SWR Context
-		ret = swr_init(m_pSWRCxt);
-		if (ret < 0) {
-			DLog(L"CMixer::FlushBuffers() : swr_init failed");
-			return;
-		}
+            // init SWR Context
+            ret = swr_init(m_pSWRCxt);
+            if (ret < 0) {
+                DLog(L"CMixer::FlushBuffers() : swr_init failed");
+                return;
+            }
+        }
 	}
 }

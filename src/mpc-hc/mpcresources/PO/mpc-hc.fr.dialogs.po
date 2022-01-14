@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Cyril Provence <ywa78408@eveav.com>, 2021\n"
 "Language-Team: French (https://www.transifex.com/mpchc/teams/106126/fr/)\n"
@@ -207,8 +207,8 @@ msgid "About"
 msgstr "A propos"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2021 clsid2 and others"
-msgstr "Copyright 2002-2021 clsid2 et d'autres"
+msgid "Copyright 2002-2022 clsid2 and others"
+msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -833,7 +833,7 @@ msgstr "Se souvenir de la position"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "Se souvenir des repères de A-B répétition"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -1752,7 +1752,7 @@ msgstr "Par défaut"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
 msgid "SaneAR Audio Renderer Enabled"
-msgstr "Moteur de rendu SaneAR activé"
+msgstr "Moteur de rendu audio SaneAR activé"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"

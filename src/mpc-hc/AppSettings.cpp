@@ -331,6 +331,9 @@ CAppSettings::CAppSettings()
 #if INTERNAL_SOURCEFILTER_RFS
     SrcFiltersKeys[SRC_RFS] = FilterKey(_T("SRC_RFS"), true);
 #endif
+#if INTERNAL_SOURCEFILTER_MISC
+    SrcFiltersKeys[SRC_MISC] = FilterKey(_T("SRC_MISC"), true);
+#endif
 
     // Internal decoders
 #if INTERNAL_DECODER_MPEG1
@@ -1429,7 +1432,7 @@ void CAppSettings::LoadSettings()
         if (language <= 23) {
             // We must be updating from a really old version, use the default language
             language = Translations::SetDefaultLanguage();
-        } else if (!Translations::SetLanguage(language)) {
+        } else if (!Translations::SetLanguage(language, false)) {
             // In case of error, reset the language to English
             language = 0;
         }

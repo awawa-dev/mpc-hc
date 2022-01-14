@@ -489,12 +489,12 @@ function loadSnapshot() {
 
 function onLoadSnapshot() {
     "use strict";
-    setTimeout(loadSnapshot, 5000);
+    setTimeout(loadSnapshot, 500);
 }
 
 function onAbortErrorSnapshot() {
     "use strict";
-    setTimeout(loadSnapshot, 10000);
+    setTimeout(loadSnapshot, 5000);
 }
 
 function onSeek(e) {

@@ -2697,7 +2697,10 @@ HRESULT CMpcAudioRenderer::ReinitializeAudioDevice(BOOL bFullInitialization/* = 
 	CAutoLock cRenderLock(&m_csRender);
 
 	WAVEFORMATEX* pWaveFormatEx = nullptr;
-	CopyWaveFormat(m_pWaveFormatExInput, &pWaveFormatEx);
+    if (!CopyWaveFormat(m_pWaveFormatExInput, &pWaveFormatEx)) {
+        ASSERT(FALSE);
+        return E_FAIL;
+    }
 
 	if (m_bIsAudioClientStarted && m_pAudioClient) {
 		m_pAudioClient->Stop();

@@ -19,6 +19,7 @@
 #define ARCH_AVR32_UC 0
 #define ARCH_BFIN 0
 #define ARCH_IA64 0
+#define ARCH_LOONGARCH 0
 #define ARCH_M68K 0
 #define ARCH_MIPS 0
 #define ARCH_MIPS64 0

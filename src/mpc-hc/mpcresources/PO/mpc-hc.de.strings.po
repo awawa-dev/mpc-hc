@@ -7,14 +7,14 @@
 # tobsen <github@tobsen.de>, 2020
 # fc5b3681a8011aa2097a1a11b3d42f55_901a704, 2021
 # Gaugg_Markus, 2021
-# Steve <secure@mail.az>, 2021
+# Steve, 2021
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-09-06 17:51:01+0000\n"
+"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Steve <secure@mail.az>, 2021\n"
+"Last-Translator: Steve, 2021\n"
 "Language-Team: German (https://www.transifex.com/mpchc/teams/106126/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -694,8 +694,6 @@ msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
 msgstr ""
-"Erlaubt eine automatische Sprachauswahl nach Priorität durch bspw. \"ger eng"
-" swe\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -4290,7 +4288,7 @@ msgstr "/standby\t\tWechselt in den Standby-Modus (nach Wiedergabe)"
 
 msgctxt "IDS_CMD_HIBERNATE"
 msgid "/hibernate\t\tHibernate operating system after playback"
-msgstr "/hibernate\t\tWechselt in den Ruhezustand (nach Wiedergabe)"
+msgstr "/hibernate\t\tRuhezustand des Betriebssystems nach Wiedergabe"
 
 msgctxt "IDS_CMD_LOGOFF"
 msgid "/logoff\t\tLog off after playback"
