@@ -100,6 +100,7 @@
 #define IDS_RS_LOCK_NOPAUSE                 _T("LockNoPause")
 #define IDS_RS_USE_SMTC                     _T("UseSMTC")
 #define IDS_RS_RELOAD_AFTER_LONG_PAUSE      _T("ReloadAfterLongPause")
+#define IDS_RS_OPEN_REC_PANEL_WHEN_OPENING_DEVICE _T("OpenRecordingPanelWhenOpeningDevice")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")

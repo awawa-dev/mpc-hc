@@ -1794,28 +1794,32 @@ BOOL CMPlayerCApp::InitInstance()
 
     m_mutexOneInstance.Create(nullptr, TRUE, MPC_WND_CLASS_NAME);
 
-    if (GetLastError() == ERROR_ALREADY_EXISTS &&
-            (!(m_s->GetAllowMultiInst() || m_s->nCLSwitches & CLSW_NEW || m_cmdln.IsEmpty()) || m_s->nCLSwitches & CLSW_ADD)) {
-
-        DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
-        if (res == WAIT_OBJECT_0 || res == WAIT_ABANDONED) {
-            HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, nullptr);
-            if (hWnd) {
-                DWORD dwProcessId = 0;
-                if (GetWindowThreadProcessId(hWnd, &dwProcessId) && dwProcessId) {
-                    VERIFY(AllowSetForegroundWindow(dwProcessId));
-                } else {
-                    ASSERT(FALSE);
+    if (GetLastError() == ERROR_ALREADY_EXISTS) {
+        if ((m_s->nCLSwitches & CLSW_ADD) || !(m_s->GetAllowMultiInst() || m_s->nCLSwitches & CLSW_NEW || m_cmdln.IsEmpty())) {
+            DWORD res = WaitForSingleObject(m_mutexOneInstance.m_h, 5000);
+            if (res == WAIT_OBJECT_0 || res == WAIT_ABANDONED) {
+                HWND hWnd = ::FindWindow(MPC_WND_CLASS_NAME, nullptr);
+                if (hWnd) {
+                    DWORD dwProcessId = 0;
+                    if (GetWindowThreadProcessId(hWnd, &dwProcessId) && dwProcessId) {
+                        VERIFY(AllowSetForegroundWindow(dwProcessId));
+                    } else {
+                        ASSERT(FALSE);
+                    }
+                    if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd) &&
+                        (!(m_s->nCLSwitches & CLSW_ADD) || m_s->nCLSwitches & CLSW_PLAY) //do not restore when adding to playlist of minimized player, unless also playing
+                        ) {
+                        ShowWindow(hWnd, SW_RESTORE);
+                    }
+                    if (SendCommandLine(hWnd)) {
+                        m_mutexOneInstance.Close();
+                        return FALSE;
+                    }
                 }
-                if (!(m_s->nCLSwitches & CLSW_MINIMIZED) && IsIconic(hWnd) &&
-                    (!(m_s->nCLSwitches & CLSW_ADD) || m_s->nCLSwitches & CLSW_PLAY) //do not restore when adding to playlist of minimized player, unless also playing
-                    ) {
-                    ShowWindow(hWnd, SW_RESTORE);
-                }
-                if (SendCommandLine(hWnd)) {
-                    m_mutexOneInstance.Close();
-                    return FALSE;
-                }
+            }
+            if ((m_s->nCLSwitches & CLSW_ADD)) {
+                ASSERT(FALSE);
+                return FALSE; // don't open new instance if SendCommandLine() failed
             }
         }
     }

@@ -222,6 +222,7 @@ private:
         FULLSCREEN_DELAY,
         AUTO_DOWNLOAD_SCORE_MOVIES,
         AUTO_DOWNLOAD_SCORE_SERIES,
+        OPEN_REC_PANEL_WHEN_OPENING_DEVICE,
     };
 
     enum {

@@ -615,6 +615,7 @@ public:
     bool            bLockNoPause;
     bool            bUseSMTC;
     int             iReloadAfterLongPause;
+    bool            bOpenRecPanelWhenOpeningDevice;
 
     enum class AfterPlayback {
         DO_NOTHING,

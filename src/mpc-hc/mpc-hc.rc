@@ -3473,6 +3473,12 @@ END
 
 STRINGTABLE
 BEGIN
+    IDS_AG_ZOOM_ADD         "Zoom Window +"
+    IDS_AG_ZOOM_SUB         "Zoom Window -"
+END
+
+STRINGTABLE
+BEGIN
     IDS_AG_VIDFRM_ZOOM1     "VidFrm Zoom 1"
     IDS_AG_VIDFRM_ZOOM2     "VidFrm Zoom 2"
     IDS_AG_VIDFRM_SWITCHZOOM "VidFrm Switch Zoom"
@@ -4004,6 +4010,8 @@ BEGIN
                             "Display current A-B repeat marks in status bar."
     IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR 
                             "Display video info (codec name, resolution) in status bar."
+    IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE
+                            "Show the recording settings dialog automatically when opening a device."
 END
 
 STRINGTABLE

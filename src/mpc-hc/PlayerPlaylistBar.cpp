@@ -230,7 +230,7 @@ void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CSt
         }
 
         Refresh();
-        SavePlaylist();
+        //SavePlaylist();
     }
 }
 
@@ -904,7 +904,7 @@ void CPlayerPlaylistBar::Append(CAtlList<CString>& fns, bool fMulti, CAtlList<CS
     }
 
     Refresh();
-    SavePlaylist();
+    //SavePlaylist();
 
     // Get the POSITION of the first item we just added
     if (posFirstAdded) {
@@ -954,7 +954,7 @@ void CPlayerPlaylistBar::Append(CStringW vdn, CStringW adn, int vinput, int vcha
     Refresh();
     EnsureVisible(m_pl.GetTailPosition());
     m_list.SetItemState((int)m_pl.GetCount() - 1, LVIS_SELECTED, LVIS_SELECTED);
-    SavePlaylist();
+    //SavePlaylist();
 }
 
 void CPlayerPlaylistBar::SetupList()
@@ -1286,7 +1286,8 @@ bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
     m_list.DeleteItem(listPos);
     m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
     m_pl.RemoveAt(pos);
-    SavePlaylist();
+    //SavePlaylist();
+
     // Delete file
     FileDelete(filename, m_pMainFrame->m_hWnd, recycle);
     // Continue with next file
@@ -2073,7 +2074,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
             if (PathUtils::IsDir(dirName)) {
                 if (AddItemsInFolder(dirName)) {
                     Refresh();
-                    SavePlaylist();
+                    //SavePlaylist();
                 }
             }
             break;

@@ -947,6 +947,7 @@ public:
     afx_msg void OnUpdateViewZoom(CCmdUI* pCmdUI);
     afx_msg void OnViewZoomAutoFit();
     afx_msg void OnViewZoomAutoFitLarger();
+    afx_msg void OnViewModifySize(UINT nID);
     afx_msg void OnViewDefaultVideoFrame(UINT nID);
     afx_msg void OnUpdateViewDefaultVideoFrame(CCmdUI* pCmdUI);
     afx_msg void OnViewSwitchVideoFrame();

@@ -384,6 +384,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM_AUTOFIT, OnUpdateViewZoom)
     ON_COMMAND(ID_VIEW_ZOOM_AUTOFIT_LARGER, OnViewZoomAutoFitLarger)
     ON_UPDATE_COMMAND_UI(ID_VIEW_ZOOM_AUTOFIT_LARGER, OnUpdateViewZoom)
+    ON_COMMAND_RANGE(ID_VIEW_ZOOM_SUB, ID_VIEW_ZOOM_ADD, OnViewModifySize)
     ON_COMMAND_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnViewDefaultVideoFrame)
     ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_VF_HALF, ID_VIEW_VF_ZOOM2, OnUpdateViewDefaultVideoFrame)
     ON_COMMAND(ID_VIEW_VF_SWITCHZOOM, OnViewSwitchVideoFrame)
@@ -3819,22 +3820,27 @@ LRESULT CMainFrame::OnFilePostOpenmedia(WPARAM wParam, LPARAM lParam)
         UpdateControlState(CMainFrame::UPDATE_LOGO);
     }
 
-    if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
-        // show navigation panel when it's available and not disabled
-        if (!s.fHideNavigation) {
-            m_wndNavigationBar.m_navdlg.UpdateElementList();
-            if (!m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
-                m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
-            } else {
-                ASSERT(FALSE);
+    if (s.bOpenRecPanelWhenOpeningDevice) {
+        if (GetPlaybackMode() == PM_DIGITAL_CAPTURE) {
+            // show navigation panel when it's available and not disabled
+            if (!s.fHideNavigation) {
+                m_wndNavigationBar.m_navdlg.UpdateElementList();
+                if (!m_controls.ControlChecked(CMainFrameControls::Panel::NAVIGATION)) {
+                    m_controls.ToggleControl(CMainFrameControls::Panel::NAVIGATION);
+                }
+                else {
+                    ASSERT(FALSE);
+                }
             }
         }
-    } else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
-        // show capture bar
-        if (!m_controls.ControlChecked(CMainFrameControls::Panel::CAPTURE)) {
-            m_controls.ToggleControl(CMainFrameControls::Panel::CAPTURE);
-        } else {
-            ASSERT(FALSE);
+        else if (GetPlaybackMode() == PM_ANALOG_CAPTURE) {
+            // show capture bar
+            if (!m_controls.ControlChecked(CMainFrameControls::Panel::CAPTURE)) {
+                m_controls.ToggleControl(CMainFrameControls::Panel::CAPTURE);
+            }
+            else {
+                ASSERT(FALSE);
+            }
         }
     }
 
@@ -4581,10 +4587,11 @@ BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCDS)
             }
             OpenMedia(p);
         } else {
-            if (m_dwLastRun && ((GetTickCount64() - m_dwLastRun) < 1000ULL)) {
+            ULONGLONG tcnow = GetTickCount64();
+            if (m_dwLastRun && ((tcnow - m_dwLastRun) < 2000ULL)) {
                 s.nCLSwitches |= CLSW_ADD;
             }
-            m_dwLastRun = GetTickCount64();
+            m_dwLastRun = tcnow;
 
             if ((s.nCLSwitches & CLSW_ADD) && !IsPlaylistEmpty()) {             
                 POSITION pos2 = sl.GetHeadPosition();
@@ -7458,6 +7465,28 @@ void CMainFrame::OnViewZoomAutoFitLarger()
 {
     ZoomVideoWindow(ZOOM_AUTOFIT_LARGER);
     m_OSD.DisplayMessage(OSD_TOPLEFT, ResStr(IDS_OSD_ZOOM_AUTO_LARGER), 3000);
+}
+
+void CMainFrame::OnViewModifySize(UINT nID)
+{
+    if (m_fFullScreen || IsZoomed() || IsIconic()) {
+        return;
+    }
+
+    CSize videoSize = m_fAudioOnly ? m_wndView.GetLogoSize() : GetVideoSize();
+    double videoRatio = double(videoSize.cy) / double(videoSize.cx);
+
+    CRect videoRect;
+    m_pVideoWnd->GetWindowRect(&videoRect);
+    LONG newWidth = videoRect.Width() + 32 * (nID == ID_VIEW_ZOOM_ADD ? 1 : ID_VIEW_ZOOM_SUB ? -1 : 0);
+    LONG newHeight = ceil(newWidth * videoRatio);
+
+    CRect rect;
+    GetWindowRect(&rect);
+    rect.right = rect.right + newWidth - videoRect.Width();
+    rect.bottom = rect.bottom + newHeight - videoRect.Height();
+    
+    MoveWindow(&rect);
 }
 
 void CMainFrame::OnViewDefaultVideoFrame(UINT nID)
@@ -19833,6 +19862,7 @@ LRESULT CMainFrame::OnGetSubtitles(WPARAM, LPARAM lParam)
 static const CString ydl_whitelist[] = {
     _T("youtube.com/"),
     _T("youtu.be/"),
+    _T("twitch.tv/"),
     _T("twitch.com/")
 };
 
