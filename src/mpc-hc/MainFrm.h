@@ -1286,9 +1286,7 @@ public:
     bool OpenBD(CString Path);
 
     bool GetDecoderType(CString& type) const;
-    void updateRecentFileListSub();
 
-    RecentFileEntry m_current_rfe;
     static bool IsOnYDLWhitelist(const CString url);
 
     bool CanSendToYoutubeDL(const CString url);
@@ -1313,4 +1311,6 @@ private:
 public:
     afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
     afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);
+private:
+    void SetupExternalChapters();
 };

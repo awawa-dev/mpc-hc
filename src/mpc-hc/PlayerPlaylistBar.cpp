@@ -234,6 +234,16 @@ void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CSt
     }
 }
 
+void CPlayerPlaylistBar::AddSubtitleToCurrent(CString fn)
+{
+    CPlaylistItem* pli = GetCur();
+    if (pli != nullptr) {
+        if (!pli->m_subs.Find(fn)) {
+            pli->m_subs.AddHead(fn);
+        }
+    }
+}
+
 void CPlayerPlaylistBar::ParsePlayList(CString fn, CAtlList<CString>* subs, int redir_count)
 {
     TRACE(fn + _T("\n"));
@@ -1490,12 +1500,10 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
     if (lpnmlv->iItem >= 0 && lpnmlv->iSubItem >= 0) {
         POSITION pos = FindPos(lpnmlv->iItem);
-        // If the file is already playing, don't try to restore a previously saved position
         if (m_pMainFrame->GetPlaybackMode() == PM_FILE && pos == m_pl.GetPos()) {
-            const CPlaylistItem& pli = m_pl.GetAt(pos);
-
+            // If the file is already playing, reset position
             CAppSettings& s = AfxGetAppSettings();
-            s.filePositions.RemoveEntry(pli.m_fns.GetHead());
+            s.MRU.UpdateCurrentFilePosition(0LL, true);
         } else {
             m_pl.SetPos(pos);
         }

@@ -3835,7 +3835,7 @@ void CSyncAP::RenderThread()
         LONG lDisplayCycle4 = (LONG)(GetDisplayCycle() / 4.0);
 
         const CRenderersSettings& r = GetRenderersSettings();
-        double dTargetSyncOffset = r.m_AdvRendSets.fTargetSyncOffset;
+        double dTargetSyncOffset = (&r == nullptr) ? 12.0 : r.m_AdvRendSets.fTargetSyncOffset;
 
         if ((m_nRenderState == Started || !m_bPrerolled) && !pNewSample) {  // If either streaming or the pre-roll sample and no sample yet fetched
             if (SUCCEEDED(GetScheduledSample(&pNewSample, nSamplesLeft))) { // Get the next sample

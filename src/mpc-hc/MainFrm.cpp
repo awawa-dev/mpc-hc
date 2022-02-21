@@ -886,7 +886,6 @@ CMainFrame::CMainFrame()
     , currentAudioLang(_T(""))
     , currentSubLang(_T(""))
     , m_bToggleShader(false)
-    , m_current_rfe()
     , m_bToggleShaderScreenSpace(false)
     , m_MPLSPlaylist()
     , m_sydlLastProcessURL()
@@ -1199,7 +1198,7 @@ void CMainFrame::OnClose()
 LPCTSTR CMainFrame::GetRecentFile() const
 {
     auto& MRU = AfxGetAppSettings().MRU;
-    MRU.ReadList();
+    MRU.ReadMediaHistory();
     for (int i = 0; i < MRU.GetSize(); i++) {
         if (MRU[i].fns.GetCount() > 0 && !MRU[i].fns.GetHead().IsEmpty()) {
             return MRU[i].fns.GetHead();
@@ -1980,15 +1979,8 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
                             }
 
                             if (m_bRememberFilePos && !m_fEndOfStream) {
-                                CFilePositionList& fp = AfxGetAppSettings().filePositions;
-                                FILE_POSITION* filePosition = fp.GetLatestEntry();
-                                if (filePosition) {
-                                    bool bSave = std::abs(filePosition->llPosition - rtNow) > 300000000;
-                                    filePosition->llPosition = rtNow;
-                                    if (bSave) {
-                                        fp.SaveLatestEntry();
-                                    }
-                                }
+                                auto* pMRU = &AfxGetAppSettings().MRU;
+                                pMRU->UpdateCurrentFilePosition(rtNow);
                             }
 
                             // Casimir666 : autosave subtitle sync after play
@@ -2675,12 +2667,8 @@ void CMainFrame::GraphEventComplete()
     CAppSettings& s = AfxGetAppSettings();
 
     if (m_bRememberFilePos) {
-        FILE_POSITION* filePosition = s.filePositions.GetLatestEntry();
-
-        if (filePosition) {
-            filePosition->llPosition = 0;
-            s.filePositions.SaveLatestEntry();
-        }
+        auto* pMRU = &s.MRU;
+        pMRU->UpdateCurrentFilePosition(0, true);
     }
 
     bool bBreak = false;
@@ -2784,12 +2772,8 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                     SetupChapters();
                 } else if (GetPlaybackMode() == PM_DVD) {
                     m_iDVDTitle = (DWORD)evParam1;
-
                     // Save current chapter
-                    DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
-                    if (dvdPosition) {
-                        dvdPosition->lTitle = m_iDVDTitle;
-                    }
+                    s.MRU.UpdateCurrentDVDTitle(m_iDVDTitle);
 
                     if (m_iDVDDomain == DVD_DOMAIN_Title) {
                         CString Domain;
@@ -2827,7 +2811,6 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                             }
 
                             if (s.lDVDTitle != 0) {
-                                s.dvdPositions.AddEntry(llDVDGuid);
                                 // Set command line position
                                 hr = m_pDVDC->PlayTitle(s.lDVDTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
                                 if (s.fShowDebugInfo) {
@@ -2901,22 +2884,22 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                                 // We don't want to restore the position from the favorite
                                 // if the playback is reinitialized so we clear the saved state
                                 pDVDData->pDvdState.Release();
-                            } else if (s.fKeepHistory && s.fRememberDVDPos && !s.dvdPositions.AddEntry(llDVDGuid)) {
+                            } else if (s.fKeepHistory && s.fRememberDVDPos && s.MRU.GetCurrentDVDPosition().llDVDGuid) {
                                 // Set last remembered position (if found...)
-                                DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
+                                DVD_POSITION dvdPosition = s.MRU.GetCurrentDVDPosition();
 
-                                m_pDVDC->PlayTitle(dvdPosition->lTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
+                                m_pDVDC->PlayTitle(dvdPosition.lTitle, DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
                                 m_pDVDC->Resume(DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr);
 #if 1
                                 if (SUCCEEDED(hr = m_pDVDC->PlayAtTimeInTitle(
-                                                       dvdPosition->lTitle, &dvdPosition->timecode,
+                                                       dvdPosition.lTitle, &dvdPosition.timecode,
                                                        DVD_CMD_FLAG_Block | DVD_CMD_FLAG_Flush, nullptr)))
 #else
-                                if (SUCCEEDED(hr = m_pDVDC->PlayAtTime(&dvdPosition->timecode,
+                                if (SUCCEEDED(hr = m_pDVDC->PlayAtTime(&dvdPosition.timecode,
                                                                        DVD_CMD_FLAG_Flush, nullptr)))
 #endif
                                 {
-                                    m_iDVDTitle = dvdPosition->lTitle;
+                                    m_iDVDTitle = dvdPosition.lTitle;
                                 }
                             }
 
@@ -2943,10 +2926,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                             m_OSD.DebugMessage(_T("%s"), Domain.GetString());
                         }
                         {
-                            DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
-                            if (dvdPosition) {
-                                dvdPosition->lTitle = m_iDVDTitle;
-                            }
+                            s.MRU.UpdateCurrentDVDTitle(m_iDVDTitle);
 
                             if (!m_fValidDVDOpen && m_pDVDC) {
                                 m_fValidDVDOpen = true;
@@ -2994,10 +2974,7 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
             break;
             case EC_DVD_CURRENT_HMSF_TIME: {
                 // Casimir666 : Save current position in the chapter
-                DVD_POSITION* dvdPosition = s.dvdPositions.GetLatestEntry();
-                if (dvdPosition) {
-                    memcpy(&dvdPosition->timecode, (void*)&evParam1, sizeof(DVD_HMSF_TIMECODE));
-                }
+                s.MRU.UpdateCurrentDVDTimecode((DVD_HMSF_TIMECODE*)&evParam1);
             }
             break;
             case EC_DVD_ERROR: {
@@ -3652,10 +3629,10 @@ void CMainFrame::OnUpdatePlayerStatus(CCmdUI* pCmdUI)
             }
             if (msg_id) {
                 msg.LoadString(msg_id);
-            }
 
-            if (m_bUsingDXVA && (msg == ResStr(IDS_CONTROLS_PAUSED) || msg == ResStr(IDS_CONTROLS_PLAYING))) {
-                msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR).GetString());
+                if (m_bUsingDXVA && (msg_id == IDS_CONTROLS_PAUSED || msg_id == IDS_CONTROLS_PLAYING)) {
+                    msg.AppendFormat(_T(" %s"), ResStr(IDS_HW_INDICATOR).GetString());
+                }
             }
 
             auto& s = AfxGetAppSettings();
@@ -4812,6 +4789,18 @@ void CMainFrame::OnFileReopen()
     if (!m_LastOpenBDPath.IsEmpty() && OpenBD(m_LastOpenBDPath)) {
         return;
     }
+
+    // save playback position
+    if (GetLoadState() == MLS::LOADED) {
+        if (m_bRememberFilePos && !m_fEndOfStream && m_dwReloadPos == 0 && m_pMS) {
+            auto& s = AfxGetAppSettings();
+            REFERENCE_TIME rtNow = 0;
+            m_pMS->GetCurrentPosition(&rtNow);
+            m_dwReloadPos = rtNow;
+            s.MRU.UpdateCurrentFilePosition(rtNow, true);
+        }
+    }
+
     OpenCurPlaylistItem(0, true);
 }
 
@@ -8134,7 +8123,7 @@ void CMainFrame::OnPlayPlaypause()
         } else if (fs == State_Stopped || fs == State_Paused) {
             SendMessage(WM_COMMAND, ID_PLAY_PLAY);
         }
-    } else if (GetLoadState() == MLS::CLOSED && !m_fFullScreen && !IsPlaylistEmpty()) {
+    } else if (GetLoadState() == MLS::CLOSED && !IsPlaylistEmpty()) {
         SendMessage(WM_COMMAND, ID_PLAY_PLAY);        
     }
 }
@@ -10243,7 +10232,6 @@ void CMainFrame::OnRecentFileClear()
     for (int i = s.MRUDub.GetSize() - 1; i >= 0; i--) {
         s.MRUDub.Remove(i);
     }
-    s.MRU.WriteList();
     s.MRUDub.WriteList();
 
     // Empty the "Recent" jump list
@@ -10254,8 +10242,6 @@ void CMainFrame::OnRecentFileClear()
     }
 
     // Remove the saved positions in media
-    s.filePositions.Empty();
-    s.dvdPositions.Empty();
 }
 
 void CMainFrame::OnUpdateRecentFileClear(CCmdUI* pCmdUI)
@@ -10356,7 +10342,7 @@ void CMainFrame::OnRecentFile(UINT nID)
 {
     CAtlList<CString> fns;
     auto& MRU = AfxGetAppSettings().MRU;
-    MRU.ReadList();
+    MRU.ReadMediaHistory();
     RecentFileEntry r;
 
     // find corresponding item in MRU list, we can't directly use string from menu because it may have been shortened
@@ -10893,7 +10879,10 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         return; //swallow request if we are in the delay period
     }
 
-    CMonitor currentMonitor = CMonitors::GetNearestMonitor(this);
+    CMonitors monitors;
+    CMonitor defaultMonitor = monitors.GetPrimaryMonitor();
+    CMonitor currentMonitor = monitors.GetNearestMonitor(this);
+
     const CWnd* pInsertAfter = nullptr;
     CRect windowRect;
     DWORD dwRemove = 0, dwAdd = 0;
@@ -10920,7 +10909,6 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
 
         CMonitor monitor;
         if (s.strFullScreenMonitor != _T("Current")) {
-            CMonitors monitors;
             for (int i = 0; i < monitors.GetCount(); i++) {
                 monitor = monitors.GetMonitor(i);
                 if (!monitor.IsMonitor()) {
@@ -10939,7 +10927,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         }
 
         dwRemove |= WS_CAPTION | WS_THICKFRAME;
-        if (s.fPreventMinimize && monitor != currentMonitor) {
+        if (s.fPreventMinimize && monitor != defaultMonitor) {
             dwRemove |= WS_MINIMIZEBOX;
         }
 
@@ -10959,7 +10947,7 @@ void CMainFrame::ToggleFullscreen(bool fToNearest, bool fSwitchScreenResWhenHasT
         }
 
         windowRect = m_lastWindowRect;
-        if (!CMonitors::IsOnScreen(windowRect)) {
+        if (!monitors.IsOnScreen(windowRect)) {
             currentMonitor.CenterRectToMonitor(windowRect, TRUE);
         }
 
@@ -11784,11 +11772,14 @@ double CMainFrame::GetZoomAutoFitScale(bool bLargerOnly)
 
 void CMainFrame::RepaintVideo()
 {
-    if (!m_bDelaySetOutputRect && (m_pCAP || m_pMFVDC) && GetMediaState() == State_Paused) {
-        if (m_pCAP) {
-            m_pCAP->Paint(false);
-        } else if (m_pMFVDC) {
-            m_pMFVDC->RepaintVideo();
+    if (!m_bDelaySetOutputRect && (m_pCAP || m_pMFVDC)) {
+        OAFilterState fs = GetMediaState();
+        if (fs == State_Paused || fs == State_Stopped) {
+            if (m_pCAP) {
+                m_pCAP->Paint(false);
+            } else if (m_pMFVDC) {
+                m_pMFVDC->RepaintVideo();
+            }
         }
     }
 }
@@ -12548,9 +12539,8 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
         if (s.fKeepHistory && fn.Find(_T("pipe:")) != 0 && pOFD->bAddToRecent) {
             if (bMainFile) {
                 auto* pMRU = &s.MRU;
-                pMRU->ReadList();
                 RecentFileEntry r;
-                r.fns.AddTail(fn);
+                pMRU->LoadMediaHistoryEntryFN(fn, r);
                 CPlaylistItem* m_pli = m_wndPlaylistBar.GetCur();
                 if (m_pli && !m_pli->m_label.IsEmpty()) {
                     if (m_pli->m_bYoutubeDL || !IsNameSimilar(m_pli->m_label, PathUtils::StripPathOrUrl(fn))) {
@@ -12586,19 +12576,16 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
                         r.cue = m_pli->m_cue_filename;
                     }
                     if (m_pli->m_subs.GetCount() > 0) {
+                        r.subs.RemoveAll();
                         r.subs.AddHeadList(&m_pli->m_subs);
                     }
                 }
-                m_current_rfe = r;
                 pMRU->Add(r);
-                pMRU->WriteList();
                 SHAddToRecentDocs(SHARD_PATH, fn);
             }
             else {
                 CRecentFileList* pMRU = &s.MRUDub;
-                pMRU->ReadList();
                 pMRU->Add(fn);
-                pMRU->WriteList();
                 SHAddToRecentDocs(SHARD_PATH, fn);
             }
         }
@@ -12619,6 +12606,64 @@ void CMainFrame::OpenFile(OpenFileData* pOFD)
     SetPlaybackMode(PM_FILE);
 }
 
+void CMainFrame::SetupExternalChapters()
+{
+    // .XCHP (eXternal CHaPters) file format:
+    // - UTF-8 text file.
+    // - Located in same folder as the audio/video file, and has same base filename.
+    // - It will override chapter metadata that is embedded in the file.
+    // - Each line defines a chapter: timecode, optionally followed by a space and chapter title.
+    // - Timecode must be in this format: HH:MM:SS,ddd
+
+    CPlaylistItem* pli = m_wndPlaylistBar.GetCur();
+    if (!pli) {
+        return;
+    }
+
+    CString fn = m_wndPlaylistBar.GetCurFileName(true);
+    if (PathUtils::IsURL(fn)) {
+        return;
+    }
+
+    CPath cp(fn);
+    cp.RenameExtension(_T(".xchp"));
+    if (!cp.FileExists()) {
+        return;
+    }
+    fn = cp.m_strPath;
+
+    CWebTextFile f(CTextFile::UTF8);
+    f.SetFallbackEncoding(CTextFile::ANSI);
+
+    CString str;
+    if (!f.Open(fn) || !f.ReadString(str)) {
+        return;
+    }
+
+    f.Seek(0, CFile::SeekPosition::begin);
+
+    while (f.ReadString(str)) {
+        REFERENCE_TIME rt = 0;
+        CString name = "";
+
+        if (str.GetLength() > 11) {
+            int lHour = 0;
+            int lMinute = 0;
+            int lSecond = 0;
+            int lMillisec = 0;
+            if (_stscanf_s(str.Left(12), _T("%02d:%02d:%02d,%03d"), &lHour, &lMinute, &lSecond, &lMillisec) == 4) {
+                rt = ((((lHour * 60) + lMinute) * 60 + lSecond) * MILLISECONDS + lMillisec) * (UNITS / MILLISECONDS);
+                if (str.GetLength() > 12) {
+                    name = str.Mid(12);
+                    name.Trim();
+                }
+                m_pCB->ChapAppend(rt, name);
+            }
+        }
+    }
+    m_pCB->ChapSort();
+}
+
 void CMainFrame::SetupChapters()
 {
     // Release the old chapter bag and create a new one.
@@ -12626,6 +12671,12 @@ void CMainFrame::SetupChapters()
     // be deleted until all classes release it.
     m_pCB.Release();
     m_pCB = DEBUG_NEW CDSMChapterBag(nullptr, nullptr);
+
+    SetupExternalChapters();
+    if (m_pCB->ChapGetCount() > 0) {
+        UpdateSeekbarChapterBag();
+        return;
+    }
 
     CInterfaceList<IBaseFilter> pBFs;
     BeginEnumFilters(m_pGB, pEF, pBF);
@@ -12930,10 +12981,11 @@ void CMainFrame::OpenDVD(OpenDVDData* pODD)
     }
 
     if (s.fKeepHistory) {
-        auto* pMRU = &s.MRU;
-        pMRU->ReadList();
-        pMRU->Add(pODD->title);
-        pMRU->WriteList();
+        ULONGLONG llDVDGuid;
+        if (m_pDVDI && SUCCEEDED(m_pDVDI->GetDiscID(nullptr, &llDVDGuid))) {
+            auto* pMRU = &s.MRU;
+            pMRU->Add(pODD->title, llDVDGuid);
+        }
         SHAddToRecentDocs(SHARD_PATH, pODD->title);
     }
 
@@ -13513,7 +13565,7 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
     title += _T(" Lite");
 #endif
 
-    const CAppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     int i = s.iTitleBarTextStyle;
 
@@ -13526,13 +13578,12 @@ void CMainFrame::OpenSetupWindowTitle(bool reset /*= false*/)
                 title = getBestTitle(s.fTitleBarTextTitle);
                 bool has_title = !title.IsEmpty();
 
-                CString fn = GetFileName();
+                CStringW fn = GetFileName();
 
-                if (has_title & !IsNameSimilar(title, fn)) m_current_rfe.title = title;
+                if (has_title & !IsNameSimilar(title, fn)) s.MRU.SetCurrentTitle(title);
 
                 if (!has_title) {
                     title = fn;
-                    has_title = true;
                 }
             } else if (GetPlaybackMode() == PM_DVD) {
                 title = _T("DVD");
@@ -14096,11 +14147,12 @@ bool CMainFrame::OpenMediaPrivate(CAutoPtr<OpenMediaData> pOMD)
                 m_dwReloadPos = 0;
             }
             if (m_bRememberFilePos) { // Check if we want to remember the position
+                auto* pMRU = &AfxGetAppSettings().MRU;
                 // Always update the file positions list so that the position
                 // is correctly saved but only restore the remembered position
                 // if no explicit start time was already set.
-                if (!s.filePositions.AddEntry(fn) && !rtPos) {
-                    rtPos = s.filePositions.GetLatestEntry()->llPosition;
+                if (pMRU->rfe_array.GetCount() && !rtPos) {
+                    rtPos = pMRU->GetCurrentFilePosition();
                 }
             }
 
@@ -15617,10 +15669,14 @@ void CMainFrame::SetupRecentFilesSubMenu()
     // Empty the menu
     while (subMenu.RemoveMenu(0, MF_BYPOSITION));
 
-    UINT id = ID_RECENT_FILE_START;
     auto& s = AfxGetAppSettings();
+   
+    if (!s.fKeepHistory) {
+        return;
+    }
+
     auto& MRU = s.MRU;
-    MRU.ReadList();
+    MRU.ReadMediaHistory();
 
     bool bNoEmptyMRU = false;
     for (int i = 0; i < MRU.GetSize(); i++) {
@@ -15632,7 +15688,7 @@ void CMainFrame::SetupRecentFilesSubMenu()
     if (bNoEmptyMRU) {
         VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, ID_RECENT_FILES_CLEAR, ResStr(IDS_RECENT_FILES_CLEAR)));
         VERIFY(subMenu.AppendMenu(MF_SEPARATOR | MF_ENABLED));
-
+        UINT id = ID_RECENT_FILE_START;
         for (int i = 0; i < MRU.GetSize(); i++) {
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (!MRU[i].fns.GetHead().IsEmpty()) {
@@ -16013,6 +16069,13 @@ bool CMainFrame::LoadSubtitle(CString fn, SubtitleInput* pSubInput /*= nullptr*/
 
         if (pSubInput) {
             *pSubInput = subInput;
+        }
+
+        if (!bAutoLoad) {
+            m_wndPlaylistBar.AddSubtitleToCurrent(fn);
+            if (s.fKeepHistory) {
+                s.MRU.AddSubToCurrent(fn);
+            }
         }
     }
 
@@ -17419,6 +17482,23 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         ASSERT(!m_bSettingUpMenus);
     }
 
+    // save playback position
+    if (GetLoadState() == MLS::LOADED) {
+        if (m_bRememberFilePos && !m_fEndOfStream && m_dwReloadPos == 0 && m_pMS) {
+            auto& s = AfxGetAppSettings();
+            REFERENCE_TIME rtNow = 0;
+            REFERENCE_TIME rtDur = 0;
+            m_pMS->GetCurrentPosition(&rtNow);
+            m_pMS->GetDuration(&rtDur);
+            // if very close to end, assume we have reached the credits section of the movie, so reset to begin
+            if (rtNow < rtDur * 0.95) {
+                s.MRU.UpdateCurrentFilePosition(rtNow, true);
+            } else {
+                s.MRU.UpdateCurrentFilePosition(0LL, true);
+            }
+        }
+    }
+
     // delay showing auto-hidden controls if new media is queued
     if (bNextIsQueued) {
         m_controls.DelayShowNotLoaded(true);
@@ -17475,12 +17555,6 @@ void CMainFrame::CloseMedia(bool bNextIsQueued/* = false*/)
         // abort finished, unset the flag
         m_fOpeningAborted = false;
     }
-
-    auto& s = AfxGetAppSettings();
-    if (s.fKeepHistory) {
-        updateRecentFileListSub();
-    }
-    m_current_rfe = RecentFileEntry(); // Clear
 
     // we are on the way
     m_bSettingUpMenus = true;
@@ -20015,9 +20089,8 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
 
     if (s.fKeepHistory) {
         auto* mru = &s.MRU;
-        mru->ReadList();
         RecentFileEntry r;
-        r.fns.AddTail(url);
+        mru->LoadMediaHistoryEntry(url, r);
         if (streams.GetCount() > 1) {
             auto h = streams.GetHead();
             if (!h.series.IsEmpty()) {
@@ -20038,9 +20111,7 @@ bool CMainFrame::ProcessYoutubeDLURL(CString url, bool append, bool replace)
         else if (streams.GetCount() == 1) {
             r.title = f_title;
         }
-        m_current_rfe = r;
         mru->Add(r);
-        mru->WriteList();
     }
 
     if (!append && (!replace || !m_wndPlaylistBar.GetCur())) {
@@ -20116,24 +20187,6 @@ void CMainFrame::OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt) {
         return;
     }
     __super::OnMouseHWheel(nFlags, zDelta, pt);
-}
-
-void CMainFrame::updateRecentFileListSub() {
-    if (m_pCurrentSubInput.pSubStream) {
-        CString subpath = m_pCurrentSubInput.pSubStream->GetPath();
-        if (!subpath.IsEmpty()) {
-            bool found = m_current_rfe.subs.Find(subpath);
-            if (!found) {
-                RecentFileEntry r = m_current_rfe;
-                r.subs.AddTail(subpath);
-                auto& MRU = AfxGetAppSettings().MRU;
-                MRU.ReadList();
-
-                MRU.Add(r);
-                MRU.WriteList();
-            }            
-        }
-    }
 }
 
 BOOL CMainFrame::AppendMenuEx(CMenu& menu, UINT nFlags, UINT_PTR nIDNewItem, CString& text)

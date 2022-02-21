@@ -836,7 +836,7 @@ bool CMPlayerCApp::ChangeSettingsLocation(bool useIni)
     m_s->SaveExternalFilters();
 
     // Write settings immediately
-    m_s->SaveSettings();
+    m_s->SaveSettings(true);
 
     return success;
 }
@@ -1094,6 +1094,58 @@ UINT CMPlayerCApp::GetProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nDe
     return res;
 }
 
+std::list<CStringW> CMPlayerCApp::GetSectionSubKeys(LPCWSTR lpszSection) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    std::list<CStringW> keys;
+
+    if (m_pszRegistryKey) {
+        WCHAR    achKey[MAX_REGKEY_LEN];   // buffer for subkey name
+        DWORD    cbName;                   // size of name string 
+        DWORD    cSubKeys = 0;             // number of subkeys 
+
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (ERROR_SUCCESS == RegOpenKeyExW(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
+                RegQueryInfoKeyW(hSectionKey, NULL, NULL, NULL, &cSubKeys, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+                if (cSubKeys) {
+                    for (int i = 0; i < cSubKeys; i++) {
+                        cbName = MAX_REGKEY_LEN;
+                        if (ERROR_SUCCESS == RegEnumKeyExW(hSectionKey, i, achKey, &cbName, NULL, NULL, NULL, NULL)){
+                            keys.push_back(achKey);
+                        }
+                    }
+                }
+            }
+        }
+    } else {
+        if (!lpszSection) {
+            ASSERT(FALSE);
+            return keys;
+        }
+        CStringW sectionStr(lpszSection);
+        if (sectionStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return keys;
+        }
+        InitProfile();
+        auto it1 = m_ProfileMap.begin();
+        while (it1 != m_ProfileMap.end()) {
+            if (it1->first.Find(sectionStr + L"\\") == 0) {
+                CStringW subKey = it1->first.Mid(sectionStr.GetLength() + 1);
+                if (subKey.Find(L"\\") == -1) {
+                    keys.push_back(subKey);
+                }
+            }
+            it1++;
+        }
+
+    }
+    return keys;
+}
+
+
 CString CMPlayerCApp::GetProfileString(LPCTSTR lpszSection, LPCTSTR lpszEntry, LPCTSTR lpszDefault)
 {
     std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
@@ -1163,6 +1215,40 @@ BOOL CMPlayerCApp::WriteProfileBinary(LPCTSTR lpszSection, LPCTSTR lpszEntry, LP
         }
         return TRUE;
     }
+}
+
+LONG CMPlayerCApp::RemoveProfileKey(LPCWSTR lpszSection, LPCWSTR lpszEntry) {
+    std::lock_guard<std::recursive_mutex> lock(m_profileMutex);
+
+    if (m_pszRegistryKey) {
+        if (HKEY hAppKey = GetAppRegistryKey()) {
+            HKEY hSectionKey;
+            if (ERROR_SUCCESS == RegOpenKeyEx(hAppKey, lpszSection, 0, KEY_READ, &hSectionKey)) {
+                return CWinAppEx::DelRegTree(hSectionKey, lpszEntry);
+            }
+        }
+    } else {
+        if (!lpszSection || !lpszEntry) {
+            ASSERT(FALSE);
+            return 1;
+        }
+        CString sectionStr(lpszSection);
+        CString keyStr(lpszEntry);
+        if (sectionStr.IsEmpty() || keyStr.IsEmpty()) {
+            ASSERT(FALSE);
+            return 1;
+        }
+
+        InitProfile();
+        m_ProfileMap.erase(sectionStr);
+        auto it1 = m_ProfileMap.begin();
+        if (it1 != m_ProfileMap.end()) {
+            if (it1->first.Find(sectionStr + L"\\") == 0) {
+                m_ProfileMap.erase(it1);
+            }
+        }
+    }
+    return 0;
 }
 
 BOOL CMPlayerCApp::WriteProfileInt(LPCTSTR lpszSection, LPCTSTR lpszEntry, int nValue)

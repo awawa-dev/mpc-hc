@@ -203,8 +203,6 @@ BOOL CPPageAdvanced::OnApply()
 
     s.MRU.SetSize(s.iRecentFilesNumber);
     s.MRUDub.SetSize(s.iRecentFilesNumber);
-    s.filePositions.SetMaxSize(s.iRecentFilesNumber);
-    s.dvdPositions.SetMaxSize(s.iRecentFilesNumber);
 
 #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
     if (!s.bEnableCrashReporter && CrashReporter::IsEnabled()) {
