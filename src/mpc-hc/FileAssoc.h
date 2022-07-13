@@ -79,11 +79,11 @@ public:
 
     bool Register(CString ext, CString strLabel, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
     bool IsRegistered(CString ext) const;
-    bool AreRegisteredFileContextMenuEntries(CString strExt) const;
+    bool HasEnqueueContextMenuEntry(CString strExt) const;
 
     bool Register(const CMediaFormatCategory& mfc, bool bRegister, bool bRegisterContextMenuEntries, bool bAssociatedWithIcon);
     reg_state_t IsRegistered(const CMediaFormatCategory& mfc) const;
-    reg_state_t AreRegisteredFileContextMenuEntries(const CMediaFormatCategory& mfc) const;
+    reg_state_t HasAnyEnqueueContextMenuEntries(const CMediaFormatCategory& mfc) const;
 
     bool RegisterFolderContextMenuEntries(bool bRegister);
     bool AreRegisteredFolderContextMenuEntries() const;

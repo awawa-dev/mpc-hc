@@ -212,6 +212,7 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MediaFormats.cpp" />
     <ClCompile Include="MediaTypesDlg.cpp" />
+    <ClCompile Include="ModelessResizableDialog.cpp" />
     <ClCompile Include="Monitors.cpp" />
     <ClCompile Include="MouseTouch.cpp" />
     <ClCompile Include="MPCPngImage.cpp" />
@@ -400,6 +401,7 @@
     <ClInclude Include="MainFrmControls.h" />
     <ClInclude Include="MediaFormats.h" />
     <ClInclude Include="MediaTypesDlg.h" />
+    <ClInclude Include="ModelessResizableDialog.h" />
     <ClInclude Include="Monitors.h" />
     <ClInclude Include="MouseTouch.h" />
     <ClInclude Include="MpcApi.h" />

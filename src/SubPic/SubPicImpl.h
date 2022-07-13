@@ -83,7 +83,7 @@ public:
     STDMETHODIMP GetDesc(SubPicDesc& spd) PURE;
     STDMETHODIMP CopyTo(ISubPic* pSubPic);
 
-    STDMETHODIMP ClearDirtyRect(DWORD color) PURE;
+    STDMETHODIMP ClearDirtyRect() PURE;
     STDMETHODIMP GetDirtyRect(RECT* pDirtyRect) const;
     STDMETHODIMP SetDirtyRect(const RECT* pDirtyRect);
 
@@ -106,7 +106,6 @@ public:
     STDMETHODIMP_(REFERENCE_TIME) GetSegmentStop() const;
     STDMETHODIMP_(void) SetSegmentStart(REFERENCE_TIME rtStart);
     STDMETHODIMP_(void) SetSegmentStop(REFERENCE_TIME rtStop);
-    STDMETHODIMP_(bool) GetInverseAlpha() const;
     STDMETHODIMP_(void) SetInverseAlpha(bool bInverted);
 };
 
@@ -122,6 +121,9 @@ protected:
     bool m_fDynamicWriteOnly;
 
     virtual bool Alloc(bool fStatic, ISubPic** ppSubPic) PURE;
+    
+protected:
+    bool m_bInvAlpha = false;
 
 public:
     CSubPicAllocatorImpl(SIZE cursize, bool fDynamicWriteOnly);
@@ -139,4 +141,5 @@ public:
     STDMETHODIMP ChangeDevice(IUnknown* pDev);
     STDMETHODIMP SetMaxTextureSize(SIZE maxTextureSize) PURE;
     STDMETHODIMP FreeStatic();
+    STDMETHODIMP_(void) SetInverseAlpha(bool bInverted);
 };

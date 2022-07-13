@@ -1751,7 +1751,11 @@ static bool CompressFile(CString fn)
 
 bool CVobSubFile::SaveVobSub(CString fn, int delay)
 {
-    return WriteIdx(fn + _T(".idx"), delay) && WriteSub(fn + _T(".sub"));
+    if (!WriteIdx(fn + _T(".idx"), delay) || !WriteSub(fn + _T(".sub"))) {
+        return false;
+    }
+    m_path = fn + _T(".idx");
+    return true;
 }
 
 bool CVobSubFile::SaveWinSubMux(CString fn, int delay)
@@ -1881,6 +1885,8 @@ bool CVobSubFile::SaveWinSubMux(CString fn, int delay)
             CompressFile(bmpfn);
         }
     }
+
+    m_path = fn + _T(".sub");
 
     return true;
 }
@@ -2142,6 +2148,8 @@ bool CVobSubFile::SaveScenarist(CString fn, int delay)
     m_bCustomPal = bCustomPal;
     memcpy(m_cuspal, tempCusPal, sizeof(m_cuspal));
 
+    m_path = fn + _T(".sst");
+
     return true;
 }
 
@@ -2369,6 +2377,8 @@ bool CVobSubFile::SaveMaestro(CString fn, int delay)
 
     m_bCustomPal = bCustomPal;
     memcpy(m_cuspal, tempCusPal, sizeof(m_cuspal));
+
+    m_path = fn + _T(".son");
 
     return true;
 }

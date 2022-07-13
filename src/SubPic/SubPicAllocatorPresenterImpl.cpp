@@ -149,13 +149,19 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
 
     m_windowRect = w;
 
-    if (m_pAllocator && (bWindowPosChanged || bWindowSizeChanged)) {
+    CRect videoRect(v);
+    videoRect.OffsetRect(-m_windowRect.TopLeft());
+
+    bool bVideoRectChanged = !!(m_videoRect != videoRect);
+
+    m_videoRect = videoRect;
+
+    if (m_pAllocator && (bWindowPosChanged || bWindowSizeChanged || bVideoRectChanged)) {
         if (m_windowRect.Width() != m_curSubtitleTextureSize.cx || m_windowRect.Height() != m_curSubtitleTextureSize.cy) {
             int maxpixels = m_maxSubtitleTextureSize.cx * m_maxSubtitleTextureSize.cy;
             if (m_windowRect.Width() * m_windowRect.Height() <= maxpixels) {
                 // use window size
                 m_curSubtitleTextureSize = CSize(m_windowRect.Width(), m_windowRect.Height());
-                m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
             } else {
                 bool correct_ar = false;
                 if (m_maxSubtitleTextureSize.cx == 2560 && m_windowRect.Width() >= 3800 && m_windowRect.Width() <= 4096) { // not 3840, to handle a maximized window as well
@@ -171,24 +177,12 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetPosition(RECT w, RECT v)
                     m_curSubtitleTextureSize.cx = lround(new_w);
                     m_curSubtitleTextureSize.cy = lround(new_h);
                 }
-
-                m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
             }
         }
-    }
 
-    CRect videoRect(v);
-    videoRect.OffsetRect(-m_windowRect.TopLeft());
-
-    bool bVideoRectChanged = !!(m_videoRect != videoRect);
-
-    m_videoRect = videoRect;
-
-    if (bWindowSizeChanged || bVideoRectChanged) {
-        if (m_pAllocator) {
-            m_pAllocator->SetCurSize(m_windowRect.Size());
-            m_pAllocator->SetCurVidRect(m_videoRect);
-        }
+        m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
+        m_pAllocator->SetCurSize(m_windowRect.Size());
+        m_pAllocator->SetCurVidRect(m_videoRect);
 
         if (m_pSubPicQueue) {
             m_pSubPicQueue->Invalidate();
@@ -240,6 +234,7 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProv
     if (m_pAllocator) {
         m_pAllocator->FreeStatic();
         m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
+        m_pAllocator->SetCurSize(m_curSubtitleTextureSize);
     }
 
     if (m_pSubPicQueue) {
@@ -607,33 +602,13 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::Connect(ISubRenderProvider* subtitle
         hr = pSubConsumer->Connect(subtitleRenderer);
     } else {
         CComPtr<ISubPicProvider> pSubPicProvider = (ISubPicProvider*)DEBUG_NEW CXySubPicProvider(subtitleRenderer);
-
-        /* Disable subpic buffer until XySubFilter implements subtitle invalidation
-        CComPtr<ISubPicQueue> pSubPicQueue = GetRenderersSettings().nSPCSize > 0
-                                             ? (ISubPicQueue*)DEBUG_NEW CXySubPicQueue(GetRenderersSettings().nSPCSize, m_pAllocator, &hr)
-                                             : (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
-        */
-
-        // Lock and wait for m_pAllocator to be ready.
-        CAutoLock cAutoLock(this);
-        if (!m_pAllocator) {
-            std::mutex mutexAllocator;
-            std::unique_lock<std::mutex> lock(mutexAllocator);
-            if (!m_condAllocatorReady.wait_for(lock, std::chrono::seconds(1), [&]() {
-            return !!m_pAllocator;
-        })) {
-                // Return early, CXySubPicQueueNoThread ctor would fail anyway.
-                ASSERT(FALSE);
-                return E_FAIL;
-            }
-        }
-
         CComPtr<ISubPicQueue> pSubPicQueue = (ISubPicQueue*)DEBUG_NEW CXySubPicQueueNoThread(m_pAllocator, &hr);
 
         if (SUCCEEDED(hr)) {
             pSubPicQueue->SetSubPicProvider(pSubPicProvider);
             m_pSubPicProvider = pSubPicProvider;
             m_pSubPicQueue = pSubPicQueue;
+            m_pAllocator->SetInverseAlpha(true);
         }
     }
 

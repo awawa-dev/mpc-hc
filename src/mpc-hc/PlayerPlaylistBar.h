@@ -29,6 +29,7 @@
 #include "../Subtitles/TextFile.h"
 #include "CMPCThemeInlineEdit.h"
 #include "YoutubeDL.h"
+#include "AppSettings.h"
 
 
 class OpenMediaData;
@@ -79,11 +80,12 @@ private:
 
     bool ParseBDMVPlayList(CString fn);
 
+    bool PlaylistCanStripPath(CString path);
     bool ParseMPCPlayList(CString fn);
-    bool SaveMPCPlayList(CString fn, CTextFile::enc e, bool fRemovePath);
+    bool SaveMPCPlayList(CString fn, CTextFile::enc e);
     bool ParseM3UPlayList(CString fn);
     bool ParseCUESheet(CString fn);
-
+    
     void SetupList();
     void UpdateList();
     void EnsureVisible(POSITION pos);
@@ -104,6 +106,9 @@ private:
     DROPEFFECT OnDropAccept(COleDataObject*, DWORD, CPoint) override;
 
     CString m_playListPath;
+
+    ULONGLONG m_tcLastSave;
+    bool m_SaveDelayed;
 
 public:
     CPlayerPlaylistBar(CMainFrame* pMainFrame);
@@ -151,10 +156,10 @@ public:
     void Open(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
     void Append(CStringW vdn, CStringW adn, int vinput, int vchannel, int ainput);
 
-    OpenMediaData* GetCurOMD(REFERENCE_TIME rtStart = 0);
+    OpenMediaData* GetCurOMD(REFERENCE_TIME rtStart = 0, ABRepeat abRepeat = ABRepeat());
 
     void LoadPlaylist(LPCTSTR filename);
-    void SavePlaylist();
+    void SavePlaylist(bool can_delay = false);
 
     bool SelectFileInPlaylist(LPCTSTR filename);
     bool DeleteFileInPlaylist(POSITION pos, bool recycle = true);

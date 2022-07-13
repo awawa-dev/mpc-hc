@@ -60,6 +60,7 @@ private:
     CCritSec* m_pSubLock;
     CComPtr<ISubStream> m_pSubStream;
     double m_fps;
+    bool m_external;
 
     int m_lastSegment;
     REFERENCE_TIME m_rt;
@@ -143,7 +144,8 @@ public:
     void SetTime(REFERENCE_TIME rt);
     void SetFPS(double fps);
 
-    void SetSubtitle(ISubStream* pSubStream, double fps);
+    void SetSubtitle(ISubStream* pSubStream, double fps, bool external);
+    bool RefreshEmbeddedTextSubtitleData();
     void ReloadSubtitle();
     void ResetSubtitle();
     void SaveSubtitle();

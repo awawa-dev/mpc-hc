@@ -118,10 +118,7 @@ BOOL CPPageOutput::OnInitDialog()
     const CRenderersSettings& r = s.m_RenderersSettings;
 
     m_iDSVideoRendererType  = s.iDSVideoRendererType;
-
-    if (m_iDSVideoRendererType == VIDRNDT_DS_VMR9RENDERLESS || m_iDSVideoRendererType == VIDRNDT_DS_EVR_CUSTOM || m_iDSVideoRendererType == VIDRNDT_DS_SYNC || m_iDSVideoRendererType == VIDRNDT_DS_DXR || m_iDSVideoRendererType == VIDRNDT_DS_MADVR || m_iDSVideoRendererType == VIDRNDT_DS_MPCVR) {
-        m_lastSubrenderer = s.GetSubtitleRenderer();
-    }
+    m_lastSubrenderer = s.GetSubtitleRenderer();
 
     m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_OFFSCREEN));
     m_APSurfaceUsageCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SURF_2D));
@@ -152,79 +149,106 @@ BOOL CPPageOutput::OnInitDialog()
     m_iAudioRendererTypeCtrl.SetRedraw(FALSE);
     m_fResetDevice = s.m_RenderersSettings.fResetDevice;
     m_fCacheShaders = s.m_RenderersSettings.m_AdvRendSets.bCacheShaders;
+
+    // System default
     m_AudioRendererDisplayNames.Add(_T(""));
-    m_iAudioRendererTypeCtrl.AddString(_T("1: ") + ResStr(IDS_PPAGE_OUTPUT_SYS_DEF));
+    m_iAudioRendererTypeCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_SYS_DEF));
     m_iAudioRendererType = 0;
+    // SaneAR
+    m_AudioRendererDisplayNames.Add(AUDRNDT_INTERNAL);
+    m_iAudioRendererTypeCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND).GetString());
+    if (s.strAudioRendererDisplayName == AUDRNDT_INTERNAL && m_iAudioRendererType == 0) {
+        m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+    }
+    // MPC AR
+    m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
+    m_iAudioRendererTypeCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_AUD_MPC_REND).GetString());
+    if (s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0) {
+        m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+    }
 
-    int i = 2;
-    CString Cbstr;
-
+    // List of available renderers
+    CAtlArray<CString> dispnames, listnames;
     BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
         CComHeapPtr<OLECHAR> olestr;
         if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
             continue;
         }
 
-        CStringW str(olestr);
-        m_AudioRendererDisplayNames.Add(str);
-
+        CStringW dispname(olestr);
+        CString listname;
         CComPtr<IPropertyBag> pPB;
         if (SUCCEEDED(pMoniker->BindToStorage(0, 0, IID_PPV_ARGS(&pPB)))) {
             CComVariant var;
             if (SUCCEEDED(pPB->Read(_T("FriendlyName"), &var, nullptr))) {
-                CString fstr(var.bstrVal);
-
+                CString frname(var.bstrVal);
                 var.Clear();
                 if (SUCCEEDED(pPB->Read(_T("FilterData"), &var, nullptr))) {
                     BSTR* pbstr;
                     if (SUCCEEDED(SafeArrayAccessData(var.parray, (void**)&pbstr))) {
-                        fstr.AppendFormat(_T(" (%08x)"), *((DWORD*)pbstr + 1));
+                        frname.AppendFormat(_T(" (%08x)"), *((DWORD*)pbstr + 1));
                         SafeArrayUnaccessData(var.parray);
                     }
                 }
-                Cbstr.Format(_T("%d: %s"), i, fstr.GetString());
+                listname = frname;
             }
         } else {
-            Cbstr.Format(_T("%d: %s"), i, str.GetString());
+            listname = dispname;
         }
-        m_iAudioRendererTypeCtrl.AddString(Cbstr);
 
-        if (s.strAudioRendererDisplayName == str && m_iAudioRendererType == 0) {
-            m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
-        }
-        i++;
+        dispnames.Add(dispname);
+        listnames.Add(listname);
     }
     EndEnumSysDev;
 
-    Cbstr.Format(_T("%d: %s"), i++, ResStr(IDS_PPAGE_OUTPUT_AUD_NULL_COMP).GetString());
+    // Add them in organized order (Default/DirectSound/Other)
+    for (int i = 0; i < listnames.GetCount();) {
+        if (listnames[i].Find(L"Default") == 0) {
+            m_AudioRendererDisplayNames.Add(dispnames[i]);
+            m_iAudioRendererTypeCtrl.AddString(listnames[i]);
+            if (s.strAudioRendererDisplayName == dispnames[i] && m_iAudioRendererType == 0) {
+                m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+            }
+            listnames.RemoveAt(i);
+            dispnames.RemoveAt(i);
+        } else {
+            i++;
+        }
+    }
+    for (int i = 0; i < listnames.GetCount();) {
+        if (listnames[i].Find(L"DirectSound:") == 0) {
+            m_AudioRendererDisplayNames.Add(dispnames[i]);
+            m_iAudioRendererTypeCtrl.AddString(listnames[i]);
+            if (s.strAudioRendererDisplayName == dispnames[i] && m_iAudioRendererType == 0) {
+                m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+            }
+            listnames.RemoveAt(i);
+            dispnames.RemoveAt(i);
+        } else {
+            i++;
+        }
+    }
+    for (int i = 0; i < listnames.GetCount(); i++) {
+        m_AudioRendererDisplayNames.Add(dispnames[i]);
+        m_iAudioRendererTypeCtrl.AddString(listnames[i]);
+        if (s.strAudioRendererDisplayName == dispnames[i] && m_iAudioRendererType == 0) {
+            m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
+        }
+    }
+
+    // NULL renderers
     m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_COMP);
-    m_iAudioRendererTypeCtrl.AddString(Cbstr);
+    m_iAudioRendererTypeCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_AUD_NULL_COMP).GetString());
     if (s.strAudioRendererDisplayName == AUDRNDT_NULL_COMP && m_iAudioRendererType == 0) {
         m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
     }
-
-    Cbstr.Format(_T("%d: %s"), i++, ResStr(IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP).GetString());
     m_AudioRendererDisplayNames.Add(AUDRNDT_NULL_UNCOMP);
-    m_iAudioRendererTypeCtrl.AddString(Cbstr);
+    m_iAudioRendererTypeCtrl.AddString(ResStr(IDS_PPAGE_OUTPUT_AUD_NULL_UNCOMP).GetString());
     if (s.strAudioRendererDisplayName == AUDRNDT_NULL_UNCOMP && m_iAudioRendererType == 0) {
         m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
     }
 
-    Cbstr.Format(_T("%d: %s"), i++, ResStr(IDS_PPAGE_OUTPUT_AUD_INTERNAL_REND).GetString());
-    m_AudioRendererDisplayNames.Add(AUDRNDT_INTERNAL);
-    m_iAudioRendererTypeCtrl.AddString(Cbstr);
-    if (s.strAudioRendererDisplayName == AUDRNDT_INTERNAL && m_iAudioRendererType == 0) {
-        m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
-    }
-    
-    Cbstr.Format(_T("%d: %s"), i++, ResStr(IDS_PPAGE_OUTPUT_AUD_MPC_REND).GetString());
-    m_AudioRendererDisplayNames.Add(AUDRNDT_MPC);
-    m_iAudioRendererTypeCtrl.AddString(Cbstr);
-    if (s.strAudioRendererDisplayName == AUDRNDT_MPC && m_iAudioRendererType == 0) {
-        m_iAudioRendererType = m_iAudioRendererTypeCtrl.GetCount() - 1;
-    }
-
-    // check if renderer wasn't in the list of available ones
+    // check if previously used renderer is not in the list of available ones, and reset to default
     if (m_iAudioRendererType == 0 && !s.strAudioRendererDisplayName.IsEmpty()) {
         s.strAudioRendererDisplayName = _T("");
     }
@@ -492,6 +516,14 @@ void CPPageOutput::OnDSRendererChange()
     UpdateData();
     m_iDSVideoRendererType = (int)m_iDSVideoRendererTypeCtrl.GetItemData(m_iDSVideoRendererTypeCtrl.GetCurSel());
 
+    if (AfxGetAppSettings().iDSVideoRendererType != m_iDSVideoRendererType) {
+        if (CAppSettings::IsSubtitleRendererSupported(CAppSettings::SubtitleRenderer::INTERNAL, m_iDSVideoRendererType)) {
+            if (m_lastSubrenderer == CAppSettings::SubtitleRenderer::VS_FILTER || !CAppSettings::IsSubtitleRendererRegistered(m_lastSubrenderer)) {
+                m_lastSubrenderer = CAppSettings::SubtitleRenderer::INTERNAL;
+            }
+        }
+    }
+
     GetDlgItem(IDC_DX_SURFACE)->EnableWindow(FALSE);
     GetDlgItem(IDC_DX9RESIZER_COMBO)->EnableWindow(FALSE);
     GetDlgItem(IDC_FULLSCREEN_MONITOR_CHECK)->EnableWindow(FALSE);
@@ -677,6 +709,7 @@ void CPPageOutput::UpdateSubtitleSupport()
 
     bool supported = (m_iDSVideoRendererType != VIDRNDT_DS_NULL_COMP &&
                       m_iDSVideoRendererType != VIDRNDT_DS_NULL_UNCOMP &&
+                      subrenderer != CAppSettings::SubtitleRenderer::NONE &&
                       CAppSettings::IsSubtitleRendererRegistered(subrenderer) &&
                       CAppSettings::IsSubtitleRendererSupported(subrenderer, m_iDSVideoRendererType));
 
@@ -704,13 +737,16 @@ void CPPageOutput::UpdateSubtitleRendererList()
             case CAppSettings::SubtitleRenderer::ASS_FILTER:
                 sName = ResStr(IDS_SUBTITLE_RENDERER_ASS_FILTER);
                 break;
+            case CAppSettings::SubtitleRenderer::NONE:
+                sName = ResStr(IDS_SUBTITLE_RENDERER_NONE);
+                break;
             default:
                 ASSERT(FALSE);
                 break;
         }
 
         if (!CAppSettings::IsSubtitleRendererRegistered(nID)) {
-            sName.AppendFormat(_T(" %s"), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE).GetString());
+            sName.AppendFormat(_T("   %s"), ResStr(IDS_PPAGE_OUTPUT_UNAVAILABLE).GetString());
         }
 
         m_SubtitleRendererCtrl.SetItemData(m_SubtitleRendererCtrl.AddString(sName), static_cast<int>(nID));
@@ -722,6 +758,7 @@ void CPPageOutput::UpdateSubtitleRendererList()
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::VS_FILTER);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::XY_SUB_FILTER);
     addSubtitleRenderer(CAppSettings::SubtitleRenderer::ASS_FILTER);
+    addSubtitleRenderer(CAppSettings::SubtitleRenderer::NONE);
     m_SubtitleRendererCtrl.SetCurSel(0);
     if (m_SubtitleRendererCtrl.IsWindowEnabled()) {
         for (int j = 0; j < m_SubtitleRendererCtrl.GetCount(); ++j) {

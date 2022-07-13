@@ -42,6 +42,7 @@ CPPageSubMisc::CPPageSubMisc()
     , m_strSubtitlesProviders()
     , m_strSubtitlesLanguageOrder()
     , m_strAutoloadPaths()
+    , m_bAutoSaveDownloadedSubtitles(FALSE)
 {
 }
 
@@ -61,6 +62,7 @@ void CPPageSubMisc::DoDataExchange(CDataExchange* pDX)
     DDX_Text(pDX, IDC_EDIT2, m_strAutoDownloadSubtitlesExclude);
     DDX_Text(pDX, IDC_EDIT3, m_strSubtitlesLanguageOrder);
     DDX_Control(pDX, IDC_LIST1, m_list);
+    DDX_Check(pDX, IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE, m_bAutoSaveDownloadedSubtitles);
 }
 
 BOOL CPPageSubMisc::OnInitDialog()
@@ -74,6 +76,7 @@ BOOL CPPageSubMisc::OnInitDialog()
     m_fDisableInternalSubtitles = s.fDisableInternalSubtitles;
     m_strAutoloadPaths = s.strSubtitlePaths;
     m_bAutoDownloadSubtitles = s.bAutoDownloadSubtitles;
+    m_bAutoSaveDownloadedSubtitles = s.bAutoSaveDownloadedSubtitles;
     m_strAutoDownloadSubtitlesExclude = s.strAutoDownloadSubtitlesExclude;
     m_bPreferHearingImpairedSubtitles = s.bPreferHearingImpairedSubtitles;
     m_strSubtitlesLanguageOrder = s.strSubtitlesLanguageOrder;
@@ -153,6 +156,7 @@ BOOL CPPageSubMisc::OnApply()
     s.fDisableInternalSubtitles = !!m_fDisableInternalSubtitles;
     s.strSubtitlePaths = m_strAutoloadPaths;
     s.bAutoDownloadSubtitles = !!m_bAutoDownloadSubtitles;
+    s.bAutoSaveDownloadedSubtitles = !!m_bAutoSaveDownloadedSubtitles;
     s.strAutoDownloadSubtitlesExclude = m_strAutoDownloadSubtitlesExclude;
     s.bPreferHearingImpairedSubtitles = !!m_bPreferHearingImpairedSubtitles;
     s.strSubtitlesLanguageOrder = m_strSubtitlesLanguageOrder;

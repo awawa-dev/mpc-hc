@@ -52,8 +52,7 @@
 #include "AppSettings.h"
 #include "../filters/transform/VSFilter/IDirectVobSub.h"
 #include "MediaTransControls.h"
-
-#define AfxGetMainFrame() dynamic_cast<CMainFrame*>(AfxGetMainWnd())
+#include "FavoriteOrganizeDlg.h"
 
 class CDebugShadersDlg;
 class CFullscreenWnd;
@@ -109,6 +108,7 @@ public:
     OpenFileData() : rtStart(0), bAddToRecent(true) {}
     CAtlList<CString> fns;
     REFERENCE_TIME rtStart;
+    ABRepeat abRepeat;
     bool bAddToRecent;
 };
 
@@ -259,7 +259,7 @@ private:
     CComQIPtr<IQualProp, &IID_IQualProp> m_pQP;
     CComQIPtr<IBufferInfo> m_pBI;
     CComQIPtr<IAMOpenProgress> m_pAMOP;
-    CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> m_pAMMC;
+    CComQIPtr<IAMMediaContent, &IID_IAMMediaContent> m_pAMMC[2];
     CComQIPtr<IAMNetworkStatus, &IID_IAMNetworkStatus> m_pAMNS;
     // SmarkSeek
     CComPtr<IGraphBuilder2>         m_pGB_preview;
@@ -403,8 +403,7 @@ private:
     void AddTextPassThruFilter();
 
     int m_nLoops;
-    REFERENCE_TIME abRepeatPositionA, abRepeatPositionB;
-    bool abRepeatPositionAEnabled, abRepeatPositionBEnabled;
+    ABRepeat abRepeat, reloadABRepeat;
     UINT m_nLastSkipDirection;
 
     int m_iStreamPosPollerInterval;
@@ -511,6 +510,8 @@ public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
     bool m_fStartInD3DFullscreen;
+    bool m_fStartInFullscreenMainFrame;
+    bool m_bFullScreenWindowIsD3D;
 
     CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
     CComPtr<ISyncClock> m_pSyncClock;
@@ -520,6 +521,9 @@ public:
     bool IsMenuHidden() const;
     bool IsPlaylistEmpty() const;
     bool IsInteractiveVideo() const;
+    bool IsFullScreenMode() const;
+    bool IsFullScreenMainFrame() const;
+    bool HasFullScreenWindow() const;
     bool IsD3DFullScreenMode() const;
     bool IsSubresyncBarVisible() const;
 
@@ -597,6 +601,7 @@ protected:
     CSubtitleDlDlg m_wndSubtitlesDownloadDialog;
     //friend class CSubtitleUpDlg;
     //CSubtitleUpDlg m_wndSubtitlesUploadDialog;
+    CFavoriteOrganizeDlg m_wndFavoriteOrganizeDialog;
     friend class CPPageSubMisc;
 
     friend class SubtitlesProviders;
@@ -606,13 +611,14 @@ protected:
     friend class SubtitlesThread;
 
 public:
-    void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0, bool reopen = false);
+    void OpenCurPlaylistItem(REFERENCE_TIME rtStart = 0, bool reopen = false, ABRepeat abRepeat = ABRepeat());
     void OpenMedia(CAutoPtr<OpenMediaData> pOMD);
     void PlayFavoriteFile(const CString& fav);
     void PlayFavoriteDVD(CString fav);
     void ParseFavoriteFile(const CString& fav, CAtlList<CString>& args, REFERENCE_TIME* prtStart = nullptr);
     bool ResetDevice();
     bool DisplayChange();
+    void CloseMediaBeforeOpen();
     void CloseMedia(bool bNextIsQueued = false);
     void StartTunerScan(CAutoPtr<TunerScanData> pTSD);
     void StopTunerScan();
@@ -714,7 +720,7 @@ public:
     void UpdateCurrentChannelInfo(bool bShowOSD = true, bool bShowInfoBar = false);
     LRESULT OnCurrentChannelInfoUpdated(WPARAM wParam, LPARAM lParam);
 
-    bool CheckABRepeat(REFERENCE_TIME& aPos, REFERENCE_TIME& bPos, bool& aEnabled, bool& bEnabled);
+    bool CheckABRepeat(REFERENCE_TIME& aPos, REFERENCE_TIME& bPos);
     void PerformABRepeat();
     void DisableABRepeat();
 
@@ -894,7 +900,7 @@ public:
     afx_msg void OnUpdateFileSaveThumbnails(CCmdUI* pCmdUI);
     afx_msg void OnFileSubtitlesLoad();
     afx_msg void OnUpdateFileSubtitlesLoad(CCmdUI* pCmdUI);
-    afx_msg void OnFileSubtitlesSave();
+    afx_msg void OnFileSubtitlesSave() { SubtitlesSave(); }
     afx_msg void OnUpdateFileSubtitlesSave(CCmdUI* pCmdUI);
     //afx_msg void OnFileSubtitlesUpload();
     //afx_msg void OnUpdateFileSubtitlesUpload(CCmdUI* pCmdUI);
@@ -1162,7 +1168,7 @@ public:
     void        SetLoadState(MLS eState);
     MLS         GetLoadState() const;
     void        SetPlayState(MPC_PLAYSTATE iState);
-    bool        CreateFullScreenWindow();
+    bool        CreateFullScreenWindow(bool isD3D=true);
     void        SetupEVRColorControl();
     void        SetupVMR9ColorControl();
     void        SetColorControl(DWORD flags, int& brightness, int& contrast, int& hue, int& saturation);
@@ -1259,7 +1265,9 @@ protected:
     bool IsImageFile(CString fn);
 
     // Handles MF_DEFAULT and escapes '&'
-    static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT_PTR nIDNewItem, CString& text);
+    static BOOL AppendMenuEx(CMenu& menu, UINT nFlags, UINT nIDNewItem, CString& text);
+
+    void SubtitlesSave(const TCHAR* directory = nullptr, bool silent = false);
 
 public:
     afx_msg UINT OnPowerBroadcast(UINT nPowerEvent, LPARAM nEventData);
@@ -1313,4 +1321,6 @@ public:
     afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);
 private:
     void SetupExternalChapters();
+    void ApplyPanNScanPresetCommandLine();
+    void ValidatePanNScanParameters();
 };

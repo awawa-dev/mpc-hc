@@ -58,8 +58,6 @@ protected:
     CComPtr<ISubPicAllocator> m_pAllocator;
     CComPtr<ISubPicQueue> m_pSubPicQueue;
 
-    std::condition_variable m_condAllocatorReady;
-
     bool m_bDeviceResetRequested;
     bool m_bPendingResetDevice;
 

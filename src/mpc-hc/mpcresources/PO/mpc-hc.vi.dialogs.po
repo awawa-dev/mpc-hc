@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Trần Anh Minh <anhminhvks@yahoo.com>, 2020
+# Trần Anh Minh <anhminhvks@yahoo.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-04-22 22:44:46+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Trần Anh Minh <anhminhvks@yahoo.com>, 2020\n"
+"Last-Translator: Trần Anh Minh <anhminhvks@yahoo.com>, 2022\n"
 "Language-Team: Vietnamese (https://www.transifex.com/mpchc/teams/106126/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,7 +205,7 @@ msgstr "Giới thiệu"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Bản quyền 2002-2022 clsid2 và những người khác"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -216,13 +216,11 @@ msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr ""
-"Được dịch bởi Trần Anh Minh (anhminhvks) - "
-"https://www.facebook.com/anhminhvks"
+msgstr "Được dịch bởi Trần Anh Minh - https://www.facebook.com/anhminhvks"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
-msgstr "Bản dựng"
+msgstr "Thông tin bản dựng"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Version:"
@@ -375,7 +373,7 @@ msgstr "Luôn luôn mở vị trí mặc định:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "Ngôn ngữ ưa thích dành cho điều hướng DVD và bên ngoài bộ chẻ OGM "
+msgstr "Ngôn ngữ ưu tiên cho DVD"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -640,8 +638,8 @@ msgid "Directory"
 msgstr "Thư mục"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Tệp(s)"
+msgid "Playlist"
+msgstr "Danh sách phát"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -673,11 +671,11 @@ msgstr "Mặc định"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
 msgid "Show preview on seek bar"
-msgstr ""
+msgstr "Hiển thị hình ảnh xem trước trên thanh tìm kiếm"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Preview width (% of screen width)"
-msgstr ""
+msgstr "Độ rộng hình ảnh xem trước (% độ rộng màn hình)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
@@ -828,7 +826,7 @@ msgstr "Nhớ vị trí"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "Ghi nhớ các điểm đánh dấu lặp lại A-B"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -1152,7 +1150,7 @@ msgstr "Duyệt..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
-msgstr ""
+msgstr "Áp dụng hồ sơ màu sắc cho màn hình"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
@@ -1300,7 +1298,7 @@ msgstr "Tìm kiếm"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "Lưu thành..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1404,7 +1402,7 @@ msgstr "Dùng offset"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Tỷ lệ biểu tượng"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1605,7 +1603,7 @@ msgstr "Đặt lại"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
-msgstr ""
+msgstr "Tìm kiếm phụ đề trực tuyến"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1625,6 +1623,11 @@ msgstr "Bỏ qua những tập tin có chứa bất kỳ từ ngữ sau:"
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Thứ tự ngôn ngữ được ưu tiên:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1695,6 +1698,9 @@ msgid ""
 "MPC-VR does not support pre-resize shaders. It will run them after resize, "
 "before the post-resize shaders."
 msgstr ""
+"MPC-VR không hỗ trợ bộ đổ bóng đã được đặt sẵn kích thước. Nó sẽ khởi chạy "
+"bộ đổ bóng sau khi dặt lại kích thước, trước khi kích thước bộ đổ bóng được "
+"chuyển đổi."
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1740,15 +1746,15 @@ msgstr "Mặc định"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
 msgid "SaneAR Audio Renderer Enabled"
-msgstr ""
+msgstr "Bộ dựng âm thanh SaneAR đã được kích hoạt"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
-msgstr ""
+msgstr "Thiết bị"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC6"
 msgid "Options"
-msgstr ""
+msgstr "Tùy chọn"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
@@ -1781,17 +1787,19 @@ msgstr "Mức độ:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC7"
 msgid "Note"
-msgstr ""
+msgstr "Chú ý"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
+"Để giảm thiểu hiện tượng méo âm thanh, đề nghị chỉnh âm lượng của trình phát"
+" ở mức khoảng 85% khi phát các nội dung được mã hóa giảm lớn."
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
 msgid "MPC Audio Renderer Settings"
-msgstr ""
+msgstr "Thiết lập bộ dựng âm thanh MPC"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -1847,8 +1855,8 @@ msgstr "Thoát MPC-HC"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC1"
 msgid "Groupbox"
-msgstr ""
+msgstr "Hộp nhóm"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
-msgstr ""
+msgstr "Tự động phát"

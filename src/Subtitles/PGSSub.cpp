@@ -247,7 +247,9 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
     if (posPresentationSegment) {
         const auto& pPresentationSegment = m_pPresentationSegments.GetAt(posPresentationSegment);
 
-        m_eSourceMatrix = ColorConvTable::NONE ? (pPresentationSegment->video_descriptor.nVideoWidth > 720) ? ColorConvTable::BT709 : ColorConvTable::BT601 : m_eSourceMatrix;
+        if (m_eSourceMatrix == ColorConvTable::NONE) {
+            m_eSourceMatrix = (pPresentationSegment->video_descriptor.nVideoWidth > 720) ? ColorConvTable::BT709 : ColorConvTable::BT601;
+        }
 
         TRACE_PGSSUB(_T("CPGSSub:Render Presentation segment %d --> %s - %s\n"), pPresentationSegment->composition_descriptor.nNumber,
                      ReftimeToString(pPresentationSegment->rtStart),

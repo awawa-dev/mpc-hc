@@ -121,11 +121,8 @@ HRESULT CSubPicQueueImpl::RenderTo(ISubPic* pSubPic, REFERENCE_TIME rtStart, REF
         return hr;
     }
 
-    if (pSubPic->GetInverseAlpha()) {
-        hr = pSubPic->ClearDirtyRect(0x00000000);
-    } else {
-        hr = pSubPic->ClearDirtyRect(0xFF000000);
-    }
+
+    hr = pSubPic->ClearDirtyRect();
 
     SubPicDesc spd;
     if (SUCCEEDED(hr)) {
@@ -593,6 +590,7 @@ DWORD CSubPicQueue::ThreadProc()
 
                         if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(pos, maxTextureSize, virtualSize, virtualTopLeft))) {
                             m_pAllocator->SetMaxTextureSize(maxTextureSize);
+                            m_pAllocator->SetCurSize(maxTextureSize);
                         }
 
                         CComPtr<ISubPic> pStatic;
@@ -628,8 +626,8 @@ DWORD CSubPicQueue::ThreadProc()
                         } else {
                             hr = RenderTo(pStatic, rtStart, rtStopReal, fps, false);
                             // Non-animated subtitles aren't part of a segment
-                            pStatic->SetSegmentStart(ISubPic::INVALID_TIME);
-                            pStatic->SetSegmentStop(ISubPic::INVALID_TIME);
+                            pStatic->SetSegmentStart(ISubPic::INVALID_SUBPIC_TIME);
+                            pStatic->SetSegmentStop(ISubPic::INVALID_SUBPIC_TIME);
                             rtCurrent = rtStopReal;
                         }
 
@@ -799,6 +797,7 @@ STDMETHODIMP_(bool) CSubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, boo
                     HRESULT hr;
                     if (SUCCEEDED(hr = pSubPicProvider->GetTextureSize(pos, maxTextureSize, virtualSize, virtualTopLeft))) {
                         m_pAllocator->SetMaxTextureSize(maxTextureSize);
+                        m_pAllocator->SetCurSize(maxTextureSize);
                         if (!bAllocSubPic) {
                             // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
                             SIZE maxSize = {0L,0L};

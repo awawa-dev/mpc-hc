@@ -7,14 +7,14 @@
 # Gaugg_Markus, 2020
 # Julian Burner, 2021
 # fc5b3681a8011aa2097a1a11b3d42f55_901a704, 2021
-# Steve, 2021
+# Steve, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
+"POT-Creation-Date: 2022-04-22 22:44:46+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Steve, 2021\n"
+"Last-Translator: Steve, 2022\n"
 "Language-Team: German (https://www.transifex.com/mpchc/teams/106126/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -210,7 +210,7 @@ msgstr "Über"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Copyright 2002-2022 clsid2 und andere"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -641,8 +641,8 @@ msgid "Directory"
 msgstr "Verzeichnis"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Datei(en)"
+msgid "Playlist"
+msgstr "Wiedergabeliste"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -1405,7 +1405,7 @@ msgstr "Kanal-Offset"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Symbolrate"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1623,6 +1623,11 @@ msgstr "Teilpfade ausgenommener Mediendateien:"
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Auswahl der Untertitelsprachen:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

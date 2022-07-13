@@ -65,6 +65,7 @@
 #define IDS_RS_DISABLEINTERNALSUBTITLES     _T("DisableInternalSubtitles")
 #define IDS_RS_ALLOW_OVERRIDING_EXT_SPLITTER _T("AllowOverridingExternalSplitterSubtitleChoice")
 #define IDS_RS_AUTODOWNLOADSUBTITLES        _T("AutoDownloadSubtitles")
+#define IDS_RS_AUTOSAVEDOWNLOADEDSUBTITLES  _T("AutoSaveDownloadedSubtitles")
 #define IDS_RS_AUTODOWNLOADSCOREMOVIES      _T("AutoDownloadScoreMovies")
 #define IDS_RS_AUTODOWNLOADSCORESERIES      _T("AutoDownloadScoreSeries")
 #define IDS_RS_AUTODOWNLOADSUBTITLESEXCLUDE _T("AutoDownloadSubtitlesExclude")
@@ -101,6 +102,10 @@
 #define IDS_RS_USE_SMTC                     _T("UseSMTC")
 #define IDS_RS_RELOAD_AFTER_LONG_PAUSE      _T("ReloadAfterLongPause")
 #define IDS_RS_OPEN_REC_PANEL_WHEN_OPENING_DEVICE _T("OpenRecordingPanelWhenOpeningDevice")
+#define IDS_RS_REDIRECT_OPEN_TO_APPEND_THRESHOLD _T("RedirectOpenToAppendThreshold")
+#define IDS_RS_FULLSCREEN_SEPARATE_CONTROLS _T("FullscreenSeparateControls")
+#define IDS_RS_ALWAYS_USE_SHORT_MENU        _T("AlwaysUseShortMenu")
+#define IDS_RS_STILL_VIDEO_DURATION         _T("StillVideoDuration")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -359,8 +364,12 @@
 #define IDS_RS_USE_YDL                      _T("UseYDL")
 #define IDS_RS_YDL_MAX_HEIGHT               _T("YDLMaxHeight")
 #define IDS_RS_YDL_VIDEO_FORMAT             _T("YDLVideoFormat")
+#define IDS_RS_YDL_AUDIO_FORMAT             _T("YDLAudioFormat")
 #define IDS_RS_YDL_AUDIO_ONLY               _T("YDLAudioOnly")
 #define IDS_RS_YDL_EXEPATH                  _T("YDLExePath")
 #define IDS_RS_YDL_COMMAND_LINE             _T("YDLCommandLine")
 
 #define IDS_RS_ENABLE_CRASH_REPORTER        _T("EnableCrashReporter")
+
+#define IDS_LAST_QUICKOPEN_PATH             _T("LastQuickOpenPath")
+#define IDS_LAST_SAVEIMAGE_PATH             _T("LastSaveImagePath")

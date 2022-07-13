@@ -442,7 +442,13 @@ end;
 
 
 procedure CleanUpSettingsAndFiles();
+var
+  ResultCode: Integer;
 begin
+  try
+    Exec(ExpandConstant('{app}\{#mpchc_exe}'), '/unregall', '', SW_HIDE, ewWaitUntilTerminated, ResultCode);
+  except
+  end;
   DeleteFile(ExpandConstant('{app}\{#mpchc_ini}'));
   DelTree(ExpandConstant('{userappdata}\MPC-HC\ShaderCache'), True, True, True);  
   DeleteFile(ExpandConstant('{userappdata}\MPC-HC\default.mpcpl'));

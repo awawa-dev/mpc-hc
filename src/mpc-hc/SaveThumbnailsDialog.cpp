@@ -38,26 +38,28 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
     m_width(width)
 {
     // customization has to be done before OnInitDialog
-    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-    CStringW str;
+    if (m_bVistaStyle) {
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+        CStringW str;
 
-    pfdc->StartVisualGroup(IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH));
-    pfdc->AddText(IDS_THUMB_PIXELS, ResStr(IDS_THUMB_PIXELS));
-    str.Format(L"%d", std::max(256, std::min(3840, m_width)));
-    pfdc->AddEditBox(IDC_EDIT4, str);
-    pfdc->EndVisualGroup();
+        pfdc->StartVisualGroup(IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH));
+        pfdc->AddText(IDS_THUMB_PIXELS, ResStr(IDS_THUMB_PIXELS));
+        str.Format(L"%d", std::max(256, std::min(3840, m_width)));
+        pfdc->AddEditBox(IDC_EDIT4, str);
+        pfdc->EndVisualGroup();
 
-    pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
-    pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
-    str.Format(L"%d", std::max(1, std::min(40, m_rows)));
-    pfdc->AddEditBox(IDC_EDIT2, str);
+        pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
+        pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
+        str.Format(L"%d", std::max(1, std::min(40, m_rows)));
+        pfdc->AddEditBox(IDC_EDIT2, str);
 
-    pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
-    str.Format(L"%d", std::max(1, std::min(16, m_cols)));
-    pfdc->AddEditBox(IDC_EDIT3, str);
-    pfdc->EndVisualGroup();
+        pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
+        str.Format(L"%d", std::max(1, std::min(16, m_cols)));
+        pfdc->AddEditBox(IDC_EDIT3, str);
+        pfdc->EndVisualGroup();
 
-    pfdc->Release();
+        pfdc->Release();
+    }
 }
 
 CSaveThumbnailsDialog::~CSaveThumbnailsDialog()
@@ -78,22 +80,23 @@ END_MESSAGE_MAP()
 
 BOOL CSaveThumbnailsDialog::OnFileNameOK()
 {
-    CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
-    CComHeapPtr<WCHAR> result;
+    if (m_bVistaStyle) {
+        CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
+        CComHeapPtr<WCHAR> result;
 
-    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT2, &result))) {
-        m_rows = _wtoi(result);
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT2, &result))) {
+            m_rows = _wtoi(result);
+        }
+
+        result.Free();
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT3, &result))) {
+            m_cols = _wtoi(result);
+        }
+
+        result.Free();
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT4, &result))) {
+            m_width = _wtoi(result);
+        }
     }
-
-    result.Free();
-    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT3, &result))) {
-        m_cols = _wtoi(result);
-    }
-
-    result.Free();
-    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT4, &result))) {
-        m_width = _wtoi(result);
-    }
-
     return __super::OnFileNameOK();
 }

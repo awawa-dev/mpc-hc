@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Jindřich T, 2021
+# Jindřich T, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-12-20 17:57:32+0000\n"
+"POT-Creation-Date: 2022-01-23 12:48:51+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Jindřich T, 2021\n"
+"Last-Translator: Jindřich T, 2022\n"
 "Language-Team: Czech (https://www.transifex.com/mpchc/teams/106126/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -542,19 +542,19 @@ msgstr "Uložit miniatury"
 
 msgctxt "IDS_SUB_POS_DOWN"
 msgid "Move subtitle down"
-msgstr ""
+msgstr "Posunout titulky dolů"
 
 msgctxt "IDS_SUB_POS_UP"
 msgid "Move subtitle up"
-msgstr ""
+msgstr "Posunout titulky nahoru"
 
 msgctxt "IDS_SUB_FONT_SIZE_DEC"
 msgid "Decrease subtitle text size"
-msgstr ""
+msgstr "Zmenšit velikost textu titulků"
 
 msgctxt "IDS_SUB_FONT_SIZE_INC"
 msgid "Increase subtitle text size"
-msgstr ""
+msgstr "Zvětšit velikost textu titulků"
 
 msgctxt "IDD_PPAGEPLAYBACK"
 msgid "Playback"
@@ -688,7 +688,7 @@ msgctxt "IDS_LANG_PREF_EXAMPLE"
 msgid ""
 "Enter your preferred languages here.\n"
 "For example, type: \"eng jpn swe\""
-msgstr ""
+msgstr "Zde vepište vaše preferované jazykové předvolby, např.: \"cze svk eng\""
 
 msgctxt "IDS_OVERRIDE_EXT_SPLITTER_CHOICE"
 msgid ""
@@ -1192,8 +1192,8 @@ msgid "&Add to Favorites..."
 msgstr "&Přidat k oblíbeným..."
 
 msgctxt "IDS_FAVORITES_ORGANIZE"
-msgid "&Organize Favorites..."
-msgstr "&Uspořádat oblíbené..."
+msgid "Organize Favorites..."
+msgstr "Uspořádat oblíbené..."
 
 msgctxt "IDS_PLAYLIST_SHUFFLE"
 msgid "Sh&uffle"
@@ -1971,11 +1971,11 @@ msgstr "Přejít na další titulky"
 
 msgctxt "IDS_MPLAYERC_102"
 msgid "Subresync: shift -100ms"
-msgstr ""
+msgstr "Resynchronizovat titulky: posun o -100ms"
 
 msgctxt "IDS_MPLAYERC_103"
 msgid "Subresync: shift +100ms"
-msgstr ""
+msgstr "Resynchronizovat titulky: posun o +100ms"
 
 msgctxt "IDS_AG_SEEKSET"
 msgid "Jump to Beginning"
@@ -3006,11 +3006,11 @@ msgstr "Modifikátor myši ve FS"
 
 msgctxt "IDS_AG_ZOOM_ADD"
 msgid "Zoom Window +"
-msgstr ""
+msgstr "Změna velikosti okna +"
 
 msgctxt "IDS_AG_ZOOM_SUB"
 msgid "Zoom Window -"
-msgstr ""
+msgstr "Změna velikosti okna -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "VidFrm Zoom 1"
@@ -3987,8 +3987,10 @@ msgid "Ready..."
 msgstr "Připraveno..."
 
 msgctxt "IDS_CMD_PNS"
-msgid "/pns \"name\"\tSpecify Pan & Scan preset name to use"
-msgstr "/pns \"název\"\tPoužije předvolbu Pan & Scan určitého názvu"
+msgid ""
+"/pns \"name or values\"\tSpecify Pan & Scan preset name to use or direct "
+"position and zoom values in format \"px,py,zx,zy\""
+msgstr ""
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4058,6 +4060,10 @@ msgstr "Použít starý panel nástrojů místo nového vektorového."
 msgctxt "IDS_SUBTITLE_RENDERER_ASS_FILTER"
 msgid "AssFilter"
 msgstr "ASSFiltr"
+
+msgctxt "IDS_SUBTITLE_RENDERER_NONE"
+msgid "None"
+msgstr ""
 
 msgctxt "IDS_SUBMENU_COPYURL"
 msgid "Copy URL"
@@ -4612,6 +4618,69 @@ msgstr "Zobrazit informace o videu (kodek, rozlišení) ve stavovém řádku."
 msgctxt "IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE"
 msgid ""
 "Show the recording settings dialog automatically when opening a device."
+msgstr "Automaticky ukázat nastavení nahrávání při otevírání zařízení."
+
+msgctxt "IDS_PPAGEADVANCED_ALWAYS_USE_SHORT_MENU"
+msgid ""
+"Player Menu shortcuts and right-click show compact menu -- even when main "
+"menu is hidden."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS"
+msgid ""
+"Keep main window controls visible on current monitor when going fullscreen "
+"on another monitor."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_BLOCKRDP"
+msgid "Block use of RDP Redirection Filter"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_EXEPATH"
+msgid ""
+"Full path of the Youtube-DL executable.\n"
+"Just the filename is enough in case it is located in same folder as MPC-HC.\n"
+"Leave empty to use default filename: youtube-dl.exe"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE"
+msgid ""
+"The language preference for loading subtitle streams extracted by Youtube-DL.\n"
+"If empty, no subtitles are loaded.\n"
+"Use ISO639-1 two letter language code(s).\n"
+"Example: en de es pl zh ja nl"
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_USE_AUTOMATIC_CAPTIONS"
+msgid ""
+"Use automatic generated captions from Youtube. Note: this can cause a small "
+"delay when loading the stream."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_USE_SMTC"
+msgid ""
+"Allow control of the player through System Media Transport Controls in "
+"Windows 8.1/10/11."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
+msgid "Do not pause playback when locking the screen."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE"
+msgid ""
+"Reload video file before resuming playback if it was paused for more than X "
+"minutes. Use 0 to disable automatic file reload after pause. Use -1 to also "
+"disable reload after hibernate/sleep."
+msgstr ""
+
+msgctxt "IDS_PPAGEADVANCED_REDIRECT_OPEN_TO_APPEND_THRESHOLD"
+msgid ""
+"If a file is opened within this amount of milliseconds after a previous "
+"file, then it will be appended to playlist instead of replacing that "
+"previous file. This redirection is required for properly handling opening of"
+" a selection of files in Explorer. A too short threshold can result in only "
+"a part of your selection being added to playlist."
 msgstr ""
 
 msgctxt "IDS_ARS_WASAPI_MODE"

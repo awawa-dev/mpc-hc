@@ -61,6 +61,7 @@ protected:
     BOOL m_bAutoDownloadSubtitles;
     CString m_strAutoDownloadSubtitlesExclude;
     BOOL m_bPreferHearingImpairedSubtitles;
+    BOOL m_bAutoSaveDownloadedSubtitles;
     CString m_strSubtitlesProviders;
     CString m_strSubtitlesLanguageOrder;
     CString m_strAutoloadPaths;

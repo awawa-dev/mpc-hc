@@ -857,3 +857,14 @@ UINT64 SubtitlesProvidersUtils::GenerateOSHash(SubtitlesInfo& pFileInfo)
     std::free(buffer);
     return fileHash;
 }
+
+std::wstring SubtitlesProvidersUtils::JoinContainer(std::list<std::string> c, LPCWSTR delim) {
+    std::wstring ret = L"";
+    for (auto it = c.begin(); it != c.end(); it++) {
+        ret += UTF8To16(it->c_str());
+        if (std::next(it) != c.end()) {
+            ret += delim;
+        }
+    }
+    return ret;
+};

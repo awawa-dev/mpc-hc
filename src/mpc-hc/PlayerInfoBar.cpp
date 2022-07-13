@@ -190,7 +190,13 @@ void CPlayerInfoBar::EventCallback(MpcEvent ev)
 void CPlayerInfoBar::Relayout()
 {
     CRect r;
-    GetParent()->GetClientRect(&r);
+    CWnd* pWnd = GetParent();
+    if (pWnd) {
+        pWnd->GetClientRect(&r);
+    } else {
+        ASSERT(FALSE);
+        return;
+    }
 
     int w = m_pMainFrame->m_dpi.ScaleX(100);
     const int h = m_pMainFrame->m_dpi.ScaleY(17);

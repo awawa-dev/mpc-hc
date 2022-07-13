@@ -38,6 +38,7 @@ CPlayerSubresyncBar::CPlayerSubresyncBar(CMainFrame* pMainFrame)
     , m_lastSegment(-1)
     , m_rt(0)
     , m_mode(NONE)
+    , m_external(false)
 	, createdWindow(false)
 {
     GetEventd().Connect(m_eventc, {
@@ -165,15 +166,54 @@ void CPlayerSubresyncBar::SetFPS(double fps)
     }
 }
 
-void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps)
+void CPlayerSubresyncBar::SetSubtitle(ISubStream* pSubStream, double fps, bool external)
 {
     // Avoid reloading the same subtitles again
     if (m_pSubStream != pSubStream || m_fps != fps) {
         m_pSubStream = pSubStream;
         m_fps = fps;
+        m_external = external;
 
         // FIXME: if subresync bar is not visible, then delay this until we enable it
         ReloadSubtitle();
+    }
+}
+
+bool CPlayerSubresyncBar::RefreshEmbeddedTextSubtitleData()
+{
+    if (!m_pSubStream) {
+        return false;
+    }
+    if (m_external || m_mode != TEXTSUB) {
+        return false;
+    }
+
+    CLSID clsid;
+    m_pSubStream->GetClassID(&clsid);
+
+    if (clsid == __uuidof(CRenderedTextSubtitle)) {
+        CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+
+        m_lastSegment = -1;
+
+        pRTS->Lock();
+        m_sts.Copy(*pRTS);
+        pRTS->Unlock();
+        m_sts.ConvertToTimeBased(m_fps);
+        m_sts.Sort(true);
+
+        m_subtimes.resize(m_sts.GetCount());
+
+        for (size_t i = 0, j = m_sts.GetCount(); i < j; i++) {
+            m_subtimes[i].orgStart = m_sts[i].start;
+            m_subtimes[i].orgEnd = m_sts[i].end;
+        }
+
+        ResetSubtitle();
+
+        return true;
+    } else {
+        return false;
     }
 }
 

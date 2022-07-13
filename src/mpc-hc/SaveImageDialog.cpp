@@ -33,21 +33,23 @@ CSaveImageDialog::CSaveImageDialog(
                 lpszFilter, pParentWnd, 0),
     m_nJpegQuality(nJpegQuality)
 {
-    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
-    CString str;
+    if (m_bVistaStyle) {
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+        CString str;
 
-    pfdc->StartVisualGroup(IDS_IMAGE_JPEG_QUALITY, ResStr(IDS_IMAGE_JPEG_QUALITY));
-    pfdc->AddText(IDS_IMAGE_QUALITY, ResStr(IDS_IMAGE_QUALITY));
-    str.Format(L"%d", std::max(0, std::min(100, m_nJpegQuality)));
-    pfdc->AddEditBox(IDC_EDIT1, str);
-    pfdc->EndVisualGroup();
+        pfdc->StartVisualGroup(IDS_IMAGE_JPEG_QUALITY, ResStr(IDS_IMAGE_JPEG_QUALITY));
+        pfdc->AddText(IDS_IMAGE_QUALITY, ResStr(IDS_IMAGE_QUALITY));
+        str.Format(L"%d", std::max(0, std::min(100, m_nJpegQuality)));
+        pfdc->AddEditBox(IDC_EDIT1, str);
+        pfdc->EndVisualGroup();
 
-    bSubtitleOptionSupported = subtitleOptionSupported;
-    if (bSubtitleOptionSupported) {
-        pfdc->AddCheckButton(IDS_SNAPSHOT_SUBTITLES, ResStr(IDS_SNAPSHOT_SUBTITLES), AfxGetAppSettings().bSnapShotSubtitles);
+        bSubtitleOptionSupported = subtitleOptionSupported;
+        if (bSubtitleOptionSupported) {
+            pfdc->AddCheckButton(IDS_SNAPSHOT_SUBTITLES, ResStr(IDS_SNAPSHOT_SUBTITLES), AfxGetAppSettings().bSnapShotSubtitles);
+        }
+
+        pfdc->Release();
     }
-
-    pfdc->Release();
 }
 
 CSaveImageDialog::~CSaveImageDialog()
@@ -73,19 +75,21 @@ END_MESSAGE_MAP()
 
 BOOL CSaveImageDialog::OnFileNameOK()
 {
-    CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
-    CComHeapPtr<WCHAR> result;
+    if (m_bVistaStyle) {
+        CComPtr<IFileDialogCustomize> pfdc = GetIFileDialogCustomize();
+        CComHeapPtr<WCHAR> result;
 
-    if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT1, &result))) {
-        m_nJpegQuality = _wtoi(result);
-    }
+        if (SUCCEEDED(pfdc->GetEditBoxText(IDC_EDIT1, &result))) {
+            m_nJpegQuality = _wtoi(result);
+        }
 
-    m_nJpegQuality = std::max(0, std::min(100, m_nJpegQuality));
+        m_nJpegQuality = std::max(0, std::min(100, m_nJpegQuality));
 
-    if (bSubtitleOptionSupported) {
-        BOOL bChecked;
-        pfdc->GetCheckButtonState(IDS_SNAPSHOT_SUBTITLES, &bChecked);
-        AfxGetAppSettings().bSnapShotSubtitles = !!bChecked;
+        if (bSubtitleOptionSupported) {
+            BOOL bChecked;
+            pfdc->GetCheckButtonState(IDS_SNAPSHOT_SUBTITLES, &bChecked);
+            AfxGetAppSettings().bSnapShotSubtitles = !!bChecked;
+        }
     }
 
     return __super::OnFileNameOK();
@@ -95,17 +99,19 @@ void CSaveImageDialog::OnTypeChange()
 {
     __super::OnTypeChange();
 
-    IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
+    if (m_bVistaStyle) {
+        IFileDialogCustomize* pfdc = GetIFileDialogCustomize();
 
-    if (m_pOFN->nFilterIndex == 2) { // JPEG encoding is chosen
-        pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_ENABLEDVISIBLE);
-        pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_ENABLEDVISIBLE);
-        pfdc->SetControlState(IDC_EDIT1, CDCS_ENABLEDVISIBLE);
-    } else {
-        pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_INACTIVE);
-        pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_INACTIVE);
-        pfdc->SetControlState(IDC_EDIT1, CDCS_INACTIVE);
+        if (m_pOFN->nFilterIndex == 2) { // JPEG encoding is chosen
+            pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_ENABLEDVISIBLE);
+            pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_ENABLEDVISIBLE);
+            pfdc->SetControlState(IDC_EDIT1, CDCS_ENABLEDVISIBLE);
+        } else {
+            pfdc->SetControlState(IDS_IMAGE_JPEG_QUALITY, CDCS_INACTIVE);
+            pfdc->SetControlState(IDS_IMAGE_QUALITY, CDCS_INACTIVE);
+            pfdc->SetControlState(IDC_EDIT1, CDCS_INACTIVE);
+        }
+
+        pfdc->Release();
     }
-
-    pfdc->Release();
 }

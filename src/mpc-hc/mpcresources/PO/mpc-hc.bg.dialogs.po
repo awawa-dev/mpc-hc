@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Симеон Цветков <sicvetkov@uni-sofia.bg>, 2020
-# Андрей Станков <astankov84@gmail.com>, 2021
+# Андрей Станков <astankov84@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
+"POT-Creation-Date: 2022-04-22 22:44:46+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2021\n"
+"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2022\n"
 "Language-Team: Bulgarian (https://www.transifex.com/mpchc/teams/106126/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -204,7 +204,7 @@ msgstr "Относно"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Авторски права 2002-2022 clsid2 и други"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -636,8 +636,8 @@ msgid "Directory"
 msgstr "Папка"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Файл(ове)"
+msgid "Playlist"
+msgstr "Плейлист"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -1400,7 +1400,7 @@ msgstr "Използване на отместване"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Скорост на символи"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1623,6 +1623,11 @@ msgstr "Игнорирай файлове съдържащи някоя от т�
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Езици по ред на предпочитание:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

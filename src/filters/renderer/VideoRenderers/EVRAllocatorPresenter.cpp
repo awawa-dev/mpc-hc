@@ -742,15 +742,15 @@ HRESULT CEVRAllocatorPresenter::CreateOptimalOutputType(IMFMediaType* pMixerProp
     UINT32 nominalRange;
     if (SUCCEEDED(pMixerInputType->GetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, &nominalRange))
             && nominalRange == MFNominalRange_0_255) {
-        // EVR mixer always assume 16-235 input. To ensure that luminance range won't be expanded we requests 16-235 also on output.
-        // Request 16-235 to ensure untouched luminance range on output. It is the only way to pass 0-255 without changes.
-        nominalRange = MFNominalRange_16_235;
-        m_LastSetOutputRange = -1; // -1 to prevent renegotiations because of different value than this in settings.
+        // EVR mixer always assumes 16-235 input. Bug?
+        // To keep untouched 0-255 range and avoid unwanted expansion we need to request 16-235 as output.
+        // To get 16-235 output we need to request 48-208 as output.
+        nominalRange = (r.m_AdvRendSets.iEVROutputRange == 1) ? MFNominalRange_48_208 : MFNominalRange_16_235;
     } else {
         nominalRange = (r.m_AdvRendSets.iEVROutputRange == 1) ? MFNominalRange_16_235 : MFNominalRange_0_255;
-        m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
     }
     pOptimalMediaType->SetUINT32(MF_MT_VIDEO_NOMINAL_RANGE, nominalRange);
+    m_LastSetOutputRange = r.m_AdvRendSets.iEVROutputRange;
 
     ULARGE_INTEGER ui64Size;
     pOptimalMediaType->GetUINT64(MF_MT_FRAME_SIZE, &ui64Size.QuadPart);
@@ -1064,9 +1064,8 @@ HRESULT CEVRAllocatorPresenter::RenegotiateMediaType()
     }
 #endif
     for (size_t i = 0; i < nValidTypes; ++i) {
-        // Step 3. Adjust the mixer's type to match our requirements.
+        // Step 4. Adjust the mixer's type to match our requirements.
         pType = ValidMixerTypes[i];
-
 
         TRACE_EVR("EVR: Trying mixer output type: %ws\n", GetMediaTypeFormatDesc(pType));
 
@@ -1123,6 +1122,10 @@ bool CEVRAllocatorPresenter::GetImageFromMixer()
 
         {
             llClockBefore = GetRenderersData()->GetPerfCounter();
+            if (!m_pMixer) {
+                ASSERT(FALSE);
+                break;
+            }
             hr = m_pMixer->ProcessOutput(0, 1, &dataBuffer, &dwStatus);
             llClockAfter = GetRenderersData()->GetPerfCounter();
         }
@@ -1228,9 +1231,9 @@ STDMETHODIMP CEVRAllocatorPresenter::ReleaseServicePointers()
 
     StopWorkerThreads();
 
-    m_pMixer = nullptr;
-    m_pSink  = nullptr;
-    m_pClock = nullptr;
+    m_pMixer.Release();
+    m_pSink.Release();
+    m_pClock.Release();
     return S_OK;
 }
 
@@ -2055,11 +2058,12 @@ void CEVRAllocatorPresenter::RenderThread()
     VERIFY(timeBeginPeriod(dwResolution) == 0);
 
     auto checkPendingMediaFinished = [this]() {
-        if (m_bPendingMediaFinished) {
+        if (m_bPendingMediaFinished && m_nRenderState != Stopped) {
             CAutoLock lock(&m_SampleQueueLock);
             if (m_ScheduledSamples.IsEmpty()) {
                 m_bPendingMediaFinished = false;
                 m_pSink->Notify(EC_COMPLETE, 0, 0);
+                TRACE_EVR("EVR: send EC_COMPLETE\n");
             }
         }
     };
@@ -2596,9 +2600,7 @@ void CEVRAllocatorPresenter::RemoveAllSamples()
     CAutoLock sampleQueueLock(&m_SampleQueueLock);
 
     FlushSamples();
-    m_ScheduledSamples.RemoveAll();
     m_FreeSamples.RemoveAll();
-    m_LastScheduledSampleTime = -1;
     m_LastScheduledUncorrectedSampleTime = -1;
     m_nUsedBuffer = 0;
     // Increment the group id to make sure old samples will really be deleted

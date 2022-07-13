@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: geogeo.gr <geogeo.gr@gmail.com>, 2021\n"
 "Language-Team: Greek (https://www.transifex.com/mpchc/teams/106126/el/)\n"
@@ -206,7 +206,7 @@ msgstr "Περί"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr "Copyright © 2002-2022 clsid2 και άλλοι"
+msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -639,8 +639,8 @@ msgid "Directory"
 msgstr "Κατάλογος"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Αρχείο(α)"
+msgid "Playlist"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -1301,7 +1301,7 @@ msgstr "Αναζήτηση"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "Αποθήκευση ως..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1627,6 +1627,11 @@ msgstr "Παράβλεψη των αρχείων που περιέχουν τι�
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Γλώσσες κατά σειρά προτίμησης:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

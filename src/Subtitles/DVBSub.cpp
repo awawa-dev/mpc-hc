@@ -101,7 +101,9 @@ STDMETHODIMP CDVBSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, double fps, REC
 
     if (POSITION posPage = FindPage(rt)) {
         const auto& pPage = m_pages.GetAt(posPage);
-        m_eSourceMatrix = ColorConvTable::NONE ? (m_displayInfo.width > 720) ? ColorConvTable::BT709 : ColorConvTable::BT601 : m_eSourceMatrix;
+        if (m_eSourceMatrix == ColorConvTable::NONE) {
+            m_eSourceMatrix = (m_displayInfo.width > 720) ? ColorConvTable::BT709 : ColorConvTable::BT601;
+        }
 
         pPage->rendered = true;
         TRACE_DVB(_T("DVB - Renderer - %s - %s\n"), ReftimeToString(pPage->rtStart), ReftimeToString(pPage->rtStop));

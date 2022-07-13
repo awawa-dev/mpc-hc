@@ -103,6 +103,7 @@ DWORD CXySubPicQueue::ThreadProc()
 
                         if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
                             m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                            m_pAllocator->SetCurSize(MaxTextureSize);
                         }
 
                         if (m_llSubId == id && !m_queue.IsEmpty()) { // same subtitle as last time
@@ -120,7 +121,6 @@ DWORD CXySubPicQueue::ThreadProc()
                                 break;
                             }
 
-                            pStatic->SetInverseAlpha(true);
                             hr = RenderTo(pStatic, rtStart, rtStop, fps, true);
 #if SUBPIC_TRACE_LEVEL > 0
                             CRect r;
@@ -260,6 +260,7 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, b
                 HRESULT hr2;
                 if (SUCCEEDED(hr2 = pSubPicProvider->GetTextureSize(0, MaxTextureSize, VirtualSize, VirtualTopLeft))) {
                     m_pAllocator->SetMaxTextureSize(MaxTextureSize);
+                    m_pAllocator->SetCurSize(MaxTextureSize);
                     if (!bAllocSubPic) {
                         // Ensure the previously allocated subpic is big enough to hold the subtitle to be rendered
                         SIZE maxSize;
@@ -286,7 +287,6 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, b
                     CComPtr<ISubPic> pStatic;
                     hr = m_pAllocator->GetStatic(&pStatic);
                     if (SUCCEEDED(hr)) {
-                        pStatic->SetInverseAlpha(true);
                         hr = RenderTo(pStatic, rtStart, rtStop, fps, true);
                     }
                     if (SUCCEEDED(hr)) {
@@ -297,7 +297,6 @@ STDMETHODIMP_(bool) CXySubPicQueueNoThread::LookupSubPic(REFERENCE_TIME rtNow, b
                         m_llSubId = id;
                     }
                 } else {
-                    pSubPic->SetInverseAlpha(true);
                     if (SUCCEEDED(RenderTo(pSubPic, rtStart, rtStop, fps, true))) {
                         ppSubPic = pSubPic;
                         m_llSubId = id;

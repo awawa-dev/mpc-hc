@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
 "Language-Team: Serbian (https://www.transifex.com/mpchc/teams/106126/sr/)\n"
@@ -365,7 +365,7 @@ msgstr "Увек отвори подразумевану локацију:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "Жељени језик DVD навигатора"
+msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -630,8 +630,8 @@ msgid "Directory"
 msgstr "Фасцикла"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Датотека"
+msgid "Playlist"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -1289,7 +1289,7 @@ msgstr ""
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "Сачувај као…"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1612,6 +1612,11 @@ msgstr "Занемари датотеке које садрже следеће �
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Језици по жељеном редоследу:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

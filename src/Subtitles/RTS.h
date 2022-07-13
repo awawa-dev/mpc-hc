@@ -507,6 +507,8 @@ public:
     void Deinit();
     CString GetPath();
 
+    bool m_webvtt_allow_clear;
+
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
 

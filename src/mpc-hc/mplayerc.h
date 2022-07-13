@@ -199,6 +199,7 @@ public:
 public:
     virtual BOOL InitInstance() override;
     virtual int ExitInstance() override;
+    virtual BOOL SaveAllModified() override;
 
 public:
     void SetClosingState();
@@ -216,3 +217,6 @@ public:
 #define GetEventd() AfxGetMyApp()->m_eventd
 
 #define AppIsThemeLoaded() (static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded)
+
+#define AfxGetMainFrame()   static_cast<CMainFrame*>(AfxGetMainWnd())
+#define AfxFindMainFrame()  dynamic_cast<CMainFrame*>(AfxGetMainWnd())

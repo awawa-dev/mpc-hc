@@ -1721,7 +1721,9 @@ HRESULT CDX9RenderingEngine::SetCustomPixelShader(LPCSTR pSrcData, LPCSTR pTarge
 
     if (!pSrcData && !pTarget) {
         pPixelShaders->RemoveAll();
-        m_pD3DDev->SetPixelShader(nullptr);
+        if (m_pD3DDev) {
+            m_pD3DDev->SetPixelShader(nullptr);
+        }
         return S_OK;
     }
 

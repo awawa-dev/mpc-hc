@@ -150,11 +150,13 @@ STDMETHODIMP CMemSubPic::CopyTo(ISubPic* pSubPic)
     return S_OK;
 }
 
-STDMETHODIMP CMemSubPic::ClearDirtyRect(DWORD color)
+STDMETHODIMP CMemSubPic::ClearDirtyRect()
 {
     if (m_rcDirty.IsRectEmpty()) {
         return S_FALSE;
     }
+
+    DWORD color = m_bInvAlpha ? 0x00000000 : 0xFF000000;
 
     BYTE* p = m_spd.bits + m_spd.pitch * m_rcDirty.top + m_rcDirty.left * (m_spd.bpp >> 3);
     for (ptrdiff_t j = 0, h = m_rcDirty.Height(); j < h; j++, p += m_spd.pitch) {
@@ -672,6 +674,7 @@ bool CMemSubPicAllocator::Alloc(bool fStatic, ISubPic** ppSubPic)
     }
 
     (*ppSubPic)->AddRef();
+    (*ppSubPic)->SetInverseAlpha(m_bInvAlpha);
 
     return true;
 }

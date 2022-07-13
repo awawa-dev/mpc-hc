@@ -22,6 +22,7 @@
 #include "RenderersSettings.h"
 #include "MPCVRAllocatorPresenter.h"
 #include "../../../SubPic/DX9SubPic.h"
+#include "../../../SubPic/DX11SubPic.h"
 #include "../../../SubPic/SubPicQueueImpl.h"
 #include "moreuuids.h"
 #include "FilterInterfaces.h"
@@ -50,9 +51,9 @@ CMPCVRAllocatorPresenter::CMPCVRAllocatorPresenter(HWND hWnd, HRESULT& hr, CStri
 CMPCVRAllocatorPresenter::~CMPCVRAllocatorPresenter()
 {
     // the order is important here
-    m_pSubPicQueue = nullptr;
-    m_pAllocator = nullptr;
-    m_pMPCVR = nullptr;
+    m_pSubPicQueue.Release();
+    m_pAllocator.Release();
+    m_pMPCVR.Release();
 
     if (m_bHookedNewSegment) {
         UnhookNewSegment();
@@ -71,7 +72,8 @@ STDMETHODIMP CMPCVRAllocatorPresenter::NonDelegatingQueryInterface(REFIID riid, 
 		   QI(ISubRenderCallback2)
 		   QI(ISubRenderCallback3)
 		   QI(ISubRenderCallback4)
-           QI(ISubPicAllocatorPresenter3)
+		   QI(ISubPicAllocatorPresenter3)
+		   QI(ISubRender11Callback)
 		   __super::NonDelegatingQueryInterface(riid, ppv);
 }
 
@@ -79,18 +81,18 @@ HRESULT CMPCVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
 {
     if (!pD3DDev) {
         // release all resources
-        m_pSubPicQueue = nullptr;
-        m_pAllocator = nullptr;
+        m_pSubPicQueue.Release();
+        m_pAllocator.Release();
         return S_OK;
     }
 
     const CRenderersSettings& r = GetRenderersSettings();
 
-	CSize screenSize;
-	MONITORINFO mi = { sizeof(MONITORINFO) };
-	if (GetMonitorInfoW(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
-		screenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
-	}
+    CSize screenSize;
+    MONITORINFO mi = { sizeof(MONITORINFO) };
+    if (GetMonitorInfoW(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+        screenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
+    }
 
     CSize largestScreen = GetLargestScreenSize(CSize(2560, 1440));
     InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY, largestScreen);
@@ -99,7 +101,9 @@ HRESULT CMPCVRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         m_pAllocator->ChangeDevice(pD3DDev);
     } else {
         m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, true);
-        m_condAllocatorReady.notify_one();
+        if (!m_pAllocator) {
+            return E_FAIL;
+        }
     }
 
     HRESULT hr = S_OK;
@@ -153,6 +157,69 @@ HRESULT CMPCVRAllocatorPresenter::RenderEx3(REFERENCE_TIME rtStart,
 	return AlphaBltSubPic(viewportRect, croppedVideoRect, nullptr, videoStretchFactor, xOffsetInPixels);
 }
 
+// ISubRender11Callback
+
+HRESULT CMPCVRAllocatorPresenter::SetDevice11(ID3D11Device* pD3DDev)
+{
+	if (!pD3DDev) {
+		// release all resources
+		m_pSubPicQueue.Release();
+		m_pAllocator.Release();
+		return S_OK;
+	}
+
+	CRenderersSettings& r = GetRenderersSettings();
+
+    CSize screenSize;
+    MONITORINFO mi = { sizeof(MONITORINFO) };
+    if (GetMonitorInfoW(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi)) {
+        screenSize.SetSize(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
+    }
+
+    CSize largestScreen = GetLargestScreenSize(CSize(2560, 1440));
+    InitMaxSubtitleTextureSize(r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY, largestScreen);
+
+	if (m_pAllocator) {
+		m_pAllocator->ChangeDevice(pD3DDev);
+	}
+	else {
+		m_pAllocator = DEBUG_NEW CDX11SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize);
+		if (!m_pAllocator) {
+			return E_FAIL;
+		}
+	}
+
+	HRESULT hr = S_OK;
+	if (!m_pSubPicQueue) {
+		CAutoLock cAutoLock(this);
+		m_pSubPicQueue = r.subPicQueueSettings.nSize
+			? (ISubPicQueue*)DEBUG_NEW CSubPicQueue(r.subPicQueueSettings, m_pAllocator, &hr)
+			: (ISubPicQueue*)DEBUG_NEW CSubPicQueueNoThread(r.subPicQueueSettings, m_pAllocator, &hr);
+	}
+	else {
+		m_pSubPicQueue->Invalidate();
+	}
+
+	if (SUCCEEDED(hr) && m_pSubPicQueue && m_pSubPicProvider) {
+		m_pSubPicQueue->SetSubPicProvider(m_pSubPicProvider);
+	}
+
+	return hr;
+}
+
+HRESULT CMPCVRAllocatorPresenter::Render11(
+											REFERENCE_TIME rtStart,
+											REFERENCE_TIME rtStop,
+											REFERENCE_TIME atpf,
+											RECT croppedVideoRect,
+											RECT originalVideoRect,
+											RECT viewportRect,
+											const double videoStretchFactor,
+											int xOffsetInPixels, DWORD flags)
+{
+	return RenderEx3(rtStart, rtStop, atpf, croppedVideoRect, originalVideoRect, viewportRect, videoStretchFactor, xOffsetInPixels, flags);
+}
+
 // ISubPicAllocatorPresenter
 
 STDMETHODIMP CMPCVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
@@ -162,18 +229,27 @@ STDMETHODIMP CMPCVRAllocatorPresenter::CreateRenderer(IUnknown** ppRenderer)
     if (m_pMPCVR) {
         return E_UNEXPECTED;
     }
-    m_pMPCVR.CoCreateInstance(CLSID_MPCVR, GetOwner());
+    
+    HRESULT hr = m_pMPCVR.CoCreateInstance(CLSID_MPCVR, GetOwner());
+    if (FAILED(hr)) {
+        return hr;
+    }
     if (!m_pMPCVR) {
         return E_FAIL;
     }
 
     CComQIPtr<ISubRender> pSR = m_pMPCVR;
-    if (!pSR) {
+    CComQIPtr<ISubRender11> pSR11 = m_pMPCVR;
+    if (!pSR && !pSR11) {
         m_pMPCVR = nullptr;
         return E_FAIL;
     }
 
-    if (FAILED(pSR->SetCallback(this))) {
+    if (pSR && FAILED(pSR->SetCallback(this))) {
+        m_pMPCVR = nullptr;
+        return E_FAIL;
+    }
+    if (pSR11 && FAILED(pSR11->SetCallback11(this))) {
         m_pMPCVR = nullptr;
         return E_FAIL;
     }

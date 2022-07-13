@@ -392,7 +392,7 @@ BEGIN
     PUSHBUTTON      "Set as &default program",IDC_BUTTON7,181,199,162,14,BS_MULTILINE
     GROUPBOX        "Explorer Context Menu",IDC_STATIC,6,256,142,29
     CONTROL         "Directory",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,270,60,8
-    CONTROL         "File(s)",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,77,270,66,8
+    CONTROL         "Playlist",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,77,270,66,8
     GROUPBOX        "Autoplay",IDC_STATIC1,152,256,197,29
     CONTROL         "Video",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,270,41,8
     CONTROL         "Music",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,270,44,8
@@ -1021,6 +1021,8 @@ BEGIN
     LTEXT           "Languages in order of preference:",IDC_STATIC,14,160,216,8
     EDITTEXT        IDC_EDIT3,233,156,108,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SHAREIMAGELISTS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,14,175,326,88
+    CONTROL         "Automatically save downloaded subtitles to the first autoload path folder",IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,269,327,8
 END
 
 IDD_UPDATE_DIALOG DIALOGEX 0, 0, 300, 60
@@ -2863,7 +2865,7 @@ END
 STRINGTABLE
 BEGIN
     IDS_FAVORITES_ADD       "&Add to Favorites..."
-    IDS_FAVORITES_ORGANIZE  "&Organize Favorites..."
+    IDS_FAVORITES_ORGANIZE  "Organize Favorites..."
     IDS_PLAYLIST_SHUFFLE    "Sh&uffle"
     IDS_PLAYLIST_SHOWFOLDER "Ope&n file location"
     IDS_CONTROLS_CLOSING    "Closing..."
@@ -3821,7 +3823,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDS_CMD_PNS             "/pns ""name""\tSpecify Pan & Scan preset name to use"
+    IDS_CMD_PNS             "/pns ""name or values""\tSpecify Pan & Scan preset name to use or direct position and zoom values in format ""px,py,zx,zy"""
     IDS_CMD_ICONASSOC       "/iconsassoc\tReassociate format icons"
     IDS_CMD_NOFOCUS         "/nofocus\t\tOpen MPC-HC in background"
     IDS_CMD_WEBPORT         "/webport N\tStart web interface on specified port"
@@ -3838,6 +3840,7 @@ BEGIN
     IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR 
                             "Use legacy toolbar instead of new vectorized one."
     IDS_SUBTITLE_RENDERER_ASS_FILTER "AssFilter"
+    IDS_SUBTITLE_RENDERER_NONE "None"
     IDS_SUBMENU_COPYURL     "Copy URL"
 END
 
@@ -4009,7 +4012,32 @@ BEGIN
                             "Display video info (codec name, resolution) in status bar."
     IDS_PPAGEADVANCED_OPEN_REC_PANEL_WHEN_OPENING_DEVICE
                             "Show the recording settings dialog automatically when opening a device."
+    IDS_PPAGEADVANCED_ALWAYS_USE_SHORT_MENU
+                            "Player Menu shortcuts and right-click show compact menu -- even when main menu is hidden."
 END
+
+STRINGTABLE
+BEGIN
+    IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS
+                            "Keep main window controls visible on current monitor when going fullscreen on another monitor."
+    IDS_PPAGEADVANCED_BLOCKRDP
+                            "Block use of RDP Redirection Filter"
+    IDS_PPAGEADVANCED_YDL_EXEPATH
+                            "Full path of the Youtube-DL executable.\nJust the filename is enough in case it is located in same folder as MPC-HC.\nLeave empty to use default filename: youtube-dl.exe"
+    IDS_PPAGEADVANCED_YDL_SUBS_PREFERENCE
+                            "The language preference for loading subtitle streams extracted by Youtube-DL.\nIf empty, no subtitles are loaded.\nUse ISO639-1 two letter language code(s).\nExample: en de es pl zh ja nl"
+    IDS_PPAGEADVANCED_USE_AUTOMATIC_CAPTIONS
+                            "Use automatic generated captions from Youtube. Note: this can cause a small delay when loading the stream."
+    IDS_PPAGEADVANCED_USE_SMTC
+                            "Allow control of the player through System Media Transport Controls in Windows 8.1/10/11."
+    IDS_PPAGEADVANCED_LOCK_NOPAUSE
+                            "Do not pause playback when locking the screen."
+    IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE
+                            "Reload video file before resuming playback if it was paused for more than X minutes. Use 0 to disable automatic file reload after pause. Use -1 to also disable reload after hibernate/sleep."
+    IDS_PPAGEADVANCED_REDIRECT_OPEN_TO_APPEND_THRESHOLD
+                            "If a file is opened within this amount of milliseconds after a previous file, then it will be appended to playlist instead of replacing that previous file. This redirection is required for properly handling opening of a selection of files in Explorer. A too short threshold can result in only a part of your selection being added to playlist."
+END
+
 
 STRINGTABLE
 BEGIN

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Vlad Anisimov <uniss@ua.fm>, 2021
+# Vlad Anisimov <uniss@ua.fm>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Vlad Anisimov <uniss@ua.fm>, 2021\n"
+"Last-Translator: Vlad Anisimov <uniss@ua.fm>, 2022\n"
 "Language-Team: Ukrainian (https://www.transifex.com/mpchc/teams/106126/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +48,7 @@ msgstr "Відкрити ди&ск"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
-msgstr "&Недавно відкриті файли"
+msgstr "&Нещодавно відкриті файли"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
@@ -104,7 +104,7 @@ msgstr "За&головок та меню"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "Смуга &перемотки"
+msgstr "Смуга &перемотування"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -444,7 +444,7 @@ msgstr "Припустити, що пікселі квадратні (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Коригувати різницю співвідношення сторін &монітору/роб. столу"
+msgstr "Коригувати &різницю співвідношення сторін"
 
 msgctxt "POPUP"
 msgid "Pa&n && Scan"
@@ -640,11 +640,11 @@ msgstr "8.00 x"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS24"
 msgid "24 fps"
-msgstr "24 кадра/с"
+msgstr "24 к/с"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_FPS25"
 msgid "25 fps"
-msgstr "25 кадра/с"
+msgstr "25 к/с"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"

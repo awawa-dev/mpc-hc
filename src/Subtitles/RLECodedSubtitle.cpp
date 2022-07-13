@@ -120,11 +120,13 @@ STDMETHODIMP CRLECodedSubtitle::SetSourceTargetInfo(CString yuvMatrix, int targe
         m_eSourceMatrix = ColorConvTable::BT709;
     } else if (matrix == _T("601")) {
         m_eSourceMatrix = ColorConvTable::BT601;
+    } else if (matrix == _T("2020")) {
+        m_eSourceMatrix = ColorConvTable::BT2020;
     } else {
         m_eSourceMatrix = ColorConvTable::NONE;
     }
 
-    ColorConvTable::SetDefaultConvType(ColorConvTable::BT601, sourceRange, (targetWhiteLevel < 245), false); // Matrix isn't relevant here.
+    ColorConvTable::SetDefaultConvType(m_eSourceMatrix, sourceRange, (targetWhiteLevel < 245), false); // Matrix isn't relevant here.
 
     return S_OK;
 }

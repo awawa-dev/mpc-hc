@@ -81,7 +81,7 @@ bool CYoutubeDLInstance::Run(CString url)
 
     YDL_LOG(url);
 
-    CString args = _T("\"") + GetYDLExePath() + _T("\" -J --no-warnings --youtube-skip-dash-manifest");
+    CString args = _T("\"") + GetYDLExePath() + _T("\" -J --no-warnings");
     if (!s.sYDLSubsPreference.IsEmpty()) {
         args.Append(_T(" --all-subs --write-sub"));
         if (s.bUseAutomaticCaptions) args.Append(_T(" --write-auto-sub"));
@@ -264,16 +264,143 @@ struct YDLStreamDetails {
     CString format_id;
     CString language;
     bool pref_lang;
+    int video_score;
+    int audio_score;
 };
 
 #define YDL_EXTRA_LOGGING 0
 #define YDL_LOG_URLS      1
 #define YDL_TRACE         0
 
+#define YDL_FORMAT_AUTO      0
+#define YDL_FORMAT_H264_30   1
+#define YDL_FORMAT_H264_60   2
+#define YDL_FORMAT_VP9_30    3
+#define YDL_FORMAT_VP9_60    4
+#define YDL_FORMAT_VP9P2_30  5
+#define YDL_FORMAT_VP9P2_60  6
+#define YDL_FORMAT_AV1_30    7
+#define YDL_FORMAT_AV1_60    8
+
+#define YDL_FORMAT_AAC       1
+#define YDL_FORMAT_OPUS      2
+
+/* Give score based on the following criteria in order or importance:
+ * 1: Within required resolution bounds
+ * 2: Match preferred format
+ * 3: Match preferred fps
+ */
+void GetVideoScore(YDLStreamDetails& details) {
+    int score = 1;
+    auto& s = AfxGetAppSettings();
+
+    CString vcodec = details.vcodec.Left(4);
+
+    if (vcodec != _T("unkn")) {
+        score += 1;
+    }
+
+    if (s.iYDLMaxHeight > 0 && s.iYDLMaxHeight >= details.height) {
+        score += 64;
+    }
+
+    switch (s.iYDLVideoFormat) {
+        case YDL_FORMAT_H264_30:
+            if (vcodec == _T("avc1")) score += 32;
+            if (details.fps < 31) score += 8;
+            break;
+        case YDL_FORMAT_H264_60:
+            if (vcodec == _T("avc1")) score += 32;
+            if (details.fps >= 31) score += 8;
+            break;
+        case YDL_FORMAT_VP9_30:
+            if (vcodec == _T("vp9")) score += 32;
+            else if (vcodec == _T("vp9.")) score += 16;
+            if (details.fps < 31) score += 8;
+            break;
+        case YDL_FORMAT_VP9_60:
+            if (vcodec == _T("vp9")) score += 32;
+            else if (vcodec == _T("vp9.")) score += 16;
+            if (details.fps >= 31) score += 8;
+            break;
+        case YDL_FORMAT_VP9P2_30:
+            if (vcodec == _T("vp9")) score += 32;
+            else if (details.vcodec == _T("vp9.2")) score += 32;
+            if (details.fps < 31) score += 8;
+            break;
+        case YDL_FORMAT_VP9P2_60:
+            if (vcodec == _T("vp9")) score += 32;
+            else if (details.vcodec == _T("vp9.2")) score += 32;
+            if (details.fps >= 31) score += 8;
+            break;
+        case YDL_FORMAT_AV1_30:
+            if (vcodec == _T("av01")) score += 32;
+            if (details.fps < 31) score += 8;
+            break;
+        case YDL_FORMAT_AV1_60:
+            if (vcodec == _T("av01")) score += 32;
+            if (details.fps >= 31) score += 8;
+            break;
+    }
+
+    details.video_score = score;
+}
+
+/* Give score based on the following criteria in order or importance:
+ * 1: Language
+ * 2: Match preferred format
+ * 3: Fallback YT format
+ */
+void GetAudioScore(YDLStreamDetails& details) {
+    int score = 1;
+    auto& s = AfxGetAppSettings();
+
+    CString acodec = details.acodec.Left(4);
+
+    if (s.iYDLAudioFormat > 0) {
+        if (s.iYDLAudioFormat == YDL_FORMAT_AAC) {
+            if (acodec == L"mp4a") score += 32;
+        } else {
+            if (acodec == L"opus") score += 32;
+        }
+    }
+
+    if (details.pref_lang) {
+        score += 64;
+    }
+
+    // Youtube formats
+    if (!details.has_video && !details.format_id.IsEmpty()) {
+        if (details.format_id == L"258") {        // AAC (LC) 384 Kbps 5.1
+            score += 13;
+        } else if (details.format_id == L"327") { // AAC (LC) 256 Kbps 5.1
+            score += 11;
+        } else if (details.format_id == L"256") { // AAC (HE v1) 192 Kbps 5.1
+            score += 9;
+        } else if (details.format_id == L"141") { // AAC (LC) 256 Kbps 2.0
+            score += 12;
+        } else if (details.format_id == L"140") { // AAC (LC) 128 Kbps 2.0
+            score += 8;
+        } else if (details.format_id == L"139") { // AAC (HE v1) 48 Kbps 2.0
+            score += 5;
+        } else if (details.format_id == L"338") { // Opus 480 Kbps 4.0
+            score += 10;
+        } else if (details.format_id == L"251") { // Opus 160 Kbps 2.0
+            score += 7;
+        } else if (details.format_id == L"250") { // Opus 70 Kbps 2.0
+            score += 6;
+        } else if (details.format_id == L"249") { // Opus 50 Kbps 2.0
+            score += 4;
+        }
+    }
+
+    details.audio_score = score;
+}
+
 bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool require_video, bool require_audio_only)
 {
     bool canuse = true;
-    details = { _T(""), _T(""), 0, 0, _T(""), _T(""), _T(""), false, false, 0, 0, 0, _T(""), _T(""), false };
+    details = { _T(""), _T(""), 0, 0, _T(""), _T(""), _T(""), false, false, 0, 0, 0, _T(""), _T(""), false, 0, 0 };
 
     details.url = format[_T("url")].GetString();
     if (details.url.IsEmpty()) {
@@ -333,6 +460,9 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
         }
     }
 
+    if (canuse && details.protocol == _T("mhtml")) {
+        canuse = false;
+    }
     if (canuse && require_video && !details.has_video) {
         canuse = false;
     }
@@ -350,28 +480,29 @@ bool GetYDLStreamDetails(const Value& format, YDLStreamDetails& details, bool re
         details.abr = format.HasMember(_T("tbr")) && !format[_T("tbr")].IsNull() ? (int)format[_T("tbr")].GetFloat() : 0;
     }
 
+    if (canuse && details.has_video) {
+        GetVideoScore(details);
+    }
+    if (canuse && details.has_audio) {
+        GetAudioScore(details);
+    }
+
     #if YDL_TRACE
-    TRACE(_T("canuse=%d protocol=%s vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s lang=%s(p%d) url=%s\n"), canuse, static_cast<LPCWSTR>(details.protocol), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.language), details.pref_lang, static_cast<LPCWSTR>(details.url));
+    if (canuse) {
+        TRACE(_T("protocol=%s vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s lang=%s(p%d) url=%s\n"), static_cast<LPCWSTR>(details.protocol), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.language), details.pref_lang, static_cast<LPCWSTR>(details.url));
+    }
     #endif
     #if YDL_LOG_URLS
-    YDL_LOG(_T("canuse=%d protocol=%s vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s lang=%s(p%d) url=%s"), canuse, static_cast<LPCWSTR>(details.protocol), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.language), details.pref_lang, static_cast<LPCWSTR>(details.url));
+    if (canuse) {
+        YDL_LOG(_T("protocol=%s vcodec=%s width=%d height=%d fps=%d vbr=%d acodec=%s abr=%d formatid=%s lang=%s(p%d) url=%s"), static_cast<LPCWSTR>(details.protocol), static_cast<LPCWSTR>(details.vcodec), details.width, details.height, details.fps, details.vbr, static_cast<LPCWSTR>(details.acodec), details.abr, static_cast<LPCWSTR>(details.format_id), static_cast<LPCWSTR>(details.language), details.pref_lang, static_cast<LPCWSTR>(details.url));
+    }
     #endif
 
     return canuse;
 }
 
-#define YDL_FORMAT_AUTO      0
-#define YDL_FORMAT_H264_30   1
-#define YDL_FORMAT_H264_60   2
-#define YDL_FORMAT_VP9_30    3
-#define YDL_FORMAT_VP9_60    4
-#define YDL_FORMAT_VP9P2_30  5
-#define YDL_FORMAT_VP9P2_60  6
-#define YDL_FORMAT_AV1_30    7
-#define YDL_FORMAT_AV1_60    8
-
 // returns true when second is better than first
-bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate, int preferred_format)
+bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int max_height, bool separate)
 {
     if (first.has_video) {
         // We want separate audio/video streams
@@ -383,74 +514,16 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             return false;
         }
 
-        // Video format
-        CString vcodec1 = first.vcodec.Left(4);
-        CString vcodec2 = second.vcodec.Left(4);
-        if (vcodec1 != vcodec2) {
-            // Prefer stream with known format
-            if (vcodec1 == _T("unkn")) {
+        // Video score
+        if (first.video_score > second.video_score) {
+            return false;
+        } else {
+            if (second.video_score > first.video_score) {
                 return true;
-            }
-            if (vcodec2 == _T("unkn")) {
-                return false;
-            }
-            // AV1
-            if (vcodec1 == _T("av01")) {
-                return (preferred_format != YDL_FORMAT_AV1_30 && preferred_format != YDL_FORMAT_AV1_60);
-            } else {
-                if (vcodec2 == _T("av01")) {
-                    return (preferred_format == YDL_FORMAT_AV1_30 || preferred_format == YDL_FORMAT_AV1_60);
-                }
-            }
-            // H.264
-            if ((preferred_format == YDL_FORMAT_H264_30 || preferred_format == YDL_FORMAT_H264_60)) {
-                if (vcodec1 == _T("avc1")) {
-                    return false;
-                } else {
-                    if (vcodec2 == _T("avc1")) {
-                        return true;
-                    }
-                }
-            }
-        }
-        if (first.vcodec != second.vcodec) {
-            // VP9P2
-            if ((preferred_format == YDL_FORMAT_VP9P2_30 || preferred_format == YDL_FORMAT_VP9P2_60)) {
-                if (first.vcodec == _T("vp9.2")) {
-                    return false;
-                } else {
-                    if (second.vcodec == _T("vp9.2")) {
-                        return true;
-                    }
-                }
-                // Prefer VP9P0 over others
-                if (first.vcodec.Left(3) == _T("vp9")) {
-                    return false;
-                } else {
-                    if (second.vcodec.Left(3) == _T("vp9")) {
-                        return true;
-                    }
-                }
-            }
-            // VP9
-            if ((preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_VP9_60)) {
-                if (first.vcodec == _T("vp9") || first.vcodec == _T("vp9.0")) {
-                    return false;
-                } else {
-                    if (second.vcodec == _T("vp9") || second.vcodec == _T("vp9.0")) {
-                        return true;
-                    }
-                }
             }
         }
 
         // Video resolution
-        if (max_height > 0 && first.height > max_height && first.height > second.height) {
-            return true;
-        }
-        if (max_height > 0 && second.height > max_height) {
-            return false;
-        }
         if (second.height > first.height) {
             if (max_height > 0) {
                 // calculate maximum width based on 16:9 AR
@@ -469,40 +542,16 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
                 return false;
             }
         }
-
-        // Framerate
-        if (preferred_format != YDL_FORMAT_AUTO && first.fps != second.fps && first.fps > 0 && second.fps > 0) {
-            if (preferred_format == YDL_FORMAT_H264_60 || preferred_format == YDL_FORMAT_VP9_60 || preferred_format == YDL_FORMAT_VP9P2_60 || preferred_format == YDL_FORMAT_AV1_60) {
-                if (second.fps > first.fps) {
-                    return true;
-                } else if (first.fps > second.fps) {
-                    return false;
-                }
-            } else if (preferred_format == YDL_FORMAT_H264_30 || preferred_format == YDL_FORMAT_VP9_30 || preferred_format == YDL_FORMAT_VP9P2_30 || preferred_format == YDL_FORMAT_AV1_30) {
-                if (first.fps > 30 && first.fps > second.fps) {
-                    return true;
-                } else if (second.fps > 30 && second.fps > first.fps) {
-                    return false;
-                }
-            }
-        }
     } else if (first.has_audio) {
         if (!second.has_audio) {
             return false;
         }
 
-        // Preferred track
-        if (first.pref_lang != second.pref_lang) {
-            return second.pref_lang;
-        }
-
-        // Audio format
-        if (first.acodec.Left(4) == _T("opus")) {
-            if (second.acodec.Left(4) != _T("opus")) {
-                return false;
-            }
+        // Audio score
+        if (first.audio_score > second.audio_score) {
+            return false;
         } else {
-            if (second.acodec.Left(4) == _T("opus")) {
+            if (second.audio_score > first.audio_score) {
                 return true;
             }
         }
@@ -513,19 +562,21 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             if (first.format != _T("none")) {
                 return false;
             } else {
-                if (second.format != _T("none")) return true;
+                if (second.format != _T("none")) {
+                    return true;
+                }
             }
         }
     }
 
-    // Prefer HTTP protocol
-    if (first.protocol.Left(4) == _T("http")) {
-        if (second.protocol.Left(4) != _T("http")) {
-            return false;
+    // Prefer HTTPS and m3u8_native protocols above http_dash_segments
+    if (first.protocol == _T("http_dash_segments")) {
+        if (second.protocol != _T("http_dash_segments")) {
+            return true;
         }
     } else {
-        if (second.protocol.Left(4) == _T("http")) {
-            return true;
+        if (second.protocol == _T("http_dash_segments")) {
+            return false;
         }
     }
 
@@ -539,11 +590,25 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             return true;
         }
     }
+
+    // Prefer single stream
+    if (first.has_video && second.has_video) {
+        if (first.has_audio) {
+            if (!second.has_audio) {
+                return false;
+            }
+        } else {
+            if (second.has_audio) {
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 
 // find best video track
-bool filterVideo(const Value& formats, YDLStreamDetails& ydl_sd, int max_height, bool separate, int preferred_format)
+bool filterVideo(const Value& formats, YDLStreamDetails& ydl_sd, int max_height, bool separate)
 {
     YDLStreamDetails current;
     bool found = false;
@@ -552,7 +617,7 @@ bool filterVideo(const Value& formats, YDLStreamDetails& ydl_sd, int max_height,
 #endif
     for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
         if (GetYDLStreamDetails(formats[i], current, true, false)) {
-            if (!found || IsBetterYDLStream(ydl_sd, current, max_height, separate, preferred_format)) {
+            if (!found || IsBetterYDLStream(ydl_sd, current, max_height, separate)) {
                 ydl_sd = current;
                 #if YDL_TRACE
                 TRACE(_T("This is currently best video stream\n"));
@@ -592,7 +657,7 @@ bool filterAudio(const Value& formats, YDLStreamDetails& ydl_sd)
 
     for (rapidjson::SizeType i = 0; i < formats.Size(); i++) {
         if (GetYDLStreamDetails(formats[i], current, false, true)) {
-            if (!found || IsBetterYDLStream(ydl_sd, current, 0, true, 0)) {
+            if (!found || IsBetterYDLStream(ydl_sd, current, 0, true)) {
                 ydl_sd = current;
                 #if YDL_TRACE
                 TRACE(_T("this is currently best audio stream\n"));
@@ -657,7 +722,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlay
             }
         }
 
-        if (filterVideo(pJSON->d[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly, s.iYDLVideoFormat)) {
+        if (filterVideo(pJSON->d[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly)) {
             stream.video_url = ydl_sd.url;
             stream.audio_url = _T("");
             // find separate audio stream
@@ -707,7 +772,7 @@ bool CYoutubeDLInstance::GetHttpStreams(CAtlList<YDLStreamURL>& streams, YDLPlay
                     continue;
                 }
 
-                if (filterVideo(entry[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly, s.iYDLVideoFormat)) {
+                if (filterVideo(entry[_T("formats")], ydl_sd, s.iYDLMaxHeight, s.bYDLAudioOnly)) {
                     stream.video_url = ydl_sd.url;
                     stream.audio_url = _T("");
                     if (entry.HasMember(_T("series")) && !entry[_T("series")].IsNull()) stream.series = entry[_T("series")].GetString();

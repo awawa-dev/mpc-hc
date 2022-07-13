@@ -2288,6 +2288,9 @@ STDMETHODIMP CDX9AllocatorPresenter::SetPixelShader2(LPCSTR pSrcData, LPCSTR pTa
 
 STDMETHODIMP CDX9AllocatorPresenter::SetD3DFullscreen(bool fEnabled)
 {
+    CAutoLock cAutoLock(this);
+    CAutoLock cRenderLock(&m_RenderLock);
+
     fullScreenChanged = (fEnabled != m_bIsFullscreen);
     m_bIsFullscreen = fEnabled;
     return S_OK;

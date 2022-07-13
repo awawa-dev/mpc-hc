@@ -24,6 +24,7 @@
 #include <atlbase.h>
 #include <atlcoll.h>
 #include "CoordGeom.h"
+#include "strmif.h"
 
 #pragma pack(push, 1)
 struct SubPicDesc {
@@ -62,7 +63,7 @@ enum RelativeTo {
 interface __declspec(uuid("DA3A5B51-958C-4C28-BF66-68D7947577A2"))
 ISubPic :
 public IUnknown {
-    static const REFERENCE_TIME INVALID_TIME = -1;
+    static const REFERENCE_TIME INVALID_SUBPIC_TIME = -1;
 
     STDMETHOD_(void*, GetObject)() PURE;
 
@@ -74,7 +75,7 @@ public IUnknown {
     STDMETHOD(GetDesc)(SubPicDesc& spd /*[out]*/) PURE;
     STDMETHOD(CopyTo)(ISubPic* pSubPic /*[in]*/) PURE;
 
-    STDMETHOD(ClearDirtyRect)(DWORD color /*[in]*/) PURE;
+    STDMETHOD(ClearDirtyRect)() PURE;
     STDMETHOD(GetDirtyRect)(RECT* pDirtyRect /*[out]*/) const PURE;
     STDMETHOD(SetDirtyRect)(const RECT* pDirtyRect /*[in]*/) PURE;
 
@@ -98,7 +99,6 @@ public IUnknown {
     STDMETHOD_(void, SetSegmentStart)(REFERENCE_TIME rtStart) PURE;
     STDMETHOD_(void, SetSegmentStop)(REFERENCE_TIME rtStop) PURE;
 
-    STDMETHOD_(bool, GetInverseAlpha)() const PURE;
     STDMETHOD_(void, SetInverseAlpha)(bool bInverted) PURE;
 };
 
@@ -121,6 +121,8 @@ public IUnknown {
     STDMETHOD(SetMaxTextureSize)(SIZE maxTextureSize) PURE;
 
     STDMETHOD(FreeStatic)() PURE;
+    
+    STDMETHOD_(void, SetInverseAlpha)(bool bInverted) PURE;
 };
 
 //

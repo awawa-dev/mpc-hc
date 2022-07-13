@@ -61,6 +61,10 @@ CFGManager::CFGManager(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd, bool IsPreview)
 	, m_bIsPreview(IsPreview)
     , m_bPreviewSupportsRotation(false)
     , m_ignoreVideo(false)
+    , m_source()
+    , m_transform()
+    , m_override()
+    , m_deadends()
 {
     m_pUnkInner.CoCreateInstance(CLSID_FilterGraph, GetOwner());
     m_pFM.CoCreateInstance(CLSID_FilterMapper2);
@@ -211,7 +215,11 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
     fl.RemoveAll();
 
     CStringW fn = CStringW(lpcwstrFileName).TrimLeft();
-    CStringW protocol = fn.Left(fn.Find(':') + 1).TrimRight(':').MakeLower();
+    CStringW cfn = fn;
+    if (cfn.Left(4) == "\\\\?\\") {
+        cfn = cfn.Mid(4);
+    }
+    CStringW protocol = cfn.Left(cfn.Find(':') + 1).TrimRight(':').MakeLower();
     CStringW ext = CPathW(fn).GetExtension().MakeLower();
 
     HANDLE hFile = INVALID_HANDLE_VALUE;
@@ -341,7 +349,11 @@ HRESULT CFGManager::EnumSourceFilters(LPCWSTR lpcwstrFileName, CFGFilterList& fl
                                 if (CheckBytes(hFile, CString(buff))) {
                                     CFGFilter* pFGF = LookupFilterRegistry(clsid, m_override);
                                     pFGF->AddType(majortype, subtype);
-                                    fl.Insert(pFGF, 9);
+                                    if (pFGF->GetMerit() >= MERIT64_ABOVE_DSHOW) {
+                                        fl.Insert(pFGF, 7);
+                                    } else {
+                                        fl.Insert(pFGF, 9);
+                                    }
                                     break;
                                 }
                             }
@@ -1088,7 +1100,7 @@ STDMETHODIMP CFGManager::Abort()
     }
 
     // FIXME: this can hang
-    CAutoLock cAutoLock(this);
+    //CAutoLock cAutoLock(this);
 
     return CComQIPtr<IFilterGraph2>(m_pUnkInner)->Abort();
 }
@@ -2317,7 +2329,6 @@ void CFGManagerCustom::InsertLAVAudio()
 
 #if INTERNAL_DECODER_PCM
     pFGF = tra[TRA_PCM] ? pFGLAVAudio : pFGLAVAudioLM;
-    pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM);
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_NONE);
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_RAW);
     pFGF->AddType(MEDIATYPE_Audio, MEDIASUBTYPE_PCM_TWOS);
@@ -2482,6 +2493,14 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
             }
+            break;
+        case CAppSettings::SubtitleRenderer::NONE:
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             break;
         }
     }
@@ -2776,11 +2795,30 @@ STDMETHODIMP CFGManagerPlayer::ConnectDirect(IPin* pPinOut, IPin* pPinIn, const 
 {
     CAutoLock cAutoLock(this);
 
-    if (GetCLSID(pPinOut) == CLSID_MPEG2Demultiplexer) {
+    CLSID pin_clsid = GetCLSID(pPinOut);
+    if (pin_clsid == CLSID_MPEG2Demultiplexer) {
         CComQIPtr<IMediaSeeking> pMS = pPinOut;
         REFERENCE_TIME rtDur = 0;
         if (!pMS || FAILED(pMS->GetDuration(&rtDur)) || rtDur <= 0) {
             return E_FAIL;
+        }
+    } else if (pin_clsid == CLSID_StillVideo || pin_clsid == CLSID_MPCImageSource) {
+        CComQIPtr<IMediaSeeking> pMS = pPinOut;
+        if (pMS) {
+            const CAppSettings& s = AfxGetAppSettings();
+            if (s.iStillVideoDuration > 0) {
+                REFERENCE_TIME rtCur = 0;
+                REFERENCE_TIME rtDur = 0;
+                REFERENCE_TIME rtDurOverride = s.iStillVideoDuration * 10000000LL;
+                pMS->GetDuration(&rtDur);
+                if (rtDur == 0 || rtDur >= 10 * 3600 * 10000000LL) {
+                    rtDur = rtDurOverride;
+                } else if (rtDur < rtDurOverride) {
+                    rtDur = (rtDurOverride / rtDur) * rtDur;
+                }
+                // always call SetPositions() to prevent infinite repeat by the source filter
+                pMS->SetPositions(&rtCur, AM_SEEKING_AbsolutePositioning, &rtDur, AM_SEEKING_AbsolutePositioning);
+            }
         }
     }
 

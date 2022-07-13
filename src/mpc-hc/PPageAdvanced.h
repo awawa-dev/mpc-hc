@@ -192,6 +192,7 @@ private:
         RECENT_FILES_NB,
         FILE_POS_LONGER,
         FILE_POS_AUDIO,
+        FULLSCREEN_SEPARATE_CONTROLS,
         COVER_SIZE_LIMIT,
         BLOCK_VSFILTER,
         BLOCK_RDP,
@@ -199,6 +200,7 @@ private:
         USE_YDL,
         YDL_MAX_HEIGHT,
         YDL_VIDEO_FORMAT,
+        YDL_AUDIO_FORMAT,
         YDL_AUDIO_ONLY,
         YDL_EXEPATH,
         YDL_COMMAND_LINE,
@@ -214,7 +216,9 @@ private:
         LOCK_NOPAUSE,
         RELOAD_AFTER_LONG_PAUSE,
         INACCURATE_FASTSEEK,
+        STILL_VIDEO_DURATION,
         STREAMPOSPOLLER_INTERVAL,
+        REDIR_OPEN_TO_APPEND,
 #if !defined(_DEBUG) && USE_DRDUMP_CRASH_REPORTER
         CRASHREPORTER,
 #endif
@@ -223,6 +227,7 @@ private:
         AUTO_DOWNLOAD_SCORE_MOVIES,
         AUTO_DOWNLOAD_SCORE_SERIES,
         OPEN_REC_PANEL_WHEN_OPENING_DEVICE,
+        ALWAYS_USE_SHORT_MENU,
     };
 
     enum {

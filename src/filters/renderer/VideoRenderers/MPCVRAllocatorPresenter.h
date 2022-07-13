@@ -23,10 +23,15 @@
 #include "AllocatorCommon.h"
 #include "../SubPic/SubPicAllocatorPresenterImpl.h"
 #include "../SubPic/ISubRender.h"
+#include <d3d11_1.h>
+#include "../SubPic/ISubRender11.h"
 
 namespace DSObjects
 {
-	class CMPCVRAllocatorPresenter : public CSubPicAllocatorPresenterImpl, ISubRenderCallback4
+	class CMPCVRAllocatorPresenter
+		: public CSubPicAllocatorPresenterImpl
+		, ISubRenderCallback4
+		, ISubRender11Callback
 	{
 		CComPtr<IUnknown> m_pMPCVR;
 
@@ -66,6 +71,14 @@ namespace DSObjects
 							   const double videoStretchFactor = 1.0,
 							   int xOffsetInPixels = 0, DWORD flags = 0) override;
 
+		// ISubRender11Callback
+		STDMETHODIMP SetDevice11(ID3D11Device* pD3DDev);
+
+		STDMETHODIMP Render11(REFERENCE_TIME rtStart, REFERENCE_TIME rtStop,
+							  REFERENCE_TIME atpf, RECT croppedVideoRect,
+							  RECT originalVideoRect, RECT viewportRect,
+							  const double videoStretchFactor = 1.0,
+							  int xOffsetInPixels = 0, DWORD flags = 0) override;
 
         // ISubPicAllocatorPresenter
         STDMETHODIMP CreateRenderer(IUnknown** ppRenderer) override;

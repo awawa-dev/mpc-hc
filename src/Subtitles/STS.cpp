@@ -1740,11 +1740,20 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
     int version = 3, sver = 3;
     CStringW buff;
     int ignore_count = 0;
+    bool first_line = true;
 
     while (file->ReadString(buff)) {
         FastTrim(buff);
         if (buff.IsEmpty() || buff.GetAt(0) == L';') {
             continue;
+        }
+
+        if (first_line) {
+            if (buff == L"1") {
+                // SRT file
+                return false;
+            }
+            first_line = false;
         }
 
         LPCWSTR pszBuff = buff;
@@ -1963,7 +1972,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
         } else {
             TRACE(_T("Ignoring unknown SSA entry: %s\n"), static_cast<LPCWSTR>(entry));
             if (!fRet) {
-                if (++ignore_count >= 20) {
+                if (++ignore_count >= 10) {
                     return false;
                 }
             }
@@ -3684,6 +3693,9 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
                     s->charSet);
         file.WriteString(str2);
     }
+
+    m_provider = _T("Local");
+    m_path = fn;
 
     return true;
 }

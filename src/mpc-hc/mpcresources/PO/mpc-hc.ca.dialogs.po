@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Roger Espolet <roger.espolet@gmail.com>, 2021
+# Roger Espolet <roger.espolet@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Roger Espolet <roger.espolet@gmail.com>, 2021\n"
+"Last-Translator: Roger Espolet <roger.espolet@gmail.com>, 2022\n"
 "Language-Team: Catalan (https://www.transifex.com/mpchc/teams/106126/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -206,7 +206,7 @@ msgstr "Sobre"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Copyright 2002-2022 clsid2 i altres"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -498,7 +498,7 @@ msgstr "Àudio:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Permet elecció manual del divisor o \"splitter\" extern"
+msgstr "Permet sobreposar-se a l'elecció de l'splitter extern"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -602,7 +602,7 @@ msgid ""
 "videocard's settings, subtitles aren't going to look any better but it will "
 "surely eat your CPU."
 msgstr ""
-"Si activa manualment el suavitzat (antialiasing) a pantalla completa en "
+"Si activeu manualment el suavitzat (antialiasing) a pantalla completa en "
 "alguna de les opcions de la seva targeta gràfica, segurament es dissiparà "
 "l'ús de la CPU sense aconseguir cap millora en l'aspecte dels subtítols."
 
@@ -643,8 +643,8 @@ msgid "Directory"
 msgstr "Carpeta"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Fitxer/s"
+msgid "Playlist"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -1138,7 +1138,7 @@ msgstr "Configuració dels LAV Filters interns"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr "Desmultiplexor (Splitter)"
+msgstr "Splitter"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
@@ -1414,7 +1414,7 @@ msgstr "Utilitza un desfasament"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Símbol de velocitat"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1637,6 +1637,11 @@ msgstr "Ignora els fitxers que continguin les següents paraules:"
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Idiomes en ordre de preferència:"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

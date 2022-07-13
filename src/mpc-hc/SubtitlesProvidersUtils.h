@@ -86,13 +86,13 @@ namespace SubtitlesProvidersUtils
     UINT64 GenerateOSHash(SubtitlesInfo& pFileInfo);
 
     template <typename T>
-    std::string JoinContainer(const T& c, LPCSTR delim)
-    {
+    std::string JoinContainer(const T& c, LPCSTR delim) {
         std::ostringstream stringStream;
         if (c.cbegin() != c.cend()) {
             std::copy(c.cbegin(), std::prev(c.cend()), std::ostream_iterator<typename T::value_type>(stringStream, delim));
             stringStream << *c.crbegin();
         }
         return stringStream.str();
-    }
+    };
+    std::wstring JoinContainer(std::list<std::string> c, LPCWSTR delim);
 }

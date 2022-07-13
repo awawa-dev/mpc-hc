@@ -29,6 +29,7 @@
 #include "PPageSubMisc.h"
 #include "CMPCTheme.h"
 #include "CMPCThemeMenu.h"
+#include "SysVersion.h"
 
 BEGIN_MESSAGE_MAP(CSubtitleDlDlgListCtrl, CMPCThemePlayerListCtrl)
     ON_NOTIFY_EX(TTN_NEEDTEXT, 0, OnToolNeedText)
@@ -69,8 +70,8 @@ BOOL CSubtitleDlDlgListCtrl::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT*)
         return FALSE;
     }
 
-    static CString tooltipText;
-    tooltipText = SubtitlesProvidersUtils::JoinContainer(subtitleInfo->releaseNames, "\n").c_str();
+    static CStringW tooltipText;
+    tooltipText = SubtitlesProvidersUtils::JoinContainer(subtitleInfo->releaseNames, L"\n").c_str();
     ASSERT(!tooltipText.IsEmpty());
 
     pTTT->lpszText = tooltipText.GetBuffer();
@@ -99,7 +100,7 @@ enum {
 };
 
 CSubtitleDlDlg::CSubtitleDlDlg(CMainFrame* pParentWnd)
-    : CMPCThemeResizableDialog(IDD, pParentWnd)
+    : CModelessResizableDialog(IDD, pParentWnd)
     , m_ps(nullptr, 0, 0)
     , m_bIsRefreshed(false)
     , m_pMainFrame(pParentWnd)
@@ -169,7 +170,6 @@ int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM 
                : (left < right ? 1 : -1);
     }
 
-#ifdef _DEBUG
     if (ps->m_nSortColumn == COL_SCORE) {
         SHORT left = (SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam1))).Score());
         SHORT right = (SHORT)LOWORD((*(SubtitlesInfo*)(list->GetItemData((int)lParam2))).Score());
@@ -177,7 +177,6 @@ int CALLBACK CSubtitleDlDlg::SortCompare(LPARAM lParam1, LPARAM lParam2, LPARAM 
                ? (left > right ? 1 : -1)
                : (left < right ? 1 : -1);
     }
-#endif
 
     CString left(list->GetItemText((int)lParam1, ps->m_nSortColumn));
     CString right(list->GetItemText((int)lParam2, ps->m_nSortColumn));
@@ -238,9 +237,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
         columnWidth.Add(50);
         columnWidth.Add(40);
         columnWidth.Add(250);
-#ifdef _DEBUG
         columnWidth.Add(40);
-#endif
     }
 
     m_list.InsertColumn(COL_PROVIDER, ResStr(IDS_SUBDL_DLG_PROVIDER_COL), LVCFMT_LEFT, columnWidth[COL_PROVIDER]);
@@ -250,9 +247,7 @@ BOOL CSubtitleDlDlg::OnInitDialog()
     m_list.InsertColumn(COL_HEARINGIMPAIRED, ResStr(IDS_SUBDL_DLG_HI_COL), LVCFMT_CENTER, columnWidth[COL_HEARINGIMPAIRED]);
     m_list.InsertColumn(COL_DOWNLOADS, ResStr(IDS_SUBDL_DLG_DOWNLOADS_COL), LVCFMT_RIGHT, columnWidth[COL_DOWNLOADS]);
     m_list.InsertColumn(COL_TITLES, ResStr(IDS_SUBDL_DLG_TITLES_COL), LVCFMT_LEFT, columnWidth[COL_TITLES]);
-#ifdef _DEBUG
     m_list.InsertColumn(COL_SCORE, ResStr(IDS_SUBDL_DLG_SCORE_COL), LVCFMT_RIGHT, columnWidth[COL_SCORE]);
-#endif
     SetListViewSortColumn();
 
     AddAnchor(IDC_LIST1, TOP_LEFT, BOTTOM_RIGHT);
@@ -312,15 +307,7 @@ void CSubtitleDlDlg::OnOK()
         }
     }
 
-    // Just hide the dialog, since it's modeless we don't want to call EndDialog
-    ShowWindow(SW_HIDE);
-}
-
-
-void CSubtitleDlDlg::OnCancel()
-{
-    // Just hide the dialog, since it's modeless we don't want to call EndDialog
-    ShowWindow(SW_HIDE);
+    __super::OnOK();
 }
 
 void CSubtitleDlDlg::OnRefresh()
@@ -441,7 +428,7 @@ void CSubtitleDlDlg::DownloadSelectedSubtitles()
 }
 
 // ON_UPDATE_COMMAND_UI does not work for modeless dialogs
-BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CMPCThemeResizableDialog)
+BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CModelessResizableDialog)
     ON_WM_ERASEBKGND()
     ON_WM_SIZE()
     ON_COMMAND(IDC_BUTTON1, OnRefresh)
@@ -643,11 +630,11 @@ afx_msg LRESULT CSubtitleDlDlg::OnCompleted(WPARAM wParam, LPARAM lParam)
             }
             m_list.SetItemText(iItem, COL_DOWNLOADS, downloads);
             m_list.SetItemText(iItem, COL_TITLES, UTF8To16(subInfo.DisplayTitle().c_str()));
-#ifdef _DEBUG
+
             CString score;
             score.Format(_T("%d"), (SHORT)LOWORD(subInfo.Score()));
             m_list.SetItemText(iItem, COL_SCORE, score);
-#endif
+
             m_Subtitles.emplace_back(subInfo);
             m_list.SetItemData(iItem, (DWORD_PTR)&m_Subtitles.back());
         }

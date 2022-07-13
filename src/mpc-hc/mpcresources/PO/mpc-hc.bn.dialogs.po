@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-04-03 23:14:53+0000\n"
+"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: MPC HC <adiposegithub@gmail.com>, 2020\n"
 "Language-Team: Bengali (https://www.transifex.com/mpchc/teams/106126/bn/)\n"
@@ -370,7 +370,7 @@ msgstr "সর্বদা নির্ধারিত স্থান চাল
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "DVD ন্যাভিগেটর এবং বাহিরস্থ OGM স্প্লিটারের জন্য পছন্দনীয় ভাষা"
+msgstr ""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -635,8 +635,8 @@ msgid "Directory"
 msgstr "ডাইরেক্টরিসমূহে"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "ফাইলে"
+msgid "Playlist"
+msgstr ""
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -1296,7 +1296,7 @@ msgstr ""
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr ""
+msgstr "সেইভ করতে পারি..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
@@ -1623,6 +1623,11 @@ msgstr "নিম্নোক্ত শব্দ(সমূহ) ধারণক�
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "পছন্দনীয় ভাষাসমূহের অগ্রাধিকার ক্রম (উদাহরণ- \"eng ell spa\"):"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"

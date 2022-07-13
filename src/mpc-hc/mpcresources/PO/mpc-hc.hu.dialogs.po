@@ -6,13 +6,14 @@
 # Nagy Imre <nagyimre1980@gmail.com>, 2020
 # Péter Patkós <patkos96@gmail.com>, 2021
 # Evin, 2021
+# Speeder, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
+"POT-Creation-Date: 2022-04-22 22:44:46+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Evin, 2021\n"
+"Last-Translator: Speeder, 2022\n"
 "Language-Team: Hungarian (https://www.transifex.com/mpchc/teams/106126/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -208,7 +209,7 @@ msgstr "Névjegy"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Szerzői jog: 2002-2022 clsid2 és mások"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -375,7 +376,7 @@ msgstr "Mindig az alapértelmezett helyet nyissa meg:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr ""
+msgstr "Az elsődleges nyelv DVD-hez"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
@@ -643,8 +644,8 @@ msgid "Directory"
 msgstr "Mappákhoz"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Fájlokhoz"
+msgid "Playlist"
+msgstr "Lejátszási lista"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -830,7 +831,7 @@ msgstr "Jelenlegi pozíció megjegyzése"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr ""
+msgstr "A-B ismétlési pontok megjegyzése"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -1406,7 +1407,7 @@ msgstr "Használjon eltolást"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Internetes felirat keresés"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1608,7 +1609,7 @@ msgstr "Visszaállítás"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
-msgstr ""
+msgstr "Internetes feliratok keresése"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
@@ -1627,6 +1628,11 @@ msgstr "A következő szavakat tartalmazó fájl kihagyása:"
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Nyelvek prioritási sorrendben (pl. \"eng hun spa\"):"
+
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1742,7 +1748,7 @@ msgstr "Alapértelmezés"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
 msgid "SaneAR Audio Renderer Enabled"
-msgstr ""
+msgstr "SaneAR audió renderelő engedélyezve"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
@@ -1791,10 +1797,13 @@ msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
+"Az audió torzítás minimalizálása érdekében javasolt a lejátszó hangerejét "
+"85% körül tartani amikor hangos, veszteségesen-kódolt tartalmakat játszunk "
+"le."
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
 msgid "MPC Audio Renderer Settings"
-msgstr ""
+msgstr "MPC Audió Renderer Beállításai"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"

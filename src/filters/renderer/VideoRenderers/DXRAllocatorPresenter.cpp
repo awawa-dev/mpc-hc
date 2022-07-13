@@ -100,7 +100,9 @@ HRESULT CDXRAllocatorPresenter::SetDevice(IDirect3DDevice9* pD3DDev)
         m_pAllocator->ChangeDevice(pD3DDev);
     } else {
         m_pAllocator = DEBUG_NEW CDX9SubPicAllocator(pD3DDev, m_maxSubtitleTextureSize, true);
-        m_condAllocatorReady.notify_one();
+        if (!m_pAllocator) {
+            return E_FAIL;
+        }
     }
 
     {

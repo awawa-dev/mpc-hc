@@ -144,28 +144,32 @@ public:
     }
 
     void Unsubscribe(T id) {
-        auto it = m_subscribers.find(id);
-        if (it != m_subscribers.end()) {
-            const UINT_PTR nIDEvent = it->second.first;
-            ASSERT(m_used[nIDEvent]);
-            if (m_pWnd->m_hWnd) {
-                VERIFY(m_pWnd->KillTimer(nIDEvent));
+        if (m_subscribers.size() > 0) {
+            auto it = m_subscribers.find(id);
+            if (it != m_subscribers.end()) {
+                const UINT_PTR nIDEvent = it->second.first;
+                ASSERT(m_used[nIDEvent]);
+                if (m_pWnd->m_hWnd) {
+                    VERIFY(m_pWnd->KillTimer(nIDEvent));
+                }
+                m_subscribers.erase(it);
+                m_used[nIDEvent] = false;
             }
-            m_subscribers.erase(it);
-            m_used[nIDEvent] = false;
         }
     }
 
     void NotifySubscribers(UINT_PTR nIDEvent) {
-        for (auto it = m_subscribers.begin(); it != m_subscribers.end(); ++it) {
-            if (it->second.first == nIDEvent) {
-                ASSERT(m_used[nIDEvent]);
-                VERIFY(m_pWnd->KillTimer(nIDEvent));
-                const TimerCallback cb = it->second.second;
-                m_subscribers.erase(it);
-                m_used[nIDEvent] = false;
-                cb();
-                break;
+        if (m_subscribers.size() > 0) {
+            for (auto it = m_subscribers.begin(); it != m_subscribers.end(); ++it) {
+                if (it->second.first == nIDEvent) {
+                    ASSERT(m_used[nIDEvent]);
+                    VERIFY(m_pWnd->KillTimer(nIDEvent));
+                    const TimerCallback cb = it->second.second;
+                    m_subscribers.erase(it);
+                    m_used[nIDEvent] = false;
+                    cb();
+                    break;
+                }
             }
         }
     }

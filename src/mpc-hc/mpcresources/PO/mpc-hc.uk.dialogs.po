@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Vlad Anisimov <uniss@ua.fm>, 2021
+# Vlad Anisimov <uniss@ua.fm>, 2022
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
+"POT-Creation-Date: 2022-04-22 22:44:46+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Vlad Anisimov <uniss@ua.fm>, 2021\n"
+"Last-Translator: Vlad Anisimov <uniss@ua.fm>, 2022\n"
 "Language-Team: Ukrainian (https://www.transifex.com/mpchc/teams/106126/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -203,7 +203,7 @@ msgstr "Про програму"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2022 clsid2 and others"
-msgstr ""
+msgstr "Авторське право 2002-2022 clsid2 та інші"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -214,8 +214,7 @@ msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr ""
-"Українська локалізація зроблена небайдужими користувачами, чого і Вам бажаю."
+msgstr "Українська локалізація зроблена небайдужими користувачами."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -335,7 +334,7 @@ msgstr "Зберігати історію відкритих файлів"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Запам'ятовувати останній список відтворення"
+msgstr "Запам'ятовувати список відтворення"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
@@ -347,15 +346,15 @@ msgstr "Запам'ятовувати позицію DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
-msgstr "Запам'ятовувати останню позицію вікна"
+msgstr "Запам'ятовувати позицію вікна"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "Запам'ятовувати останній розмір вікна"
+msgstr "Запам'ятовувати розмір вікна"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Запам'ятовувати останнє значення розташування та розміру кадра"
+msgstr "Запам'ятовувати розташування та розміру кадра"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -637,8 +636,8 @@ msgid "Directory"
 msgstr "Тека"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
-msgid "File(s)"
-msgstr "Файл(и)"
+msgid "Playlist"
+msgstr "Список відтворення"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -1207,7 +1206,7 @@ msgstr "Реініціалізація при зміні дисплею"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Повноекранний Direct3D (зменшує дрижання)"
+msgstr "Повноекранний D3D (зменшує дрижання)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1403,7 +1402,7 @@ msgstr "Використовувати зміщення"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Символьна швидкість"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1627,6 +1626,11 @@ msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
 msgstr "Мови в порядку переваги:"
 
+msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
+msgid ""
+"Automatically save downloaded subtitles to the first autoload path folder"
+msgstr ""
+
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
 msgstr "Перевірка оновлень"
@@ -1759,7 +1763,7 @@ msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
 msgstr ""
 "Ігнорувати змішувач системних каналів (завжди ігнорується в ексклюзивному "
-"режимі WASAPI)"
+"WASAPI)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"

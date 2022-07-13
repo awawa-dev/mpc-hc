@@ -231,23 +231,17 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
 
     InvalidateSamples();
   
-    if (m_mt.majortype == MEDIATYPE_Text
-            || m_mt.majortype == MEDIATYPE_Subtitle
-            && (m_mt.subtype == MEDIASUBTYPE_UTF8
-                /*|| m_mt.subtype == MEDIASUBTYPE_USF*/
-                || m_mt.subtype == MEDIASUBTYPE_WEBVTT
-                || m_mt.subtype == MEDIASUBTYPE_SSA
-                || m_mt.subtype == MEDIASUBTYPE_ASS
-                || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
-        if (m_mt.subtype != MEDIASUBTYPE_WEBVTT) {
-            // WebVTT can be read as one big blob of data during pin connection, instead of as samples during playback.
-            // This depends on how it is being demuxed. So both situations need to be handled.
-            // Don't remove existing data in case of WebVTT. Instead we check for duplicates in CSimpleTextSubtitle::Add()
-            CAutoLock cAutoLock2(m_pSubLock);
-            CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+    if (m_mt.majortype == MEDIATYPE_Text || m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_UTF8
+            || m_mt.subtype == MEDIASUBTYPE_WEBVTT || m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS
+            || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
+        CAutoLock cAutoLock2(m_pSubLock);
+        CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+        if (pRTS->m_webvtt_allow_clear || pRTS->m_subtitleType != Subtitle::VTT) {
             pRTS->RemoveAll();
             pRTS->CreateSegments();
         }
+        // WebVTT can be read as one big blob of data during pin connection, instead of as samples during playback.
+        // This depends on how it is being demuxed. So clear only if we previously got data through samples.
     } else if (m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_VOBSUB)) {
         CAutoLock cAutoLock2(m_pSubLock);
         CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;
@@ -460,6 +454,9 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             if (!str.IsEmpty()) {
                 pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
                 bInvalidate = true;
+                if (pRTS->m_subtitleType == Subtitle::VTT) {
+                    pRTS->m_webvtt_allow_clear = true;
+                }
             }
 #if USE_LIBASS
             if (pRTS->m_assloaded) {
