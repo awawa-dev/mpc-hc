@@ -71,6 +71,16 @@ echo "#endif /* FFMPEG_CONFIG_H */" >> tmp/config.h
 cp -f config.h config.h.old
 cp -f tmp/config.h ./config.h
 
+fgrep -x -f tmp/32/config_components.h tmp/64/config_components.h | grep -v "#endif" > tmp/config_components.h
+echo "#ifdef WIN64" >> tmp/config_components.h
+comm -13 <(sort tmp/32/config_components.h) <(sort tmp/64/config_components.h) >> tmp/config_components.h
+echo "#else" >> tmp/config_components.h
+comm -23 <(sort tmp/32/config_components.h) <(sort tmp/64/config_components.h) >> tmp/config_components.h
+echo "#endif" >> tmp/config_components.h
+echo "#endif /* FFMPEG_CONFIG_COMPONENTS_H */" >> tmp/config_components.h
+cp -f config_components.h config_components.h.old
+cp -f tmp/config_components.h ./config_components.h
+
 fgrep -x -f tmp/32/config.asm tmp/64/config.asm | grep -v "#endif" > tmp/config.asm
 echo "%ifdef WIN64" >> tmp/config.asm
 comm -13 <(sort tmp/32/config.asm) <(sort tmp/64/config.asm) >> tmp/config.asm

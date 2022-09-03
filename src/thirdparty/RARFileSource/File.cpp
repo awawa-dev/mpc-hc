@@ -87,19 +87,7 @@ bool ExtractCurrentFile(CmdExtract *cmdExtract, Archive &Arc, int64 extractStart
 
   if (Arc.FileHead.Encrypted)
   {
-    SecPassword FilePassword=cmdExtract->Cmd->Password;
-    cmdExtract->ConvertDosPassword(Arc,FilePassword);
-
-    byte PswCheck[SIZE_PSWCHECK];
-    DataIO.SetEncryption(false,Arc.FileHead.CryptMethod,&FilePassword,
-           Arc.FileHead.SaltSet ? Arc.FileHead.Salt:NULL,
-           Arc.FileHead.InitV,Arc.FileHead.Lg2Count,
-           Arc.FileHead.HashKey,PswCheck);
-    if (Arc.FileHead.Encrypted && Arc.FileHead.UsePswCheck &&
-            memcmp(Arc.FileHead.PswCheck, PswCheck, SIZE_PSWCHECK) != 0) 
-    {
-        return false;
-    }
+      return false;
   }
 
   File CurFile;
@@ -213,7 +201,7 @@ HRESULT CRFSFile::SyncRead(LONGLONG llPosition, DWORD lLength, BYTE* pBuffer, LO
             *cbActual = totalRead;
         return S_OK;
     } else {
-        return S_FALSE;
+        return E_FAIL;
     }
 
 }

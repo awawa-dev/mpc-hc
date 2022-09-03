@@ -17,6 +17,7 @@ CBrush CMPCThemeUtil::contentBrush;
 CBrush CMPCThemeUtil::windowBrush;
 CBrush CMPCThemeUtil::controlAreaBrush;
 CBrush CMPCThemeUtil::W10DarkThemeFileDialogInjectedBGBrush;
+NONCLIENTMETRICS CMPCThemeUtil::nonClientMetrics = { 0 };
 
 CMPCThemeUtil::CMPCThemeUtil():
     themedDialogToolTipParent(nullptr)
@@ -409,7 +410,7 @@ bool CMPCThemeUtil::MPCThemeEraseBkgnd(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
     }
 }
 
-bool CMPCThemeUtil::getFontByFace(CFont& font, CDC* pDC, CWnd* wnd, wchar_t* fontName, int size, LONG weight)
+bool CMPCThemeUtil::getFontByFace(CFont& font, CWnd* wnd, wchar_t* fontName, int size, LONG weight)
 {
     LOGFONT lf;
     memset(&lf, 0, sizeof(LOGFONT));
@@ -450,11 +451,10 @@ bool CMPCThemeUtil::getFixedFont(CFont& font, CDC* pDC, CWnd* wnd)
     return font.CreateFontIndirect(&tlf);
 }
 
-bool CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, CWnd* wnd, int type, bool underline, bool bold)
+bool CMPCThemeUtil::getFontByType(CFont& font, CWnd* wnd, int type, bool underline, bool bold)
 {
     /* adipose: works poorly for dialogs as they cannot be scaled to fit zoomed fonts, only use for menus and status bars*/
-    NONCLIENTMETRICS m;
-    GetMetrics(&m);
+    GetMetrics();
 
     if (!wnd) {
         wnd = AfxGetMainWnd();
@@ -467,15 +467,15 @@ bool CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, CWnd* wnd, int type, bo
 
     LOGFONT* lf;
     if (type == CaptionFont) {
-        lf = &m.lfCaptionFont;
+        lf = &nonClientMetrics.lfCaptionFont;
     } else if (type == SmallCaptionFont) {
-        lf = &m.lfSmCaptionFont;
+        lf = &nonClientMetrics.lfSmCaptionFont;
     } else if (type == MenuFont) {
-        lf = &m.lfMenuFont;
+        lf = &nonClientMetrics.lfMenuFont;
     } else if (type == StatusFont) {
-        lf = &m.lfStatusFont;
+        lf = &nonClientMetrics.lfStatusFont;
     } else if (type == MessageFont || type == DialogFont) {
-        lf = &m.lfMessageFont;
+        lf = &nonClientMetrics.lfMessageFont;
 #if 0
     } else if (type == DialogFont) { //hack for compatibility with MS SHell Dlg (8) used in dialogs
         DpiHelper dpiWindow;
@@ -491,7 +491,7 @@ bool CMPCThemeUtil::getFontByType(CFont& font, CDC* pDC, CWnd* wnd, int type, bo
         lf = &tlf;
 #endif
     } else {
-        lf = &m.lfMessageFont;
+        lf = &nonClientMetrics.lfMessageFont;
     }
 
     int newHeight = MulDiv(lf->lfHeight, dpiWindow.DPIY(), dpiMain.DPIY());
@@ -533,7 +533,7 @@ CSize CMPCThemeUtil::GetTextSize(CString str, HDC hDC, CWnd *wnd, int type)
 {
     CDC* pDC = CDC::FromHandle(hDC);
     CFont font;
-    getFontByType(font, pDC, wnd, type);
+    getFontByType(font, wnd, type);
 
     return GetTextSize(str, pDC, &font);
 }
@@ -549,20 +549,23 @@ CSize CMPCThemeUtil::GetTextSizeDiff(CString str, HDC hDC, CWnd* wnd, int type, 
     return cs - curCs;
 }
 
-void CMPCThemeUtil::GetMetrics(NONCLIENTMETRICS* m)
+void CMPCThemeUtil::GetMetrics(bool reset /* = false */)
 {
-    m->cbSize = sizeof(NONCLIENTMETRICS);
-    ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), m, 0);
-    DpiHelper dpi, dpiWindow;
-    dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
+    NONCLIENTMETRICS *m = &nonClientMetrics;
+    if (m->cbSize == 0 || reset) {
+        m->cbSize = sizeof(NONCLIENTMETRICS);
+        ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), m, 0);
+        DpiHelper dpi, dpiWindow;
+        dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
 
-    //getclientmetrics is ignorant of per window DPI
-    if (dpi.ScaleFactorY() != dpiWindow.ScaleFactorY()) {
-        m->lfCaptionFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfCaptionFont.lfHeight);
-        m->lfSmCaptionFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfSmCaptionFont.lfHeight);
-        m->lfMenuFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfMenuFont.lfHeight);
-        m->lfStatusFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfStatusFont.lfHeight);
-        m->lfMessageFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfMessageFont.lfHeight);
+        //getclientmetrics is ignorant of per window DPI
+        if (dpi.ScaleFactorY() != dpiWindow.ScaleFactorY()) {
+            m->lfCaptionFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfCaptionFont.lfHeight);
+            m->lfSmCaptionFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfSmCaptionFont.lfHeight);
+            m->lfMenuFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfMenuFont.lfHeight);
+            m->lfStatusFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfStatusFont.lfHeight);
+            m->lfMessageFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfMessageFont.lfHeight);
+        }
     }
 }
 

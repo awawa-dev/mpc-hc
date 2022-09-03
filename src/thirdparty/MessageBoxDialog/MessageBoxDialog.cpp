@@ -826,7 +826,7 @@ void CMessageBoxDialog::CreateMessageControl ( )
     //CFont* pOldFont = dcDisplay.SelectObject(GetFont());
     CFont* pOldFont = dcDisplay.GetCurrentFont();
     CFont font;
-    if (CMPCThemeUtil::getFontByType(font, &dcDisplay, this, CMPCThemeUtil::MessageFont)) {
+    if (CMPCThemeUtil::getFontByType(font, this, CMPCThemeUtil::MessageFont)) {
         dcDisplay.SelectObject(&font);
     }
 

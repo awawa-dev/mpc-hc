@@ -245,7 +245,7 @@ void CPreView::SetWindowSize() {
 
 void CPreView::ScaleFont() {
     m_font.DeleteObject();
-    CMPCThemeUtil::getFontByType(m_font, nullptr, nullptr, CMPCThemeUtil::MessageFont);
+    CMPCThemeUtil::getFontByType(m_font, nullptr, CMPCThemeUtil::MessageFont);
 }
 
 void CPreView::SetColor() {

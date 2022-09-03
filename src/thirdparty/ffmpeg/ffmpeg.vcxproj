@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="config.h" />
+    <ClInclude Include="config_components.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{438286B7-A9F4-411D-BCC5-948C40E37D8F}</ProjectGuid>

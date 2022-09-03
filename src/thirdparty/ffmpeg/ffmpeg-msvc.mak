@@ -94,10 +94,7 @@ SRCS_LC = \
 	libavcodec/bsf.c \
 	libavcodec/codec_desc.c \
 	libavcodec/codec_par.c \
-	libavcodec/d3d11va.c \
 	libavcodec/decode.c \
-	libavcodec/dirac.c \
-	libavcodec/dv_profile.c \
 	libavcodec/encode.c \
 	libavcodec/faandct.c \
 	libavcodec/faanidct.c \
@@ -106,6 +103,7 @@ SRCS_LC = \
 	libavcodec/fft_float.c \
 	libavcodec/fft_init_table.c \
 	libavcodec/file_open.c \
+	libavcodec/get_buffer.c \
 	libavcodec/idctdsp.c \
 	libavcodec/imgconvert.c \
 	libavcodec/jfdctfst.c \
@@ -113,8 +111,6 @@ SRCS_LC = \
 	libavcodec/jni.c \
 	libavcodec/jrevdct.c \
 	libavcodec/mathtables.c \
-	libavcodec/mediacodec.c \
-	libavcodec/mpeg12framerate.c \
 	libavcodec/null_bsf.c \
 	libavcodec/options.c \
 	libavcodec/parser.c \
@@ -123,13 +119,10 @@ SRCS_LC = \
 	libavcodec/pthread.c \
 	libavcodec/pthread_frame.c \
 	libavcodec/pthread_slice.c \
-	libavcodec/qsv_api.c \
 	libavcodec/raw.c \
 	libavcodec/rdft.c \
 	libavcodec/simple_idct.c \
 	libavcodec/utils.c \
-	libavcodec/vorbis_parser.c \
-	libavcodec/xiph.c \
 	libavcodec/x86/constants.c \
 	libavcodec/x86/fdctdsp_init.c \
 	libavcodec/x86/fft_init.c \
@@ -233,7 +226,8 @@ SRCS_LU = \
 	libavutil/x86/fixed_dsp_init.c \
 	libavutil/x86/float_dsp_init.c \
 	libavutil/x86/imgutils_init.c \
-	libavutil/x86/lls_init.c
+	libavutil/x86/lls_init.c \
+	libavutil/x86/tx_float_init.c
 
 SRCS_LR = \
 	libswresample/audioconvert.c \
@@ -266,7 +260,8 @@ SRCS_YASM_LU = \
 	libavutil/x86/fixed_dsp.asm \
 	libavutil/x86/float_dsp.asm \
 	libavutil/x86/imgutils.asm \
-	libavutil/x86/lls.asm
+	libavutil/x86/lls.asm \
+	libavutil/x86/tx_float.asm
 
 SRCS_YASM_LR = \
 	libswresample/x86/audio_convert.asm \

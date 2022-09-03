@@ -61,6 +61,7 @@ CMyFont::CMyFont(const STSStyle& style)
     lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
     lf.lfQuality = ANTIALIASED_QUALITY;
     lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+    lf.lfCharSet = DEFAULT_CHARSET;
 
     if (!CreateFontIndirect(&lf)) {
         _tcscpy_s(lf.lfFaceName, _T("Calibri"));

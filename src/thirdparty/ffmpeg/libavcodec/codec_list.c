@@ -1,2 +1,2 @@
-static const AVCodec * const codec_list[] = {
+static const FFCodec * const codec_list[] = {
     NULL };

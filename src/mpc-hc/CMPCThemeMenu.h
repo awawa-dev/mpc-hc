@@ -55,5 +55,7 @@ protected:
     static int postTextSpacing;
     static int accelSpacing;
     static HBRUSH bgBrush;
+    static CFont font, symbolFont, bulletFont, checkFont;
+    static CCritSec resourceLock;
 };
 

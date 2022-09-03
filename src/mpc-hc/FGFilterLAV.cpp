@@ -351,7 +351,7 @@ void CFGFilterLAVSplitterBase::Settings::LoadSettings()
 
     bMatroskaExternalSegments = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("MatroskaExternalSegments"), bMatroskaExternalSegments);
 
-    bStreamSwitchRemoveAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
+    bStreamSwitchReselectSubs = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchReselectSubs"), bStreamSwitchReselectSubs);
 
     bStreamSwitchRemoveAudio = pApp->GetProfileInt(IDS_R_INTERNAL_LAVSPLITTER, _T("StreamSwitchRemoveAudio"), bStreamSwitchRemoveAudio);
 

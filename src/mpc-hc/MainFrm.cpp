@@ -1787,6 +1787,8 @@ LRESULT CMainFrame::OnDpiChanged(WPARAM wParam, LPARAM lParam)
     m_dpi.Override(LOWORD(wParam), HIWORD(wParam));
     m_eventc.FireEvent(MpcEvent::DPI_CHANGED);
     CMPCThemeMenu::clearDimensions();
+    NONCLIENTMETRICS m = { sizeof(NONCLIENTMETRICS) };
+    ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &m, 0);
     if (!restoringWindowRect) { //do not adjust for DPI if restoring saved window position
         MoveWindow(reinterpret_cast<RECT*>(lParam));
     }
@@ -3084,6 +3086,9 @@ LRESULT CMainFrame::OnGraphNotify(WPARAM wParam, LPARAM lParam)
                 }
                 break;
             case EC_CLOCK_CHANGED:
+                if (m_pBA && !m_fFrameSteppingActive) {
+                    m_pBA->put_Volume(m_wndToolBar.Volume);
+                }
                 break;
             case 0xfa17:
                 // madVR changed graph state
@@ -4152,6 +4157,10 @@ void CMainFrame::OnStreamAudio(UINT nID)
         OnStreamSelect(nID == 0, 1);
     } else if (GetPlaybackMode() == PM_DVD) {
         SendMessage(WM_COMMAND, ID_DVD_AUDIO_NEXT + nID);
+    }
+
+    if (m_pBA && !m_fFrameSteppingActive) {
+        m_pBA->put_Volume(m_wndToolBar.Volume);
     }
 }
 
@@ -5404,7 +5413,7 @@ HRESULT CMainFrame::GetOriginalFrame(std::vector<BYTE>& dib, CString& errmsg) {
 }
 
 HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
-    ASSERT(AfxGetAppSettings().bSnapShotSubtitles && !m_pMVRFG && AfxGetAppSettings().fEnableSubtitles && AfxGetAppSettings().IsISRAutoLoadEnabled());
+    ASSERT(m_pCAP && AfxGetAppSettings().bSnapShotSubtitles && !m_pMVRFG && AfxGetAppSettings().fEnableSubtitles && AfxGetAppSettings().IsISRAutoLoadEnabled());
     CheckPointer(pData, E_FAIL);
     HRESULT hr = S_FALSE;
 
@@ -5414,7 +5423,7 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
         const int height = bih->biHeight;
 
         SubPicDesc spdRender;
-		spdRender.type    = MSP_RGB32;
+        spdRender.type = MSP_RGB32;
         spdRender.w = width;
         spdRender.h = abs(height);
         spdRender.bpp = 32;
@@ -5424,6 +5433,15 @@ HRESULT CMainFrame::RenderCurrentSubtitles(BYTE* pData) {
 
         REFERENCE_TIME rtNow = 0;
         m_pMS->GetCurrentPosition(&rtNow);
+
+        int delay = m_pCAP->GetSubtitleDelay();
+        if (delay != 0) {
+            if (delay > 0 && delay * 10000LL > rtNow) {
+                return S_FALSE;
+            } else {
+                rtNow -= delay * 10000LL;
+            }
+        }
 
         CComPtr<CMemSubPicAllocator> pSubPicAllocator = DEBUG_NEW CMemSubPicAllocator(spdRender.type, CSize(spdRender.w, spdRender.h));
 
@@ -5559,12 +5577,18 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
     spd.vidrect = CRect(0, 0, width, height);
     spd.bits = (BYTE*)(bih + 1) + (width * 4) * (height - 1);
 
+    bool darktheme = AppIsThemeLoaded();
+
+    int gradientBase = 0xe0;
+    if (darktheme) {
+        gradientBase = 0x00;
+    }
     // Paint the background
     {
         BYTE* p = (BYTE*)spd.bits;
         for (int y = 0; y < spd.h; y++, p += spd.pitch) {
             for (int x = 0; x < spd.w; x++) {
-                ((DWORD*)p)[x] = 0x010101 * (0xe0 + 0x08 * y / spd.h + 0x18 * (spd.w - x) / spd.w);
+                ((DWORD*)p)[x] = 0x010101 * (gradientBase + 0x08 * y / spd.h + 0x18 * (spd.w - x) / spd.w);
             }
         }
     }
@@ -5724,7 +5748,7 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         STSStyle* style = DEBUG_NEW STSStyle();
         // Use System UI font.
         CFont tempFont;
-        CMPCThemeUtil::getFontByType(tempFont, nullptr, nullptr, CMPCThemeUtil::MessageFont);
+        CMPCThemeUtil::getFontByType(tempFont, nullptr, CMPCThemeUtil::MessageFont);
         LOGFONT lf;
         if (tempFont.GetLogFont(&lf)) {
             CString fontName(lf.lfFaceName);
@@ -5735,6 +5759,9 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
 
         CStringW str;
         str.Format(L"{\\an9\\fs%d\\b1\\bord0\\shad0\\1c&Hffffff&}%s", infoheight - 10, L"MPC-HC");
+        if (darktheme) {
+            str.Replace(L"\\1c&Hffffff", L"\\1c&Hc8c8c8");
+        }
 
         rts.Add(str, true, 0, 1, _T("thumbs"), _T(""), _T(""), CRect(0, 0, 0, 0), -1);
 
@@ -5772,8 +5799,11 @@ void CMainFrame::SaveThumbnails(LPCTSTR fn)
         if (szAR.cx > 0 && szAR.cy > 0 && szAR.cx != szVideo.cx && szAR.cy != szVideo.cy) {
             ar.Format(L"(%ld:%ld)", szAR.cx, szAR.cy);
         }
-
-        str.Format(IDS_THUMBNAILS_INFO_HEADER,
+        CStringW fmt = ResStr(IDS_THUMBNAILS_INFO_HEADER);
+        if (darktheme) {
+            fmt.Replace(L"\\1c&H000000", L"\\1c&Hc8c8c8");
+        }
+        str.Format(fmt,
                    title.GetString(), fs.GetString(), szVideo.cx, szVideo.cy, ar.GetString(), hmsf.bHours, hmsf.bMinutes, hmsf.bSeconds);
         rts.Add(str, true, 0, 1, _T("thumbs"));
 
@@ -7894,8 +7924,8 @@ bool CMainFrame::PerformFlipRotate()
         int z = m_AngleZ;
         if (m_pCAP2) {
             int nZ = nearest90(z);
-            z = z - nZ;
-            Vector defAngle = Vector(0, 0, Vector::DegToRad((nZ + m_iDefRotation) % 360));
+            z = (z - nZ + 360) % 360;
+            Vector defAngle = Vector(0, 0, Vector::DegToRad((nZ - m_iDefRotation + 360) % 360));
             m_pCAP2->SetDefaultVideoAngle(defAngle);
         }
         
@@ -10801,7 +10831,7 @@ OAFilterState CMainFrame::GetMediaState() const
     OAFilterState ret = -1;
     if (m_eMediaLoadState == MLS::LOADED) {
         if (m_CachedFilterState != -1) {
-            #if DEBUG & 1
+            #if DEBUG & 0
             ret = GetMediaStateDirect();
             ASSERT(ret == m_CachedFilterState || m_fFrameSteppingActive);
             #endif
@@ -15373,16 +15403,12 @@ void CMainFrame::SetupSubtitlesSubMenu()
 
                 for (int j = 0, cnt = (int)cStreams; j < cnt; j++) {
                     DWORD dwFlags, dwGroup;
-                     WCHAR* pszName = nullptr;
+                    CComHeapPtr<WCHAR> pszName;
 
                     if (FAILED(pSSF->Info(j, nullptr, &dwFlags, nullptr, &dwGroup, &pszName, nullptr, nullptr))
                             || !pszName) {
                         continue;
                     }
-
-                    CString name(pszName);
-                    CString lcname = CString(name).MakeLower();
-                    CoTaskMemFree(pszName);
 
                     if (dwGroup != 2) {
                         continue;
@@ -15393,14 +15419,15 @@ void CMainFrame::SetupSubtitlesSubMenu()
                         iSelected = i;
                     }
 
-                    CString str;
+                    CString name(pszName);
+                    /*
+                    CString lcname = CString(name).MakeLower();
                     if (lcname.Find(_T(" off")) >= 0) {
-                        str.LoadString(IDS_AG_DISABLED);
-                    } else {
-                        str = name;
+                        name.LoadString(IDS_AG_DISABLED);
                     }
-                    str.Replace(_T("&"), _T("&&"));
-                    VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, str));
+                    */
+                    name.Replace(_T("&"), _T("&&"));
+                    VERIFY(subMenu.AppendMenu(MF_STRING | MF_ENABLED, id++, name));
                     i++;
                 }
             } else {
@@ -15710,14 +15737,13 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
                 continue;
             }
 
-            CString str;
-            CString lcname = CString(pszName).MakeLower();
-
-            if (lcname.Find(_T(" off")) >= 0) {
-                str.LoadString(IDS_AG_DISABLED);
-            } else {
-                str = pszName;
+            CString name(pszName);
+            /*
+            CString lcname = CString(name).MakeLower();
+            if (dwGroup == 2 && lcname.Find(_T(" off")) >= 0) {
+                name.LoadString(IDS_AG_DISABLED);
             }
+            */
 
             UINT flags = MF_BYCOMMAND | MF_STRING | MF_ENABLED;
             if (dwFlags) {
@@ -15730,8 +15756,8 @@ void CMainFrame::SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSe
             }
             bAdded = true;
 
-            str.Replace(_T("&"), _T("&&"));
-            VERIFY(subMenu.AppendMenu(flags, id++, str));
+            name.Replace(_T("&"), _T("&&"));
+            VERIFY(subMenu.AppendMenu(flags, id++, name));
         }
 
         if (bAdded) {
@@ -18446,10 +18472,20 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
 {
     CAtlList<CString> fns;
     REFERENCE_TIME rtPos = 0;
+    CString fn;
 
     switch (pCDS->dwData) {
         case CMD_OPENFILE:
-            fns.AddHead((LPCWSTR)pCDS->lpData);
+            fn = CString((LPCWSTR)pCDS->lpData);
+            if (CanSendToYoutubeDL(fn)) {
+                if (ProcessYoutubeDLURL(fn, false)) {
+                    OpenCurPlaylistItem();
+                    return;
+                } else if (IsOnYDLWhitelist(fn)) {
+                    return;
+                }
+            }
+            fns.AddHead(fn);
             m_wndPlaylistBar.Open(fns, false);
             OpenCurPlaylistItem();
             break;
@@ -18469,7 +18505,15 @@ void CMainFrame::ProcessAPICommand(COPYDATASTRUCT* pCDS)
             OnApiPause();
             break;
         case CMD_ADDTOPLAYLIST:
-            fns.AddHead((LPCWSTR)pCDS->lpData);
+            fn = CString((LPCWSTR)pCDS->lpData);
+            if (CanSendToYoutubeDL(fn)) {
+                if (ProcessYoutubeDLURL(fn, true)) {
+                    return;
+                } else if (IsOnYDLWhitelist(fn)) {
+                    return;
+                }
+            }
+            fns.AddHead(fn);
             m_wndPlaylistBar.Append(fns, true);
             break;
         case CMD_STARTPLAYLIST:
@@ -20424,6 +20468,7 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
     __super::OnSettingChange(uFlags, lpszSection);
     if (SPI_SETNONCLIENTMETRICS == uFlags) {
+        CMPCThemeUtil::GetMetrics(true);
         CMPCThemeMenu::clearDimensions();
         if (nullptr != defaultMPCThemeMenu) {
             UpdateUILanguage(); //cheap way to rebuild menus--we want to do this to force them to re-measure

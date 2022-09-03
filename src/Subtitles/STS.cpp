@@ -737,8 +737,8 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         if (!styleStr.IsEmpty()) {
             auto parseColor = [](std::wstring styles, std::wstring attr = L"color") {
                 //we only support color styles for now
-                std::wregex clrPat(attr + LR"(\s*:\s*#?([a-zA-Z0-9]*)\s*;)"); //e.g., 0xffffff or white
-                std::wregex rgbPat(attr + LR"(\s*:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*;)");
+                std::wregex clrPat(LR"(^\s*)" + attr + LR"(\s*:\s*#?([a-zA-Z0-9]*)\s*;)"); //e.g., 0xffffff or white
+                std::wregex rgbPat(LR"(^\s*)" + attr + LR"(\s*:\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*;)");
                 std::wsmatch match;
                 std::wstring clrStr = L"";
                 if (std::regex_search(styles, match, clrPat)) {
@@ -762,7 +762,10 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
                 auto iter = results[results.size() - 1];
                 std::wstring clr, bgClr;
                 clr = parseColor(iter[0]);
-                bgClr = parseColor(iter[0], L"background");
+                bgClr = parseColor(iter[0], L"background-color");
+                if (bgClr == L"") {
+                    bgClr = parseColor(iter[0], L"background");
+                }
                 if (clr != L"" || bgClr != L"") {
                     cueColors[L"::cue"] = WebVTTcolorData({ clr, bgClr });
                 }
@@ -773,7 +776,10 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
             for (const auto& iter : results) {
                 std::wstring clr, bgClr;
                 clr=parseColor(iter[1]);
-                bgClr=parseColor(iter[1], L"background");
+                bgClr=parseColor(iter[1], L"background-color");
+                if (bgClr == L"") {
+                    bgClr = parseColor(iter[1], L"background");
+                }
                 if (clr != L"" || bgClr != L"") {
                     cueColors[iter[0]] = WebVTTcolorData({ clr, bgClr });
                 }

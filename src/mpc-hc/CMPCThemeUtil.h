@@ -23,6 +23,7 @@ public:
 
 protected:
     static CBrush contentBrush, windowBrush, controlAreaBrush, W10DarkThemeFileDialogInjectedBGBrush;
+    static NONCLIENTMETRICS nonClientMetrics;
     std::vector<CWnd*> allocatedWindows;
 
     void fulfillThemeReqs(CWnd* wnd);
@@ -36,9 +37,9 @@ protected:
     void PlaceThemedDialogTooltip(UINT_PTR nID);
     void RelayThemedDialogTooltip(MSG* pMsg);
 public:
-    static bool getFontByFace(CFont& font, CDC* pDC, CWnd *wnd, wchar_t* fontName, int size, LONG weight = FW_REGULAR);
+    static bool getFontByFace(CFont& font, CWnd *wnd, wchar_t* fontName, int size, LONG weight = FW_REGULAR);
     static bool getFixedFont(CFont& font, CDC* pDC, CWnd* wnd);
-    static bool getFontByType(CFont& font, CDC* pDC, CWnd* wnd, int type, bool underline = false, bool bold = false);
+    static bool getFontByType(CFont& font, CWnd* wnd, int type, bool underline = false, bool bold = false);
     enum fontType {
         CaptionFont,
         SmallCaptionFont,
@@ -54,7 +55,7 @@ public:
     static CSize GetTextSizeDiff(CString str, HDC hDC, CWnd* wnd, int type, CFont* curFont);
 
 
-    static void GetMetrics(NONCLIENTMETRICS* ncMetrics);
+    static void GetMetrics(bool reset = false);
     static void initMemDC(CDC* pDC, CDC& dcMem, CBitmap& bmMem, CRect rect);
     static void flushMemDC(CDC* pDC, CDC& dcMem, CRect rect);
     static void DrawBufferedText(CDC* pDC, CString text, CRect rect, UINT format);

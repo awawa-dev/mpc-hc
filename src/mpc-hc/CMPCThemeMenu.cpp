@@ -9,6 +9,10 @@
 
 std::map<UINT, CMPCThemeMenu*> CMPCThemeMenu::subMenuIDs;
 HBRUSH CMPCThemeMenu::bgBrush = 0;
+CFont CMPCThemeMenu::font;
+CFont CMPCThemeMenu::symbolFont;
+CFont CMPCThemeMenu::bulletFont;
+CFont CMPCThemeMenu::checkFont;
 
 IMPLEMENT_DYNAMIC(CMPCThemeMenu, CMenu);
 
@@ -21,6 +25,7 @@ int CMPCThemeMenu::separatorPadding;
 int CMPCThemeMenu::separatorHeight;
 int CMPCThemeMenu::postTextSpacing;
 int CMPCThemeMenu::accelSpacing;
+CCritSec CMPCThemeMenu::resourceLock;
 
 CMPCThemeMenu::CMPCThemeMenu()
 {
@@ -61,6 +66,25 @@ void CMPCThemeMenu::initDimensions()
         separatorHeight = dpi.ScaleX(7);
         postTextSpacing = dpi.ScaleX(20);
         accelSpacing = dpi.ScaleX(30);
+        {
+            CAutoLock cAutoLock(&resourceLock);
+            if (font.m_hObject) {
+                font.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByType(font, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+            if (symbolFont.m_hObject) {
+                symbolFont.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByFace(symbolFont, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 14, FW_BOLD);
+            if (bulletFont.m_hObject) {
+                bulletFont.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByFace(bulletFont, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 6, FW_REGULAR);
+            if (checkFont.m_hObject) {
+                checkFont.DeleteObject();
+            }
+            CMPCThemeUtil::getFontByFace(checkFont, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 10, FW_REGULAR);
+        }
         hasDimensions = true;
     }
 }
@@ -355,134 +379,126 @@ void CMPCThemeMenu::GetRects(RECT rcItem, CRect& rectFull, CRect& rectM, CRect& 
 
 void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 {
-    MenuObject* menuObject = (MenuObject*)lpDrawItemStruct->itemData;
+    CAutoLock cAutoLock(&resourceLock); //make sure our resources are protected
+    if (font.m_hObject) {
+        MenuObject* menuObject = (MenuObject*)lpDrawItemStruct->itemData;
 
-    MENUITEMINFO mInfo = { sizeof(MENUITEMINFO) };
+        MENUITEMINFO mInfo = { sizeof(MENUITEMINFO) };
 
-    mInfo.fMask = MIIM_FTYPE | MIIM_SUBMENU;
-    if (lpDrawItemStruct->itemID) {
-        GetMenuItemInfo(lpDrawItemStruct->itemID, &mInfo);
-    } else {
-        //itemID=0 is default for anything inserted without specifying ID (separator).
-        //result can be finding the first separator rather than a valid item with id=0
-        MENUITEMINFO byDataInfo = { sizeof(MENUITEMINFO) };
-        byDataInfo.fMask = MIIM_DATA | MIIM_ID;
-        for (int a = 0; a < GetMenuItemCount(); a++) {
-            GetMenuItemInfo((UINT)a, &byDataInfo, true);
-            if (byDataInfo.wID == 0 && byDataInfo.dwItemData == lpDrawItemStruct->itemData) {
-                GetMenuItemInfo((UINT)a, &mInfo, true);
-                break;
+        mInfo.fMask = MIIM_FTYPE | MIIM_SUBMENU;
+        if (lpDrawItemStruct->itemID) {
+            GetMenuItemInfo(lpDrawItemStruct->itemID, &mInfo);
+        } else {
+            //itemID=0 is default for anything inserted without specifying ID (separator).
+            //result can be finding the first separator rather than a valid item with id=0
+            MENUITEMINFO byDataInfo = { sizeof(MENUITEMINFO) };
+            byDataInfo.fMask = MIIM_DATA | MIIM_ID;
+            for (int a = 0; a < GetMenuItemCount(); a++) {
+                GetMenuItemInfo((UINT)a, &byDataInfo, true);
+                if (byDataInfo.wID == 0 && byDataInfo.dwItemData == lpDrawItemStruct->itemData) {
+                    GetMenuItemInfo((UINT)a, &mInfo, true);
+                    break;
+                }
             }
         }
-    }
 
-    CRect rectFull;
-    CRect rectM;
-    CRect rectIcon;
-    CRect rectText;
-    CRect rectArrow;
+        CRect rectFull;
+        CRect rectM;
+        CRect rectIcon;
+        CRect rectText;
+        CRect rectArrow;
 
-    GetRects(lpDrawItemStruct->rcItem, rectFull, rectM, rectIcon, rectText, rectArrow);
+        GetRects(lpDrawItemStruct->rcItem, rectFull, rectM, rectIcon, rectText, rectArrow);
 
-    UINT captionAlign = DT_LEFT;
+        UINT captionAlign = DT_LEFT;
 
-    COLORREF ArrowColor = CMPCTheme::SubmenuColor;
-    COLORREF TextFGColor;
-    COLORREF TextBGColor = CMPCTheme::MenuBGColor;
-    //TextBGColor = R255; //test
-    COLORREF TextSelectColor = CMPCTheme::MenuSelectedColor;
+        COLORREF ArrowColor = CMPCTheme::SubmenuColor;
+        COLORREF TextFGColor;
+        COLORREF TextBGColor = CMPCTheme::MenuBGColor;
+        //TextBGColor = R255; //test
+        COLORREF TextSelectColor = CMPCTheme::MenuSelectedColor;
 
-    CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
+        CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 
-    if ((lpDrawItemStruct->itemState & ODS_DISABLED)) {
-        TextFGColor = CMPCTheme::MenuItemDisabledColor;
-        ArrowColor = CMPCTheme::MenuItemDisabledColor;
-    } else if (menuObject->isMenubar && GetForegroundWindow() != AfxGetMainWnd()->m_hWnd) {
-        TextFGColor = CMPCTheme::TextFGColorFade;
-    } else {
-        TextFGColor = CMPCTheme::TextFGColor;
-    }
-
-    int oldBKMode = pDC->SetBkMode(TRANSPARENT);
-    pDC->FillSolidRect(&rectM, TextBGColor);
-
-    if (menuObject->isMenubar) {
-        if (menuObject->isFirstMenuInMenuBar) { //clean up white borders
-            CRect wndSize;
-            ::GetClientRect(AfxGetMainWnd()->m_hWnd, &wndSize);
-
-            CRect rectBorder(rectM.left, rectM.bottom, rectM.left + wndSize.Width(), rectM.bottom + 1);
-            pDC->FillSolidRect(&rectBorder, CMPCTheme::MainMenuBorderColor);
-            ExcludeClipRect(lpDrawItemStruct->hDC, rectBorder.left, rectBorder.top, rectBorder.right, rectBorder.bottom);
+        if ((lpDrawItemStruct->itemState & ODS_DISABLED)) {
+            TextFGColor = CMPCTheme::MenuItemDisabledColor;
+            ArrowColor = CMPCTheme::MenuItemDisabledColor;
+        } else if (menuObject->isMenubar && GetForegroundWindow() != AfxGetMainWnd()->m_hWnd) {
+            TextFGColor = CMPCTheme::TextFGColorFade;
+        } else {
+            TextFGColor = CMPCTheme::TextFGColor;
         }
-        rectM = rectFull;
-        rectText = rectFull;
-        captionAlign = DT_CENTER;
-    }
 
-    if (mInfo.fType & MFT_SEPARATOR) {
-        int centerOffset = (separatorHeight - 1) / 2;
-        CRect rectSeparator(rectM.left + separatorPadding, rectM.top + centerOffset, rectM.right - separatorPadding, rectM.top + centerOffset + 1);
-        pDC->FillSolidRect(&rectSeparator, CMPCTheme::MenuSeparatorColor);
-    } else {
-        COLORREF oldTextFGColor = pDC->SetTextColor(TextFGColor);
+        int oldBKMode = pDC->SetBkMode(TRANSPARENT);
+        pDC->FillSolidRect(&rectM, TextBGColor);
 
-        CFont* pOldFont = pDC->GetCurrentFont();
-        CFont font;
-        if (CMPCThemeUtil::getFontByType(font, pDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont)) {
+        if (menuObject->isMenubar) {
+            if (menuObject->isFirstMenuInMenuBar) { //clean up white borders
+                CRect wndSize;
+                ::GetClientRect(AfxGetMainWnd()->m_hWnd, &wndSize);
+
+                CRect rectBorder(rectM.left, rectM.bottom, rectM.left + wndSize.Width(), rectM.bottom + 1);
+                pDC->FillSolidRect(&rectBorder, CMPCTheme::MainMenuBorderColor);
+                ExcludeClipRect(lpDrawItemStruct->hDC, rectBorder.left, rectBorder.top, rectBorder.right, rectBorder.bottom);
+            }
+            rectM = rectFull;
+            rectText = rectFull;
+            captionAlign = DT_CENTER;
+        }
+
+        if (mInfo.fType & MFT_SEPARATOR) {
+            int centerOffset = (separatorHeight - 1) / 2;
+            CRect rectSeparator(rectM.left + separatorPadding, rectM.top + centerOffset, rectM.right - separatorPadding, rectM.top + centerOffset + 1);
+            pDC->FillSolidRect(&rectSeparator, CMPCTheme::MenuSeparatorColor);
+        } else {
+            COLORREF oldTextFGColor = pDC->SetTextColor(TextFGColor);
+
+            CFont* pOldFont = pDC->GetCurrentFont();
             pDC->SelectObject(&font);
-        }
-        if ((lpDrawItemStruct->itemState & (ODS_SELECTED | ODS_HOTLIGHT)) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
-            pDC->FillSolidRect(&rectM, TextSelectColor);
-        }
-        CString left, right;
-        GetStrings(menuObject, left, right);
+            if ((lpDrawItemStruct->itemState & (ODS_SELECTED | ODS_HOTLIGHT)) && (lpDrawItemStruct->itemAction & (ODA_SELECT | ODA_DRAWENTIRE))) {
+                pDC->FillSolidRect(&rectM, TextSelectColor);
+            }
+            CString left, right;
+            GetStrings(menuObject, left, right);
 
-        UINT accelStyle = 0;
-        if (lpDrawItemStruct->itemState & ODS_NOACCEL) { //removing single &s before drawtext
-            accelStyle = DT_HIDEPREFIX;
-        }
-        pDC->DrawTextW(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE | accelStyle);
+            UINT accelStyle = 0;
+            if (lpDrawItemStruct->itemState & ODS_NOACCEL) { //removing single &s before drawtext
+                accelStyle = DT_HIDEPREFIX;
+            }
+            pDC->DrawTextW(left, rectText, DT_VCENTER | captionAlign | DT_SINGLELINE | accelStyle);
 
-        if (!menuObject->isMenubar) {
+            if (!menuObject->isMenubar) {
 
-            if (right.GetLength() > 0) {
-                pDC->DrawTextW(right, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE | accelStyle);
+                if (right.GetLength() > 0) {
+                    pDC->DrawTextW(right, rectText, DT_VCENTER | DT_RIGHT | DT_SINGLELINE | accelStyle);
+                }
+
+                if (mInfo.hSubMenu) {
+                    pDC->SelectObject(&symbolFont);
+                    pDC->SetTextColor(ArrowColor);
+                    pDC->DrawTextW(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+                }
+
+                if (lpDrawItemStruct->itemState & ODS_CHECKED) {
+                    CString check;
+                    if (mInfo.fType & MFT_RADIOCHECK) {
+                        check = TEXT("\u25CF"); //bullet
+                        pDC->SelectObject(&bulletFont);
+                    } else {
+                        check = TEXT("\u2714"); //checkmark
+                        pDC->SelectObject(&checkFont);
+                    }
+                    pDC->SetTextColor(TextFGColor);
+                    pDC->DrawTextW(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+                }
             }
 
-            if (mInfo.hSubMenu) {
-                CFont sfont;
-                if (CMPCThemeUtil::getFontByFace(sfont, pDC, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, 14, FW_BOLD)) {
-                    pDC->SelectObject(&sfont);
-                }
-                pDC->SetTextColor(ArrowColor);
-                pDC->DrawTextW(TEXT(">"), rectArrow, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
-            }
-
-            if (lpDrawItemStruct->itemState & ODS_CHECKED) {
-                CString check;
-                int size;
-                if (mInfo.fType & MFT_RADIOCHECK) {
-                    check = TEXT("\u25CF"); //bullet
-                    size = 6;
-                } else {
-                    check = TEXT("\u2714"); //checkmark
-                    size = 10;
-                }
-                CFont bFont;
-                if (CMPCThemeUtil::getFontByFace(bFont, pDC, AfxGetMainWnd(), CMPCTheme::uiSymbolFont, size, FW_REGULAR)) {
-                    pDC->SelectObject(&bFont);
-                }
-                pDC->SetTextColor(TextFGColor);
-                pDC->DrawTextW(check, rectIcon, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
-            }
+            pDC->SetBkMode(oldBKMode);
+            pDC->SetTextColor(oldTextFGColor);
+            pDC->SelectObject(pOldFont);
         }
-
-        pDC->SetBkMode(oldBKMode);
-        pDC->SetTextColor(oldTextFGColor);
-        pDC->SelectObject(pOldFont);
+        ExcludeClipRect(lpDrawItemStruct->hDC, rectFull.left, rectFull.top, rectFull.right, rectFull.bottom);
     }
-    ExcludeClipRect(lpDrawItemStruct->hDC, rectFull.left, rectFull.top, rectFull.right, rectFull.bottom);
 }
 
 void CMPCThemeMenu::GetStrings(MenuObject* mo, CString& left, CString& right)
@@ -503,7 +519,8 @@ void CMPCThemeMenu::GetStrings(MenuObject* mo, CString& left, CString& right)
 
 void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
-    initDimensions();
+    initDimensions(); //should happen before drawitem
+    CAutoLock cAutoLock(&resourceLock); //make sure our resources are protected
 
     HWND mainWnd = AfxGetMainWnd()->GetSafeHwnd();
     HDC hDC = ::GetDC(mainWnd);
@@ -513,19 +530,19 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
         lpMeasureItemStruct->itemWidth = 0;
         lpMeasureItemStruct->itemHeight = separatorHeight;
     } else {
-        CSize height = CMPCThemeUtil::GetTextSize(_T("W"), hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+        CSize height = CMPCThemeUtil::GetTextSize(_T("W"), hDC, &font);
         if (mo->isMenubar) {
-            CSize cs = CMPCThemeUtil::GetTextSize(mo->m_strCaption, hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+            CSize cs = CMPCThemeUtil::GetTextSize(mo->m_strCaption, hDC, &font);
             lpMeasureItemStruct->itemWidth = cs.cx;
             lpMeasureItemStruct->itemHeight = height.cy + rowPadding;
         } else {
             CString left, right;
             GetStrings(mo, left, right);
-            CSize cs = CMPCThemeUtil::GetTextSize(left, hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+            CSize cs = CMPCThemeUtil::GetTextSize(left, hDC, &font);
             lpMeasureItemStruct->itemHeight = height.cy + rowPadding;
             lpMeasureItemStruct->itemWidth = iconSpacing + postTextSpacing + subMenuPadding + cs.cx;
             if (right.GetLength() > 0) {
-                CSize csAccel = CMPCThemeUtil::GetTextSize(right, hDC, AfxGetMainWnd(), CMPCThemeUtil::MenuFont);
+                CSize csAccel = CMPCThemeUtil::GetTextSize(right, hDC, &font);
                 lpMeasureItemStruct->itemWidth += accelSpacing + csAccel.cx;
             }
         }
@@ -551,4 +568,3 @@ void CMPCThemeMenu::updateItem(CCmdUI* pCmdUI)
         cm->GetMenuString(pCmdUI->m_nID, menuObject->m_strCaption, MF_BYCOMMAND);
     }
 }
-

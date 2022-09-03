@@ -150,7 +150,6 @@
     <ClInclude Include="rijndael.hpp" />
     <ClInclude Include="rs.hpp" />
     <ClInclude Include="rs16.hpp" />
-    <ClInclude Include="savepos.hpp" />
     <ClInclude Include="scantree.hpp" />
     <ClInclude Include="secpassword.hpp" />
     <ClInclude Include="sha1.hpp" />

@@ -106,37 +106,37 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
         MI.Option(_T("Complete"));
         MI.Option(_T("Language"), _T("  Config_Text_ColumnSize;30"));
 
-        LONGLONG llSize, llAvailable;
-        if (pAR && SUCCEEDED(pAR->Length(&llSize, &llAvailable))) {
-            size_t ret = MI.Open_Buffer_Init((MediaInfo_int64u)llSize);
+        if (m_path.IsEmpty() || pAR && (m_path.Find(L".rar") > 0) || MI.Open(filename) == 0) {
+            LONGLONG llSize, llAvailable;
+            if (pAR && SUCCEEDED(pAR->Length(&llSize, &llAvailable))) {
+                size_t ret = MI.Open_Buffer_Init((MediaInfo_int64u)llSize);
 
-            std::vector<BYTE> buffer(MEDIAINFO_BUFFER_SIZE);
-            LONGLONG llPosition = 0;
-            while ((ret & 0x1) && !(ret & 0x8) && llPosition < llAvailable) { // While accepted and not finished
-                size_t szLength = (size_t)std::min(llAvailable - llPosition, (LONGLONG)buffer.size());
-                if (pAR->SyncRead(llPosition, (LONG)szLength, buffer.data()) != S_OK) {
-                    break;
+                std::vector<BYTE> buffer(MEDIAINFO_BUFFER_SIZE);
+                LONGLONG llPosition = 0;
+                while ((ret & 0x1) && !(ret & 0x8) && llPosition < llAvailable) { // While accepted and not finished
+                    size_t szLength = (size_t)std::min(llAvailable - llPosition, (LONGLONG)buffer.size());
+                    if (pAR->SyncRead(llPosition, (LONG)szLength, buffer.data()) != S_OK) {
+                        break;
+                    }
+
+                    ret = MI.Open_Buffer_Continue(buffer.data(), szLength);
+
+                    if (ret & 0x1) {
+                        break; // has enough data
+                    }
+
+                    // Seek to a different position if needed
+                    MediaInfo_int64u uiNeeded = MI.Open_Buffer_Continue_GoTo_Get();
+                    if (uiNeeded != MediaInfo_int64u(-1)) {
+                        llPosition = (LONGLONG)uiNeeded;
+                        // Inform MediaInfo of the seek
+                        MI.Open_Buffer_Init((MediaInfo_int64u)llSize, (MediaInfo_int64u)llPosition);
+                    } else {
+                        llPosition += (LONGLONG)szLength;
+                    }
                 }
-
-                ret = MI.Open_Buffer_Continue(buffer.data(), szLength);
-
-                // Seek to a different position if needed
-                MediaInfo_int64u uiNeeded = MI.Open_Buffer_Continue_GoTo_Get();
-                if (uiNeeded != MediaInfo_int64u(-1)) {
-                    llPosition = (LONGLONG)uiNeeded;
-                    // Inform MediaInfo of the seek
-                    MI.Open_Buffer_Init((MediaInfo_int64u)llSize, (MediaInfo_int64u)llPosition);
-                } else {
-                    llPosition += (LONGLONG)szLength;
-                }
-
-                if (FAILED(pAR->Length(&llSize, &llAvailable))) {
-                    break;
-                }
+                MI.Open_Buffer_Finalize();
             }
-            MI.Open_Buffer_Finalize();
-        } else {
-            MI.Open(filename);
         }
 
         if (bUnpause) {
