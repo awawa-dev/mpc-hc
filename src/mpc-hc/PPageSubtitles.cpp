@@ -222,6 +222,7 @@ BOOL CPPageSubtitles::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
     CRenderersSettings& r = GetRenderersSettings();
+    bool changed = false;
 
     r.subPicQueueSettings.nSize = m_nSPQSize;
     s.nSubDelayStep = m_nSubDelayStep;
@@ -233,9 +234,7 @@ BOOL CPPageSubtitles::OnApply()
 
     if (s.bSubtitleARCompensation != !!m_bSubtitleARCompensation) {
         s.bSubtitleARCompensation = !!m_bSubtitleARCompensation;
-        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
-            pMainFrame->UpdateSubAspectRatioCompensation();
-        }
+        changed = true;
     }
 
     if (s.fOverridePlacement != !!m_bOverridePlacement
@@ -244,8 +243,13 @@ BOOL CPPageSubtitles::OnApply()
         s.fOverridePlacement = !!m_bOverridePlacement;
         s.nHorPos = m_nHorPos;
         s.nVerPos = m_nVerPos;
+        changed = true;        
+    }
+
+    if (changed) {
         if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
-            pMainFrame->UpdateSubOverridePlacement();
+            pMainFrame->UpdateSubtitleRenderingParameters();
+            pMainFrame->RepaintVideo();
         }
     }
 

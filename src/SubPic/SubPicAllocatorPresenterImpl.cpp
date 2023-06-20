@@ -232,8 +232,9 @@ STDMETHODIMP_(void) CSubPicAllocatorPresenterImpl::SetSubPicProvider(ISubPicProv
     m_pSubPicProvider = pSubPicProvider;
 
     if (m_pAllocator) {
-        m_pAllocator->FreeStatic();
         m_pAllocator->SetMaxTextureSize(m_curSubtitleTextureSize);
+        m_pAllocator->SetCurSize(m_curSubtitleTextureSize);
+        m_pAllocator->SetCurVidRect(m_videoRect);
     }
 
     if (m_pSubPicQueue) {
@@ -507,6 +508,9 @@ STDMETHODIMP CSubPicAllocatorPresenterImpl::GetString(LPCSTR field, LPWSTR* valu
                         break;
                     case DXVA2_VideoTransferMatrix_SMPTE240M:
                         ret.Append(L"240M");
+                        break;
+                    case 4:
+                        ret.Append(L"2020");
                         break;
                     default:
                         ret = L"None";

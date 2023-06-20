@@ -35,7 +35,9 @@ class CPPageFullscreen : public CMPCThemePPageBase
 
 private:
     std::vector<CString> m_monitorDisplayNames;
-    CStringW m_fullScreenMonitor;
+    std::vector<CString> m_monitorDeviceNames;
+    CStringW m_fullScreenMonitorID;
+    CStringW m_fullScreenMonitorDeviceName;
     int m_iFullScreenMonitor;
     CMPCThemeComboBox m_fullScreenMonitorCtrl;
 

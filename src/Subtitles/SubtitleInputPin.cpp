@@ -89,8 +89,8 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             return E_FAIL;
         }
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
-        pRTS->m_name = CString(GetPinName(pReceivePin)) + _T(" (embeded)");
-        pRTS->m_dstScreenSize = CSize(384, 288);
+        pRTS->m_name = CString(GetPinName(pReceivePin)) + _T(" (embedded)");
+        pRTS->m_storageRes = pRTS->m_playRes = CSize(384, 288);
         pRTS->CreateDefaultStyle(DEFAULT_CHARSET);
     } else if (m_mt.majortype == MEDIATYPE_Subtitle) {
         SUBTITLEINFO* psi = (SUBTITLEINFO*)m_mt.pbFormat;
@@ -147,7 +147,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             if (lcid > 0) {
                 pRTS->m_langname = ISOLang::LCIDToLanguage(lcid);
             }
-            pRTS->m_dstScreenSize = CSize(384, 288);
+            pRTS->m_storageRes = pRTS->m_playRes = CSize(384, 288);
             pRTS->CreateDefaultStyle(DEFAULT_CHARSET);
 
             if (m_mt.subtype == MEDIASUBTYPE_WEBVTT) {
@@ -165,15 +165,17 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                     mt.pbFormat[dwOffset + 2] = 0xbf;
                 }
 
+                bool succes = false;
 #if USE_LIBASS
                 if (pRTS->m_renderUsingLibass) {
                     pRTS->SetPin(pReceivePin);
-                    pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset,
+                    succes = pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset,
                         m_mt.subtype == MEDIASUBTYPE_UTF8 ? Subtitle::SRT : Subtitle::ASS);
                 }
-                if (!pRTS->m_assloaded)
+                if (!succes || !pRTS->m_assloaded)
 #endif
-                    pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
+                    succes = pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
+                ASSERT(succes);
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             if (!(m_pSubStream = DEBUG_NEW CVobSubStream(m_pSubLock))) {

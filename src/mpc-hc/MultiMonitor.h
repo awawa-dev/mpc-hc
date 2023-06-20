@@ -53,7 +53,8 @@ public:
     void GetMonitorRect(LPRECT lprc) const;
     void GetWorkAreaRect(LPRECT lprc) const;
 
-    void GetName(CString& string) const;
+    void GetName(CString& displayName) const;
+    void GetNames(CString& displayName, CString& deviceName) const;
 
     int GetBitsPerPixel() const;
 

@@ -96,6 +96,42 @@ CMonitor CMonitors::GetMonitor(CStringW displayName)
     return monitor;
 }
 
+CMonitor CMonitors::GetMonitor(CStringW displayName, CStringW deviceName)
+{
+    if (deviceName.IsEmpty()) {
+        return GetMonitor(displayName);
+    }
+
+    CMonitor monitor;
+    if (displayName != _T("Current")) {
+        int best = -1;
+        for (int i = 0; i < GetCount(); i++) {
+            monitor = GetMonitor(i);
+            if (!monitor.IsMonitor()) {
+                continue;
+            }
+            CStringW displayName2, deviceName2;
+            monitor.GetNames(displayName2, deviceName2);
+            if (deviceName == deviceName2) {
+                if (displayName == displayName2) {
+                    // exact match
+                    best = -1;
+                    break;
+                } else {
+                    // there might be a better match in case of duplicate device names
+                    if (best == -1) {
+                        best = i;
+                    }
+                }               
+            }
+            monitor.Detach();
+        }
+        if (best >= 0) {
+            monitor = GetMonitor(best);
+        }
+    }
+    return monitor;
+}
 
 //
 // is the given handle a valid monitor handle

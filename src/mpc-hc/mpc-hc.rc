@@ -179,7 +179,7 @@ FONT 9, "Segoe UI", 400, 0, 0x1
 BEGIN
     ICON            "",IDR_MAINFRAME,14,10,48,48
     LTEXT           "",IDC_STATIC1,60,8,199,8
-    CONTROL         "Copyright 2002-2022 clsid2 and others",IDC_AUTHORS_LINK,
+    CONTROL         "Copyright 2002-2023 clsid2 and others",IDC_AUTHORS_LINK,
                     "SysLink",WS_TABSTOP,60,20,200,8
     CONTROL         "",IDC_HOMEPAGE_LINK,"SysLink",WS_TABSTOP,60,32,200,8
     LTEXT           "This program is freeware and released under the GNU General Public License.",IDC_STATIC,7,46,246,18
@@ -4030,6 +4030,8 @@ BEGIN
                             "Use automatic generated captions from Youtube. Note: this can cause a small delay when loading the stream."
     IDS_PPAGEADVANCED_USE_SMTC
                             "Allow control of the player through System Media Transport Controls in Windows 8.1/10/11."
+    IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY
+                            "Maximum delay in milliseconds of mouse LeftUp event when clicking on the video."
     IDS_PPAGEADVANCED_LOCK_NOPAUSE
                             "Do not pause playback when locking the screen."
     IDS_PPAGEADVANCED_RELOAD_AFTER_LONG_PAUSE

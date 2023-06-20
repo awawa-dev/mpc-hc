@@ -202,8 +202,8 @@ msgid "About"
 msgstr "Про програму"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2022 clsid2 and others"
-msgstr "Авторське право 2002-2022 clsid2 та інші"
+msgid "Copyright 2002-2023 clsid2 and others"
+msgstr "Авторське право 2002-2023 clsid2 та інші"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""

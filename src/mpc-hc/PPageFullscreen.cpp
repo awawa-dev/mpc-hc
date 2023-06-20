@@ -57,7 +57,7 @@ CPPageFullscreen::~CPPageFullscreen()
 void CPPageFullscreen::ModesUpdate()
 {
     DisplayMode currentDisplayMode;
-    if (!CMainFrame::GetCurDispMode(m_fullScreenMonitor, currentDisplayMode)) {
+    if (!CMainFrame::GetCurDispMode(m_fullScreenMonitorID, currentDisplayMode)) {
         ASSERT(FALSE);
         return;
     }
@@ -71,7 +71,7 @@ void CPPageFullscreen::ModesUpdate()
     // Get the full list of available display modes
     for (int i = 0;; i++) {
         DisplayMode dm;
-        if (!CMainFrame::GetDispMode(m_fullScreenMonitor, i, dm)) {
+        if (!CMainFrame::GetDispMode(m_fullScreenMonitorID, i, dm)) {
             break;
         }
         if (dm.bpp != 32 || dm.size.cx < 640) {
@@ -235,9 +235,11 @@ BOOL CPPageFullscreen::OnInitDialog()
 
     SetHandCursor(m_hWnd, IDC_COMBO1);
 
-    const CAppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
-    m_fullScreenMonitor = s.strFullScreenMonitor;
+    m_fullScreenMonitorID = s.strFullScreenMonitorID;
+    m_fullScreenMonitorDeviceName = s.strFullScreenMonitorDeviceName;
+
     m_bLaunchFullscreen = s.fLaunchfullscreen;
     m_fExitFullScreenAtTheEnd = s.fExitFullScreenAtTheEnd;
 
@@ -252,32 +254,39 @@ BOOL CPPageFullscreen::OnInitDialog()
     CString currentMonitorName;
     monitors.GetNearestMonitor(AfxGetMainWnd()).GetName(currentMonitorName);
 
+    CMonitor fullscreenMonitor = monitors.GetMonitor(s.strFullScreenMonitorID, s.strFullScreenMonitorDeviceName);
+
     m_fullScreenMonitorCtrl.AddString(ResStr(IDS_FULLSCREENMONITOR_CURRENT));
     m_monitorDisplayNames.emplace_back(_T("Current"));
+    m_monitorDeviceNames.emplace_back(_T(""));
     m_iFullScreenMonitor = 0;
 
     for (int i = 0; i < monitors.GetCount(); i++) {
         CMonitor monitor = monitors.GetMonitor(i);
 
         if (monitor.IsMonitor()) {
-            CString monitorName;
-            monitor.GetName(monitorName);
+            CString displayName, deviceName;
+            monitor.GetNames(displayName, deviceName);
 
-            CString str = monitorName;
-            if (monitorName == currentMonitorName) {
+            CString str = displayName;
+
+            if (!deviceName.IsEmpty()) {
+                str.Append(_T(" - ") + deviceName);
+            }
+
+            if (displayName == currentMonitorName) {
                 str.AppendFormat(_T(" - [%s]"), ResStr(IDS_FULLSCREENMONITOR_CURRENT).GetString());
             }
 
-            DISPLAY_DEVICE displayDevice = { sizeof(displayDevice) };
-            if (EnumDisplayDevices(monitorName, 0, &displayDevice, 0)) {
-                str.AppendFormat(_T(" - %s"), displayDevice.DeviceString);
-            }
-
             m_fullScreenMonitorCtrl.AddString(str);
-            m_monitorDisplayNames.emplace_back(monitorName);
+            m_monitorDisplayNames.emplace_back(displayName);
+            m_monitorDeviceNames.emplace_back(deviceName);
 
-            if (m_fullScreenMonitor == monitorName && m_iFullScreenMonitor == 0) {
+            if (m_iFullScreenMonitor == 0 && monitor == fullscreenMonitor) {
+                m_fullScreenMonitorID = displayName;
+                m_fullScreenMonitorDeviceName = deviceName;
                 m_iFullScreenMonitor = m_fullScreenMonitorCtrl.GetCount() - 1;
+                s.strFullScreenMonitorID = m_fullScreenMonitorID;
             }
         }
     }
@@ -346,7 +355,9 @@ BOOL CPPageFullscreen::OnApply()
 
     CAppSettings& s = AfxGetAppSettings();
 
-    s.strFullScreenMonitor = m_fullScreenMonitor;
+    s.strFullScreenMonitorID = m_fullScreenMonitorID;
+    s.strFullScreenMonitorDeviceName = m_fullScreenMonitorDeviceName;
+
     s.fLaunchfullscreen = !!m_bLaunchFullscreen;
     s.fExitFullScreenAtTheEnd = !!m_fExitFullScreenAtTheEnd;
 
@@ -405,8 +416,9 @@ void CPPageFullscreen::OnUpdateFullScreenMonitor()
 {
     int iPos = m_fullScreenMonitorCtrl.GetCurSel();
     if (iPos != CB_ERR) {
-        m_fullScreenMonitor = m_monitorDisplayNames[iPos];
-        if (AfxGetAppSettings().strFullScreenMonitor != m_fullScreenMonitor) {
+        m_fullScreenMonitorID = m_monitorDisplayNames[iPos];
+        m_fullScreenMonitorDeviceName = m_monitorDeviceNames[iPos];
+        if (AfxGetAppSettings().strFullScreenMonitorID != m_fullScreenMonitorID) {
             m_bAutoChangeFSModeEnabled = false;
         }
 

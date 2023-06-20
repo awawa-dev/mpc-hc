@@ -37,7 +37,7 @@ public:
     CRenderingCache(size_t maxSize) : m_maxSize(maxSize) {};
 
     bool Lookup(typename KTraits::INARGTYPE key, _Out_ typename VTraits::OUTARGTYPE value) {
-        POSITION pos;
+        POSITION pos = nullptr;
         bool bFound = __super::Lookup(key, pos);
 
         if (bFound) {
@@ -49,7 +49,7 @@ public:
     };
 
     POSITION SetAt(typename KTraits::INARGTYPE key, typename VTraits::INARGTYPE value) {
-        POSITION pos;
+        POSITION pos = nullptr;
         bool bFound = __super::Lookup(key, pos);
 
         if (bFound) {

@@ -264,11 +264,11 @@ private:
     // SmarkSeek
     CComPtr<IGraphBuilder2>         m_pGB_preview;
     CComQIPtr<IMediaControl>        m_pMC_preview;
-    CComQIPtr<IMediaEventEx>        m_pME_preview;
+    //CComQIPtr<IMediaEventEx>        m_pME_preview;
     CComQIPtr<IMediaSeeking>        m_pMS_preview;
     CComQIPtr<IVideoWindow>         m_pVW_preview;
     CComQIPtr<IBasicVideo>          m_pBV_preview;
-    CComQIPtr<IVideoFrameStep>      m_pFS_preview;
+    //CComQIPtr<IVideoFrameStep>      m_pFS_preview;
     CComQIPtr<IDvdControl2>         m_pDVDC_preview;
     CComQIPtr<IDvdInfo2>            m_pDVDI_preview; // VtX: usually not necessary but may sometimes be necessary.
     CComPtr<IMFVideoDisplayControl> m_pMFVDC_preview;
@@ -666,13 +666,12 @@ public:
     bool LoadSubtitle(CYoutubeDLInstance::YDLSubInfo& sub);
     bool SetSubtitle(int i, bool bIsOffset = false, bool bDisplayMessage = false);
     void SetSubtitle(const SubtitleInput& subInput, bool skip_lcid = false);
+    void UpdateSubtitleColorInfo();
     void ToggleSubtitleOnOff(bool bDisplayMessage = false);
     void ReplaceSubtitle(const ISubStream* pSubStreamOld, ISubStream* pSubStreamNew);
     void InvalidateSubtitle(DWORD_PTR nSubtitleId = DWORD_PTR_MAX, REFERENCE_TIME rtInvalidate = -1);
     void ReloadSubtitle();
-    void UpdateSubOverridePlacement();
-    void UpdateSubDefaultStyle();
-    void UpdateSubAspectRatioCompensation();
+    void UpdateSubtitleRenderingParameters();
     HRESULT InsertTextPassThruFilter(IBaseFilter* pBF, IPin* pPin, IPin* pPinto);
 
     void SetAudioTrackIdx(int index);
@@ -1147,9 +1146,10 @@ public:
 
     CMPC_Lcd m_Lcd;
 
-    // ==== Added by CASIMIR666
     CWnd*       m_pVideoWnd;            // Current Video (main display screen or 2nd)
     CPreView    m_wndPreView;           // SeekPreview
+
+    void ReleasePreviewGraph();
     HRESULT PreviewWindowHide();
     HRESULT PreviewWindowShow(REFERENCE_TIME rtCur2);
     bool CanPreviewUse();
@@ -1321,6 +1321,6 @@ public:
     afx_msg void OnMouseHWheel(UINT nFlags, short zDelta, CPoint pt);
 private:
     void SetupExternalChapters();
-    void ApplyPanNScanPresetCommandLine();
+    void ApplyPanNScanPresetString();
     void ValidatePanNScanParameters();
 };

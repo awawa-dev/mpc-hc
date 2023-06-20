@@ -142,34 +142,30 @@ STDMETHODIMP CDX9SubPic::ClearDirtyRect()
         return E_FAIL;
     }
 
-    DWORD color = m_bInvAlpha ? 0x00000000 : 0xFF000000;
+    m_rcDirty.IntersectRect(m_rcDirty, CRect(0, 0, m_maxsize.cx, m_maxsize.cy));
 
     SubPicDesc spd;
     if (SUCCEEDED(Lock(spd))) {
         int h = m_rcDirty.Height();
-
         BYTE* ptr = spd.bits + spd.pitch * m_rcDirty.top + (m_rcDirty.left * spd.bpp >> 3);
 
         if (spd.bpp == 16) {
+            const unsigned short color = m_bInvAlpha ? 0x00000000 : 0xFF000000;
+            const int w2 = m_rcDirty.Width() * 2;
             while (h-- > 0) {
-                memsetw(ptr, (unsigned short)color, 2 * m_rcDirty.Width());
+                memsetw(ptr, color, w2);
                 ptr += spd.pitch;
             }
         } else if (spd.bpp == 32) {
+            const DWORD color = m_bInvAlpha ? 0x00000000 : 0xFF000000;
+            const int w4 = m_rcDirty.Width() * 4;
             while (h-- > 0) {
-                memsetd(ptr, color, 4 * m_rcDirty.Width());
+                memsetd(ptr, color, w4);
                 ptr += spd.pitch;
             }
         }
-        /*
-            DWORD* ptr = (DWORD*)bm.bits;
-            DWORD* end = ptr + bm.h*bm.wBytes/4;
-            while (ptr < end) *ptr++ = color;
-        */
         Unlock(nullptr);
     }
-
-    // HRESULT hr = pD3DDev->ColorFill(m_pSurface, m_rcDirty, color);
 
     m_rcDirty.SetRectEmpty();
 
@@ -208,22 +204,18 @@ STDMETHODIMP CDX9SubPic::Unlock(RECT* pDirtyRect)
     m_pSurface->UnlockRect();
 
     if (pDirtyRect) {
-        m_rcDirty = *pDirtyRect;
-        if (!((CRect*)pDirtyRect)->IsRectEmpty()) {
+        m_rcDirty = pDirtyRect;
+        if (!m_rcDirty.IsRectEmpty()) {
             m_rcDirty.InflateRect(1, 1);
-            m_rcDirty.left &= ~127;
-            m_rcDirty.top &= ~63;
-            m_rcDirty.right = (m_rcDirty.right + 127) & ~127;
-            m_rcDirty.bottom = (m_rcDirty.bottom + 63) & ~63;
-            m_rcDirty &= CRect(CPoint(0, 0), m_size);
+            m_rcDirty.IntersectRect(m_rcDirty, CRect(0, 0, m_size.cx, m_size.cy));
+
+            CComPtr<IDirect3DTexture9> pTexture = (IDirect3DTexture9*)GetObject();
+            if (pTexture) {
+                pTexture->AddDirtyRect(&m_rcDirty);
+            }
         }
     } else {
         m_rcDirty = CRect(CPoint(0, 0), m_size);
-    }
-
-    CComPtr<IDirect3DTexture9> pTexture = (IDirect3DTexture9*)GetObject();
-    if (pTexture && pDirtyRect && !((CRect*)pDirtyRect)->IsRectEmpty()) {
-        pTexture->AddDirtyRect(&m_rcDirty);
     }
 
     return S_OK;
@@ -404,12 +396,11 @@ STDMETHODIMP CDX9SubPicAllocator::SetMaxTextureSize(SIZE maxTextureSize)
 {
     CAutoLock cAutoLock(this);
     if (maxTextureSize.cx > 0 && maxTextureSize.cy > 0 && m_maxsize != maxTextureSize) {
-        if (m_maxsize.cx < maxTextureSize.cx || m_maxsize.cy < maxTextureSize.cy) {
-            ClearCache();
-        }
+        ClearCache();
         m_maxsize = maxTextureSize;
         TRACE(_T("CDX9SubPicAllocator::SetMaxTextureSize %dx%d\n"), m_maxsize.cx, m_maxsize.cy);
     }
+
     return S_OK;
 }
 

@@ -1866,17 +1866,24 @@ void CFGManagerCustom::InsertLAVSplitter(bool IsPreview)
         pFGLAVSplitterLM->AddType(MEDIATYPE_Stream, MEDIASUBTYPE_NULL);
         pFGLAVSplitterLM->AddEnabledFormat("*");
         // Explicitly disable all common subtitles format
+        pFGLAVSplitterLM->AddDisabledFormat("aqtitle");
         pFGLAVSplitterLM->AddDisabledFormat("ass");
+        pFGLAVSplitterLM->AddDisabledFormat("dvbsub");
+        pFGLAVSplitterLM->AddDisabledFormat("dvbtxt");
+        pFGLAVSplitterLM->AddDisabledFormat("jacosub");
+        pFGLAVSplitterLM->AddDisabledFormat("lrc");
         pFGLAVSplitterLM->AddDisabledFormat("microdvd");
         pFGLAVSplitterLM->AddDisabledFormat("mpl2");
         pFGLAVSplitterLM->AddDisabledFormat("mpsub");
         pFGLAVSplitterLM->AddDisabledFormat("realtext");
         pFGLAVSplitterLM->AddDisabledFormat("sami");
         pFGLAVSplitterLM->AddDisabledFormat("srt");
+        pFGLAVSplitterLM->AddDisabledFormat("stl");
         pFGLAVSplitterLM->AddDisabledFormat("subviewer");
         pFGLAVSplitterLM->AddDisabledFormat("subviewer1");
         pFGLAVSplitterLM->AddDisabledFormat("sup");
         pFGLAVSplitterLM->AddDisabledFormat("vobsub");
+        pFGLAVSplitterLM->AddDisabledFormat("vplayer");
         pFGLAVSplitterLM->AddDisabledFormat("webvtt");
         m_transform.AddTail(pFGLAVSplitterLM.Detach());
     }
@@ -2443,11 +2450,13 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
             if (s.fBlockVSFilter) {
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
+            }
+            if (s.fBlockVSFilter || IsCLSIDRegistered(CLSID_VSFilter)) {
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             }
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             break;
         case CAppSettings::SubtitleRenderer::VS_FILTER:
             pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_ABOVE_DSHOW);
@@ -2455,12 +2464,10 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
                 pFGF->AddType(MEDIASUBTYPE_NULL, MEDIASUBTYPE_NULL);
                 m_override.AddTail(pFGF);
             }
-            if (s.fBlockVSFilter) {
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
-            }
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             break;
         case CAppSettings::SubtitleRenderer::XY_SUB_FILTER:
             pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_ABOVE_DSHOW);
@@ -2477,9 +2484,9 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
             if (s.fBlockVSFilter) {
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             }
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_DO_NOT_USE));
             break;
         case CAppSettings::SubtitleRenderer::ASS_FILTER:
             pFGF = DEBUG_NEW CFGFilterRegistry(CLSID_AssFilter_AutoLoader, MERIT64_ABOVE_DSHOW);
@@ -2490,9 +2497,9 @@ void CFGManagerCustom::InsertSubtitleFilters(bool IsPreview)
             if (s.fBlockVSFilter) {
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));
                 m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter2, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
-                m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
             }
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter, MERIT64_DO_NOT_USE));
+            m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_XySubFilter_AutoLoader, MERIT64_DO_NOT_USE));
             break;
         case CAppSettings::SubtitleRenderer::NONE:
             m_transform.AddTail(DEBUG_NEW CFGFilterRegistry(CLSID_VSFilter, MERIT64_DO_NOT_USE));

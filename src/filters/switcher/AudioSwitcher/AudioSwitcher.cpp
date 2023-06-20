@@ -228,6 +228,9 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
     int bps = wfe->wBitsPerSample >> 3;
 
     int len = pIn->GetActualDataLength() / (bps * wfe->nChannels);
+    if (len < 0 || wfe->nSamplesPerSec == 0) {
+        return S_FALSE;
+    }
     int lenout = (UINT64)len * wfeout->nSamplesPerSec / wfe->nSamplesPerSec;
 
     REFERENCE_TIME rtStart, rtStop;
@@ -269,7 +272,7 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
         return hr;
     }
 
-    if (!pDataIn || !pDataOut || len < 0 || lenout < 0) {
+    if (!pDataIn || !pDataOut) {
         return S_FALSE;
     }
     // len = 0 doesn't mean it's failed, return S_OK otherwise might screw the sound

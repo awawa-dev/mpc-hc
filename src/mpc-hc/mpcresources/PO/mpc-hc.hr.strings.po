@@ -4615,6 +4615,12 @@ msgid ""
 "Windows 8.1/10/11."
 msgstr ""
 
+msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
+msgid ""
+"Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
+"video."
+msgstr ""
+
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
 msgstr ""

@@ -4703,6 +4703,12 @@ msgstr ""
 "Steuerung des Players über System Media Transport Controls in Windows "
 "8.1/10/11 zulassen."
 
+msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
+msgid ""
+"Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
+"video."
+msgstr ""
+
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
 msgstr "Wiedergabe nicht pausieren, wenn der Bildschirm gesperrt wird."

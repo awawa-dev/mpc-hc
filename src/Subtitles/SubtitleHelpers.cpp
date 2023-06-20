@@ -123,16 +123,18 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
         POSITION posSub = subs.GetHeadPosition();
         while (posSub) {
             CString& fn2 = subs.GetNext(posSub);
-            CString fnlower = fn2;
-            fnlower.MakeLower();
 
-            // Check if there is an exact match for another video file
             bool bMatchAnotherVid = false;
-            POSITION posVid = vids.GetHeadPosition();
-            while (posVid) {
-                if (fnlower.Find(vids.GetNext(posVid)) == 0) {
-                    bMatchAnotherVid = true;
-                    break;
+            if (!vids.IsEmpty()) {
+                // Check if there is an exact match for another video file
+                CString fnlower = fn2;
+                fnlower.MakeLower();
+                POSITION posVid = vids.GetHeadPosition();
+                while (posVid) {
+                    if (fnlower.Find(vids.GetNext(posVid)) == 0) {
+                        bMatchAnotherVid = true;
+                        break;
+                    }
                 }
             }
 
@@ -141,6 +143,26 @@ void Subtitle::GetSubFileNames(CString fn, const CAtlArray<CString>& paths, CAtl
                 f.fn = fn2;
                 ret.Add(f);
             }
+        }
+    }
+
+    if (ret.IsEmpty()) {
+        // Load all subs from folder .\Subs\FILENAME_WITHOUT_EXT
+        CString path = orgpath + L"Subs\\" + title + L"\\";
+        ExtendMaxPathLengthIfNeeded(path, MAX_PATH);
+
+        HANDLE hFile = FindFirstFile(path + L"*", &wfd);
+        if (hFile != INVALID_HANDLE_VALUE) {
+            do {
+                CString fn2 = path + wfd.cFileName;
+                CString ext = CPath(fn2).GetExtension();
+                if (ext == L".srt" || ext == L".ass" || ext == L".ssa" || ext == L".webvtt" || ext == L".vtt") {
+                    SubFile f;
+                    f.fn = fn2;
+                    ret.Add(f);
+                }
+            } while (FindNextFile(hFile, &wfd));
+            FindClose(hFile);
         }
     }
 

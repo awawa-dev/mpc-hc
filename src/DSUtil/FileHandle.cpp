@@ -73,12 +73,19 @@ CStringW RemoveSlash(LPCWSTR Path)
 //
 CStringW GetFileExt(LPCWSTR Path)
 {
-	CStringW cs = ::PathFindExtensionW(Path);
-	return cs;
+    if (::PathIsURLW(Path)) {
+        auto q = wcschr(Path, '?');
+        if (q) {
+            CStringW ext = ::PathFindExtensionW(CStringW(Path, q - Path));
+            return ext;
+        }
+    }
+    CStringW ext = ::PathFindExtensionW(Path);
+    return ext;
 }
 
 //
-// Exchanges one file extension for another and returns the new fiel path
+// Exchanges one file extension for another and returns the new file path
 //
 CStringW RenameFileExt(LPCWSTR Path, LPCWSTR Ext)
 {

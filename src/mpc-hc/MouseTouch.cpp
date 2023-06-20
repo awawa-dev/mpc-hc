@@ -31,6 +31,9 @@ CMouse::CMouse(CMainFrame* pMainFrm, bool bD3DFS/* = false*/)
     : m_bD3DFS(bD3DFS)
     , m_pMainFrame(pMainFrm)
     , m_dwMouseHiderStartTick(0)
+    , m_bLeftDown(false)
+    , m_bLeftUpDelayed(false)
+    , m_bLeftUpIgnoreNext(false)
     , m_bLeftDoubleStarted(false)
     , m_leftDoubleStartTime(0)
     , m_popupMenuUninitTime(0)
@@ -120,6 +123,11 @@ void CMouse::ResetToBlankState()
     m_drag = Drag::NO_DRAG;
     m_cursor = Cursor::ARROW;
     m_switchingToFullscreen.first = false;
+    m_bLeftUpIgnoreNext = false;
+    if (m_bLeftUpDelayed) {
+        m_bLeftUpDelayed = false;
+        KillTimer(GetWnd(), (UINT_PTR)this);
+    }
 }
 
 void CMouse::StartMouseHider(const CPoint& screenPoint)
@@ -274,6 +282,7 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
     m_bLeftDown = false;
     GetWnd().SetFocus();
     SetCursor(nFlags, point);
+
     if (MVRDown(nFlags, point)) {
         return;
     }
@@ -293,6 +302,8 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         return;
     }
 
+    //ASSERT(!m_bLeftUpIgnoreNext);
+
     m_bLeftDown = true;
     bool bDouble = false;
     if (m_bLeftDoubleStarted &&
@@ -306,6 +317,17 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         m_leftDoubleStartTime = GetMessageTime();
         m_leftDoubleStartPoint = point;
     }
+
+    if (m_bLeftUpDelayed) {
+        KillTimer(GetWnd(), (UINT_PTR)this);
+        if (bDouble) {
+            m_bLeftUpDelayed = false;
+            m_bLeftUpIgnoreNext = true;
+        } else {
+            PerformDelayedLeftUp();
+        }
+    }
+
     auto onButton = [&]() {
         GetWnd().SetCapture();
         bool ret = false;
@@ -328,15 +350,43 @@ void CMouse::InternalOnLButtonDown(UINT nFlags, const CPoint& point)
         GetWnd().ClientToScreen(&m_beginDragPoint);
     }
 }
+
+void CMouse::PerformDelayedLeftUp()
+{
+    m_bLeftUpDelayed = false;
+    bool bIsOnFS = IsOnFullscreenWindow();
+    OnButton(wmcmd::LUP, m_LeftUpPoint, bIsOnFS);
+    m_LeftUpPoint = CPoint();
+}
+
+void CMouse::OnTimerLeftUp(HWND hWnd, UINT nMsg, UINT_PTR nIDEvent, DWORD dwTime)
+{
+    CMouse* pCMouse = (CMouse*)nIDEvent;
+    if (pCMouse && pCMouse->m_bLeftUpDelayed) {
+        KillTimer(hWnd, nIDEvent);
+        pCMouse->PerformDelayedLeftUp();
+    }
+}
+
 void CMouse::InternalOnLButtonUp(UINT nFlags, const CPoint& point)
 {
     ReleaseCapture();
-    if (!MVRUp(nFlags, point)) {
+    if (!MVRUp(nFlags, point) && !m_bLeftUpIgnoreNext) {
         bool bIsOnFS = IsOnFullscreenWindow();
         if (!(m_bD3DFS && bIsOnFS && m_pMainFrame->m_OSD.OnLButtonUp(nFlags, point)) && m_bLeftDown) {
-            OnButton(wmcmd::LUP, point, bIsOnFS);
+            UINT delay = (UINT)AfxGetAppSettings().iMouseLeftUpDelay;
+            if (delay > 0 && m_pMainFrame->GetLoadState() == MLS::LOADED) {
+                ASSERT(!m_bLeftUpDelayed);
+                m_bLeftUpDelayed = true;
+                m_LeftUpPoint = point;
+                SetTimer(GetWnd(), (UINT_PTR)this, std::min(delay, GetDoubleClickTime()), OnTimerLeftUp);
+            } else {
+                OnButton(wmcmd::LUP, point, bIsOnFS);
+            }
         }
     }
+    m_bLeftUpIgnoreNext = false;
+
     m_drag = Drag::NO_DRAG;
     m_bLeftDown = false;
     SetCursor(nFlags, point);

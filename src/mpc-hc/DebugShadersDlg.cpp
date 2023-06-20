@@ -77,7 +77,7 @@ CDebugShadersDlg::CDebugShadersDlg()
     CWinApp* pApp = AfxGetApp();
 
     // Restore controls' old state
-    m_iVersion = pApp->GetProfileInt(IDS_R_DEBUG_SHADERS, IDS_RS_DEBUG_SHADERS_LASTVERSION, ps_2_0);
+    m_iVersion = pApp->GetProfileInt(IDS_R_DEBUG_SHADERS, IDS_RS_DEBUG_SHADERS_LASTVERSION, ps_3_0);
     VERIFY(UpdateData(FALSE));
     CString oldpath = pApp->GetProfileString(IDS_R_DEBUG_SHADERS, IDS_RS_DEBUG_SHADERS_LASTFILE);
     if (!oldpath.IsEmpty()) {
@@ -299,7 +299,7 @@ void CDebugShadersDlg::OnRecompileShader()
                     break;
                 default:
                     ASSERT(FALSE);
-                    profile = "ps_2_0";
+                    profile = "ps_3_0";
                     break;
             }
             CString disasm, compilerMsg;

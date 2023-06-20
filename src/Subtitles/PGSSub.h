@@ -95,16 +95,16 @@ private:
     };
 
     struct HDMV_PRESENTATION_SEGMENT {
-        REFERENCE_TIME rtStart;
-        REFERENCE_TIME rtStop;
+        REFERENCE_TIME rtStart = 0;
+        REFERENCE_TIME rtStop = 0;
 
         VIDEO_DESCRIPTOR video_descriptor;
         COMPOSITION_DESCRIPTOR composition_descriptor;
 
-        byte palette_update_flag;
+        byte palette_update_flag = 0;
         HDMV_CLUT CLUT;
 
-        int objectCount;
+        int objectCount = 0;
 
         std::list<std::unique_ptr<CompositionObject>> objects;
     };

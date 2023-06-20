@@ -70,6 +70,9 @@ private:
     CPoint m_beginDragPoint;
     CPoint m_hideCursorPoint;
     bool m_bLeftDown;
+    bool m_bLeftUpDelayed;
+    bool m_bLeftUpIgnoreNext;
+    CPoint m_LeftUpPoint;
     bool m_bLeftDoubleStarted;
     CPoint m_leftDoubleStartPoint;
     int m_leftDoubleStartTime;
@@ -103,6 +106,9 @@ private:
     void MVRMove(UINT nFlags, const CPoint& point);
     bool MVRDown(UINT nFlags, const CPoint& point);
     bool MVRUp(UINT nFlags, const CPoint& point);
+
+    void PerformDelayedLeftUp();
+    static void CALLBACK OnTimerLeftUp(HWND hWnd, UINT nMsg, UINT_PTR nIDEvent, DWORD dwTime);
 
 protected:
     void InternalOnLButtonDown(UINT nFlags, const CPoint& point);

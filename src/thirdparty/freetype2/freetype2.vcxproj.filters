@@ -135,6 +135,21 @@
     <ClCompile Include="freetype2\src\winfonts\winfnt.c">
       <Filter>Source Files\FT_MODULES</Filter>
     </ClCompile>
+    <ClCompile Include="freetype2\src\base\ftobjs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="freetype2\src\sdf\sdf.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="freetype2\src\sfnt\ttsvg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="freetype2\src\svg\ftsvg.c">
+      <Filter>Source Files\FT_MODULES</Filter>
+    </ClCompile>
+    <ClCompile Include="freetype2\src\svg\svg.c">
+      <Filter>Source Files\FT_MODULES</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="freetype2\include\ft2build.h">
@@ -155,10 +170,5 @@
     <ClInclude Include="freetype2\include\freetype\config\ftstdlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="freetype2\src\base\ftver.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

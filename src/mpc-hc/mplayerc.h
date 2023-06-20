@@ -28,7 +28,7 @@
 #include "EventDispatcher.h"
 #include "DpiHelper.h"
 #include "AppSettings.h"
-#include "RenderersSettings.h"
+#include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "resource.h"
 
 #include <atlsync.h>

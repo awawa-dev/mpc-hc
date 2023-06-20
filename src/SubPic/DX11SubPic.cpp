@@ -235,20 +235,15 @@ STDMETHODIMP CDX11SubPic::ClearDirtyRect()
 		return S_FALSE;
 	}
 
-	m_rcDirty.InflateRect(1, 1);
-#ifdef _WIN64
-	const LONG a = 16 / sizeof(uint32_t) - 1;
-	m_rcDirty.left &= ~a;
-	m_rcDirty.right = (m_rcDirty.right + a) & ~a;
-#endif
 	m_rcDirty.IntersectRect(m_rcDirty, CRect(0, 0, m_MemPic.w, m_MemPic.h));
 
 	uint32_t* ptr = m_MemPic.data.get() + m_MemPic.w * m_rcDirty.top + m_rcDirty.left;
-	const UINT dirtyW = m_rcDirty.Width();
 	UINT dirtyH = m_rcDirty.Height();
+    const DWORD color = m_bInvAlpha ? 0x00000000 : 0xFF000000;
+    const UINT w4 = m_rcDirty.Width() * 4;
 
 	while (dirtyH-- > 0) {
-		memsetd(ptr, m_bInvAlpha ? 0x00000000 : 0xFF000000, dirtyW * 4);
+		memsetd(ptr, color, w4);
 		ptr += m_MemPic.w;
 	}
 
@@ -277,7 +272,10 @@ STDMETHODIMP CDX11SubPic::Lock(SubPicDesc& spd)
 STDMETHODIMP CDX11SubPic::Unlock(RECT* pDirtyRect)
 {
 	if (pDirtyRect) {
-		m_rcDirty.IntersectRect(pDirtyRect, CRect(0, 0, m_size.cx, m_size.cy));
+        m_rcDirty = pDirtyRect;
+        if (!m_rcDirty.IsRectEmpty()) {
+            m_rcDirty.IntersectRect(m_rcDirty, CRect(0, 0, m_MemPic.w, m_MemPic.h));
+        }
 	} else {
 		m_rcDirty = CRect(CPoint(0, 0), m_size);
 	}
@@ -372,14 +370,10 @@ STDMETHODIMP CDX11SubPicAllocator::SetMaxTextureSize(SIZE MaxTextureSize)
 {
 	CAutoLock cAutoLock(this);
 	if (m_maxsize != MaxTextureSize) {
-		if (m_maxsize.cx < MaxTextureSize.cx || m_maxsize.cy < MaxTextureSize.cy) {
-			ClearCache();
-		}
+		ClearCache();
 		m_maxsize = MaxTextureSize;
+        TRACE(_T("CDX11SubPicAllocator::SetMaxTextureSize %dx%d\n"), m_maxsize.cx, m_maxsize.cy);
 	}
-
-	SetCurSize(MaxTextureSize);
-	SetCurVidRect(CRect(CPoint(0,0), MaxTextureSize));
 
 	return S_OK;
 }
@@ -506,9 +500,9 @@ HRESULT CDX11SubPicAllocator::Render(const MemPic_t& memPic, const CRect& dirtyR
 
 	CRect copyRect(dirtyRect);
 	if (stretching) {
-		copyRect.InflateRect(1, 1);
-		RECT subpicRect = { 0, 0, memPic.w, memPic.h };
-		EXECUTE_ASSERT(copyRect.IntersectRect(copyRect, &subpicRect));
+        RECT subpicRect = { 0, 0, memPic.w, memPic.h };
+        copyRect.InflateRect(1, 1);
+        EXECUTE_ASSERT(copyRect.IntersectRect(copyRect, &subpicRect));
 	}
 
 	CComPtr<ID3D11DeviceContext> pDeviceContext;

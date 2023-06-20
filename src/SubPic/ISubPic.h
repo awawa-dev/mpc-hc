@@ -205,6 +205,8 @@ public IUnknown {
     STDMETHOD_(bool, DisplayChange)() PURE;
 
     STDMETHOD_(void, GetPosition)(RECT* windowRect, RECT* videoRect) PURE;
+
+    STDMETHOD_(void, SetVideoMediaType)(CMediaType input) PURE;
 };
 
 interface __declspec(uuid("767AEBA8-A084-488a-89C8-F6B74E53A90F"))

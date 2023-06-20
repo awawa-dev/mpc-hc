@@ -38,6 +38,8 @@
 #include "../mpc-hc/SubtitlesProvidersUtils.h"
 #include "../DSUtil/ISOLang.h"
 
+#include "../mpc-hc/mplayerc.h"
+
 struct htmlcolor {
     LPCTSTR name;
     DWORD  color;
@@ -670,8 +672,7 @@ static void WebVTT2SSA(CStringW& str) {
 }
 
 static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
-    CStringW buff, start, end, cueTags;
-
+    CStringW buff;
     file->ReadString(buff);
     if (buff.Left(6).Compare(L"WEBVTT") != 0) {
         return false;
@@ -710,6 +711,8 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         {L".bg_blue", WebVTTcolorData({L"", L"0000ff"})},
         {L".bg_black", WebVTTcolorData({L"", L"000000"})},
     };
+
+    CStringW start, end, cueTags;
 
     auto parseStyle = [&file,&cueColors](CStringW& buff) {
         CStringW styleStr = L"";
@@ -839,7 +842,8 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
         }
     }
 
-    return !ret.IsEmpty();
+    // in case of embedded data, we initially might only get the header, so always return true
+    return true;
 }
 
 
@@ -1759,6 +1763,9 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
                 // SRT file
                 return false;
             }
+            if (buff == L"WEBVTT") {
+                return false;
+            }
             first_line = false;
         }
 
@@ -1901,29 +1908,43 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
             fRet = true;
         } else if (entry == L"playresx") {
             try {
-                ret.m_dstScreenSize.cx = GetInt(pszBuff, nBuffLength);
+                ret.m_playRes.cx = GetInt(pszBuff, nBuffLength);
             } catch (...) {
-                ret.m_dstScreenSize = CSize(0, 0);
+                ret.m_playRes = CSize(0, 0);
                 return false;
             }
 
-            if (ret.m_dstScreenSize.cy <= 0) {
-                ret.m_dstScreenSize.cy = (ret.m_dstScreenSize.cx == 1280)
+            if (ret.m_playRes.cy <= 0) {
+                ret.m_playRes.cy = (ret.m_playRes.cx == 1280)
                                          ? 1024
-                                         : ret.m_dstScreenSize.cx * 3 / 4;
+                                         : ret.m_playRes.cx * 3 / 4;
             }
         } else if (entry == L"playresy") {
             try {
-                ret.m_dstScreenSize.cy = GetInt(pszBuff, nBuffLength);
+                ret.m_playRes.cy = GetInt(pszBuff, nBuffLength);
             } catch (...) {
-                ret.m_dstScreenSize = CSize(0, 0);
+                ret.m_playRes = CSize(0, 0);
                 return false;
             }
 
-            if (ret.m_dstScreenSize.cx <= 0) {
-                ret.m_dstScreenSize.cx = (ret.m_dstScreenSize.cy == 1024)
+            if (ret.m_playRes.cx <= 0) {
+                ret.m_playRes.cx = (ret.m_playRes.cy == 1024)
                                          ? 1280
-                                         : ret.m_dstScreenSize.cy * 4 / 3;
+                                         : ret.m_playRes.cy * 4 / 3;
+            }
+        } else if (entry == L"layoutresx") {
+            try {
+                ret.m_layoutRes.cx = GetInt(pszBuff, nBuffLength);
+            } catch (...) {
+                ret.m_layoutRes = CSize(0, 0);
+                return false;
+            }
+        } else if (entry == L"layoutresy") {
+            try {
+                ret.m_layoutRes.cy = GetInt(pszBuff, nBuffLength);
+            } catch (...) {
+                ret.m_layoutRes = CSize(0, 0);
+                return false;
             }
         } else if (entry == L"wrapstyle") {
             try {
@@ -1968,6 +1989,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
         } else if (entry == L"ycbcr matrix") {
             if (nBuffLength) {
                 ret.m_sYCbCrMatrix = GetStrW(pszBuff, nBuffLength);
+                ret.m_sYCbCrMatrix.MakeUpper();
             }
         } else if (entry == L"format") {
             // ToDo: Parse this line and use it to correctly parse following style and dialogue lines
@@ -2009,29 +2031,29 @@ static bool OpenXombieSub(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet
         } else*/
         if (entry == L"screenhorizontal") {
             try {
-                ret.m_dstScreenSize.cx = GetInt(pszBuff, nBuffLength);
+                ret.m_storageRes.cx = GetInt(pszBuff, nBuffLength);
             } catch (...) {
-                ret.m_dstScreenSize = CSize(0, 0);
+                ret.m_storageRes = CSize(0, 0);
                 return false;
             }
 
-            if (ret.m_dstScreenSize.cy <= 0) {
-                ret.m_dstScreenSize.cy = (ret.m_dstScreenSize.cx == 1280)
+            if (ret.m_storageRes.cy <= 0) {
+                ret.m_storageRes.cy = (ret.m_storageRes.cx == 1280)
                                          ? 1024
-                                         : ret.m_dstScreenSize.cx * 3 / 4;
+                                         : ret.m_storageRes.cx * 3 / 4;
             }
         } else if (entry == L"screenvertical") {
             try {
-                ret.m_dstScreenSize.cy = GetInt(pszBuff, nBuffLength);
+                ret.m_storageRes.cy = GetInt(pszBuff, nBuffLength);
             } catch (...) {
-                ret.m_dstScreenSize = CSize(0, 0);
+                ret.m_storageRes = CSize(0, 0);
                 return false;
             }
 
-            if (ret.m_dstScreenSize.cx <= 0) {
-                ret.m_dstScreenSize.cx = (ret.m_dstScreenSize.cy == 1024)
+            if (ret.m_storageRes.cx <= 0) {
+                ret.m_storageRes.cx = (ret.m_storageRes.cy == 1024)
                                          ? 1280
-                                         : ret.m_dstScreenSize.cy * 4 / 3;
+                                         : ret.m_storageRes.cy * 4 / 3;
             }
         } else if (entry == L"style") {
             STSStyle* style = DEBUG_NEW STSStyle;
@@ -2197,8 +2219,8 @@ struct OpenFunctStruct {
 static OpenFunctStruct OpenFuncts[] = {
     OpenSubRipper, TIME, Subtitle::SRT,
     OpenOldSubRipper, TIME, Subtitle::SRT,
-    OpenSubViewer, TIME, Subtitle::SUB,
-    OpenMicroDVD, FRAME, Subtitle::SSA,
+    OpenSubViewer, TIME, Subtitle::SRT,
+    OpenMicroDVD, FRAME, Subtitle::SUB,
     OpenVPlayer, TIME, Subtitle::SRT,
     OpenSubStationAlpha, TIME, Subtitle::SSA,
     OpenVTT, TIME, Subtitle::VTT,
@@ -2260,11 +2282,13 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_encoding(CTextFile::DEFAULT_ENCODING)
     , m_provider(_T("Local"))
     , m_eHearingImpaired(Subtitle::HI_UNKNOWN)
-    , m_dstScreenSize(CSize(0, 0))
+    , m_storageRes(CSize(0, 0))
+    , m_playRes(CSize(0, 0))
+    , m_layoutRes(CSize(0, 0))
     , m_defaultWrapStyle(0)
     , m_collisions(0)
     , m_fScaledBAS(false)
-    , m_fUsingAutoGeneratedDefaultStyle(false)
+    , m_bUsingPlayerDefaultStyle(false)
     , m_ePARCompensationType(EPCTDisabled)
     , m_dPARCompensation(1.0)
 #if USE_LIBASS
@@ -2312,12 +2336,14 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
         m_mode = sts.m_mode;
         m_path = sts.m_path;
         m_subtitleType = sts.m_subtitleType;
-        m_dstScreenSize = sts.m_dstScreenSize;
+        m_storageRes = sts.m_storageRes;
+        m_playRes = sts.m_playRes;
+        m_layoutRes = sts.m_layoutRes;
         m_defaultWrapStyle = sts.m_defaultWrapStyle;
         m_collisions = sts.m_collisions;
         m_fScaledBAS = sts.m_fScaledBAS;
         m_encoding = sts.m_encoding;
-        m_fUsingAutoGeneratedDefaultStyle = sts.m_fUsingAutoGeneratedDefaultStyle;
+        m_bUsingPlayerDefaultStyle = sts.m_bUsingPlayerDefaultStyle;
         m_provider = sts.m_provider;
         m_eHearingImpaired = sts.m_eHearingImpaired;
         CopyStyles(sts.m_styles);
@@ -2398,7 +2424,9 @@ bool CSimpleTextSubtitle::CopyStyles(const CSTSStyleMap& styles, bool fAppend)
 
 void CSimpleTextSubtitle::Empty()
 {
-    m_dstScreenSize = CSize(0, 0);
+    m_storageRes = CSize(0, 0);
+    m_playRes = CSize(0, 0);
+    m_layoutRes = CSize(0, 0);
     m_styles.Free();
     m_segments.RemoveAll();
     RemoveAll();
@@ -2549,13 +2577,14 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 
     if (!m_styles.Lookup(def, ret)) {
         STSStyle* style = DEBUG_NEW STSStyle();
-        style->charSet = CharSet;
+        *style = AfxGetAppSettings().subtitlesDefStyle;
+        if (CharSet != DEFAULT_CHARSET) {
+            style->charSet = CharSet;
+        }
         AddStyle(def, style);
         m_styles.Lookup(def, ret);
 
-        m_fUsingAutoGeneratedDefaultStyle = true;
-    } else {
-        m_fUsingAutoGeneratedDefaultStyle = false;
+        m_bUsingPlayerDefaultStyle = true;
     }
 
     return ret;
@@ -2592,6 +2621,10 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
 {
     if (name.IsEmpty()) {
         name = _T("Default");
+    }
+
+    if (m_bUsingPlayerDefaultStyle && name == _T("Default")) {
+        m_bUsingPlayerDefaultStyle = false;
     }
 
     STSStyle* val;
@@ -2641,11 +2674,14 @@ void CSimpleTextSubtitle::AddStyle(CString name, STSStyle* style)
 bool CSimpleTextSubtitle::SetDefaultStyle(const STSStyle& s)
 {
     STSStyle* val;
-    if (!m_styles.Lookup(_T("Default"), val)) {
-        return false;
+    if (m_styles.Lookup(_T("Default"), val)) {
+        *val = s;
+    } else {
+        val = DEBUG_NEW STSStyle();
+        *val = s;
+        m_styles[L"Default"] = val;
+        m_bUsingPlayerDefaultStyle = true;
     }
-    *val = s;
-    m_fUsingAutoGeneratedDefaultStyle = false;
 
     return true;
 }
@@ -3159,6 +3195,10 @@ bool CSimpleTextSubtitle::Open(CString data, CTextFile::enc SaveCharSet, int Rea
 bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
     Empty();
 
+    if (m_langname.IsEmpty() && m_lcid > 0) {
+        m_langname = ISOLang::LCIDToLanguage(m_lcid);
+    }
+
 #if USE_LIBASS
     if (m_renderUsingLibass) {
         if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ass") == 0 || lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ssa") == 0) {
@@ -3186,8 +3226,17 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
 
             ChangeUnknownStylesToDefault();
 
-            if (m_dstScreenSize == CSize(0, 0)) {
-                m_dstScreenSize = CSize(384, 288);
+            if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
+                if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
+                    m_storageRes = m_layoutRes;
+                } else if (m_playRes.cx > 0 && m_playRes.cy > 0) {
+                    m_storageRes = m_playRes;
+                } else {
+                    m_storageRes = CSize(384, 288);
+                }
+            }
+            if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
+                m_playRes = m_storageRes;
             }
             return true;
         }
@@ -3232,8 +3281,17 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
 
         ChangeUnknownStylesToDefault();
 
-        if (m_dstScreenSize == CSize(0, 0)) {
-            m_dstScreenSize = CSize(384, 288);
+        if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
+            m_storageRes = m_layoutRes;
+        } else if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
+            if (m_playRes.cx > 0 && m_playRes.cy > 0) {
+                m_storageRes = m_playRes;
+            } else {
+                m_storageRes = CSize(384, 288);
+            }
+        }
+        if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
+            m_playRes = m_storageRes;
         }
 
         return true;
@@ -3285,13 +3343,13 @@ bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
     GetDefaultStyle(defStyle);
     if (subType == Subtitle::SRT) {
         m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), defStyle.charSet, defStyle, subRendererSettings));
-        if (m_dstScreenSize == CSize(0, 0)) {
-            m_dstScreenSize = CSize(defStyle.SrtResX, defStyle.SrtResY);
+        if (m_storageRes == CSize(0, 0)) {
+            m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
         }
     } else { //subType == Subtitle::SSA/ASS
         m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), "UTF-8"));
-        if (m_dstScreenSize == CSize(0, 0)) {
-            m_dstScreenSize = CSize(defStyle.SrtResX, defStyle.SrtResY);
+        if (m_storageRes == CSize(0, 0)) {
+            m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
         }
     }
 
@@ -3424,12 +3482,11 @@ void CSimpleTextSubtitle::LoadASSSample(char *data, int dataSize, REFERENCE_TIME
 
 bool CSimpleTextSubtitle::Open(CString provider, BYTE* data, int len, int CharSet, CString name, Subtitle::HearingImpairedType eHearingImpaired, LCID lcid)
 {
-    bool fRet = Open(data, len, CharSet, name);
-
     m_provider = provider;
     m_eHearingImpaired = eHearingImpaired;
     m_lcid = lcid;
-    return fRet;
+
+    return Open(data, len, CharSet, name);
 }
 
 bool CSimpleTextSubtitle::Open(BYTE* data, int len, int CharSet, CString name)
@@ -3505,21 +3562,23 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
         CString str;
 
         str  = _T("[Script Info]\n");
-        str += (type == Subtitle::SSA) ? _T("; This is a Sub Station Alpha v4 script.\n") : _T("; This is an Advanced Sub Station Alpha v4+ script.\n");
-        str += _T(";\n");
-        if (type == Subtitle::ASS) {
-            str += _T("; Advanced Sub Station Alpha script format developed by #Anime-Fansubs@EfNET\n");
-            str += _T(";\n");
-        }
         str += _T("; Note: This file was saved by MPC-HC.\n");
-        str += _T(";\n");
         str += (type == Subtitle::SSA) ? _T("ScriptType: v4.00\n") : _T("ScriptType: v4.00+\n");
         str += (m_collisions == 0) ? _T("Collisions: Normal\n") : _T("Collisions: Reverse\n");
         if (type == Subtitle::ASS && m_fScaledBAS) {
             str += _T("ScaledBorderAndShadow: Yes\n");
         }
-        str.AppendFormat(_T("PlayResX: %d\n"), m_dstScreenSize.cx);
-        str.AppendFormat(_T("PlayResY: %d\n"), m_dstScreenSize.cy);
+        if (m_sYCbCrMatrix.IsEmpty()) {
+            str += _T("YCbCr Matrix: None\n");
+        } else {
+            str += _T("YCbCr Matrix: ") + m_sYCbCrMatrix + _T("\n");
+        }
+        str.AppendFormat(_T("PlayResX: %d\n"), m_playRes.cx);
+        str.AppendFormat(_T("PlayResY: %d\n"), m_playRes.cy);
+        if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
+            str.AppendFormat(_T("LayoutResX: %d\n"), m_layoutRes.cx);
+            str.AppendFormat(_T("LayoutResY: %d\n"), m_layoutRes.cy);
+        }
         str += _T("Timer: 100.0000\n");
         str += _T("\n");
         str += (type == Subtitle::SSA)
@@ -3665,7 +3724,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
     }
 
     STSStyle* s;
-    if (bCreateExternalStyleFile && !m_fUsingAutoGeneratedDefaultStyle && m_styles.Lookup(_T("Default"), s) && type != Subtitle::SSA && type != Subtitle::ASS) {
+    if (bCreateExternalStyleFile && !m_bUsingPlayerDefaultStyle && m_styles.Lookup(_T("Default"), s) && type != Subtitle::SSA && type != Subtitle::ASS) {
         CTextFile file;
         if (!file.Save(fn + _T(".style"), e)) {
             return false;
@@ -3678,7 +3737,7 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
         str += _T("PlayResY: %d\n");
         str += _T("\n");
         str += _T("[V4+ Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding\n");
-        str2.Format(str, m_dstScreenSize.cx, m_dstScreenSize.cy);
+        str2.Format(str, m_storageRes.cx, m_storageRes.cy);
         file.WriteString(str2);
 
         str  = _T("Style: Default,%s,%d,&H%08x,&H%08x,&H%08x,&H%08x,%d,%d,%d,%d,%.2f,%.2f,%.2f,%.2f,%d,%.2f,%.2f,%d,%d,%d,%d,%d\n");

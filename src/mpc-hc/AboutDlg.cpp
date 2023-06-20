@@ -151,11 +151,17 @@ BOOL CAboutDlg::OnInitDialog()
                 m_OSName = _T("Windows Server 2016");
             }
         } else {
-            if (osVersion.dwBuildNumber > 22000) {
+            if (osVersion.dwBuildNumber > 22621) {
                 m_OSName = _T("Windows 11");
-            } else if (osVersion.dwBuildNumber == 22000) {
+            } else if (osVersion.dwBuildNumber == 22621) {
+                m_OSName = _T("Windows 11 (Build 22H2)");
+            } else if (osVersion.dwBuildNumber >= 22000) {
                 m_OSName = _T("Windows 11 (Build 21H2)");
-            } else if (osVersion.dwBuildNumber >= 19044) {
+            } else if (osVersion.dwBuildNumber >= 19046) {
+                m_OSName = _T("Windows 10");
+            } else if (osVersion.dwBuildNumber == 19045) {
+                m_OSName = _T("Windows 10 (Build 22H2)");
+            } else if (osVersion.dwBuildNumber == 19044) {
                 m_OSName = _T("Windows 10 (Build 21H2)");
             } else if (osVersion.dwBuildNumber == 19043) {
                 m_OSName = _T("Windows 10 (Build 21H1)");

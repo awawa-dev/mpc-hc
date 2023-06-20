@@ -1720,7 +1720,7 @@ HRESULT CVobSubSettings::Render(SubPicDesc& spd, RECT& bbox)
     /*
         CRenderedTextSubtitle rts(nullptr);
         rts.CreateDefaultStyle(DEFAULT_CHARSET);
-        rts.m_dstScreenSize.SetSize(m_size.cx, m_size.cy);
+        rts.m_storageRes.SetSize(m_size.cx, m_size.cy);
         CStringW assstr;
         m_img.Polygonize(assstr, false);
         REFERENCE_TIME rtStart = 10000i64*m_img.start, rtStop = 10000i64*(m_img.start+m_img.delay);

@@ -263,6 +263,9 @@ typedef enum MPCAPI_COMMAND :
     // Set playing rate
     CMD_SETSPEED            = 0xA0004008,
 
+    // Set Pan & Scan
+    CMD_SETPANSCAN          = 0xA0004009,
+
     // Show host defined OSD message string
     CMD_OSDSHOWMESSAGE      = 0xA0005000
 

@@ -214,11 +214,11 @@ BOOL CPPageSubStyle::OnApply()
 
     if (m_bDefaultStyle) {
         STSStyle& stss = AfxGetAppSettings().subtitlesDefStyle;
-
         if (stss != m_stss) {
-            stss = m_stss;
+            AfxGetAppSettings().subtitlesDefStyle = m_stss;
             if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
-                pMainFrame->UpdateSubDefaultStyle();
+                pMainFrame->UpdateSubtitleRenderingParameters();
+                pMainFrame->RepaintVideo();
             }
         }
     }

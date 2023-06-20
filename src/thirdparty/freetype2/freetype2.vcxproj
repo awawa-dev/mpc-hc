@@ -40,11 +40,11 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories>freetype2\include;..\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-	  <PreprocessorDefinitions>FT_CONFIG_OPTION_SYSTEM_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FT_CONFIG_OPTION_SYSTEM_ZLIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <WarningLevel>Level2</WarningLevel>
-	  <DisableSpecificWarnings>4312;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4312;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
   </ItemDefinitionGroup>
   <PropertyGroup Label="UserMacros" />
@@ -136,8 +136,10 @@
     <ClCompile Include="freetype2\src\psnames\psmodule.c" />
     <ClCompile Include="freetype2\src\raster\raster.c" />
     <ClCompile Include="freetype2\src\sfnt\sfnt.c" />
+    <ClCompile Include="freetype2\src\sfnt\ttsvg.c" />
     <ClCompile Include="freetype2\src\smooth\smooth.c" />
     <ClCompile Include="freetype2\src\sdf\sdf.c" />
+    <ClCompile Include="freetype2\src\svg\svg.c" />
     <ClCompile Include="freetype2\src\truetype\truetype.c" />
     <ClCompile Include="freetype2\src\type1\type1.c" />
     <ClCompile Include="freetype2\src\type42\type42.c" />

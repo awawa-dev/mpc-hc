@@ -93,7 +93,7 @@ int CMonitor::GetBitsPerPixel() const
     return ret;
 }
 
-void CMonitor::GetName(CString& string) const
+void CMonitor::GetName(CString& displayName) const
 {
     ASSERT(IsMonitor());
 
@@ -101,7 +101,25 @@ void CMonitor::GetName(CString& string) const
     mi.cbSize = sizeof(mi);
     ::GetMonitorInfo(m_hMonitor, &mi);
 
-    string = mi.szDevice;
+    displayName = mi.szDevice;
+}
+
+void CMonitor::GetNames(CString& displayName, CString& deviceName) const
+{
+    ASSERT(IsMonitor());
+
+    MONITORINFOEX mi;
+    mi.cbSize = sizeof(mi);
+    ::GetMonitorInfo(m_hMonitor, &mi);
+
+    displayName = mi.szDevice;
+
+    DISPLAY_DEVICE displayDevice = { sizeof(displayDevice) };
+    if (EnumDisplayDevices(displayName, 0, &displayDevice, 0)) {
+        deviceName = displayDevice.DeviceString;
+    } else {
+        deviceName = L"";
+    }
 }
 
 //

@@ -247,7 +247,7 @@ HRESULT CPGSSub::Render(SubPicDesc& spd, REFERENCE_TIME rt, RECT& bbox, bool bRe
     if (posPresentationSegment) {
         const auto& pPresentationSegment = m_pPresentationSegments.GetAt(posPresentationSegment);
 
-        if (m_eSourceMatrix == ColorConvTable::NONE) {
+        if (m_eSourceMatrix == ColorConvTable::AUTO) {
             m_eSourceMatrix = (pPresentationSegment->video_descriptor.nVideoWidth > 720) ? ColorConvTable::BT709 : ColorConvTable::BT601;
         }
 

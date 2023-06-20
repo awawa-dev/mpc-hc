@@ -121,10 +121,6 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
 
                     ret = MI.Open_Buffer_Continue(buffer.data(), szLength);
 
-                    if (ret & 0x1) {
-                        break; // has enough data
-                    }
-
                     // Seek to a different position if needed
                     MediaInfo_int64u uiNeeded = MI.Open_Buffer_Continue_GoTo_Get();
                     if (uiNeeded != MediaInfo_int64u(-1)) {
@@ -133,6 +129,10 @@ CPPageFileMediaInfo::CPPageFileMediaInfo(CString path, IFileSourceFilter* pFSF, 
                         MI.Open_Buffer_Init((MediaInfo_int64u)llSize, (MediaInfo_int64u)llPosition);
                     } else {
                         llPosition += (LONGLONG)szLength;
+                    }
+
+                    if (FAILED(pAR->Length(&llSize, &llAvailable))) {
+                        break;
                     }
                 }
                 MI.Open_Buffer_Finalize();

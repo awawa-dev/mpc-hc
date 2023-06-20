@@ -133,6 +133,7 @@ class CWord : public Rasterizer
 
     void Transform_C(const CPoint& org);
     void Transform_SSE2(const CPoint& org);
+    void Transform_quick(const CPoint& org);
     bool CreateOpaqueBox();
 
 protected:
@@ -282,7 +283,11 @@ using CClipperSharedPtr = std::shared_ptr<CClipper>;
 class CLine : public CAtlList<CWord*>
 {
 public:
-    int m_width, m_ascent, m_descent, m_borderX, m_borderY;
+    int m_width   = 0;
+    int m_ascent  = 0;
+    int m_descent = 0;
+    int m_borderX = 0;
+    int m_borderY = 0;
 
     virtual ~CLine();
 
@@ -412,7 +417,9 @@ public:
     int m_topborder, m_bottomborder;
     bool m_clipInverse;
 
-    double m_scalex, m_scaley;
+    double m_target_scale_x, m_target_scale_y;
+    double m_script_scale_x, m_script_scale_y;
+    double m_total_scale_x,  m_total_scale_y;
 
 public:
     CSubtitle(RenderingCaches& renderingCaches);
@@ -490,11 +497,17 @@ public:
 
     // call to signal this RTS to ignore any of the styles and apply the given override style
     void SetOverride(bool bOverride, const STSStyle& styleOverride) {
-        m_bOverrideStyle = bOverride;
-        m_styleOverride = styleOverride;
+        bool changed = (m_bOverrideStyle != bOverride) || (m_styleOverride != styleOverride);
+        if (changed) {
+            m_bOverrideStyle = bOverride;
+            m_styleOverride = styleOverride;
+            if (bOverride) {
+                m_storageRes = m_playRes; // needed to get correct font scaling with default style
+            }
 #if USE_LIBASS
-        ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
+            ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
 #endif
+        }
     }
 
     void SetAlignment(bool bOverridePlacement, LONG lHorPos, LONG lVerPos) {

@@ -106,6 +106,7 @@
 #define IDS_RS_FULLSCREEN_SEPARATE_CONTROLS _T("FullscreenSeparateControls")
 #define IDS_RS_ALWAYS_USE_SHORT_MENU        _T("AlwaysUseShortMenu")
 #define IDS_RS_STILL_VIDEO_DURATION         _T("StillVideoDuration")
+#define IDS_RS_MOUSE_LEFTUP_DELAY           _T("MouseLeftUpDelay")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -235,6 +236,7 @@
 #define IDS_RS_THUMBCOLS                    _T("ThumbCols")
 #define IDS_RS_ENABLEEDLEDITOR              _T("EnableEDLEditor")
 #define IDS_RS_FULLSCREENMONITOR            _T("FullScreenMonitor")
+#define IDS_RS_FULLSCREENMONITORDEVICE      _T("FullScreenMonitorDevice")
 #define IDS_RS_PREVENT_MINIMIZE             _T("PreventMinimize")
 #define IDS_RS_ENHANCED_TASKBAR             _T("UseWin7TaskBar")
 #define IDS_RS_SEARCH_IN_FOLDER             _T("UseSearchInFolder")

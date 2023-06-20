@@ -104,7 +104,6 @@ STDMETHODIMP CRLECodedSubtitle::Reload()
 
 STDMETHODIMP CRLECodedSubtitle::SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel)
 {
-    yuvMatrix.Replace(_T(".VSFilter"), _T(""));
     int nPos = 0;
     CString range = yuvMatrix.Tokenize(_T("."), nPos);
     CString matrix = yuvMatrix.Mid(nPos);
@@ -123,10 +122,10 @@ STDMETHODIMP CRLECodedSubtitle::SetSourceTargetInfo(CString yuvMatrix, int targe
     } else if (matrix == _T("2020")) {
         m_eSourceMatrix = ColorConvTable::BT2020;
     } else {
-        m_eSourceMatrix = ColorConvTable::NONE;
+        m_eSourceMatrix = ColorConvTable::AUTO;
     }
 
-    ColorConvTable::SetDefaultConvType(m_eSourceMatrix, sourceRange, (targetWhiteLevel < 245), false); // Matrix isn't relevant here.
+    ColorConvTable::SetDefaultConvType(m_eSourceMatrix, sourceRange, (targetWhiteLevel < 245), false);
 
     return S_OK;
 }

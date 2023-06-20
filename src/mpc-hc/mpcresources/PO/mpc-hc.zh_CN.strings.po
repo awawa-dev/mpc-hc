@@ -4563,6 +4563,12 @@ msgid ""
 "Windows 8.1/10/11."
 msgstr "允许通过Windows 8.1/10/11中的系统媒体传输控件控制播放器。"
 
+msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
+msgid ""
+"Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
+"video."
+msgstr ""
+
 msgctxt "IDS_PPAGEADVANCED_LOCK_NOPAUSE"
 msgid "Do not pause playback when locking the screen."
 msgstr "锁屏时不暂停播放。"

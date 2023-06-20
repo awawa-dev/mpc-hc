@@ -217,7 +217,7 @@ void CMediaFormats::UpdateData(bool fSave)
         ADDFMT((_T("wma"),         StrRes(IDS_MFMT_WMA),         _T("wma"), true));
         ADDFMT((_T("wavpack"),     StrRes(IDS_MFMT_WV),          _T("wv"), true));
         ADDFMT((_T("weba"),        _T("WebA"),                   _T("weba"), true));
-        ADDFMT((_T("other_audio"), StrRes(IDS_MFMT_OTHER_AUDIO), _T("aob mlp thd mpl spx caf dsf"), true));
+        ADDFMT((_T("other_audio"), StrRes(IDS_MFMT_OTHER_AUDIO), _T("aob mlp thd mpl spx caf dsf eac3"), true));
         ADDFMT((_T("pls"),         StrRes(IDS_MFMT_PLS),         _T("asx m3u m3u8 pls wvx wax wmx mpcpl")));
         ADDFMT((_T("cue"),         _T("Cue sheet"),              _T("cue")));
         ADDFMT((_T("swf"),         StrRes(IDS_MFMT_SWF),         _T("swf")));
