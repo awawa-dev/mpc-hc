@@ -68,7 +68,7 @@ jobs:
       - name: Install patched mingw
         shell: powershell
         run: |
-          Invoke-WebRequest -Method Get -Uri http://files.1f0.de/mingw/mingw-w64-gcc-11.2-stable-r35.7z -OutFile update.7z -UseBasicParsing
+          Invoke-WebRequest -Method Get -Uri https://files.1f0.de/mingw/mingw-w64-gcc-12.2-stable-r38.7z -OutFile update.7z -UseBasicParsing
           Start-Process -Wait "C:\Program Files\7-Zip\7z.exe" -ArgumentList "x", "update.7z", "-aoa", "-o${{ env.MSYS }}\msys64\mingw64"        
           
       - name: Install Yasm
