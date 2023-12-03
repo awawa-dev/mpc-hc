@@ -118,7 +118,7 @@ DEFINE_SUBTITLESPROVIDER_END
 
 #ifdef INCLUDE_SUB_ADDIC7ED
 #define SUB_ADDIC7ED_AGENT "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
-DEFINE_SUBTITLESPROVIDER_BEGIN(Addic7ed, "https://www.addic7ed.com/", IDI_ADDIC7ED, SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(Addic7ed, "Addic7ed", "https://www.addic7ed.com/", IDI_ADDIC7ED, SPF_SEARCH)
 CString cookie;
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
 bool    NeedLogin() override;
