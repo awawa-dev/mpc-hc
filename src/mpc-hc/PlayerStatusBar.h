@@ -53,6 +53,7 @@ private:
     void EventCallback(MpcEvent ev);
 
     void Relayout();
+    int m_initialWindowDPI = 0;
 
 public:
     CPlayerStatusBar(CMainFrame* pMainFrame);
@@ -84,6 +85,7 @@ public:
 protected:
 
     void SetMediaTypeIcon();
+    void ScaleFont();
 
     afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnPaint();

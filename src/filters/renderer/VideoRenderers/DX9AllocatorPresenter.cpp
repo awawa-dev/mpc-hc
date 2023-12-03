@@ -110,7 +110,6 @@ CDX9AllocatorPresenter::CDX9AllocatorPresenter(HWND hWnd, bool bFullscreen, HRES
     , m_DetectedFrameTimeHistoryHistory()
     , m_DetectedFrameTimePos(0)
     , m_bInterlaced(false)
-    , m_nFrameType(PICT_NONE)
     , m_VBlankEndWait(0)
     , m_VBlankStartWait(0)
     , m_VBlankWaitTime(0)
@@ -673,11 +672,13 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         if (m_pD3DEx) {
             CHECK_HR(m_pD3DEx->GetAdapterDisplayModeEx(m_CurrentAdapter, &DisplayMode, nullptr));
 
-            DisplayMode.Format = pp.BackBufferFormat;
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
+            m_BackBufferSize = m_ScreenSize;
+
+            DisplayMode.Format = pp.BackBufferFormat;
             pp.FullScreen_RefreshRateInHz = m_refreshRate = DisplayMode.RefreshRate;
-            pp.BackBufferWidth = m_ScreenSize.cx;
-            pp.BackBufferHeight = m_ScreenSize.cy;
+            pp.BackBufferWidth = m_BackBufferSize.cx;
+            pp.BackBufferHeight = m_BackBufferSize.cy;
 
             bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, &DisplayMode));
 
@@ -710,10 +711,13 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
         if (!m_pD3DDev) {
             CHECK_HR(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm));
             d3ddm.Format = pp.BackBufferFormat;
+
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
+            m_BackBufferSize = m_ScreenSize;
+
             pp.FullScreen_RefreshRateInHz = m_refreshRate = d3ddm.RefreshRate;
-            pp.BackBufferWidth = m_ScreenSize.cx;
-            pp.BackBufferHeight = m_ScreenSize.cy;
+            pp.BackBufferWidth = m_BackBufferSize.cx;
+            pp.BackBufferHeight = m_BackBufferSize.cy;
 
             hr = m_pD3D->CreateDevice(
                      m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
@@ -755,9 +759,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
 
             m_ScreenSize.SetSize(DisplayMode.Width, DisplayMode.Height);
             m_refreshRate = DisplayMode.RefreshRate;
-            CSize bbsize = GetBackBufferSize(m_ScreenSize, largestScreen, r.m_AdvRendSets.bDesktopSizeBackBuffer);
-            pp.BackBufferWidth  = bbsize.cx;
-            pp.BackBufferHeight = bbsize.cy;
+            m_BackBufferSize = GetBackBufferSize(m_ScreenSize, largestScreen, r.m_AdvRendSets.bDesktopSizeBackBuffer);
+            pp.BackBufferWidth  = m_BackBufferSize.cx;
+            pp.BackBufferHeight = m_BackBufferSize.cy;
 
             bTryToReset = bTryToReset && m_pD3DDevEx && SUCCEEDED(hr = m_pD3DDevEx->ResetEx(&pp, nullptr));
 
@@ -785,9 +789,9 @@ HRESULT CDX9AllocatorPresenter::CreateDevice(CString& _Error)
             CHECK_HR(m_pD3D->GetAdapterDisplayMode(m_CurrentAdapter, &d3ddm));
             m_ScreenSize.SetSize(d3ddm.Width, d3ddm.Height);
             m_refreshRate = d3ddm.RefreshRate;
-            CSize bbsize = GetBackBufferSize(m_ScreenSize, largestScreen, r.m_AdvRendSets.bDesktopSizeBackBuffer);
-            pp.BackBufferWidth  = bbsize.cx;
-            pp.BackBufferHeight = bbsize.cy;
+            m_BackBufferSize = GetBackBufferSize(m_ScreenSize, largestScreen, r.m_AdvRendSets.bDesktopSizeBackBuffer);
+            pp.BackBufferWidth  = m_BackBufferSize.cx;
+            pp.BackBufferHeight = m_BackBufferSize.cy;
 
             hr = m_pD3D->CreateDevice(
                      m_CurrentAdapter, D3DDEVTYPE_HAL, m_hFocusWindow,
@@ -1822,21 +1826,12 @@ void CDX9AllocatorPresenter::DrawStats()
         CString strText;
         if (iDetailedStats > 1) {
             if (m_bIsEVR) {
-                if (m_nFrameType != PICT_NONE) {
-                    strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%",
-                                   m_fAvrFps,
-                                   double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame),
-                                   m_nFrameType == PICT_FRAME ? L"P" : L"I", GetFrameTime() * 1000.0, GetFrameRate(),
-                                   m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0,
-                                   m_ModeratedTimeSpeed * 100.0);
-                } else {
-                    strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%",
-                                   m_fAvrFps,
-                                   double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame),
-                                   m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(),
-                                   m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0,
-                                   m_ModeratedTimeSpeed * 100.0);
-                }
+                strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)   (%7.3f ms = %.03f%s, %2.03f StdDev)  Clock: %1.4f %%",
+                                m_fAvrFps,
+                                double(m_rtTimePerFrame) / 10000.0, 10000000.0 / (double)(m_rtTimePerFrame),
+                                m_bInterlaced ? L"I" : L"P", GetFrameTime() * 1000.0, GetFrameRate(),
+                                m_DetectedLock ? L" L" : L"", m_DetectedFrameTimeStdDev / 10000.0,
+                                m_ModeratedTimeSpeed * 100.0);
             } else {
                 strText.Format(L"Frame rate   : %7.03f   (%7.3f ms = %.03f, %s)",
                                m_fAvrFps,
@@ -1847,14 +1842,6 @@ void CDX9AllocatorPresenter::DrawStats()
             strText.Format(L"Frame rate   : %7.03f   (%.03f%s)", m_fAvrFps, GetFrameRate(), m_DetectedLock ? L" L" : L"");
         }
         drawText(rc, strText);
-
-        if (m_nFrameType != PICT_NONE) {
-            strText.Format(L"Frame type   : %s",
-                           m_nFrameType == PICT_FRAME ? L"Progressive" :
-                           m_nFrameType == PICT_BOTTOM_FIELD ? L"Interlaced : Bottom field first" :
-                           L"Interlaced : Top field first");
-            drawText(rc, strText);
-        }
 
         if (iDetailedStats > 1) {
             strText = _T("Settings     : ");

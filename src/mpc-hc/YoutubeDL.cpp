@@ -294,9 +294,10 @@ void GetVideoScore(YDLStreamDetails& details) {
     int score = 1;
     auto& s = AfxGetAppSettings();
 
-    CString vcodec = details.vcodec.Left(4);
+    CString vcodec4 = details.vcodec.Left(4);
+    CString vcodec7 = details.vcodec.Left(7);
 
-    if (vcodec != _T("unkn")) {
+    if (vcodec7 != _T("unknown")) {
         score += 1;
     }
 
@@ -306,39 +307,39 @@ void GetVideoScore(YDLStreamDetails& details) {
 
     switch (s.iYDLVideoFormat) {
         case YDL_FORMAT_H264_30:
-            if (vcodec == _T("avc1")) score += 32;
+            if (vcodec4 == _T("avc1")) score += 32;
             if (details.fps < 31) score += 8;
             break;
         case YDL_FORMAT_H264_60:
-            if (vcodec == _T("avc1")) score += 32;
+            if (vcodec4 == _T("avc1")) score += 32;
             if (details.fps >= 31) score += 8;
             break;
         case YDL_FORMAT_VP9_30:
-            if (vcodec == _T("vp9")) score += 32;
-            else if (vcodec == _T("vp9.")) score += 16;
+            if (vcodec4 == _T("vp09") || vcodec4 == _T("vp9") || vcodec7 == _T("vp09.00")) score += 32;
+            else if (vcodec4 == _T("vp9.") || vcodec7 == _T("vp09.02")) score += 16;
             if (details.fps < 31) score += 8;
             break;
         case YDL_FORMAT_VP9_60:
-            if (vcodec == _T("vp9")) score += 32;
-            else if (vcodec == _T("vp9.")) score += 16;
+            if (vcodec4 == _T("vp09") || vcodec4 == _T("vp9") || vcodec7 == _T("vp09.00")) score += 32;
+            else if (vcodec4 == _T("vp9.") || vcodec7 == _T("vp09.02")) score += 16;
             if (details.fps >= 31) score += 8;
             break;
         case YDL_FORMAT_VP9P2_30:
-            if (vcodec == _T("vp9")) score += 32;
-            else if (details.vcodec == _T("vp9.2")) score += 32;
+            if (vcodec4 == _T("vp09") || vcodec4 == _T("vp9") || vcodec7 == _T("vp09.02")) score += 32;
+            else if (vcodec4 == _T("vp9.") || vcodec7 == _T("vp09.00")) score += 16;
             if (details.fps < 31) score += 8;
             break;
         case YDL_FORMAT_VP9P2_60:
-            if (vcodec == _T("vp9")) score += 32;
-            else if (details.vcodec == _T("vp9.2")) score += 32;
+            if (vcodec4 == _T("vp09") || vcodec4 == _T("vp9") || vcodec7 == _T("vp09.02")) score += 32;
+            else if (vcodec4 == _T("vp9.") || vcodec7 == _T("vp09.00")) score += 16;
             if (details.fps >= 31) score += 8;
             break;
         case YDL_FORMAT_AV1_30:
-            if (vcodec == _T("av01")) score += 32;
+            if (vcodec4 == _T("av01")) score += 32;
             if (details.fps < 31) score += 8;
             break;
         case YDL_FORMAT_AV1_60:
-            if (vcodec == _T("av01")) score += 32;
+            if (vcodec4 == _T("av01")) score += 32;
             if (details.fps >= 31) score += 8;
             break;
     }
@@ -391,6 +392,18 @@ void GetAudioScore(YDLStreamDetails& details) {
             score += 6;
         } else if (details.format_id == L"249") { // Opus 50 Kbps 2.0
             score += 4;
+        } else if (details.format_id == L"599") { // AAC ultralow
+            score += 1;
+        } else if (details.format_id == L"600") { // Opus ultralow
+            score += 1;
+        } else if (details.format_id == L"380") { // AC3 high
+            score += 1;
+        } else if (details.format_id == L"328") { // EC3 high
+            score += 1;
+        } else if (details.format_id == L"233" || details.format_id == L"234") { // Unknown
+            score += 2;
+        } else {
+            //ASSERT(false);
         }
     }
 
@@ -579,15 +592,14 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             return false;
         }
     }
-
-    // Bitrate
-    if (first.has_video) {
-        if (second.vbr > first.vbr) {
+    // Prefer HTTPS above m3u8_native
+    if (second.protocol == _T("https")) {
+        if (first.protocol != _T("https")) {
             return true;
         }
     } else {
-        if (second.abr > first.abr) {
-            return true;
+        if (first.protocol == _T("https")) {
+            return false;
         }
     }
 
@@ -601,6 +613,17 @@ bool IsBetterYDLStream(YDLStreamDetails& first, YDLStreamDetails& second, int ma
             if (second.has_audio) {
                 return true;
             }
+        }
+    }
+
+    // Bitrate
+    if (first.has_video) {
+        if (second.vbr > first.vbr) {
+            return true;
+        }
+    } else {
+        if (second.abr > first.abr) {
+            return true;
         }
     }
 

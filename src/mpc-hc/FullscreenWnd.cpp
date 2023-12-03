@@ -24,9 +24,9 @@
 #include "FullscreenWnd.h"
 #include "MainFrm.h"
 
-IMPLEMENT_DYNAMIC(CFullscreenWnd, CMouseWnd)
+IMPLEMENT_DYNAMIC(CFullscreenWnd, CMouseWndWithArtView)
 CFullscreenWnd::CFullscreenWnd(CMainFrame* pMainFrame)
-    : CMouseWnd(pMainFrame, true)
+    : CMouseWndWithArtView(pMainFrame, true)
     , m_pMainFrame(pMainFrame)
 {
 }
@@ -75,7 +75,15 @@ END_MESSAGE_MAP()
 
 BOOL CFullscreenWnd::OnEraseBkgnd(CDC* pDC)
 {
-    return FALSE;
+    if (m_pMainFrame->m_fAudioOnly) {
+        return __super::OnEraseBkgnd(pDC);
+    }
+    else {
+        CRect r;
+        GetClientRect(r);
+        pDC->FillSolidRect(r, 0);
+        return FALSE;
+    }
 }
 
 void CFullscreenWnd::OnDestroy()

@@ -73,8 +73,8 @@
 #define IDS_RS_SUBTITLESPROVIDERS           _T("SubtitlesProviders")
 #define IDS_RS_PREFERHEARINGIMPAIREDSUBTITLES _T("PreferHearingImpairedSubtitles")
 #define IDS_RS_MPCTHEME                     _T("MPCTheme")
-#define IDS_RS_MODERNSEEKBAR                _T("ModernSeekbar")
 #define IDS_RS_MODERNSEEKBARHEIGHT          _T("ModernSeekbarHeight")
+#define IDS_RS_MODERNTHEMEMODE              _T("ModernThemeMode")
 #define IDS_RS_FULLSCREEN_DELAY             _T("FullscreenDelay")
 #define IDS_RS_VERTICALALIGNVIDEO          _T("VerticalAlignVideo")
 #define IDS_RS_SUBTITLEPATHS                _T("SubtitlePaths")
@@ -99,6 +99,7 @@
 #define IDS_RS_YDL_SUBS_PREFERENCE          _T("YDLSubsPreference")
 #define IDS_RS_USE_AUTOMATIC_CAPTIONS       _T("UseAutomaticCaptions")
 #define IDS_RS_LOCK_NOPAUSE                 _T("LockNoPause")
+#define IDS_RS_PREVENT_DISPLAY_SLEEP        _T("PreventDisplaySleep")
 #define IDS_RS_USE_SMTC                     _T("UseSMTC")
 #define IDS_RS_RELOAD_AFTER_LONG_PAUSE      _T("ReloadAfterLongPause")
 #define IDS_RS_OPEN_REC_PANEL_WHEN_OPENING_DEVICE _T("OpenRecordingPanelWhenOpeningDevice")
@@ -107,6 +108,8 @@
 #define IDS_RS_ALWAYS_USE_SHORT_MENU        _T("AlwaysUseShortMenu")
 #define IDS_RS_STILL_VIDEO_DURATION         _T("StillVideoDuration")
 #define IDS_RS_MOUSE_LEFTUP_DELAY           _T("MouseLeftUpDelay")
+#define IDS_RS_USE_FREETYPE                 _T("UseFreetype")
+#define IDS_RS_USE_MEDIAINFO_LOAD_FILE_DURATION _T("UseMediainfoLoadFileDuration")
 
 // Audio
 #define IDS_RS_VOLUME                       _T("Volume")
@@ -139,7 +142,8 @@
 #define IDS_RS_MENULANG                     _T("MenuLang")
 #define IDS_RS_AUDIOLANG                    _T("AudioLang")
 #define IDS_RS_SUBTITLESLANG                _T("SubtitlesLang")
-#define IDS_RS_RENDERSUBTITLESUSINGLIBASS   _T("RenderSubtitlesUsingLibass")
+#define IDS_RS_RENDERSSAUSINGLIBASS         _T("RenderSSAUsingLibass")
+#define IDS_RS_RENDERSRTUSINGLIBASS         _T("RenderSRTUsingLibass")
 #define IDS_RS_OPENTYPELANGHINT             _T("OpenTypeLangHint")
 #define IDS_RS_AUTOSPEAKERCONF              _T("AutoSpeakerConf")
 #define IDS_RS_CLOSEDCAPTIONS               _T("ClosedCaptions")
@@ -309,6 +313,7 @@
 
 #define IDS_RS_REMAINING_TIME               _T("RemainingTime")
 #define IDS_RS_HIGH_PRECISION_TIMER         _T("HighPrecisionTimer")
+#define IDS_RS_TIMER_SHOW_PERCENTAGE        _T("TimerShowPercentage")
 
 #define IDS_RS_UPDATER_AUTO_CHECK           _T("UpdaterAutoCheck")
 #define IDS_RS_UPDATER_LAST_CHECK           _T("UpdaterLastCheck")

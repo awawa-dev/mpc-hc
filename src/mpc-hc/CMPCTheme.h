@@ -3,133 +3,141 @@
 class CMPCTheme
 {
 public:
-    static const COLORREF MenuBGColor;
-    static const COLORREF WindowBGColor;  //used in explorer for left nav
-    static const COLORREF ControlAreaBGColor;  //used in file open dialog for button / file selection bg
-    static const COLORREF ContentBGColor; //used in explorer for bg of file list
-    static const COLORREF ContentSelectedColor; //used in explorer for bg of file list
-    static const COLORREF PlayerBGColor;
-    static const COLORREF HighLightColor;
+    enum class ModernThemeMode {
+        DARK,
+        LIGHT,
+        WINDOWSDEFAULT
+    };
 
-    static const COLORREF MenuSelectedColor;
-    static const COLORREF MenuItemDisabledColor;
-    static const COLORREF MenuItemUnfocusedColor;
-    static const COLORREF MainMenuBorderColor;
-    static const COLORREF MenuSeparatorColor;
+    static COLORREF MenuBGColor;
+    static COLORREF MenubarBGColor;
+    static COLORREF WindowBGColor;  //used in explorer for left nav
+    static COLORREF ControlAreaBGColor;  //used in file open dialog for button / file selection bg
+    static COLORREF ContentBGColor; //used in explorer for bg of file list
+    static COLORREF ContentSelectedColor; //used in explorer for bg of file list
+    static COLORREF PlayerBGColor;
+    static COLORREF HighLightColor;
 
-    static const COLORREF ShadowColor;
-    static const COLORREF TextFGColor;
-    static const COLORREF TextFGColorFade;
-    static const COLORREF ContentTextDisabledFGColorFade;
-    static const COLORREF ContentTextDisabledFGColorFade2;
-    static const COLORREF SubmenuColor;
-    static const COLORREF LightColor;
-    static const COLORREF CloseHoverColor;
-    static const COLORREF ClosePushColor;
-    static const COLORREF CloseColor;
-    static const COLORREF WindowBorderColorLight;
-    static const COLORREF WindowBorderColorDim;
-    static const COLORREF NoBorderColor;
-    static const COLORREF GripperPatternColor;
+    static COLORREF MenuSelectedColor;
+    static COLORREF MenubarSelectedBGColor;
+    static COLORREF MenuItemDisabledColor;
+    static COLORREF MainMenuBorderColor;
+    static COLORREF MenuSeparatorColor;
 
-    static const COLORREF ScrollBGColor;
-    static const COLORREF ScrollProgressColor;
-    static const COLORREF ScrollThumbColor;
-    static const COLORREF ScrollThumbHoverColor;
-    static const COLORREF ScrollThumbDragColor;
-    static const COLORREF ScrollButtonArrowColor;
-    static const COLORREF ScrollButtonHoverColor;
-    static const COLORREF ScrollButtonClickColor;
+    static COLORREF TextFGColor;
+    static COLORREF TextFGColorFade;
+    static COLORREF PropPageCaptionFGColor;
+    static COLORREF ContentTextDisabledFGColorFade;
+    static COLORREF ContentTextDisabledFGColorFade2;
+    static COLORREF SubmenuColor;
+    static COLORREF CloseHoverColor;
+    static COLORREF ClosePushColor;
+    static COLORREF CloseColor;
+    static COLORREF WindowBorderColorLight;
+    static COLORREF WindowBorderColorDim;
+    static COLORREF NoBorderColor;
+    static COLORREF GripperPatternColor;
 
-    static const COLORREF InlineEditBorderColor;
-    static const COLORREF TooltipBorderColor;
+    static COLORREF ScrollBGColor;
+    static COLORREF ScrollProgressColor;
+    static COLORREF ScrollThumbColor;
+    static COLORREF ScrollThumbHoverColor;
+    static COLORREF ScrollThumbDragColor;
+    static COLORREF ScrollButtonArrowColor;
+    static COLORREF ScrollButtonArrowClickColor;
+    static COLORREF ScrollButtonHoverColor;
+    static COLORREF ScrollButtonClickColor;
 
-    static const COLORREF GroupBoxBorderColor;
+    static COLORREF InlineEditBorderColor;
+    static COLORREF TooltipBorderColor;
+
+    static COLORREF GroupBoxBorderColor;
+
+    static COLORREF DebugColorRed;
+    static COLORREF DebugColorYellow;
+    static COLORREF DebugColorGreen;
+
+    static COLORREF PlayerButtonHotColor;
+    static COLORREF PlayerButtonCheckedColor;
+    static COLORREF PlayerButtonClickedColor;
+    static COLORREF PlayerButtonBorderColor;
+
+    static COLORREF ButtonBorderOuterColor;
+    static COLORREF ButtonBorderInnerFocusedColor;
+    static COLORREF ButtonBorderInnerColor;
+    static COLORREF ButtonBorderSelectedKBFocusColor;
+    static COLORREF ButtonBorderHoverKBFocusColor;
+    static COLORREF ButtonBorderKBFocusColor;
+    static COLORREF ButtonFillColor;
+    static COLORREF ButtonFillHoverColor;
+    static COLORREF ButtonFillSelectedColor;
+    static COLORREF ButtonDisabledFGColor;
+
+    static COLORREF CheckboxBorderColor;
+    static COLORREF CheckboxBGColor;
+    static COLORREF CheckboxBorderHoverColor;
+    static COLORREF CheckboxBGHoverColor;
+
+    static COLORREF ImageDisabledColor;
+
+    static COLORREF SliderChannelColor;
+
+    static COLORREF EditBorderColor;
+
+    static COLORREF TreeCtrlLineColor;
+    static COLORREF TreeCtrlHoverColor;
+    static COLORREF TreeCtrlFocusColor;
+
+    static COLORREF CheckColor;
+
+    static COLORREF ColumnHeaderHotColor;
+
+    static COLORREF StaticEtchedColor;
+
+    static COLORREF ListCtrlDisabledBGColor;
+    static COLORREF ListCtrlGridColor;
+    static COLORREF ListCtrlErrorColor;
+    static COLORREF HeaderCtrlGridColor;
+    static COLORREF AudioSwitcherGridColor;
+
+    static COLORREF TabCtrlBorderColor;
+    static COLORREF TabCtrlInactiveColor;
+
+    static COLORREF StatusBarBGColor;
+    static COLORREF StatusBarSeparatorColor;
+    static COLORREF StatusBarEditBorderColor;
+
+    static COLORREF W10DarkThemeFileDialogInjectedTextColor;
+    static COLORREF W10DarkThemeFileDialogInjectedBGColor;
+    static COLORREF W10DarkThemeFileDialogInjectedEditBorderColor;
+    static COLORREF W10DarkThemeTitlebarBGColor;
+    static COLORREF W10DarkThemeTitlebarInactiveBGColor;
+    static COLORREF W10DarkThemeTitlebarFGColor;
+    static COLORREF W10DarkThemeTitlebarInactiveFGColor;
+    static COLORREF W10DarkThemeTitlebarIconPenColor;
+    static COLORREF W10DarkThemeTitlebarControlHoverBGColor;
+    static COLORREF W10DarkThemeTitlebarInactiveControlHoverBGColor;
+    static COLORREF W10DarkThemeTitlebarControlPushedBGColor;
+    static COLORREF W10DarkThemeWindowBorderColor;
+
+    static COLORREF ProgressBarBGColor;
+    static COLORREF ProgressBarColor;
+
+    static COLORREF SubresyncFadeText1;
+    static COLORREF SubresyncFadeText2;
+    static COLORREF SubresyncActiveFadeText;
+    static COLORREF SubresyncHLColor1;
+    static COLORREF SubresyncHLColor2;
+    static COLORREF SubresyncGridSepColor;
+
+    static COLORREF ActivePlayListItemColor;
+    static COLORREF ActivePlayListItemHLColor;
+    static COLORREF StaticLinkColor;
+    static COLORREF SeekbarCurrentPositionColor;
+    static COLORREF SeekbarChapterColor;
+    static COLORREF SeekbarABColor;
+
     static const int GroupBoxTextIndent;
-
-    static const COLORREF DebugColorRed;
-    static const COLORREF DebugColorYellow;
-    static const COLORREF DebugColorGreen;
-
-    static const COLORREF PlayerButtonHotColor;
-    static const COLORREF PlayerButtonCheckedColor;
-    static const COLORREF PlayerButtonClickedColor;
-    static const COLORREF PlayerButtonBorderColor;
-
-    static const COLORREF ButtonBorderOuterColor;
-    static const COLORREF ButtonBorderInnerFocusedColor;
-    static const COLORREF ButtonBorderInnerColor;
-    static const COLORREF ButtonBorderSelectedKBFocusColor;
-    static const COLORREF ButtonBorderHoverKBFocusColor;
-    static const COLORREF ButtonBorderKBFocusColor;
-    static const COLORREF ButtonFillColor;
-    static const COLORREF ButtonFillHoverColor;
-    static const COLORREF ButtonFillSelectedColor;
-    static const COLORREF ButtonDisabledFGColor;
-
-    static const COLORREF CheckboxBorderColor;
-    static const COLORREF CheckboxBGColor;
-    static const COLORREF CheckboxBorderHoverColor;
-    static const COLORREF CheckboxBGHoverColor;
-
-    static const COLORREF ImageDisabledColor;
-
-    static const COLORREF SliderChannelColor;
-
-    static const COLORREF EditBorderColor;
-
-    static const COLORREF TreeCtrlLineColor;
-    static const COLORREF TreeCtrlHoverColor;
-    static const COLORREF TreeCtrlFocusColor;
-
-    static const COLORREF CheckColor;
-
-    static const COLORREF ColumnHeaderHotColor;
-
-    static const COLORREF StaticEtchedColor;
-
-    static const COLORREF ListCtrlDisabledBGColor;
-    static const COLORREF ListCtrlGridColor;
-    static const COLORREF ListCtrlErrorColor;
-    static const COLORREF HeaderCtrlGridColor;
-    static const COLORREF AudioSwitcherGridColor;
-
-    static const COLORREF TabCtrlBorderColor;
-    static const COLORREF TabCtrlInactiveColor;
-
-    static const COLORREF StatusBarBGColor;
-    static const COLORREF StatusBarSeparatorColor;
-    static const COLORREF StatusBarEditBorderColor;
-
-    static const COLORREF W10DarkThemeFileDialogInjectedTextColor;
-    static const COLORREF W10DarkThemeFileDialogInjectedBGColor;
-    static const COLORREF W10DarkThemeFileDialogInjectedEditBorderColor;
-    static const COLORREF W10DarkThemeTitlebarBGColor;
-    static const COLORREF W10DarkThemeTitlebarInactiveBGColor;
-    static const COLORREF W10DarkThemeTitlebarFGColor;
-    static const COLORREF W10DarkThemeTitlebarInactiveFGColor;
-    static const COLORREF W10DarkThemeTitlebarIconPenColor;
-    static const COLORREF W10DarkThemeTitlebarControlHoverBGColor;
-    static const COLORREF W10DarkThemeTitlebarInactiveControlHoverBGColor;
-    static const COLORREF W10DarkThemeTitlebarControlPushedBGColor;
-    static const COLORREF W10DarkThemeWindowBorderColor;
-
-    static const COLORREF ProgressBarBGColor;
-    static const COLORREF ProgressBarColor;
-
-    static const COLORREF SubresyncFadeText1;
-    static const COLORREF SubresyncFadeText2;
-    static const COLORREF SubresyncActiveFadeText;
-    static const COLORREF SubresyncHLColor1;
-    static const COLORREF SubresyncHLColor2;
-    static const COLORREF SubresyncGridSepColor;
-
-    static const COLORREF ActivePlayListItemColor;
-    static const COLORREF ActivePlayListItemHLColor;
-    static const COLORREF StaticLinkColor;
-    static const COLORREF SeekbarCurrentPositionColor;
-    static const COLORREF SeekbarChapterColor;
-    static const COLORREF SeekbarABColor;
 
 
     static const BYTE GripperBitsH[10];
@@ -153,6 +161,7 @@ public:
 
     const static UINT ThemeCheckBoxes[5];
     const static UINT ThemeRadios[5];
+    const static UINT ThemeGrippers[5];
 
     enum pathState {
         linePath,
@@ -169,9 +178,18 @@ public:
     static const std::vector<pathPoint> maximizeIcon96, maximizeIcon120, maximizeIcon144, maximizeIcon168, maximizeIcon192;
     static const std::vector<pathPoint> restoreIcon96, restoreIcon120, restoreIcon144, restoreIcon168, restoreIcon192;
     static const std::vector<pathPoint> closeIcon96, closeIcon120, closeIcon144, closeIcon168, closeIcon192;
+    static const std::vector<pathPoint> hideIcon96, hideIcon120, hideIcon144, hideIcon168, hideIcon192;
     static const int CMPCTheme::W10TitlebarIconPathHeight[5];
     static const int CMPCTheme::W10TitlebarIconPathWidth[5];
     static const float CMPCTheme::W10TitlebarIconPathThickness[5];
     static const int CMPCTheme::W10TitlebarButtonWidth[5];
     static const int CMPCTheme::W10TitlebarButtonSpacing[5];
+    static const int CMPCTheme::ToolbarIconPathDimension[5];
+    static const int CMPCTheme::ToolbarGripperHeight[5];
+    static const int CMPCTheme::ToolbarHideButtonDimensions[5];
+
+
+    static bool drawThemedControls;
+
+    static void InitializeColors(ModernThemeMode themeMode);
 };

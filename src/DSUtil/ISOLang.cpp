@@ -26,10 +26,6 @@
 namespace
 {
     constexpr ISOLang s_isolangs[] = {  // TODO : fill LCID !!!
-        //   {"Auxiliary Language Association)", "", ""},
-        //   {"English-based (Other)", "", ""},
-        //   {"French-based (Other)", "", ""},
-        //   {"Portuguese-based (Other)", "", ""},
         { "Abkhazian", "abk", "ab" },
         { "Achinese", "ace", "" },
         { "Acoli", "ach", "" },
@@ -38,14 +34,14 @@ namespace
         { "Afar", "aar", "aa" },
         { "Afrihili", "afh", "" },
         { "Afrikaans", "afr", "af",                  MAKELCID(MAKELANGID(LANG_AFRIKAANS, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Afro-Asiatic (Other)", "afa", "" },
+        { "Afro-Asiatic", "afa", "" },
         { "Akan", "aka", "ak" },
         { "Akkadian", "akk", "" },
         { "Albanian", "alb", "sq" },
         { "Albanian", "sqi", "sq",                   MAKELCID(MAKELANGID(LANG_ALBANIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Aleut", "ale", "" },
         { "Algonquian languages", "alg", "" },
-        { "Altaic (Other)", "tut", "" },
+        { "Altaic", "tut", "" },
         { "Amharic", "amh", "am" },
         { "Apache languages", "apa", "" },
         { "Arabic", "ara", "ar",                     MAKELCID(MAKELANGID(LANG_ARABIC, SUBLANG_DEFAULT), SORT_DEFAULT) },
@@ -58,43 +54,43 @@ namespace
         { "Armenian", "hye", "hy",                   MAKELCID(MAKELANGID(LANG_ARMENIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Artificial (Other)", "art", "" },
         { "Assamese", "asm", "as",                   MAKELCID(MAKELANGID(LANG_ASSAMESE, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Asturian; Bable", "ast", "at" },
+        { "Asturian", "ast", "at" },
+        { "Bable", "ast", "at" },
         { "Athapascan languages", "ath", "" },
         { "Australian languages", "aus", "" },
-        { "Austronesian (Other)", "map", "" },
+        { "Austronesian", "map", "" },
         { "Avaric", "ava", "av" },
         { "Avestan", "ave", "ae" },
         { "Awadhi", "awa", "" },
         { "Aymara", "aym", "ay" },
         { "Azerbaijani", "aze", "az",                MAKELCID(MAKELANGID(LANG_AZERI, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Balinese", "ban", "" },
-        { "Baltic (Other)", "bat", "" },
+        { "Baltic", "bat", "" },
         { "Baluchi", "bal", "" },
         { "Bambara", "bam", "bm" },
         { "Bamileke languages", "bai", "" },
         { "Banda", "bad", "" },
-        { "Bantu (Other)", "bnt", "" },
+        { "Bantu", "bnt", "" },
         { "Basa", "bas", "" },
         { "Bashkir", "bak", "ba",                    MAKELCID(MAKELANGID(LANG_BASHKIR, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Basque", "baq", "eu",                     MAKELCID(MAKELANGID(LANG_BASQUE, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Basque", "eus", "eu",                     MAKELCID(MAKELANGID(LANG_BASQUE, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Batak (Indonesia)", "btk", "" },
+        { "Batak", "btk", "" },
         { "Beja", "bej", "" },
         { "Belarusian", "bel", "be",                 MAKELCID(MAKELANGID(LANG_BELARUSIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Bemba", "bem", "" },
         { "Bengali", "ben", "bn",                    MAKELCID(MAKELANGID(LANG_BENGALI, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Berber (Other)", "ber", "" },
+        { "Berber", "ber", "" },
         { "Bhojpuri", "bho", "" },
         { "Bihari", "bih", "bh" },
         { "Bikol", "bik", "" },
         { "Bini", "bin", "" },
         { "Bislama", "bis", "bi" },
         { "Blin", "byn", "" },
-        { "Bokmål, Norwegian; Norwegian Bokmål", "nob", "nb" },
+        { "Bokmål", "nob", "nb",                     MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Bokmal", "nob", "nb",                     MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Bosnian", "bos", "bs" },
         { "Braj", "bra", "" },
-        // unofficial codes for Brazilian Portuguese language
-        { "Portuguese (BR)", "pob", "pb",            MAKELCID(MAKELANGID(LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN), SORT_DEFAULT) },
         { "Breton", "bre", "br",                     MAKELCID(MAKELANGID(LANG_BRETON, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Buginese", "bug", "" },
         { "Bulgarian", "bul", "bg",                  MAKELCID(MAKELANGID(LANG_BULGARIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
@@ -104,19 +100,17 @@ namespace
         { "Caddo", "cad", "" },
         { "Carib", "car", "" },
         { "Catalan", "cat", "ca",                    MAKELCID(MAKELANGID(LANG_CATALAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Caucasian (Other)", "cau", "" },
+        { "Caucasian", "cau", "" },
         { "Cebuano", "ceb", "" },
-        { "Celtic (Other)", "cel", "" },
-        { "Central American Indian (Other)", "cai", "" },
+        { "Celtic", "cel", "" },
+        { "Central American Indian", "cai", "" },
         { "Chagatai", "chg", "" },
         { "Chamic languages", "cmc", "" },
         { "Chamorro", "cha", "ch" },
         { "Chechen", "che", "ce" },
         { "Cherokee", "chr", "" },
-        { "Chewa; Chichewa; Nyanja", "nya", "ny" },
         { "Cheyenne", "chy", "" },
         { "Chibcha", "chb", "" },
-        { "Chichewa; Chewa; Nyanja", "nya", "ny" },
         { "Chinese (traditional)", "zht", "zt",      MAKELCID(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_TRADITIONAL), SORT_DEFAULT) },
         { "Chinese bilingual", "zhe", "ze" },
         { "Chinese", "chi", "zh",                    MAKELCID(MAKELANGID(LANG_CHINESE, SUBLANG_NEUTRAL), SORT_DEFAULT) },
@@ -124,10 +118,8 @@ namespace
         { "Chinook jargon", "chn", "" },
         { "Chipewyan", "chp", "" },
         { "Choctaw", "cho", "" },
-        { "Chuang; Zhuang", "zha", "za" },
-        { "Church Slavic; Old Church Slavonic", "chu", "cu" },
-        { "Church Slavic; Old Church Slavonic", "chu", "cu" },
-        { "Church Slavonic; Old Bulgarian; Church Slavic;", "chu", "cu" },
+        { "Church Slavic", "chu", "cu" },
+        { "Church Slavonic", "chu", "cu" },
         { "Chuukese", "chk", "" },
         { "Chuvash", "chv", "cv" },
         { "Classical Newari", "nwc", "" },
@@ -136,14 +128,14 @@ namespace
         { "Corsican", "cos", "co",                   MAKELCID(MAKELANGID(LANG_CORSICAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Cree", "cre", "cr" },
         { "Creek", "mus", "" },
-        { "Creoles and pidgins (Other)", "crp", "" },
+        { "Creoles and pidgins", "crp", "" },
         { "Creoles and pidgins,", "cpe", "" },
         { "Creoles and pidgins,", "cpf", "" },
         { "Creoles and pidgins,", "cpp", "" },
         { "Crimean Turkish", "crh", "" },
         { "Croatian", "hrv", "hr",                   MAKELCID(MAKELANGID(LANG_CROATIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Croatian", "scr", "hr",                   MAKELCID(MAKELANGID(LANG_CROATIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Cushitic (Other)", "cus", "" },
+        { "Cushitic", "cus", "" },
         { "Czech", "cze", "cs",                      MAKELCID(MAKELANGID(LANG_CZECH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Czech", "ces", "cs",                      MAKELCID(MAKELANGID(LANG_CZECH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Dakota", "dak", "" },
@@ -155,11 +147,11 @@ namespace
         { "Divehi", "div", "dv",                     MAKELCID(MAKELANGID(LANG_DIVEHI, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Dogri", "doi", "" },
         { "Dogrib", "dgr", "" },
-        { "Dravidian (Other)", "dra", "" },
+        { "Dravidian", "dra", "" },
         { "Duala", "dua", "" },
         { "Dutch, Middle (ca. 1050-1350)", "dum", "" },
-        { "Dutch; Flemish", "dut", "nl",             MAKELCID(MAKELANGID(LANG_DUTCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Dutch; Flemish", "nld", "nl",             MAKELCID(MAKELANGID(LANG_DUTCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Dutch", "dut", "nl",                      MAKELCID(MAKELANGID(LANG_DUTCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Dutch", "nld", "nl",                      MAKELCID(MAKELANGID(LANG_DUTCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Dyula", "dyu", "" },
         { "Dzongkha", "dzo", "dz" },
         { "Efik", "efi", "" },
@@ -180,12 +172,10 @@ namespace
         { "Faroese", "fao", "fo",                    MAKELCID(MAKELANGID(LANG_FAEROESE, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Fijian", "fij", "fj" },
         { "Finnish", "fin", "fi",                    MAKELCID(MAKELANGID(LANG_FINNISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Finno-Ugrian (Other)", "fiu", "" },
-        { "Flemish; Dutch", "dut", "nl" },
-        { "Flemish; Dutch", "nld", "nl" },
+        { "Finno-Ugrian", "fiu", "" },
+        { "Flemish", "dut", "nl",                    MAKELCID(MAKELANGID(LANG_DUTCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Fon", "fon", "" },
         { "French", "fre", "fr",                     MAKELCID(MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "French", "fra*", "fr",                    MAKELCID(MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "French", "fra", "fr",                     MAKELCID(MAKELANGID(LANG_FRENCH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "French, Middle (ca.1400-1600)", "frm", "" },
         { "French, Old (842-ca.1400)", "fro", "" },
@@ -193,7 +183,7 @@ namespace
         { "Friulian", "fur", "" },
         { "Fulah", "ful", "ff" },
         { "Ga", "gaa", "" },
-        { "Gaelic; Scottish Gaelic", "gla", "gd",    MAKELCID(MAKELANGID(LANG_GALICIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Gaelic", "gla", "gd",                     MAKELCID(MAKELANGID(LANG_GALICIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Galician", "glg", "gl" },
         { "Ganda", "lug", "lg" },
         { "Gayo", "gay", "" },
@@ -203,11 +193,11 @@ namespace
         { "Georgian", "kat", "ka",                   MAKELCID(MAKELANGID(LANG_GEORGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "German", "ger", "de",                     MAKELCID(MAKELANGID(LANG_GERMAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "German", "deu", "de",                     MAKELCID(MAKELANGID(LANG_GERMAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "German, Low; Saxon, Low; Low German; Low Saxon", "nds", "" },
+        { "German, Low", "nds", "" },
+        { "Saxon, Low", "nds", "" },
         { "German, Middle High (ca.1050-1500)", "gmh", "" },
         { "German, Old High (ca.750-1050)", "goh", "" },
-        { "Germanic (Other)", "gem", "" },
-        { "Gikuyu; Kikuyu", "kik", "ki" },
+        { "Germanic", "gem", "" },
         { "Gilbertese", "gil", "" },
         { "Gondi", "gon", "" },
         { "Gorontalo", "gor", "" },
@@ -216,7 +206,6 @@ namespace
         { "Greek", "ell", "el",                      MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Greek", "gre", "el",                      MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Greek, Ancient (to 1453)", "grc", "",     MAKELCID(MAKELANGID(LANG_GREEK, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Greenlandic; Kalaallisut", "kal", "kl",   MAKELCID(MAKELANGID(LANG_GREENLANDIC, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Guarani", "grn", "gn" },
         { "Gujarati", "guj", "gu",                   MAKELCID(MAKELANGID(LANG_GUJARATI, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Gwich’in", "gwi", "" },
@@ -242,8 +231,8 @@ namespace
         { "Ijo", "ijo", "" },
         { "Iloko", "ilo", "" },
         { "Inari Sami", "smn", "" },
-        { "Indic (Other)", "inc", "" },
-        { "Indo-European (Other)", "ine", "" },
+        { "Indic", "inc", "" },
+        { "Indo-European", "ine", "" },
         { "Indonesian", "ind", "id",                 MAKELCID(MAKELANGID(LANG_INDONESIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Ingush", "inh", "" },
         { "Interlingua (International", "ina", "ia" },
@@ -263,7 +252,8 @@ namespace
         { "Kabardian", "kbd", "" },
         { "Kabyle", "kab", "" },
         { "Kachin", "kac", "" },
-        { "Kalaallisut; Greenlandic", "kal", "kl" },
+        { "Kalaallisut", "kal", "kl",                MAKELCID(MAKELANGID(LANG_GREENLANDIC, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Greenlandic", "kal", "kl",                MAKELCID(MAKELANGID(LANG_GREENLANDIC, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Kalmyk", "xal", "" },
         { "Kamba", "kam", "" },
         { "Kannada", "kan", "kn",                    MAKELCID(MAKELANGID(LANG_KANNADA, SUBLANG_DEFAULT), SORT_DEFAULT) },
@@ -279,7 +269,8 @@ namespace
         { "Khmer", "khm", "km",                      MAKELCID(MAKELANGID(LANG_KHMER, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Khoisan (Other)", "khi", "" },
         { "Khotanese", "kho", "" },
-        { "Kikuyu; Gikuyu", "kik", "ki" },
+        { "Kikuyu", "kik", "ki" },
+        { "Gikuyu", "kik", "ki" },
         { "Kimbundu", "kmb", "" },
         { "Kinyarwanda", "kin", "rw",                MAKELCID(MAKELANGID(LANG_KINYARWANDA, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Kirghiz", "kir", "ky" },
@@ -291,12 +282,12 @@ namespace
         { "Kosraean", "kos", "" },
         { "Kpelle", "kpe", "" },
         { "Kru", "kro", "" },
-        { "Kuanyama; Kwanyama", "kua", "kj" },
+        { "Kuanyama", "kua", "kj" },
+        { "Kwanyama", "kua", "kj" },
         { "Kumyk", "kum", "" },
         { "Kurdish", "kur", "ku" },
         { "Kurukh", "kru", "" },
         { "Kutenai", "kut", "" },
-        { "Kwanyama, Kuanyama", "kua", "kj" },
         { "Ladino", "lad", "" },
         { "Lahnda", "lah", "" },
         { "Lamba", "lam", "" },
@@ -304,14 +295,12 @@ namespace
         { "Latin", "lat", "la" },
         { "Latvian", "lav", "lv",                    MAKELCID(MAKELANGID(LANG_LATVIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Lezghian", "lez", "" },
-        { "Limburgan; Limburger; Limburgish", "lim", "li" },
-        { "Limburger; Limburgan; Limburgish;", "lim", "li" },
-        { "Limburgish; Limburger; Limburgan", "lim", "li" },
+        { "Limburgan", "lim", "li" },
+        { "Limburger", "lim", "li" },
+        { "Limburgish", "lim", "li" },
         { "Lingala", "lin", "ln" },
         { "Lithuanian", "lit", "lt",                 MAKELCID(MAKELANGID(LANG_LITHUANIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Lojban", "jbo", "" },
-        { "Low German; Low Saxon; German, Low; Saxon, Low", "nds", "" },
-        { "Low Saxon; Low German; Saxon, Low; German, Low", "nds", "" },
         { "Lower Sorbian", "dsb", "" },
         { "Lozi", "loz", "" },
         { "Luba-Katanga", "lub", "lu" },
@@ -363,8 +352,8 @@ namespace
         { "Munda languages", "mun", "" },
         { "Nahuatl", "nah", "" },
         { "Nauru", "nau", "na" },
-        { "Navaho, Navajo", "nav", "nv" },
-        { "Navajo; Navaho", "nav", "nv" },
+        { "Navaho", "nav", "nv" },
+        { "Navajo", "nav", "nv" },
         { "Ndebele, North", "nde", "nd" },
         { "Ndebele, South", "nbl", "nr" },
         { "Ndonga", "ndo", "ng" },
@@ -372,34 +361,34 @@ namespace
         { "Nepali", "nep", "ne",                     MAKELCID(MAKELANGID(LANG_NEPALI, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Newari", "new", "" },
         { "Nias", "nia", "" },
-        { "Niger-Kordofanian (Other)", "nic", "" },
-        { "Nilo-Saharan (Other)", "ssa", "" },
+        { "Niger-Kordofanian", "nic", "" },
+        { "Nilo-Saharan", "ssa", "" },
         { "Niuean", "niu", "" },
         { "Nogai", "nog", "" },
         { "Norse, Old", "non", "" },
-        { "North American Indian (Other)", "nai", "" },
+        { "North American Indian", "nai", "" },
         { "North Ndebele", "nde", "nd" },
         { "Northern Sami", "sme", "se" },
-        { "Norwegian Bokmål; Bokmål, Norwegian", "nob", "nb",  MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Norwegian Nynorsk; Nynorsk, Norwegian", "nno", "nn",  MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Norwegian", "nob", "nb",                  MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Norwegian", "nno", "nn",                  MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Norwegian", "nor", "no",                  MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Nubian languages", "nub", "" },
         { "Nyamwezi", "nym", "" },
-        { "Nyanja; Chichewa; Chewa", "nya", "ny" },
+        { "Nyanja", "nya", "ny" },
+        { "Chichewa", "nya", "ny" },
+        { "Chewa", "nya", "ny" },
         { "Nyankole", "nyn", "" },
-        { "Nynorsk, Norwegian; Norwegian Nynorsk", "nno", "nn" },
+        { "Nynorsk", "nno", "nn",                    MAKELCID(MAKELANGID(LANG_NORWEGIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Nyoro", "nyo", "" },
         { "Nzima", "nzi", "" },
-        { "Occitan (post 1500},; Provençal", "oci", "oc",       MAKELCID(MAKELANGID(LANG_OCCITAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Occitan", "oci", "oc",                    MAKELCID(MAKELANGID(LANG_OCCITAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Provençal", "oci", "oc",                  MAKELCID(MAKELANGID(LANG_OCCITAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Ojibwa", "oji", "oj" },
-        { "Old Bulgarian; Old Slavonic; Church Slavonic;", "chu", "cu" },
-        { "Old Church Slavonic; Old Slavonic; ", "chu", "cu" },
-        { "Old Slavonic; Church Slavonic; Old Bulgarian;", "chu", "cu" },
         { "Oriya", "ori", "or" },
         { "Oromo", "orm", "om" },
         { "Osage", "osa", "" },
-        { "Ossetian; Ossetic", "oss", "os" },
-        { "Ossetic; Ossetian", "oss", "os" },
+        { "Ossetian", "oss", "os" },
+        { "Ossetic", "oss", "os" },
         { "Otomian languages", "oto", "" },
         { "Pahlavi", "pal", "" },
         { "Palauan", "pau", "" },
@@ -409,18 +398,20 @@ namespace
         { "Panjabi", "pan", "pa" },
         { "Papiamento", "pap", "" },
         { "Papuan (Other)", "paa", "" },
-        { "Persian", "per", "fa",                MAKELCID(MAKELANGID(LANG_PERSIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Persian", "fas", "fa",                MAKELCID(MAKELANGID(LANG_PERSIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Persian", "per", "fa",                    MAKELCID(MAKELANGID(LANG_PERSIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Persian", "fas", "fa",                    MAKELCID(MAKELANGID(LANG_PERSIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Persian, Old (ca.600-400 B.C.)", "peo", "" },
         { "Philippine (Other)", "phi", "" },
         { "Phoenician", "phn", "" },
         { "Pohnpeian", "pon", "" },
-        { "Polish", "pol", "pl",                 MAKELCID(MAKELANGID(LANG_POLISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Portuguese", "por", "pt",             MAKELCID(MAKELANGID(LANG_PORTUGUESE, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Polish", "pol", "pl",                     MAKELCID(MAKELANGID(LANG_POLISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Portuguese", "por", "pt",                 MAKELCID(MAKELANGID(LANG_PORTUGUESE, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        // custom codes for Brazilian Portuguese language
+        { "Brazilian Portuguese", "pob", "pb",       MAKELCID(MAKELANGID(LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN), SORT_DEFAULT) },
+        { "Brazilian", "pob", "pb",                  MAKELCID(MAKELANGID(LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN), SORT_DEFAULT) },
         { "Mozambican Portuguese", "pom", "pm" }, // Custom codes compatible with OpenSubtitles database
         { "Prakrit languages", "pra", "" },
         { "Provençal, Old (to 1500)", "pro", "" },
-        { "Provençal; Occitan (post 1500)", "oci", "oc" },
         { "Pushto", "pus", "ps" },
         { "Quechua", "que", "qu",                MAKELCID(MAKELANGID(LANG_QUECHUA, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Raeto-Romance", "roh", "rm" },
@@ -428,7 +419,7 @@ namespace
         { "Rapanui", "rap", "" },
         { "Rarotongan", "rar", "" },
         { "Reserved for local use", "qaa-qtz", "" },
-        { "Romance (Other)", "roa", "" },
+        { "Romance", "roa", "" },
         { "Romanian", "rum", "ro",               MAKELCID(MAKELANGID(LANG_ROMANIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Romanian", "ron", "ro",               MAKELCID(MAKELANGID(LANG_ROMANIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Romany", "rom", "" },
@@ -436,7 +427,7 @@ namespace
         { "Russian", "rus", "ru",                MAKELCID(MAKELANGID(LANG_RUSSIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Salishan languages", "sal", "" },
         { "Samaritan Aramaic", "sam", "" },
-        { "Sami languages (Other)", "smi", "" },
+        { "Sami languages", "smi", "" },
         { "Samoan", "smo", "sm" },
         { "Sandawe", "sad", "" },
         { "Sango", "sag", "sg" },
@@ -444,9 +435,8 @@ namespace
         { "Santali", "sat", "" },
         { "Sardinian", "srd", "sc" },
         { "Sasak", "sas", "" },
-        { "Saxon, Low; German, Low; Low Saxon; Low German", "nds", "" },
         { "Scots", "sco", "" },
-        { "Scottish Gaelic; Gaelic", "gla", "gd" },
+        { "Scottish Gaelic", "gla", "gd",        MAKELCID(MAKELANGID(LANG_GALICIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Selkup", "sel", "" },
         { "Semitic (Other)", "sem", "" },
         { "Serbian", "scc", "sr",                MAKELCID(LANG_SERBIAN_NEUTRAL, SORT_DEFAULT) },
@@ -460,11 +450,11 @@ namespace
         { "Siksika", "bla", "" },
         { "Sindhi", "snd", "sd",                 MAKELCID(MAKELANGID(LANG_SINDHI, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Sinhalese", "sin", "si",              MAKELCID(MAKELANGID(LANG_SINHALESE, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "Sino-Tibetan (Other)", "sit", "" },
+        { "Sino-Tibetan", "sit", "" },
         { "Siouan languages", "sio", "" },
         { "Skolt Sami", "sms", "" },
         { "Slave (Athapascan)", "den", "" },
-        { "Slavic (Other)", "sla", "" },
+        { "Slavic", "sla", "" },
         { "Slovak", "slo", "sk",                 MAKELCID(MAKELANGID(LANG_SLOVAK, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Slovak", "slk", "sk",                 MAKELCID(MAKELANGID(LANG_SLOVAK, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Slovenian", "slv", "sl",              MAKELCID(MAKELANGID(LANG_SLOVENIAN, SUBLANG_DEFAULT), SORT_DEFAULT) },
@@ -475,10 +465,11 @@ namespace
         { "Sorbian languages", "wen", "" },
         { "Sotho, Northern", "nso", "",          MAKELCID(MAKELANGID(LANG_SOTHO, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Sotho, Southern", "sot", "st",        MAKELCID(MAKELANGID(LANG_SOTHO, SUBLANG_DEFAULT), SORT_DEFAULT) },
-        { "South American Indian (Other)", "sai", "" },
+        { "South American Indian", "sai", "" },
         { "South Ndebele", "nbl", "nr" },
         { "Southern Sami", "sma", "" },
-        { "Spanish; Castilian", "spa", "es",     MAKELCID(MAKELANGID(LANG_SPANISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Spanish", "spa", "es",                MAKELCID(MAKELANGID(LANG_SPANISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
+        { "Castilian", "spa", "es",              MAKELCID(MAKELANGID(LANG_SPANISH, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Sukuma", "suk", "" },
         { "Sumerian", "sux", "" },
         { "Sundanese", "sun", "su" },
@@ -552,7 +543,8 @@ namespace
         { "Zande", "znd", "" },
         { "Zapotec", "zap", "" },
         { "Zenaga", "zen", "" },
-        { "Zhuang; Chuang", "zha", "za" },
+        { "Zhuang", "zha", "za" },
+        { "Chuang", "zha", "za" },
         { "Zulu", "zul", "zu",                   MAKELCID(MAKELANGID(LANG_ZULU, SUBLANG_DEFAULT), SORT_DEFAULT) },
         { "Zuni", "zun", "" },
         { "", "", "" },
@@ -568,12 +560,7 @@ CString ISOLang::ISO6391ToLanguage(LPCSTR code)
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].iso6391, tmp)) {
-            CString ret = CString(CStringA(s_isolangs[i].name));
-            int k = ret.Find(';');
-            if (k > 0) {
-                ret = ret.Left(k);
-            }
-            return ret;
+            return CString(CStringA(s_isolangs[i].name));
         }
     }
     return _T("");
@@ -584,21 +571,17 @@ CString ISOLang::ISO6392ToLanguage(LPCSTR code)
     CHAR tmp[3 + 1];
     strncpy_s(tmp, code, 3);
     tmp[3] = 0;
+    ASSERT(tmp[2] != '-');
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].iso6392, tmp)) {
-            CString ret = CString(CStringA(s_isolangs[i].name));
-            int k = ret.Find(';');
-            if (k > 0) {
-                ret = ret.Left(k);
-            }
-            return ret;
+            return CString(CStringA(s_isolangs[i].name));
         }
     }
     return CString(code);
 }
 
-bool ISOLang::IsISO639Language(LPCSTR code)
+bool ISOLang::IsISO639Language(LPCSTR code, LCID* lcid)
 {
     size_t nLen = strlen(code) + 1;
     LPSTR tmp = DEBUG_NEW CHAR[nLen];
@@ -610,6 +593,9 @@ bool ISOLang::IsISO639Language(LPCSTR code)
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].name, tmp)) {
             bFound = true;
+            if (lcid != 0) {
+                *lcid = s_isolangs[i].lcid;
+            }
             break;
         }
     }
@@ -619,7 +605,7 @@ bool ISOLang::IsISO639Language(LPCSTR code)
     return bFound;
 }
 
-CString ISOLang::ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName /*= false*/)
+CString ISOLang::ISO639XToLanguage(LPCSTR code)
 {
     CString lang;
 
@@ -628,17 +614,17 @@ CString ISOLang::ISO639XToLanguage(LPCSTR code, bool bCheckForFullLangName /*= f
             lang = ISO6391ToLanguage(code);
             break;
         case 3:
-            lang = ISO6392ToLanguage(code);
+            if (code[2] == '-') { // Truncated BCP47
+                lang = ISO6391ToLanguage(code);
+            } else {
+                lang = ISO6392ToLanguage(code);
+            }
             if (lang == code) { // When it can't find a match, ISO6392ToLanguage returns the input string
                 lang.Empty();
             }
             break;
         default:
-            if (bCheckForFullLangName && nLen > 3) {
-                if (IsISO639Language(code)) {
-                    lang = code;
-                }
-            }
+            ASSERT(FALSE);
     }
 
     return lang;
@@ -648,12 +634,7 @@ CString ISOLang::LCIDToLanguage(LCID lcid)
 {
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (lcid == s_isolangs[i].lcid) {
-            CString ret = CString(CStringA(s_isolangs[i].name));
-            int k = ret.Find(';');
-            if (k > 0) {
-                ret = ret.Left(k);
-            }
-            return ret;
+            return CString(CStringA(s_isolangs[i].name));
         }
     }
     return _T("");
@@ -678,6 +659,10 @@ LCID ISOLang::ISO6392ToLcid(LPCSTR code)
     CHAR tmp[3 + 1];
     strncpy_s(tmp, code, 3);
     tmp[3] = 0;
+    if (tmp[2] == '-') { // Truncated BCP47
+        tmp[2] = 0;
+        return ISO6391ToLcid(tmp);
+    }
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].iso6392, tmp)) {
@@ -706,6 +691,7 @@ BOOL ISOLang::IsISO6392(LPCSTR code)
     CHAR tmp[3 + 1];
     strncpy_s(tmp, code, 3);
     tmp[3] = 0;
+    ASSERT(tmp[2] != '-');
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].iso6392, tmp)) {
@@ -733,6 +719,7 @@ CString ISOLang::ISO6392To6391(LPCSTR code)
 {
     CHAR tmp[3 + 1];
     strncpy_s(tmp, code, 3);
+    ASSERT(tmp[2] != '-');
     tmp[3] = 0;
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
@@ -779,6 +766,7 @@ ISOLang ISOLang::ISO6392ToISOLang(LPCSTR code)
     CHAR tmp[3 + 1];
     strncpy_s(tmp, code, 3);
     tmp[3] = 0;
+    ASSERT(tmp[2] != '-');
     _strlwr_s(tmp);
     for (size_t i = 0, cnt = _countof(s_isolangs); i < cnt; i++) {
         if (!strcmp(s_isolangs[i].iso6392, tmp)) {

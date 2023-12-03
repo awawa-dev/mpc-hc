@@ -28,14 +28,14 @@
 
 
 //
-// CPacketQueue
+// CPacketQueue2
 //
 
-CPacketQueue::CPacketQueue() : m_size(0)
+CPacketQueue2::CPacketQueue2() : m_size(0)
 {
 }
 
-void CPacketQueue::Add(CAutoPtr<Packet> p)
+void CPacketQueue2::Add(CAutoPtr<Packet> p)
 {
     CAutoLock cAutoLock(this);
 
@@ -60,7 +60,7 @@ void CPacketQueue::Add(CAutoPtr<Packet> p)
     AddTail(p);
 }
 
-CAutoPtr<Packet> CPacketQueue::Remove()
+CAutoPtr<Packet> CPacketQueue2::Remove()
 {
     CAutoLock cAutoLock(this);
     ASSERT(__super::GetCount() > 0);
@@ -71,20 +71,20 @@ CAutoPtr<Packet> CPacketQueue::Remove()
     return p;
 }
 
-void CPacketQueue::RemoveAll()
+void CPacketQueue2::RemoveAll()
 {
     CAutoLock cAutoLock(this);
     m_size = 0;
     __super::RemoveAll();
 }
 
-int CPacketQueue::GetCount()
+int CPacketQueue2::GetCount()
 {
     CAutoLock cAutoLock(this);
     return (int)__super::GetCount();
 }
 
-int CPacketQueue::GetSize()
+int CPacketQueue2::GetSize()
 {
     CAutoLock cAutoLock(this);
     return m_size;

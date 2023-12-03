@@ -29,8 +29,12 @@
 
 IMPLEMENT_DYNAMIC(CPlayerCaptureBar, CMPCThemePlayerBar)
 CPlayerCaptureBar::CPlayerCaptureBar(CMainFrame* pMainFrame)
-    : m_capdlg(pMainFrame)
+    : CMPCThemePlayerBar(pMainFrame)
+    , m_capdlg(pMainFrame)
 {
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::DPI_CHANGED,
+    }, std::bind(&CPlayerCaptureBar::EventCallback, this, std::placeholders::_1));
 }
 
 CPlayerCaptureBar::~CPlayerCaptureBar()
@@ -78,6 +82,17 @@ void CPlayerCaptureBar::ReloadTranslatableResources()
 void CPlayerCaptureBar::InitControls()
 {
     m_capdlg.InitControls();
+}
+
+void CPlayerCaptureBar::EventCallback(MpcEvent ev) {
+    switch (ev) {
+    case MpcEvent::DPI_CHANGED:
+        InitializeSize();
+        break;
+
+    default:
+        ASSERT(FALSE);
+    }
 }
 
 BOOL CPlayerCaptureBar::PreTranslateMessage(MSG* pMsg)

@@ -72,7 +72,7 @@ void CRenderersSettings::CAdvRendererSettings::SetOptimal()
     iVMR9VSyncOffset                  = 0;
     bVMR9VSyncAccurate                = true;
     bVMR9FullscreenGUISupport         = false;
-    bVMR9VSync                        = !IsWindows7OrGreater();
+    bVMR9VSync                        = false;
     bVMR9FullFloatingPointProcessing  = false;
     bVMR9HalfFloatingPointProcessing  = false;
     bVMR9ColorManagementEnable        = false;

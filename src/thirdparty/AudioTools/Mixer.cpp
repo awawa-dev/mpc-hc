@@ -1,5 +1,5 @@
 /*
- * (C) 2014-2020 see Authors.txt
+ * (C) 2014-2023 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -74,23 +74,26 @@ bool CMixer::Init()
 	av_freep(&m_matrix_dbl);
 	int ret = 0;
 
+	const int in_ch = av_popcount64(m_in_layout);
+	const int out_ch = av_popcount(m_out_layout);
+	const AVChannelLayout in_ch_layout = { AV_CHANNEL_ORDER_NATIVE, in_ch, m_in_layout };
+	const AVChannelLayout out_ch_layout = { AV_CHANNEL_ORDER_NATIVE, out_ch, m_out_layout };
+
 	// Close SWR Context
 	swr_close(m_pSWRCxt);
 
 	// Set options
-	av_opt_set_int(m_pSWRCxt, "in_sample_fmt",      m_in_avsf,        0);
-	av_opt_set_int(m_pSWRCxt, "out_sample_fmt",     m_out_avsf,       0);
-	av_opt_set_int(m_pSWRCxt, "in_channel_layout",  m_in_layout,      0);
-	av_opt_set_int(m_pSWRCxt, "out_channel_layout", m_out_layout,     0);
-	av_opt_set_int(m_pSWRCxt, "in_sample_rate",     m_in_samplerate,  0);
-	av_opt_set_int(m_pSWRCxt, "out_sample_rate",    m_out_samplerate, 0);
+	av_opt_set_int(m_pSWRCxt,      "in_sample_fmt",   m_in_avsf,        0);
+	av_opt_set_int(m_pSWRCxt,      "out_sample_fmt",  m_out_avsf,       0);
+	av_opt_set_chlayout(m_pSWRCxt, "in_chlayout",     &in_ch_layout,    0);
+	av_opt_set_chlayout(m_pSWRCxt, "out_chlayout",    &out_ch_layout,   0);
+	av_opt_set_int(m_pSWRCxt,      "in_sample_rate",  m_in_samplerate,  0);
+	av_opt_set_int(m_pSWRCxt,      "out_sample_rate", m_out_samplerate, 0);
 
-	av_opt_set    (m_pSWRCxt, "resampler",          "soxr",           0); // use soxr library
-	//av_opt_set_int(m_pSWRCxt, "precision",          28,               0); // SOXR_VHQ
+	av_opt_set    (m_pSWRCxt,      "resampler",       "soxr",           0); // use soxr library
+	//av_opt_set_int(m_pSWRCxt,      "precision",       28,               0); // SOXR_VHQ
 
 	// Create Matrix
-	const int in_ch  = av_popcount(m_in_layout);
-	const int out_ch = av_popcount(m_out_layout);
 	m_matrix_dbl = (double*)av_mallocz(in_ch * out_ch * sizeof(*m_matrix_dbl));
 
 	// special mode that adds empty channels to existing channels
@@ -183,14 +186,15 @@ bool CMixer::Init()
 		const double lfe_mix_level      = 1.0;
 		const double rematrix_maxval    = INT_MAX; // matrix coefficients will not be normalized
 		const double rematrix_volume    = 0.0; // not to do a rematrix.
-		ret = swr_build_matrix(
-			m_in_layout, m_out_layout,
+
+		ret = swr_build_matrix2(
+			&in_ch_layout, &out_ch_layout,
 			center_mix_level, surround_mix_level, lfe_mix_level,
 			rematrix_maxval, rematrix_volume,
 			m_matrix_dbl, in_ch,
 			AV_MATRIX_ENCODING_NONE, nullptr);
 		if (ret < 0) {
-			DLog(L"CMixer::Init() : swr_build_matrix failed");
+			DLog(L"CMixer::Init() : swr_build_matrix2 failed");
 			av_freep(&m_matrix_dbl);
 			return false;
 		}
@@ -283,7 +287,7 @@ void CMixer::SetOptions(double center_level, double suround_level, bool normaliz
 	}
 }
 
-void CMixer::UpdateInput(SampleFormat in_sf, DWORD in_layout, int in_samplerate)
+void CMixer::UpdateInput(SampleFormat in_sf, uint64_t in_layout, int in_samplerate)
 {
 	if (in_sf != m_in_sf || in_layout != m_in_layout || in_samplerate != m_in_samplerate) {
 		m_in_layout     = in_layout;
@@ -293,7 +297,7 @@ void CMixer::UpdateInput(SampleFormat in_sf, DWORD in_layout, int in_samplerate)
 	}
 }
 
-void CMixer::UpdateOutput(SampleFormat out_sf, DWORD out_layout, int out_samplerate)
+void CMixer::UpdateOutput(SampleFormat out_sf, uint32_t out_layout, int out_samplerate)
 {
 	if (out_sf != m_out_sf || out_layout != m_out_layout || out_samplerate != m_out_samplerate) {
 		m_out_layout     = out_layout;
@@ -310,7 +314,7 @@ int CMixer::Mixing(BYTE* pOutput, int out_samples, BYTE* pInput, int in_samples)
 		return 0;
 	}
 
-	const int in_ch  = av_popcount(m_in_layout);
+	const int in_ch  = av_popcount64(m_in_layout);
 	const int out_ch = av_popcount(m_out_layout);
 
 	int32_t* buf1 = nullptr;

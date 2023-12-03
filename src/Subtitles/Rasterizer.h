@@ -25,7 +25,9 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "freetype/freetype.h"
+#include "SubRendererSettings.h"
+#include "OpenTypeLangTags.h"
+#include "FreeTypePathTools.h"
 
 #define PT_MOVETONC         0xfe
 #define PT_BSPLINETO        0xfc
@@ -166,15 +168,6 @@ private:
     unsigned int mEdgeNext;
 
     unsigned int* mpScanBuffer;
-    FT_Library ftLibrary;
-    struct faceData {
-        FT_Byte* fontData;
-        FT_Face face;
-        FT_UInt ratio;
-        LONG ascent;
-    };
-    std::unordered_map<std::wstring, faceData> faceCache;
-    bool ftInitialized;
 protected:
     CEllipseSharedPtr m_pEllipse;
     COutlineDataSharedPtr m_pOutlineData;
@@ -204,7 +197,8 @@ public:
     bool CreateWidenedRegion(int borderX, int borderY);
     bool Rasterize(int xsub, int ysub, int fBlur, double fGaussianBlur);
     int getOverlayWidth() const;
-    bool GetPathFreeType(HDC hdc, bool bClearPath, CStringW fontName, wchar_t ch, int size, int dx, int dy);
+    FT_UInt GetLangCodePoint(wchar_t ch, faceData& fd);
+    bool GetPathFreeType(HDC hdc, bool bClearPath, std::wstring fontNameK, wchar_t ch, int dx, int dy, CStringA langHint, FTLibraryData* ftLibraryData);
     inline void AddFTPath(BYTE type, FT_Pos x, FT_Pos y, FTPathData* data);
 
     CRect Draw(SubPicDesc& spd, CRect& clipRect, byte* pAlphaMask, int xsub, int ysub, const DWORD* switchpts, bool fBody, bool fBorder) const;

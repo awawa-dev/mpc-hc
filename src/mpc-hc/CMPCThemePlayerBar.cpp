@@ -2,9 +2,12 @@
 #include "CMPCThemePlayerBar.h"
 #include "mplayerc.h"
 #include "CMPCTheme.h"
+#include "MainFrm.h"
 
-CMPCThemePlayerBar::CMPCThemePlayerBar()
+CMPCThemePlayerBar::CMPCThemePlayerBar(CMainFrame* pMainFrame)
+    :m_pMainFrame(pMainFrame)
 {
+    InitializeSize();
 }
 
 CMPCThemePlayerBar::~CMPCThemePlayerBar()
@@ -17,6 +20,12 @@ BEGIN_MESSAGE_MAP(CMPCThemePlayerBar, CPlayerBar)
     ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
+void CMPCThemePlayerBar::InitializeSize() {
+    auto& dpi = m_pMainFrame->m_dpi;
+    int buttonDim = CMPCThemeUtil::getConstantByDPI(m_pMainFrame, CMPCTheme::ToolbarHideButtonDimensions);
+    m_cyGripper = buttonDim + dpi.ScaleX(2);
+    m_biHide.SetDpiSize(CSize(buttonDim, buttonDim));
+}
 
 BOOL CMPCThemePlayerBar::OnEraseBkgnd(CDC* pDC)
 {
@@ -31,7 +40,7 @@ BOOL CMPCThemePlayerBar::OnEraseBkgnd(CDC* pDC)
     }
 }
 
-void paintHideButton(CDC* pDC, CSCBButton b) //derived from CSCBButton::Paint
+void CMPCThemePlayerBar::paintHideButton(CDC* pDC, CSCBButton b) //derived from CSCBButton::Paint
 {
     CRect rc = b.GetRect();
 
@@ -41,27 +50,52 @@ void paintHideButton(CDC* pDC, CSCBButton b) //derived from CSCBButton::Paint
         pDC->FillSolidRect(rc, CMPCTheme::CloseHoverColor);
     }
 
-    COLORREF clrOldTextColor = pDC->GetTextColor();
-    pDC->SetTextColor(CMPCTheme::TextFGColor);
-    int nPrevBkMode = pDC->SetBkMode(TRANSPARENT);
-    CFont font;
-    int ppi = pDC->GetDeviceCaps(LOGPIXELSX);
-    int pointsize = MulDiv(60, 96, ppi); // 6 points at 96 ppi
-    font.CreatePointFont(pointsize, _T("Marlett"));
-    CFont* oldfont = pDC->SelectObject(&font);
+    auto& dpi = m_pMainFrame->m_dpi;
 
-    //mpc-hc custom code start
-    // TextOut is affected by the layout so we need to account for that
-    DWORD dwLayout = pDC->GetLayout();
-    CRect pt = b.GetRect();
-    pDC->TextOut(pt.left + (dwLayout == LAYOUT_LTR ? 2 : -1), pt.top + 2, CString(_T("r"))); // x-like
-    //mpc-hc custom code end
-
-    pDC->SelectObject(oldfont);
-    pDC->SetBkMode(nPrevBkMode);
-    pDC->SetTextColor(clrOldTextColor);
+    CMPCThemeUtil::drawToolbarHideButton(pDC, this, rc, CMPCThemeUtil::getIconPathByDPI(m_pMainFrame, TOOLBAR_HIDE_ICON), dpi.ScaleFactorX(), true, b.bPushed||b.bRaised);
 }
 
+void CMPCThemePlayerBar::NcCalcClient(LPRECT pRc, UINT nDockBarID) { //derived from CSizingControlBarG::NcCalcClient to support DPI changes
+    CRect rcBar(pRc); // save the bar rect
+
+    // subtract edges
+    baseCSizingControlBarG::NcCalcClient(pRc, nDockBarID);
+
+    if (!HasGripper())
+        return;
+
+    CRect rc(pRc); // the client rect as calculated by the base class
+    // Work in screen coordinates before converting back to
+    // client coordinates to account for possible RTL layout
+    GetParent()->ClientToScreen(rcBar);
+    GetParent()->ClientToScreen(rc);
+
+    BOOL bHorz = (nDockBarID == AFX_IDW_DOCKBAR_TOP) ||
+        (nDockBarID == AFX_IDW_DOCKBAR_BOTTOM);
+
+    if (bHorz)
+        rc.DeflateRect(m_cyGripper, 0, 0, 0);
+    else
+        rc.DeflateRect(0, m_cyGripper, 0, 0);
+
+    auto& dpi = m_pMainFrame->m_dpi;
+
+    // set position for the "x" (hide bar) button
+    CPoint ptOrgBtn;
+    if (bHorz)
+        ptOrgBtn = CPoint(rc.left - dpi.ScaleX(13), rc.top);
+    else
+        ptOrgBtn = CPoint(rc.right - dpi.ScaleX(12), rc.top - dpi.ScaleY(13));
+
+    m_biHide.Move(ptOrgBtn - rcBar.TopLeft());
+
+    // Work in screen coordinates before converting back to
+    // client coordinates to account for possible RTL layout
+    GetParent()->ScreenToClient(&rc);
+
+    *pRc = rc;
+
+}
 
 void CMPCThemePlayerBar::NcPaintGripper(CDC* pDC, CRect rcClient)   //derived from CSizingControlBarG base implementation
 {
@@ -80,35 +114,16 @@ void CMPCThemePlayerBar::NcPaintGripper(CDC* pDC, CRect rcClient)   //derived fr
     CBitmap patternBMP;
 
     gripper.DeflateRect(1, 1);
+    int gripperHeight = CMPCThemeUtil::getConstantByDPI(m_pMainFrame, CMPCTheme::ToolbarGripperHeight);
 
     if (bHorz) {   // gripper at left
-        gripper.left -= m_cyGripper;
-        gripper.right = gripper.left + CMPCTheme::gripPatternLong;
+        gripper.left = rcbtn.left + (rcbtn.Width() - gripperHeight) / 2;
         gripper.top = rcbtn.bottom + 3;
-        patternBMP.CreateBitmap(CMPCTheme::gripPatternLong, CMPCTheme::gripPatternShort, 1, 1, CMPCTheme::GripperBitsV);
     } else {   // gripper at top
-        gripper.top -= m_cyGripper;
-        gripper.bottom = gripper.top + CMPCTheme::gripPatternLong;
+        gripper.top = rcbtn.top + (rcbtn.Height() - gripperHeight) / 2;
         gripper.right = rcbtn.left - 3;
-        patternBMP.CreateBitmap(CMPCTheme::gripPatternShort, CMPCTheme::gripPatternLong, 1, 1, CMPCTheme::GripperBitsH);
     }
-
-    CBrush brush;
-    brush.CreatePatternBrush(&patternBMP);
-
-    CDC dcMemory;
-    CBitmap gb, *tb;
-    CRect memRect(0, 0, gripper.Width(), gripper.Height());
-    gb.CreateCompatibleBitmap(pDC, memRect.right, memRect.bottom);
-    dcMemory.CreateCompatibleDC(pDC);
-    tb = (CBitmap*)dcMemory.SelectObject(&gb);
-    dcMemory.SetTextColor(CMPCTheme::WindowBGColor);
-    dcMemory.SetBkColor(CMPCTheme::GripperPatternColor);
-    dcMemory.FillRect(memRect, &brush);
-
-    pDC->BitBlt(gripper.left, gripper.top, gripper.Width(), gripper.Height(), &dcMemory, 0, 0, SRCCOPY);
-    dcMemory.SelectObject(tb);
-    gb.DeleteObject();
+    CMPCThemeUtil::drawGripper(this, m_pMainFrame, gripper, pDC, bHorz);
 
     paintHideButton(pDC, m_biHide);
 }

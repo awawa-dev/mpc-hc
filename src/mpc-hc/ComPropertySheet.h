@@ -61,6 +61,7 @@ public:
 
     virtual BOOL OnInitDialog();
     void fulfillThemeReqs();
+    virtual INT_PTR DoModal(); //override to handle RTL without using SetWindowLongPtr
 
     afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 

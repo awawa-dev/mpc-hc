@@ -22,7 +22,7 @@
 
 #include "SubtitlesProviders.h"
 #include "VersionInfo.h"
-
+#include "rapidjson/include/rapidjson/document.h"
 #include "XmlRpc4Win/TimXmlRpc.h"
 
  // Uncomment defines to include the disabled subtitles providers.
@@ -33,7 +33,7 @@
  //#define INCLUDE_SUBDB
 #define INCLUDE_SUB_ADDIC7ED
 
-#define DEFINE_SUBTITLESPROVIDER_BEGIN(P, U, I, F)                                     \
+#define DEFINE_SUBTITLESPROVIDER_BEGIN(P, N, U, I, F)                                  \
 class P final : public SubtitlesProvider {                                             \
 public:                                                                                \
     P(SubtitlesProviders* pOwner)                                                      \
@@ -48,6 +48,7 @@ public:                                                                         
     }                                                                                  \
 private:                                                                               \
     virtual std::string Name() const override { return #P; }                           \
+    virtual std::string DisplayName() const override { return N; }                     \
     virtual std::string Url() const override { return U; }                             \
     virtual const std::set<std::string>& Languages() const override;                   \
     virtual bool Flags(DWORD dwFlags) const override { return (dwFlags & (F)) == dwFlags; }  \
@@ -58,7 +59,7 @@ private:                                                                        
 #define DEFINE_SUBTITLESPROVIDER_END                                                   \
 };
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "https://api.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
+DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles, "OpenSubtitles.org", "https://api.opensubtitles.org", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH | SPF_UPLOAD)
 void Initialize() override;
 bool NeedLogin() override;
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
@@ -69,8 +70,33 @@ std::unique_ptr<XmlRpcClient> xmlrpc;
 XmlRpcValue token;
 DEFINE_SUBTITLESPROVIDER_END
 
+DEFINE_SUBTITLESPROVIDER_BEGIN(OpenSubtitles2, "OpenSubtitles.com", "https://www.opensubtitles.com", IDI_OPENSUBTITLES, SPF_LOGIN | SPF_HASH)
+void Initialize() override;
+bool NeedLogin() override;
+SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
+SRESULT LogOut() override;
+SRESULT Hash(SubtitlesInfo& pFileInfo) override;
+
+struct Response {
+    DWORD code;
+    std::string text;
+};
+
+bool CallAPI(CHttpFile* httpFile, CString& headers, std::string& body, Response& response);
+bool CallAPI(CHttpFile* httpFile, CString& headers, Response& response);
+bool CallAPIResponse(CHttpFile* httpFile, Response& response);
+bool GetOptionalValue(const rapidjson::Value& node, const char* path, std::string& result);
+bool GetOptionalValue(const rapidjson::Value& node, const char* path, int& result);
+bool GetOptionalValue(const rapidjson::Value& node, const char* path, double& result);
+
+CString token;
+static constexpr TCHAR* APIKEY = _T("s2GJfwwPNA74kkeXudFAdiHIqTDjgrmq");
+
+
+DEFINE_SUBTITLESPROVIDER_END
+
 #ifdef INCLUDE_SUBDB
-DEFINE_SUBTITLESPROVIDER_BEGIN(SubDB, "http://api.thesubdb.com", IDI_SUBDB, SPF_HASH | SPF_UPLOAD)
+DEFINE_SUBTITLESPROVIDER_BEGIN(SubDB, "SubDB", "http://api.thesubdb.com", IDI_SUBDB, SPF_HASH | SPF_UPLOAD)
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 SRESULT Upload(const SubtitlesInfo& pSubtitlesInfo) override;
 std::string UserAgent() const override
@@ -81,12 +107,12 @@ std::string UserAgent() const override
 DEFINE_SUBTITLESPROVIDER_END
 #endif
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "https://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(podnapisi, "Podnapisi", "https://www.podnapisi.net", IDI_PODNAPISI, SPF_SEARCH)
 SRESULT Login(const std::string& sUserName, const std::string& sPassword) override;
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
 
-DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "https://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
+DEFINE_SUBTITLESPROVIDER_BEGIN(Napisy24, "Napisy24", "https://napisy24.pl/", IDI_N24, SPF_HASH | SPF_SEARCH)
 SRESULT Hash(SubtitlesInfo& pFileInfo) override;
 DEFINE_SUBTITLESPROVIDER_END
 

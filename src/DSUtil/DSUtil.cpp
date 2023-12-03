@@ -740,12 +740,13 @@ CString BinToCString(const BYTE* ptr, size_t len)
 
 void FindFiles(CString fn, CAtlList<CString>& files)
 {
-    ExtendMaxPathLengthIfNeeded(fn, MAX_PATH);
+    ExtendMaxPathLengthIfNeeded(fn);
     CString path = fn;
     path.Replace('/', '\\');
     path = path.Left(path.ReverseFind('\\') + 1);
 
     WIN32_FIND_DATA findData;
+    ZeroMemory(&findData, sizeof(WIN32_FIND_DATA));
     HANDLE h = FindFirstFile(fn, &findData);
     if (h != INVALID_HANDLE_VALUE) {
         do {
@@ -1351,12 +1352,14 @@ bool UnloadUnusedExternalObjects()
     return s_extObjs.IsEmpty();
 }
 
-void ExtendMaxPathLengthIfNeeded(CString& path, int max_length /*= MAX_PATH*/, bool no_url /*= false */)
+void ExtendMaxPathLengthIfNeeded(CString& path, bool no_url /*= false */)
 {
-    if (path.GetLength() >= max_length) {
+    if (path.GetLength() >= MAX_PATH) {
         if (no_url || path.Find(_T("://")) < 0) { // not URL
-            if (path.Left(2) != _T("\\\\")) { // not UNC
-                if (path.Left(4) != _T("\\\\?\\")) { // not already have long path prefix
+            if (path.Left(4) != _T("\\\\?\\")) { // not already have long path prefix
+                if (path.Left(2) == _T("\\\\")) { // UNC
+                    path = _T("\\\\?\\UNC") + path.Mid(1);
+                } else { // normal
                     path = _T("\\\\?\\") + path;
                 }
             }

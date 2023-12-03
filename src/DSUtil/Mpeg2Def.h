@@ -89,6 +89,9 @@ enum MPEG2_PID {
     PID_SFN     = 0x015,    // SFN/MIP synchronization
     PID_DIT     = 0x01e,
     PID_SIT     = 0x01f,
+    PID_ATSC_PAT_E = 0x1FF7,
+    PID_PSIP_TS_E = 0x1FF9,
+    PID_PSIP    = 0x1FFB,
     PID_NULL    = 0x1fff    // Null packet
 };
 
@@ -110,7 +113,19 @@ enum DVB_SI {
     SI_EIT_as0, SI_EIT_as1, SI_EIT_as2, SI_EIT_as3, SI_EIT_as4, SI_EIT_as5, SI_EIT_as6, SI_EIT_as7,
     SI_EIT_as8, SI_EIT_as9, SI_EIT_asa, SI_EIT_asb, SI_EIT_asc, SI_EIT_asd, SI_EIT_ase, SI_EIT_asf,
     SI_EIT_os0, SI_EIT_os1, SI_EIT_os2, SI_EIT_os3, SI_EIT_os4, SI_EIT_os5, SI_EIT_os6, SI_EIT_os7,
-    SI_EIT_os8, SI_EIT_os9, SI_EIT_osa, SI_EIT_osb, SI_EIT_osc, SI_EIT_osd, SI_EIT_ose, SI_EIT_osf
+    SI_EIT_os8, SI_EIT_os9, SI_EIT_osa, SI_EIT_osb, SI_EIT_osc, SI_EIT_osd, SI_EIT_ose, SI_EIT_osf,
+    TID_MGT     = 0xC7,
+    TID_TVCT    = 0xC8,
+    TID_CVCT    = 0xC9
+};
+
+enum ATSC_TABLE_TYPE {
+    TT_TVCT_C1 = 0x0000,
+    TT_TVCT_C0 = 0x0001,
+    TT_CVCT_C1 = 0x0002,
+    TT_CVCT_C0 = 0x0003,
+    TT_ETT     = 0x0004,
+    TT_DCCSCT  = 0x0005,
 };
 
 enum MPEG2_DESCRIPTOR {
@@ -147,7 +162,7 @@ enum MPEG2_DESCRIPTOR {
     DT_SUBTITLING               = 0x59,
     DT_TERRESTRIAL_DELIV_SYS    = 0x5a,
     DT_PRIVATE_DATA             = 0x5f,
-
+    DID_DATA_BROADCAST          = 0x64,
     DT_DATA_BROADCAST_ID        = 0x66,
     DT_AC3_AUDIO                = 0x6a,     // DVB
     DT_EXTENDED_AC3_AUDIO       = 0x7a,
@@ -174,6 +189,12 @@ enum SERVICE_TYPE {
     AVC_SD_TV           = 0x16,
     AVC_HD_TV           = 0x19,
     HEVC_TV             = 0x1F
+};
+
+enum ATSC_SERVICE_TYPE {
+    ATSC_ANALOG_TV  = 0x01,
+    ATSC_DIGITAL_TV = 0x02,
+    ATSC_AUDIO      = 0x03
 };
 
 extern const wchar_t* StreamTypeToName(PES_STREAM_TYPE _Type);

@@ -30,4 +30,5 @@ namespace ImageGrayer
 
     bool Gray(const CImage& imgSource, CImage& imgDest, float brightness = 1.0f);
     bool UpdateColor(const CImage& imgSource, CImage& imgDest, bool disabled, mpcColorStyle colorStyle);
+    bool Colorize(const CImage& imgSource, CImage& imgDest, COLORREF fg, COLORREF bg, bool rot90);
 }

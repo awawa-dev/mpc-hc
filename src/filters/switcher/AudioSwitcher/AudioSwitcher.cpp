@@ -285,6 +285,16 @@ HRESULT CAudioSwitcherFilter::Transform(IMediaSample* pIn, IMediaSample* pOut)
                              && wfe->nSamplesPerSec > 44100 && wfeout->nSamplesPerSec == 44100
                              && wfe->wBitsPerSample <= 16 && fPCM);
 
+    if (bDownSampleTo441 && m_pResamplers.GetCount() < wfeout->nChannels) {
+        ASSERT(false);
+        m_pResamplers.RemoveAll();
+        for (int i = 0; i < wfeout->nChannels; i++) {
+            CAutoPtr<AudioStreamResampler> pResampler;
+            pResampler.Attach(DEBUG_NEW AudioStreamResampler(wfeout->wBitsPerSample >> 3, wfe->nSamplesPerSec, wfeout->nSamplesPerSec, true));
+            m_pResamplers.Add(pResampler);
+        }
+    }
+
     BYTE* pTmp = nullptr;
     BYTE* pDst = nullptr;
     if (bDownSampleTo441 && m_fCustomChannelMapping && wfe->nChannels <= AS_MAX_CHANNELS) {

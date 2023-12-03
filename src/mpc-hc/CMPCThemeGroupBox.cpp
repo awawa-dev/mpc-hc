@@ -27,7 +27,7 @@ END_MESSAGE_MAP()
 
 void CMPCThemeGroupBox::OnPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
 
         CPaintDC dc(this);
 
@@ -78,7 +78,7 @@ void CMPCThemeGroupBox::OnPaint()
 }
 
 void CMPCThemeGroupBox::OnEnable(BOOL bEnable) {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         SetRedraw(FALSE);
         __super::OnEnable(bEnable);
         SetRedraw(TRUE);

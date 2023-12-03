@@ -26,9 +26,7 @@
 #include "Logger.h"
 #include <wininet.h>
 
-#include "MediaInfo/MediaInfoDLL.h"
 #include "CMPCThemeMsgBox.h"
-using namespace MediaInfoDLL;
 
 using namespace SubtitlesProvidersUtils;
 
@@ -362,10 +360,6 @@ HRESULT SubtitlesInfo::GetFileInfo(const std::string& sFileName /*= std::string(
         if (episode.empty()) {
             episode = result[3] + result[4];
         }
-        //bool b = IsISO639Language(match_pieces[5].str().c_str());
-        //bool b1 = IsISO639Language("french");
-        //CString lang = LanguageToISO6392(CString(match_pieces[5].str().c_str()));
-        //std::string tt = match_pieces[5].str();
         if (title2.empty()) {
             title2 = result[5];
         }

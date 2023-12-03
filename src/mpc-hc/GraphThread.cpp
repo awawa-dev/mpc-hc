@@ -91,11 +91,7 @@ void CGraphThread::OnOpen(WPARAM wParam, LPARAM lParam)
 void CGraphThread::OnReset(WPARAM wParam, LPARAM lParam)
 {
     if (m_pMainFrame) {
-        BOOL* b = (BOOL*)wParam;
-        BOOL bResult = m_pMainFrame->ResetDevice();
-        if (b) {
-            *b = bResult;
-        }
+        m_pMainFrame->ResetDevice();
     }
     if (CAMEvent* e = (CAMEvent*)lParam) {
         e->Set();

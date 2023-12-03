@@ -11,6 +11,8 @@
 #include "CMPCThemeTitleBarControlButton.h"
 #include "CMPCThemeInternalPropertyPageWnd.h"
 #include "CMPCThemeWin10Api.h"
+#include "Translations.h"
+#include "ImageGrayer.h"
 #undef SubclassWindow
 
 CBrush CMPCThemeUtil::contentBrush;
@@ -18,6 +20,7 @@ CBrush CMPCThemeUtil::windowBrush;
 CBrush CMPCThemeUtil::controlAreaBrush;
 CBrush CMPCThemeUtil::W10DarkThemeFileDialogInjectedBGBrush;
 NONCLIENTMETRICS CMPCThemeUtil::nonClientMetrics = { 0 };
+bool CMPCThemeUtil::metricsNeedCalculation = true;
 
 CMPCThemeUtil::CMPCThemeUtil():
     themedDialogToolTipParent(nullptr)
@@ -107,7 +110,7 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd)
                     CMPCThemeSpinButtonCtrl* pObject = DEBUG_NEW CMPCThemeSpinButtonCtrl();
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, _T("#32770"))) { //dialog class
-                    CMPCThemeDialog* pObject = DEBUG_NEW CMPCThemeDialog();
+                    CMPCThemeDialog* pObject = DEBUG_NEW CMPCThemeDialog(windowTitle == "");
                     makeThemed(pObject, tChild);
                 } else if (0 == _tcsicmp(windowClass, WC_COMBOBOX)) {
                     CMPCThemeComboBox* pObject = DEBUG_NEW CMPCThemeComboBox();
@@ -552,9 +555,13 @@ CSize CMPCThemeUtil::GetTextSizeDiff(CString str, HDC hDC, CWnd* wnd, int type, 
 void CMPCThemeUtil::GetMetrics(bool reset /* = false */)
 {
     NONCLIENTMETRICS *m = &nonClientMetrics;
-    if (m->cbSize == 0 || reset) {
+    if (m->cbSize == 0 || metricsNeedCalculation || reset) {
         m->cbSize = sizeof(NONCLIENTMETRICS);
         ::SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), m, 0);
+        if (AfxGetMainWnd() == nullptr) {//this used to happen when CPreView::OnCreate was calling ScaleFont, should no longer occur
+            return; //we can do nothing more if main window not found yet, and metricsNeedCalculation will remain set
+        }
+
         DpiHelper dpi, dpiWindow;
         dpiWindow.Override(AfxGetMainWnd()->GetSafeHwnd());
 
@@ -566,6 +573,7 @@ void CMPCThemeUtil::GetMetrics(bool reset /* = false */)
             m->lfStatusFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfStatusFont.lfHeight);
             m->lfMessageFont.lfHeight = dpiWindow.ScaleSystemToOverrideY(m->lfMessageFont.lfHeight);
         }
+        metricsNeedCalculation = false;
     }
 }
 
@@ -707,63 +715,152 @@ UINT CMPCThemeUtil::getResourceByDPI(CWnd* window, CDC* pDC, const UINT* resourc
     return resources[index];
 }
 
-const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CMPCThemeTitleBarControlButton* button)
-{
+const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CWnd* wnd, WPARAM buttonType) {
     DpiHelper dpiWindow;
-    dpiWindow.Override(button->GetSafeHwnd());
+    dpiWindow.Override(wnd->GetSafeHwnd());
 
     int dpi = dpiWindow.DPIX();
-    switch (button->getButtonType()) {
-        case SC_MINIMIZE:
-            if (dpi < 120) {
-                return CMPCTheme::minimizeIcon96;
-            } else if (dpi < 144) {
-                return CMPCTheme::minimizeIcon120;
-            } else if (dpi < 168) {
-                return CMPCTheme::minimizeIcon144;
-            } else if (dpi < 192) {
-                return CMPCTheme::minimizeIcon168;
-            } else {
-                return CMPCTheme::minimizeIcon192;
-            }
-        case SC_RESTORE:
-            if (dpi < 120) {
-                return CMPCTheme::restoreIcon96;
-            } else if (dpi < 144) {
-                return CMPCTheme::restoreIcon120;
-            } else if (dpi < 168) {
-                return CMPCTheme::restoreIcon144;
-            } else if (dpi < 192) {
-                return CMPCTheme::restoreIcon168;
-            } else {
-                return CMPCTheme::restoreIcon192;
-            }
-        case SC_MAXIMIZE:
-            if (dpi < 120) {
-                return CMPCTheme::maximizeIcon96;
-            } else if (dpi < 144) {
-                return CMPCTheme::maximizeIcon120;
-            } else if (dpi < 168) {
-                return CMPCTheme::maximizeIcon144;
-            } else if (dpi < 192) {
-                return CMPCTheme::maximizeIcon168;
-            } else {
-                return CMPCTheme::maximizeIcon192;
-            }
-        case SC_CLOSE:
-        default:
-            if (dpi < 120) {
-                return CMPCTheme::closeIcon96;
-            } else if (dpi < 144) {
-                return CMPCTheme::closeIcon120;
-            } else if (dpi < 168) {
-                return CMPCTheme::closeIcon144;
-            } else if (dpi < 192) {
-                return CMPCTheme::closeIcon168;
-            } else {
-                return CMPCTheme::closeIcon192;
-            }
+    switch (buttonType) {
+    case SC_MINIMIZE:
+        if (dpi < 120) {
+            return CMPCTheme::minimizeIcon96;
+        } else if (dpi < 144) {
+            return CMPCTheme::minimizeIcon120;
+        } else if (dpi < 168) {
+            return CMPCTheme::minimizeIcon144;
+        } else if (dpi < 192) {
+            return CMPCTheme::minimizeIcon168;
+        } else {
+            return CMPCTheme::minimizeIcon192;
+        }
+    case SC_RESTORE:
+        if (dpi < 120) {
+            return CMPCTheme::restoreIcon96;
+        } else if (dpi < 144) {
+            return CMPCTheme::restoreIcon120;
+        } else if (dpi < 168) {
+            return CMPCTheme::restoreIcon144;
+        } else if (dpi < 192) {
+            return CMPCTheme::restoreIcon168;
+        } else {
+            return CMPCTheme::restoreIcon192;
+        }
+    case SC_MAXIMIZE:
+        if (dpi < 120) {
+            return CMPCTheme::maximizeIcon96;
+        } else if (dpi < 144) {
+            return CMPCTheme::maximizeIcon120;
+        } else if (dpi < 168) {
+            return CMPCTheme::maximizeIcon144;
+        } else if (dpi < 192) {
+            return CMPCTheme::maximizeIcon168;
+        } else {
+            return CMPCTheme::maximizeIcon192;
+        }
+    case TOOLBAR_HIDE_ICON:
+        if (dpi < 120) {
+            return CMPCTheme::hideIcon96;
+        } else if (dpi < 144) {
+            return CMPCTheme::hideIcon120;
+        } else if (dpi < 168) {
+            return CMPCTheme::hideIcon144;
+        } else if (dpi < 192) {
+            return CMPCTheme::hideIcon168;
+        } else {
+            return CMPCTheme::hideIcon192;
+        }
+    case SC_CLOSE:
+    default:
+        if (dpi < 120) {
+            return CMPCTheme::closeIcon96;
+        } else if (dpi < 144) {
+            return CMPCTheme::closeIcon120;
+        } else if (dpi < 168) {
+            return CMPCTheme::closeIcon144;
+        } else if (dpi < 192) {
+            return CMPCTheme::closeIcon168;
+        } else {
+            return CMPCTheme::closeIcon192;
+        }
     }
+}
+
+
+const std::vector<CMPCTheme::pathPoint> CMPCThemeUtil::getIconPathByDPI(CMPCThemeTitleBarControlButton* button)
+{
+    return getIconPathByDPI(button, button->getButtonType());
+}
+
+void CMPCThemeUtil::drawToolbarHideButton(CDC* pDC, CWnd* window, CRect iconRect, std::vector<CMPCTheme::pathPoint> icon, double dpiScaling, bool antiAlias, bool hover) {
+    int iconWidth = CMPCThemeUtil::getConstantByDPI(window, CMPCTheme::ToolbarIconPathDimension);
+    int iconHeight = iconWidth;
+    float penThickness = 1;
+    CPoint ul(iconRect.left + (iconRect.Width() - iconWidth) / 2, iconRect.top + (iconRect.Height() - iconHeight) / 2);
+    CRect pathRect = {
+        ul.x,
+        ul.y,
+        ul.x + iconWidth,
+        ul.y + iconHeight
+    };
+
+    Gdiplus::Graphics gfx(pDC->m_hDC);
+    if (antiAlias) {
+        gfx.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias8x8);
+    }
+    Gdiplus::Color lineClr;
+
+    if (hover) { //draw like a win10 icon
+        lineClr.SetFromCOLORREF(CMPCTheme::W10DarkThemeTitlebarIconPenColor);
+    } else { //draw in fg color as there is no button bg
+        lineClr.SetFromCOLORREF(CMPCTheme::TextFGColor);
+    }
+    Gdiplus::Pen iPen(lineClr, penThickness);
+    if (penThickness >= 2) {
+        iPen.SetLineCap(Gdiplus::LineCapSquare, Gdiplus::LineCapSquare, Gdiplus::DashCapFlat);
+    }
+    Gdiplus::REAL lastX = 0, lastY = 0;
+    for (u_int i = 0; i < icon.size(); i++) {
+        CMPCTheme::pathPoint p = icon[i];
+        Gdiplus::REAL x = (Gdiplus::REAL)(pathRect.left + p.x);
+        Gdiplus::REAL y = (Gdiplus::REAL)(pathRect.top + p.y);
+        if (p.state == CMPCTheme::newPath) {
+            lastX = x;
+            lastY = y;
+        } else if ((p.state == CMPCTheme::linePath || p.state == CMPCTheme::closePath) && i > 0) {
+            gfx.DrawLine(&iPen, lastX, lastY, x, y);
+            if (antiAlias && penThickness < 2) {
+                gfx.DrawLine(&iPen, lastX, lastY, x, y); //draw again to brighten the AA diagonals
+            }
+            lastX = x;
+            lastY = y;
+        }
+    }
+}
+
+void CMPCThemeUtil::drawGripper(CWnd* window, CWnd* dpiRefWnd, CRect rectGripper, CDC* pDC, bool rot90) {
+    CPngImage image;
+    image.Load(getResourceByDPI(dpiRefWnd, pDC, CMPCTheme::ThemeGrippers), AfxGetInstanceHandle());
+    CImage gripperTemplate, gripperColorized;
+    gripperTemplate.Attach((HBITMAP)image.Detach());
+    ImageGrayer::Colorize(gripperTemplate, gripperColorized, CMPCTheme::GripperPatternColor, CMPCTheme::WindowBGColor, rot90);
+
+    CDC mDC;
+    mDC.CreateCompatibleDC(pDC);
+    mDC.SelectObject(gripperColorized);
+
+    CDC dcMem;
+    CBitmap bmMem;
+    initMemDC(pDC, dcMem, bmMem, rectGripper);
+    if (rot90) {
+        for (int a = 0; a < rectGripper.Height(); a += gripperColorized.GetHeight()) {
+            dcMem.BitBlt(0, a, gripperColorized.GetWidth(), gripperColorized.GetHeight(), &mDC, 0, 0, SRCCOPY);
+        }
+    } else {
+        for (int a = 0; a < rectGripper.Width(); a += gripperColorized.GetWidth()) {
+            dcMem.BitBlt(a, 0, gripperColorized.GetWidth(), gripperColorized.GetHeight(), &mDC, 0, 0, SRCCOPY);
+        }
+    }
+    flushMemDC(pDC, dcMem, rectGripper);
 }
 
 
@@ -853,7 +950,7 @@ void CMPCThemeUtil::drawCheckBox(CWnd* window, UINT checkState, bool isHover, bo
 
 bool CMPCThemeUtil::canUseWin10DarkTheme()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         //        return false; //FIXME.  return false to test behavior for OS < Win10 1809
         RTL_OSVERSIONINFOW osvi = GetRealOSVersion();
         bool ret = (osvi.dwMajorVersion = 10 && osvi.dwMajorVersion >= 0 && osvi.dwBuildNumber >= 17763); //dark theme first available in win 10 1809
@@ -921,4 +1018,26 @@ void CMPCThemeUtil::enableWindows10DarkFrame(CWnd* window)
             }
         }
     }
+}
+
+int CALLBACK PropSheetCallBackRTL(HWND hWnd, UINT message, LPARAM lParam) {
+    switch (message) {
+    case PSCB_PRECREATE:
+    {
+        //arabic or hebrew
+        if (Translations::IsLangRTL(AfxGetAppSettings().language)) {
+            LPDLGTEMPLATE lpTemplate = (LPDLGTEMPLATE)lParam;
+            lpTemplate->dwExtendedStyle |= WS_EX_LAYOUTRTL;
+        }
+    }
+    break;
+    }
+    return 0;
+}
+
+void CMPCThemeUtil::PreDoModalRTL(LPPROPSHEETHEADERW m_psh) {
+    //see RTLWindowsLayoutCbtFilterHook and Translations::SetLanguage.
+    //We handle here to avoid Windows 11 bug with SetWindowLongPtr
+    m_psh->dwFlags |= PSH_USECALLBACK;
+    m_psh->pfnCallback = PropSheetCallBackRTL;
 }

@@ -635,7 +635,7 @@ void CPlayerCaptureDialog::InitControls()
         // Overwrite m_file if it isn't a valid path
         if (!PathFileExists(dir) || dir.IsEmpty()) {
             m_file.Empty();
-            HRESULT hr = SHGetFolderPath(nullptr, CSIDL_PERSONAL, nullptr, 0, m_file.GetBuffer(MAX_PATH));
+            HRESULT hr = SHGetFolderPath(nullptr, CSIDL_PERSONAL, nullptr, 0, m_file.GetBuffer(2048));
             m_file.ReleaseBuffer();
             if (SUCCEEDED(hr)) {
                 m_file.Append(_T("\\MPC-HC Capture"));
@@ -644,7 +644,7 @@ void CPlayerCaptureDialog::InitControls()
                 }
             } else {
                 // Use current directory
-                m_file.ReleaseBufferSetLength(GetCurrentDirectory(MAX_PATH, dir.GetBuffer(MAX_PATH)));
+                m_file.ReleaseBufferSetLength(GetCurrentDirectory(2048, dir.GetBuffer(2048)));
             }
             m_file.AppendFormat(_T("\\%s_capture_[time].avi"), AfxGetApp()->m_pszExeName);
         }

@@ -20,7 +20,6 @@
 
 #include "stdafx.h"
 #include "DpiHelper.h"
-
 #include "WinapiFunc.h"
 #include <VersionHelpersInternal.h>
 
@@ -36,6 +35,9 @@ namespace
 
     typedef int (WINAPI* tpGetSystemMetricsForDpi)(int nIndex, UINT dpi);
     HRESULT WINAPI GetDpiForMonitor(HMONITOR hmonitor, MONITOR_DPI_TYPE dpiType, UINT* dpiX, UINT* dpiY);
+    BOOL WINAPI SystemParametersInfoForDpi(UINT uiAction, UINT uiParam, PVOID pvParam, UINT fWinIni, UINT dpi);
+    int WINAPI GetSystemMetricsForDpi(int nIndex);
+    UINT WINAPI GetDpiForWindow(HWND hwnd);
 }
 
 DpiHelper::DpiHelper()
@@ -46,6 +48,15 @@ DpiHelper::DpiHelper()
     ::ReleaseDC(nullptr, hDC);
     m_dpix = m_sdpix;
     m_dpiy = m_sdpiy;
+}
+
+UINT DpiHelper::GetDPIForWindow(HWND wnd) {
+    const WinapiFunc<decltype(GetDpiForWindow)>
+    fnGetDpiForWindow = { _T("user32.dll"), "GetDpiForWindow" };
+    if (fnGetDpiForWindow) {
+        return fnGetDpiForWindow(wnd);
+    }
+    return 0;
 }
 
 void DpiHelper::Override(HWND hWindow)
@@ -79,8 +90,86 @@ int DpiHelper::GetSystemMetricsDPI(int nIndex) {
     return ScaleSystemToOverrideX(::GetSystemMetrics(nIndex));
 }
 
+void DpiHelper::GetMessageFont(LOGFONT* lf) {
+    NONCLIENTMETRICS ncm;
+    bool dpiCorrected = false;
+    GetNonClientMetrics(&ncm, dpiCorrected);
+    *lf = ncm.lfMessageFont;
+    ASSERT(lf->lfHeight);
+    if (!dpiCorrected) {
+        lf->lfHeight = ScaleSystemToOverrideY(lf->lfHeight);
+    }
+}
+
+bool DpiHelper::GetNonClientMetrics(PNONCLIENTMETRICSW ncm, bool& dpiCorrected) {
+    const WinapiFunc<decltype(SystemParametersInfoForDpi)>
+        fnSystemParametersInfoForDpi = { L"user32.dll", "SystemParametersInfoForDpi" };
+
+    ZeroMemory(ncm, sizeof(NONCLIENTMETRICS));
+    ncm->cbSize = sizeof(NONCLIENTMETRICS);
+    dpiCorrected = false;
+
+    if (fnSystemParametersInfoForDpi) {
+        if (fnSystemParametersInfoForDpi(SPI_GETNONCLIENTMETRICS, sizeof(*ncm), ncm, 0, m_dpiy)) {
+            dpiCorrected = true;
+            return true;
+        }
+    }
+    if (!dpiCorrected) {
+        return SystemParametersInfo(SPI_GETNONCLIENTMETRICS, ncm->cbSize, ncm, 0);
+    }
+    return false; //never gets here
+}
+
+int DpiHelper::GetSystemMetrics(int type) {
+    const WinapiFunc<decltype(GetSystemMetricsForDpi)>
+        fnGetSystemMetricsForDpi = { L"user32.dll", "GetSystemMetricsForDpi" };
+
+    bool dpiCorrected = false;
+
+    if (fnGetSystemMetricsForDpi) {
+        dpiCorrected = true;
+        return fnGetSystemMetricsForDpi(type);
+    }
+    if (!dpiCorrected) {
+        int ret = fnGetSystemMetricsForDpi(type);
+        return ScaleSystemToOverrideY(ret);
+    }
+}
+
 bool DpiHelper::CanUsePerMonitorV2() {
     RTL_OSVERSIONINFOW osvi = GetRealOSVersion();
     bool ret = (osvi.dwMajorVersion >= 10 && osvi.dwMajorVersion >= 0 && osvi.dwBuildNumber >= 15063); //PerMonitorV2 with common control scaling first available in win 10 1703
     return ret;
+}
+
+int DpiHelper::CalculateListCtrlItemHeight(CListCtrl* wnd) {
+    INT nItemHeight;
+
+    DWORD type = wnd->GetStyle() & LVS_TYPEMASK;
+    if (type == LVS_ICON || type == LVS_SMALLICON) {
+        int h, v;
+        wnd->GetItemSpacing(type == LVS_SMALLICON, &h, &v);
+        nItemHeight = v;
+    } else {
+        TEXTMETRICW tm;
+        CDC* cdc = wnd->GetDC();
+        cdc->SelectObject(wnd->GetFont());
+        cdc->GetTextMetricsW(&tm);
+
+        nItemHeight = tm.tmHeight + 4;
+        CImageList* ilist;
+        if ((ilist = wnd->GetImageList(LVSIL_STATE)) != 0) {
+            int cx, cy;
+            ImageList_GetIconSize(ilist->m_hImageList, &cx, &cy);
+            nItemHeight = std::max(nItemHeight, ScaleY(cy + 1));
+        }
+        if ((ilist = wnd->GetImageList(LVSIL_SMALL)) != 0) {
+            int cx, cy;
+            ImageList_GetIconSize(ilist->m_hImageList, &cx, &cy);
+            nItemHeight = std::max(nItemHeight, ScaleY(cy + 1));
+        }
+    }
+
+    return std::max(nItemHeight, 1);
 }

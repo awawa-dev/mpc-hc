@@ -357,7 +357,7 @@ CFGManagerBDA::CFGManagerBDA(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd)
         }
     }
 
-    bool tunerIsATSC = false;
+    tunerIsATSC = false;
     BeginEnumSysDev(KSCATEGORY_BDA_NETWORK_TUNER, pMoniker) {
         CComHeapPtr<OLECHAR> strName;
         if (SUCCEEDED(pMoniker->GetDisplayName(nullptr, nullptr, &strName)) ) {
@@ -795,12 +795,23 @@ STDMETHODIMP CFGManagerBDA::Scan(ULONG ulFrequency, ULONG ulBandwidth, ULONG ulS
 
         LOG(_T("Scanning frequency %u.........."), ulFrequency);
 
-        if (FAILED(hr = Parser.ParseSDT(ulFrequency, ulBandwidth, ulSymbolRate))) {
-            LOG(_T("ParseSDT failed. Result: 0x%08x."), hr);
-        } else if (FAILED(hr = Parser.ParsePAT())) {
-            LOG(_T("ParsePAT failed. Result: 0x%08x."), hr);
-        } else if (FAILED(hr = Parser.ParseNIT())) {
-            LOG(_T("ParseNIT failed. Result: 0x%08x."), hr);
+        if (tunerIsATSC) {
+            enum DVB_SI vctType;
+            if (FAILED(hr = Parser.ParseMGT(vctType)) || SI_undef == vctType) { //try to read MGT to determine type of ATSC
+                vctType = TID_CVCT;
+            }
+            hr = Parser.ParseVCT(ulFrequency, ulBandwidth, ulSymbolRate, vctType); //ATSC
+            LOG(L"ParseVCT failed. Result: 0x%08x.", hr);
+        } else {
+            hr = Parser.ParseSDT(ulFrequency, ulBandwidth, ulSymbolRate); //DVB
+            LOG(L"ParseSDT failed. Result: 0x%08x.", hr);
+        }
+        if (!FAILED(hr)) {
+            if (FAILED(hr = Parser.ParsePAT())) {
+                LOG(_T("ParsePAT failed. Result: 0x%08x."), hr);
+            } else if (FAILED(hr = Parser.ParseNIT())) {
+                LOG(_T("ParseNIT failed. Result: 0x%08x."), hr);
+            }
         }
 
         POSITION pos = Parser.Channels.GetStartPosition();

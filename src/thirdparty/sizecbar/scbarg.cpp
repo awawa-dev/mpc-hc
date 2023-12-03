@@ -209,6 +209,7 @@ CSCBButton::CSCBButton()
 {
     bRaised = FALSE;
     bPushed = FALSE;
+    dpiSize = CSize(11, 11); //mpc-hc addition to support dpi sizing
 }
 
 void CSCBButton::Paint(CDC* pDC)

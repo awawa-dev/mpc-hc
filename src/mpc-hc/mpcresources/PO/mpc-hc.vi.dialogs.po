@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-04-22 22:44:46+0000\n"
+"POT-Creation-Date: 2022-06-21 19:15:32+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Trần Anh Minh <anhminhvks@yahoo.com>, 2022\n"
 "Language-Team: Vietnamese (https://www.transifex.com/mpchc/teams/106126/vi/)\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
-msgstr "Chọn loại media"
+msgstr "Chọn loại Media"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
@@ -28,7 +28,7 @@ msgstr "Đồng ý"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDCANCEL"
 msgid "Cancel"
-msgstr "Hủy"
+msgstr "Hủy bỏ"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC1"
 msgid "Video"
@@ -48,7 +48,7 @@ msgstr "Ngõ ra"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Ghi video"
+msgstr "Ghi Video"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
@@ -56,7 +56,7 @@ msgstr "Xem trước"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
 msgid "Record Audio"
-msgstr "Ghi âm thanh"
+msgstr "Ghi Âm thanh"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
@@ -64,11 +64,11 @@ msgstr "Xem trước"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "V/A Buffers:"
-msgstr "V / A đệm:"
+msgstr "Bộ đệm V/A:"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK5"
 msgid "Audio to wav"
-msgstr "Âm thanh wav"
+msgstr "Âm thanh sang WAV"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_BUTTON2"
 msgid "Record"
@@ -76,7 +76,7 @@ msgstr "Ghi"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Cho phép xây dựng trong bộ lọc âm thanh tắc (yêu cầu khởi động lại)"
+msgstr "Bật bộ lọc chuyển đổi âm thanh tích hợp sẵn (yêu cầu khởi động lại)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -92,23 +92,23 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK6"
 msgid "Regain volume"
-msgstr "Lấy lại âm lượng"
+msgstr "Quay lại mức âm lượng trước đó"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
-msgstr "Thúc đẩy:"
+msgstr "Tăng:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
-msgstr "Xuống mẫu để 44100 Hz"
+msgstr "Xuống mẫu đến 44100 Hz"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Âm thanh chuyển (giây):"
+msgstr "Chỉnh thời gian âm thanh (mili giây):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
-msgstr "Cho phép lập bản đồ kênh tùy chỉnh"
+msgstr "Bật Ánh xạ kênh tùy chỉnh"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC1"
 msgid "Speaker configuration for"
@@ -116,24 +116,23 @@ msgstr "Cấu hình loa cho"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC2"
 msgid "input channels:"
-msgstr "Ngõ vào:"
+msgstr "Các kênh ngõ vào:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC3"
 msgid "Hold shift for immediate changes when clicking something"
-msgstr "Giữ phím Shift để thay đổi ngay lập tức khi bạn nhấn một cái gì đó"
+msgstr "Giữ phím shift để thay đổi ngay lập tức khi nhấp chuột vào thứ gì đó"
 
 msgctxt "IDD_GOTO_DLG_CAPTION"
 msgid "Go To..."
-msgstr "Nhảy đến..."
+msgstr "Đi đến..."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid ""
 "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
 " You do not need to enter the separators explicitly."
 msgstr ""
-"Nhập một mã hóa thời gian sử dụng định dạng [gg:] pp: gg.mlg để chuyển đến "
-"một thời gian quy định. Bạn không cần phải nhập dải phân cách một cách rõ "
-"ràng."
+"Nhập mã thời gian dưới định dạng [hh:]mm:ss.ms để chuyển đến một thời gian "
+"cụ thể. Bạn không cần phải nhập các dấu phân cách một cách rõ ràng."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -141,15 +140,15 @@ msgstr "Thời gian"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK1"
 msgid "Go!"
-msgstr "Nhảy!"
+msgstr "Đi nào!"
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid ""
 "Enter two numbers to jump to a specified frame, the first is the frame "
 "number, the second is the frame rate."
 msgstr ""
-"Nhập vào hai số để chuyển đến một khung quy định, đầu tiên là số khung, thứ "
-"hai là tỷ lệ khung hình."
+"Nhập hai số để chuyển đến một khung được chỉ định, đầu tiên là số khung, thứ"
+" hai là tỷ lệ khung hình."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -157,7 +156,7 @@ msgstr "Khung"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
-msgstr "Nhảy!"
+msgstr "Đi nào!"
 
 msgctxt "IDD_OPEN_DLG_CAPTION"
 msgid "Open"
@@ -168,8 +167,8 @@ msgid ""
 "Type the address of a movie or audio file (on the Internet or your computer)"
 " and the player will open it for you."
 msgstr ""
-"Gõ địa chỉ của một bộ phim hoặc tập tin âm thanh (trên Internet hoặc máy "
-"tính của bạn) và trình phát sẽ mở ra cho bạn."
+"Nhập địa chỉ của một phim hoặc tập tin âm thanh (trên Internet hoặc máy tính"
+" của bạn) và trình phát sẽ mở nó cho bạn."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -181,7 +180,7 @@ msgstr "Duyệt..."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC1"
 msgid "Dub:"
-msgstr "Dub:"
+msgstr "Lồng tiếng:"
 
 msgctxt "IDD_OPEN_DLG_IDC_BUTTON2"
 msgid "Browse..."
@@ -193,11 +192,11 @@ msgstr "Đồng ý"
 
 msgctxt "IDD_OPEN_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr "Hủy"
+msgstr "Hủy bỏ"
 
 msgctxt "IDD_OPEN_DLG_IDC_CHECK1"
 msgid "Add to playlist without opening"
-msgstr "Thêm vào danh sách nhạc mà không cần mở"
+msgstr "Thêm vào danh sách phát mà không cần mở"
 
 msgctxt "IDD_ABOUTBOX_CAPTION"
 msgid "About"
@@ -211,12 +210,14 @@ msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
 "This program is freeware and released under the GNU General Public License."
 msgstr ""
-"Chương trình này là phần mềm miễn phí và phát hành theo giấy phép GNU "
-"General Public."
+"Chương trình này là phần mềm miễn phí và được phát hành theo Giấy phép Công "
+"cộng GNU."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Được dịch bởi Trần Anh Minh - https://www.facebook.com/anhminhvks"
+msgstr ""
+"Bản dịch tiếng Việt do Trần Anh Minh - https://www.facebook.com/anhminhvks "
+"thực hiện"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -248,7 +249,7 @@ msgstr "Tên:"
 
 msgctxt "IDD_ABOUTBOX_IDC_BUTTON1"
 msgid "Copy to clipboard"
-msgstr "Chép sang bảng tạm"
+msgstr "Sao chép vào khay nhớ tạm"
 
 msgctxt "IDD_ABOUTBOX_IDOK"
 msgid "OK"
@@ -256,16 +257,15 @@ msgstr "Đồng ý"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Open options"
-msgstr "Mở tùy chọn"
+msgstr "Mở các tùy chọn"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO1"
 msgid "Use the same player for each media file"
-msgstr "Sử dụng trình phát nhạc tương tự cho mỗi tập tin media"
+msgstr "Sử dụng cùng một trình phát cho mỗi tập tin đa phương tiện"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO2"
 msgid "Open a new player for each media file played"
-msgstr ""
-"Mở một trình phát nhạc mới cho mỗi tập tin chơi phương tiện truyền thông"
+msgstr "Mở trình phát mới cho mỗi tập tin đa phương tiện được phát"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Language"
@@ -281,15 +281,15 @@ msgstr "Hiển thị đường dẫn đầy đủ"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO4"
 msgid "File name only"
-msgstr "Chỉ tên tệp"
+msgstr "Chỉ tên tập tin"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_RADIO5"
 msgid "Don't prefix anything"
-msgstr "Không cần tiền tố"
+msgstr "Không đặt bất cứ tiền tố nào"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK13"
 msgid "Replace file name with title"
-msgstr "Thay thế tên tập tin với tiêu đề"
+msgstr "Thay thế tên tập tin bằng tiêu đề"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Other"
@@ -297,35 +297,35 @@ msgstr "Khác"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Khay hệ thống"
+msgstr "Biểu tượng trên khay hệ thống"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
 msgid "Show OSD (requires restart)"
-msgstr "Hiện OSD (yêu cầu khởi động lại)"
+msgstr "Hiển thị OSD (yêu cầu khởi động lại)"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
 msgid "Limit window proportions on resize"
-msgstr "Tỷ lệ giới hạn trên cửa sổ thay đổi kích cỡ"
+msgstr "Giới hạn tỷ lệ cửa sổ khi thay đổi kích thước"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
 msgid "Snap to desktop edges"
-msgstr "Chụp để cạnh máy tính để bàn"
+msgstr "Bám vào các cạnh của màn hình desktop"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
-msgstr "Lưu thiết lập vào tập tin .ini"
+msgstr "Lưu cài đặt vào tập tin .ini"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "Vô hiệu hóa menu \"Mở đĩa\""
+msgstr "Tắt trình đơn \"Mở đĩa\""
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
-msgstr "Quá trình ưu tiên cao hơn bình thường"
+msgstr "Mức độ ưu tiên của quy trình trên mức bình thường"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK14"
 msgid "Enable cover-art support"
-msgstr "Cho phép hỗ trợ bìa album"
+msgstr "Bật hỗ trợ ảnh bìa"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "History"
@@ -333,15 +333,15 @@ msgstr "Lịch sử"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK1"
 msgid "Keep history of recently opened files"
-msgstr "Giữ lại lịch sử của các tập tin gần đây đã mở"
+msgstr "Giữ lịch sử của các tập tin đã mở gần đây"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK2"
 msgid "Remember last playlist"
-msgstr "Nhớ danh phát cuối"
+msgstr "Nhớ danh sách phát cuối cùng"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_FILE_POS"
 msgid "Remember File position"
-msgstr "Nhớ vị trí tệp"
+msgstr "Nhớ vị trí tập tin"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_DVD_POS"
 msgid "Remember DVD position"
@@ -349,35 +349,35 @@ msgstr "Nhớ vị trí DVD"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK6"
 msgid "Remember last window position"
-msgstr "Nhớ vị trí cửa sổ cuối"
+msgstr "Nhớ vị trí cửa sổ cuối cùng"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK7"
 msgid "Remember last window size"
-msgstr "Nhớ kích thước cuối"
+msgstr "Nhớ kích thước cửa sổ cuối cùng"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Nhớ phóng quét cuối"
+msgstr "Nhớ lần Thu phóng Xoay & Quét cuối cùng"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "Thực thi \"Mở DVD/BD\""
+msgstr "Hành vi \"Mở DVD/BD\""
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
-msgstr "Nhắc cho vị trí"
+msgstr "Nhắc nhở vị trí"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Luôn luôn mở vị trí mặc định:"
+msgstr "Luôn mở vị trí mặc định:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
-msgstr "Ngôn ngữ ưu tiên cho DVD"
+msgstr "Ngôn ngữ ưa thích cho DVD"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO3"
 msgid "Menu"
-msgstr "Menu"
+msgstr "Trình đơn"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO4"
 msgid "Audio"
@@ -389,11 +389,11 @@ msgstr "Phụ đề"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Additional settings"
-msgstr "Thiết lập bổ sung"
+msgstr "Cài đặt thêm"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "Cho phép chú thích đóng trong \"Line 21 Decoder\""
+msgstr "Cho phép tắt chú thích trong \"Bộ giải mã dòng 21\""
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -405,15 +405,15 @@ msgstr "Âm lượng"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
-msgstr "Nhỏ"
+msgstr "Tối thiểu"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Max"
-msgstr "Lớn"
+msgstr "Tối đa"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC_BALANCE"
 msgid "Balance"
-msgstr "Cân bằng"
+msgstr "Sự cân bằng"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "L"
@@ -437,7 +437,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr "Tốc độ:"
+msgstr "Mức tốc độ:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -449,15 +449,15 @@ msgstr "Phát"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_RADIO2"
 msgid "Repeat forever"
-msgstr "Lặp lại mãi"
+msgstr "Lặp lại mãi mãi"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC1"
 msgid "time(s)"
-msgstr "thời gian(s)"
+msgstr "thời gian (giây)"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr "Kiểu lặp lại:"
+msgstr "Chế độ lặp lại:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
@@ -465,15 +465,15 @@ msgstr "Sau khi phát lại"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
-msgstr "Thu phóng và căn chỉnh"
+msgstr "Thu phóng và Căn chỉnh"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
-msgstr "Tự động phóng:"
+msgstr "Tự động thu phóng:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Tự động phù hợp với yếu tố:"
+msgstr "Hệ số tự động phù hợp:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
@@ -481,11 +481,11 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC4"
 msgid "Vertical Alignment:"
-msgstr "Căn chỉnh theo chiều dọc"
+msgstr "Căn chỉnh dọc:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Mặc định ưa thích rãnh"
+msgstr "Tùy chọn rãnh mặc định"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
@@ -497,31 +497,31 @@ msgstr "Âm thanh:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Cho phép trọng sự lựa chọn bộ chẻ bên ngoài"
+msgstr "Cho phép lựa chọn ghi đè bộ chia bên ngoài"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Mở thiết lập"
+msgstr "Mở cài đặt"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Sử dụng nhân để xây dựng đồ thị bộ lọc"
+msgstr "Sử dụng chuỗi công việc để xây dựng biểu đồ bộ lọc"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Báo cáo khi render thất bại"
+msgstr "Báo cáo các ghim không kết xuất được"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
-msgstr "Tự động nạp tệp âm thanh"
+msgstr "Tự động nạp các tập tin âm thanh"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "Vị trí ghi đè lên"
+msgstr "Ghi đè vị trí"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
-msgstr "Ngang:"
+msgstr "Chiều ngang:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC2"
 msgid "%"
@@ -529,7 +529,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC3"
 msgid "Vertical:"
-msgstr "Dọc:"
+msgstr "Chiều dọc:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC4"
 msgid "%"
@@ -537,55 +537,55 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay step"
-msgstr "Độ trễ"
+msgstr "Mức độ trễ"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
-msgstr "giây"
+msgstr "mili giây"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Thiết lập kết cấu (mở video một lần nữa để xem các thay đổi)"
+msgstr "Cài đặt kết cấu (mở lại video để xem các thay đổi)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Hình ảnh phụ để đệm:"
+msgstr "Ảnh phụ để đệm:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
-msgstr "Độ phân giải tối đa kết cấu:"
+msgstr "Độ phân giải kết cấu tối đa:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_NO_SUB_ANIM"
 msgid "Never animate the subtitles"
-msgstr "Không bao giờ hoạt hình phụ đề"
+msgstr "Không tạo hoạt ảnh cho phụ đề"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC5"
 msgid "Render at"
-msgstr "Render lúc"
+msgstr "Kết xuất tại"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC6"
 msgid "% of the animation"
-msgstr "% của hình động"
+msgstr "% hoạt ảnh"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC7"
 msgid "Animate at"
-msgstr "Động lúc"
+msgstr "Hoạt ảnh tại"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr "% của tốc độ khung video"
+msgstr "% tỷ lệ khung hình video"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "Cho phép thả một số đa hình nếu hàng đợi đang chạy trễ"
+msgstr "Cho phép bỏ một số ảnh con nếu hàng đợi chạy chậm"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr "Lớp dựng hình"
+msgstr "Bố cục trình kết xuất"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Bù tỷ lệ khung hình cho các hình ảnh bị bóp méo"
+msgstr "Áp dụng bù tỷ lệ khung hình cho các video bị bóp méo"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -597,13 +597,13 @@ msgid ""
 "videocard's settings, subtitles aren't going to look any better but it will "
 "surely eat your CPU."
 msgstr ""
-"Nếu bạn hủy bỏ và cho phép khử răng cưa toàn màn hình trong các thiết lập "
-"của cạc màn hình, phụ đề không những sẽ không được xem rõ hơn mà nó còn làm "
-"hao tốn CPU của bạn."
+"Nếu bạn ghi đè và bật tính năng khử răng cưa toàn màn hình trong cài đặt của"
+" videocard, phụ đề trông sẽ không đẹp hơn nhưng chắc chắn nó sẽ ngốn CPU của"
+" bạn."
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC2"
 msgid "File extensions"
-msgstr "Mở rộng tệp"
+msgstr "Phần mở rộng tập tin"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON2"
 msgid "Default"
@@ -615,15 +615,15 @@ msgstr "Đặt"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC3"
 msgid "Association"
-msgstr "Hỗ trợ"
+msgstr "Kết hợp"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK8"
 msgid "Use the format-specific icons"
-msgstr "Sử dụng các biểu tượng định dạng cụ thể"
+msgstr "Sử dụng biểu tượng dành riêng cho các định dạng"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr "Chạy dưới &quyền quản trị"
+msgstr "Chạy dưới quyền &quản trị"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
@@ -631,11 +631,11 @@ msgstr "Đặt làm chương trình &mặc định"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "Menu ngữ cảnh"
+msgstr "Trình đơn ngữ cảnh của Explorer"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
-msgstr "Thư mục"
+msgstr "Danh mục"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
 msgid "Playlist"
@@ -651,7 +651,7 @@ msgstr "Video"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK2"
 msgid "Music"
-msgstr "Nhạc"
+msgstr "Âm nhạc"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK4"
 msgid "DVD"
@@ -659,11 +659,11 @@ msgstr "DVD"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK3"
 msgid "Audio CD"
-msgstr "Đĩa CD"
+msgstr "CD âm thanh"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Jump distances (small, medium, large in ms)"
-msgstr "Khoảng cách nhảy (nhỏ, trung bình, lớn bằng giây)"
+msgstr "Khoảng cách nhảy (nhỏ, trung bình, lớn tính bằng mili giây)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
@@ -671,58 +671,58 @@ msgstr "Mặc định"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
 msgid "Show preview on seek bar"
-msgstr "Hiển thị hình ảnh xem trước trên thanh tìm kiếm"
+msgstr "Hiển thị bản xem trước trên thanh tìm kiếm"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "Preview width (% of screen width)"
-msgstr "Độ rộng hình ảnh xem trước (% độ rộng màn hình)"
+msgstr "Chiều rộng bản xem trước (% chiều rộng màn hình)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
 msgid "Fast seek (on keyframe)"
-msgstr "Nhanh chóng tìm kiếm (trên khung hình)"
+msgstr "Tìm kiếm nhanh (trên keyframe)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
 msgid "Show chapter marks in seek bar"
-msgstr "Dấu cho thấy chương trong seek bar"
+msgstr "Hiển thị các dấu chương trong thanh tìm kiếm"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
-msgstr "Tự động ẩn con trỏ chuột trong quá trình phát lại trong chế độ cửa sổ"
+msgstr "Tự động ẩn con trỏ chuột trong khi phát lại ở chế độ cửa sổ"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
-msgstr "Hiển thị \"Đang phát\" thông tin trong Skype nhắn tâm trạng"
+msgstr "Hiển thị thông tin \"Đang phát\" trong thông báo tâm trạng của Skype"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
 msgid "Use enhanced taskbar features"
-msgstr "Dùng tính năng thanh nhiệm vụ cao cấp"
+msgstr "Sử dụng các tính năng nâng cao của thanh tác vụ"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Cho phép hỗ trợ màn hình LCD (thử nghiệm)"
+msgstr "Bật hỗ trợ màn hình LCD của Logitech (thử nghiệm)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
 "Prevent minimizing the player when in fullscreen on a non default monitor"
 msgstr ""
-"Ngăn ngừa trình phát nhạc khi trong toàn màn hình trên một màn hình mặc định"
-" "
+"Ngăn thu nhỏ trình phát khi ở chế độ toàn màn hình trên màn hình không mặc "
+"định"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
 "Open previous/next file in folder on \"Skip back/forward\" when there is "
 "only one item in playlist"
 msgstr ""
-"Mở tập tin trước/sau trong thư mục theo hướng \"Lùi lại/Tiến tới\" khi chỉ "
-"có một mục trong danh sách phát nhạc"
+"Mở tập tin trước đó/tiếp theo trong thư mục khi ấn nút \"Bỏ qua rồi Quay "
+"lại/Chuyển tiếp\" khi chỉ có một mục trong danh sách phát"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Show time tooltip:"
-msgstr "Hiển thị thời gian tooltip:"
+msgid "Show time tooltip (and preview):"
+msgstr ""
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
-msgstr "Phông OSD:"
+msgstr "Phông chữ OSD:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -734,7 +734,7 @@ msgstr "Loại bỏ"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
 msgid "Prefer"
-msgstr "Thích"
+msgstr "Ưa thích"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
 msgid "Block"
@@ -742,19 +742,19 @@ msgstr "Khối"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
 msgid "Set merit:"
-msgstr "Thiết lập công đức:"
+msgstr "Đặt giá trị:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
 msgid "Up"
-msgstr "Tăng"
+msgstr "Lên"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON4"
 msgid "Down"
-msgstr "Giảm"
+msgstr "Xuống"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Thêm loại media..."
+msgstr "Thêm loại phương tiện..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
@@ -778,7 +778,7 @@ msgstr "Kích cỡ:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Media length:"
-msgstr "Độ dài:"
+msgstr "Độ dài phương tiện:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Video size:"
@@ -786,7 +786,7 @@ msgstr "Kích cỡ video:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
-msgstr "Đã tạo:"
+msgstr "Được tạo bởi:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Clip:"
@@ -802,7 +802,7 @@ msgstr "Bản quyền:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "Đánh giá:"
+msgstr "Xếp hạng:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
@@ -814,11 +814,11 @@ msgstr "Mô tả:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Thêm vào ưa thích"
+msgstr "Thêm Mục yêu thích"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Chọn tên cho lối tắt"
+msgstr "Chọn tên cho lối tắt của bạn:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -826,7 +826,7 @@ msgstr "Nhớ vị trí"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr "Ghi nhớ các điểm đánh dấu lặp lại A-B"
+msgstr "Nhớ các dấu lặp lại A-B"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -838,11 +838,11 @@ msgstr "Đồng ý"
 
 msgctxt "IDD_FAVADD_IDCANCEL"
 msgid "Cancel"
-msgstr "Hủy"
+msgstr "Hủy bỏ"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Tổ chức ưa thích"
+msgstr "Sắp xếp các Mục yêu thích"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
@@ -850,11 +850,11 @@ msgstr "Đổi tên"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
-msgstr "Lên trên"
+msgstr "Chuyển lên"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
 msgid "Move Down"
-msgstr "Xuống dưới"
+msgstr "Chuyển xuống"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
@@ -865,12 +865,12 @@ msgid "OK"
 msgstr "Đồng ý"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan & Scan Presets"
-msgstr "Cài đặt quét"
+msgid "PnS Frame Adjust Presets"
+msgstr ""
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
-msgstr "Tạo mới"
+msgstr "Mới"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON3"
 msgid "Delete"
@@ -890,7 +890,7 @@ msgstr "&Đặt"
 
 msgctxt "IDD_PNSPRESET_DLG_IDCANCEL"
 msgid "&Cancel"
-msgstr "&Hủy"
+msgstr "&Hủy bỏ"
 
 msgctxt "IDD_PNSPRESET_DLG_IDOK"
 msgid "&Save"
@@ -898,23 +898,23 @@ msgstr "&Lưu"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Pos: 0.0 -> 1.0"
-msgstr "Pos: 0.0 -> 1.0"
+msgstr "Vị trí: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr "Phóng: 0.2 -> 3.0"
+msgstr "Thu phóng: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
-msgstr "Phím tắt"
+msgstr "Các phím tắt"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Phím media toàn cầu"
+msgstr "Các phím đa phương tiện toàn cầu"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "Chọn hết"
+msgstr "Chọn tất cả"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
@@ -929,16 +929,16 @@ msgid ""
 "MPC-HC could not render some of the pins in the graph, you may not have the "
 "needed codecs or filters installed on the system."
 msgstr ""
-"MPC-HC không có thể làm cho một số các chân trong đồ thị, bạn có thể không "
-"có các codec cần thiết hoặc các bộ lọc cài đặt trên hệ thống."
+"MPC-HC không thể hiển thị một số ghim trong biểu đồ, có thể bạn chưa cài đặt"
+" codec hoặc bộ lọc cần thiết trên hệ thống."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Pin sau đây (s) không tìm thấy một bộ lọc được nối kết:"
+msgstr "(Các) ghim sau đây không tìm thấy bộ lọc có thể kết nối:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
-msgstr "Hủy"
+msgstr "Đóng"
 
 msgctxt "IDD_SAVE_DLG_CAPTION"
 msgid "Saving..."
@@ -946,7 +946,7 @@ msgstr "Đang lưu..."
 
 msgctxt "IDD_SAVE_DLG_IDCANCEL"
 msgid "Cancel"
-msgstr "Hủy"
+msgstr "Hủy bỏ"
 
 msgctxt "IDD_SAVETEXTFILEDIALOGTEMPL_IDC_STATIC1"
 msgid "Encoding:"
@@ -962,11 +962,11 @@ msgstr "Độ trễ:"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_STATIC"
 msgid "ms"
-msgstr "giây"
+msgstr "mili giây"
 
 msgctxt "IDD_SAVESUBTITLESFILEDIALOGTEMPL_IDC_CHECK1"
 msgid "Save custom style"
-msgstr "Lưu các tùy chỉnh"
+msgstr "Lưu kiểu tùy chỉnh"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
@@ -986,11 +986,11 @@ msgstr "cột"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "Image width:"
-msgstr "Độ rộng hình:"
+msgstr "Độ rộng hình ảnh:"
 
 msgctxt "IDD_SAVETHUMBSDIALOGTEMPL_IDC_STATIC"
 msgid "pixels"
-msgstr "pixel"
+msgstr "điểm ảnh"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
@@ -1006,15 +1006,15 @@ msgstr "Đồng ý"
 
 msgctxt "IDD_ADDREGFILTER_IDCANCEL"
 msgid "Cancel"
-msgstr "Hủy"
+msgstr "Hủy bỏ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Font"
-msgstr "Phông"
+msgstr "Phông chữ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
 msgid "Font"
-msgstr "Phông"
+msgstr "Phông chữ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Spacing"
@@ -1026,19 +1026,19 @@ msgstr "Góc (z,°)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (x,%)"
-msgstr "Dãn (x,%)"
+msgstr "Tỷ lệ (x,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Scale (y,%)"
-msgstr "Dãy (y,%)"
+msgstr "Tỷ lệ (y,%)"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Border Style"
-msgstr "Dạng viền"
+msgstr "Kiểu viền"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
-msgstr "Bố cục"
+msgstr "Tràn lề"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
@@ -1054,7 +1054,7 @@ msgstr "Bóng mờ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Căn lề màn hình"
+msgstr "Căn chỉnh Màn hình & Lề"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
@@ -1066,19 +1066,19 @@ msgstr "Phải"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Top"
-msgstr "Đỉnh"
+msgstr "Trên"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Bottom"
-msgstr "Đáy"
+msgstr "Dưới"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
-msgstr "Vị trí tương đối phụ đề so với khung hình video"
+msgstr "Định vị phụ đề so với khung video"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Colors && Transparency"
-msgstr "Màu && Độ mờ"
+msgstr "Màu sắc & Độ trong suốt"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "0%"
@@ -1098,19 +1098,39 @@ msgstr "Phụ"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Outline"
-msgstr "Bố cục"
+msgstr "Tràn lề"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
-msgstr "Kênh liên kết alpha"
+msgstr "Liên kết các kênh alpha"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC21"
+msgid "8-bit Character Set"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC22"
+msgid "OpenType Language"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC_LIBASS"
+msgid "Libass Options"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK2"
+msgid "Use libass for SSA/ASS"
+msgstr ""
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK3"
+msgid "Use libass for SRT"
+msgstr ""
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
 "If you would like to use the stand-alone versions of these filters or "
 "another replacement, disable them here."
 msgstr ""
-"Nếu bạn muốn sử dụng các phiên bản độc lập của các bộ lọc hoặc thay thế "
-"khác, vô hiệu hóa chúng ở đây."
+"Nếu bạn muốn sử dụng các phiên bản độc lập của những bộ lọc này hoặc một bộ "
+"lọc thay thế khác, hãy tắt chúng tại đây."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
@@ -1122,27 +1142,27 @@ msgstr "Bộ lọc chuyển đổi"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
-msgstr "Thiết lập bộ lọc LAV"
+msgstr "Cài đặt Bộ lọc LAV nội bộ"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_SPLITTER_CONF"
 msgid "Splitter"
-msgstr "Bộ chẻ"
+msgstr "Bộ chia"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_VIDEO_DEC_CONF"
 msgid "Video decoder"
-msgstr "Mã hóa video"
+msgstr "Bộ giải mã video"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_AUDIO_DEC_CONF"
 msgid "Audio decoder"
-msgstr "Mã hóa âm thanh"
+msgstr "Bộ giải mã âm thanh"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO1"
 msgid "Internal:"
-msgstr "Trong:"
+msgstr "Nội bộ:"
 
 msgctxt "IDD_PPAGELOGO_IDC_RADIO2"
 msgid "External:"
-msgstr "Ngoài"
+msgstr "Bên ngoài:"
 
 msgctxt "IDD_PPAGELOGO_IDC_BUTTON2"
 msgid "Browse..."
@@ -1150,11 +1170,15 @@ msgstr "Duyệt..."
 
 msgctxt "IDD_PPAGELOGO_IDC_CHECK1"
 msgid "Apply Monitor Color Profile"
-msgstr "Áp dụng hồ sơ màu sắc cho màn hình"
+msgstr "Áp dụng cấu hình màu màn hình"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
 msgstr "Video DirectShow"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
+msgid "Settings"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1166,27 +1190,31 @@ msgstr "Phụ để"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Screenshot"
-msgstr "Ảnh màn hình"
+msgstr "Ảnh chụp màn hình"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Shaders"
-msgstr "Bộ đổ bóng"
+msgstr "Đổ bóng"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Rotation"
-msgstr "Quay"
+msgstr "Xoay"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
-msgstr "Tự động render"
+msgstr "Trình kết xuất âm thanh"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
+msgid "Settings"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
-msgstr "Bộ dựng phụ đề"
+msgstr "Trình kết xuất phụ đề"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "Thiết lập VMR-9 (Renderless) và EVR (CP)"
+msgstr "Cài đặt VMR-9 (không kết xuất) và EVR (CP)"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1194,19 +1222,19 @@ msgstr "Bề mặt:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "Bộ chỉnh kích cỡ:"
+msgstr "Chỉnh lại kích cỡ:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "Chọn thiết bị render D3D9"
+msgstr "Chọn thiết bị kết xuất D3D9"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Phân tích khi thay đổi màn hình hiển thị"
+msgstr "Khởi tạo lại khi thay đổi màn hình"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Toàn màn hình D3D"
+msgstr "D3D Toàn màn hình"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1214,7 +1242,7 @@ msgstr "VSync thay thế"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9LOADMIXER"
 msgid "VMR-9 Mixer Mode"
-msgstr "Chế độ bộ trộn VMR-9"
+msgstr "Chế độ trộn VMR-9"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_EVR_BUFFERS_TXT"
 msgid "EVR Buffers:"
@@ -1222,35 +1250,35 @@ msgstr "Bộ đệm EVR:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr "Bộ nhớ đệm cho bộ đổ bóng biên dịch"
+msgstr "Bộ nhớ đệm đã biên dịch Trình tạo bóng"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
-msgstr "Lắng nghe trên cổng:"
+msgstr "Nghe trên cổng:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "Chạy trên trình duyệt..."
+msgstr "Khởi chạy trong trình duyệt web..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
-msgstr "Cho phép nén"
+msgstr "Bật tính năng nén"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK5"
 msgid "Allow access from localhost only"
-msgstr "Cho phép chỉ truy cập từ localhost"
+msgstr "Chỉ cho phép truy cập từ máy chủ cục bộ"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK6"
 msgid "Enable preview"
-msgstr "Kích hoạt xem trước"
+msgstr "Bật bản xem trước"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK2"
 msgid "Print debug information"
-msgstr "In thông tin gỡ rối"
+msgstr "In thông tin gỡ lỗi"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK4"
 msgid "Serve pages from:"
-msgstr "Phục vụ các trang từ:"
+msgstr "Cung cấp các trang từ:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1262,19 +1290,19 @@ msgstr "Triển khai..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "Default page:"
-msgstr "Trang mặc định:"
+msgstr "Trang chủ:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC"
 msgid "CGI handlers: (.ext1=path1;.ext2=path2;...)"
-msgstr "Xử lí CGI"
+msgstr "Trình xử lý CGI: (.ext1=path1;.ext2=path2;...)"
 
 msgctxt "IDD_SUBTITLEDL_DLG_CAPTION"
 msgid "Download subtitles"
-msgstr "Tải phụ đề"
+msgstr "Tải xuống phụ đề"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDC_CHECK1"
 msgid "Replace currently loaded subtitles"
-msgstr "Thay thế phụ đề hiện đang được nạp"
+msgstr "Thay thế phụ đề đã tải gần đây"
 
 msgctxt "IDD_SUBTITLEDL_DLG_IDOK"
 msgid "Download"
@@ -1302,7 +1330,7 @@ msgstr "Lưu thành..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "Các điều khiển màu (đối với VMR-9, EVR và madVR)"
+msgstr "Điều khiển màu (cho VMR-9, EVR và madVR)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
@@ -1322,15 +1350,15 @@ msgstr "Bão hòa"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET"
 msgid "Reset"
-msgstr "Đặt lại"
+msgstr "Cài đặt lại"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Update check"
-msgstr "Kiểm tra nâng cấp"
+msgstr "Kiểm tra cập nhật"
 
 msgctxt "IDD_PPAGEMISC_IDC_CHECK1"
 msgid "Enable automatic update check"
-msgstr "Kích hoạt kiểm tra nâng cấp"
+msgstr "Bật kiểm tra cập nhật tự động"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC5"
 msgid "Check every:"
@@ -1338,15 +1366,15 @@ msgstr "Kiểm tra mỗi:"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC6"
 msgid "day(s)"
-msgstr "ngày(s)"
+msgstr "(các) ngày"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Settings management"
-msgstr "Quản lí thiết lập"
+msgstr "Quản lý cài đặt"
 
 msgctxt "IDD_PPAGEMISC_IDC_RESET_SETTINGS"
 msgid "Reset"
-msgstr "Đặt lại"
+msgstr "Cài đặt lại"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
@@ -1354,11 +1382,11 @@ msgstr "Xuất"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Xuất khóa"
+msgstr "Các phím xuất"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
-msgstr "Quét"
+msgstr "Quét Bộ dò kênh"
 
 msgctxt "IDD_TUNER_SCAN_ID_START"
 msgid "Start"
@@ -1366,7 +1394,7 @@ msgstr "Bắt đầu"
 
 msgctxt "IDD_TUNER_SCAN_IDCANCEL"
 msgid "Cancel"
-msgstr "Hủy"
+msgstr "Hủy bỏ"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Freq. Start"
@@ -1382,7 +1410,7 @@ msgstr "Tần số kết thúc "
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_IGNORE_ENCRYPTED"
 msgid "Ignore encrypted channels"
-msgstr "Từ chối kên đã mã hóa"
+msgstr "Bỏ qua các kênh được mã hóa"
 
 msgctxt "IDD_TUNER_SCAN_ID_SAVE"
 msgid "Save"
@@ -1398,11 +1426,11 @@ msgstr "Q"
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
-msgstr "Dùng offset"
+msgstr "Sử dụng bù đắp"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr "Tỷ lệ biểu tượng"
+msgstr "Tỷ lệ ký hiệu"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1410,7 +1438,7 @@ msgstr "Thiết bị mặc định"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
-msgstr "Analog"
+msgstr "Tương tự"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO2"
 msgid "Digital"
@@ -1418,7 +1446,7 @@ msgstr "Kỹ thuật số"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Analog settings"
-msgstr "Thiết lập Analog"
+msgstr "Cài đặt tương tự"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC1"
 msgid "Video"
@@ -1430,11 +1458,11 @@ msgstr "Âm thanh"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC3"
 msgid "Country"
-msgstr "Vùng"
+msgstr "Quốc gia"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Digital settings (BDA)"
-msgstr "Thiết lập Kỹ thuật số (BDA)"
+msgstr "Cài đặt kỹ thuật số (BDA)"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC4"
 msgid "Network Provider"
@@ -1442,19 +1470,19 @@ msgstr "Nhà cung cấp mạng"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC5"
 msgid "Tuner"
-msgstr "Bộ tuner"
+msgstr "Bộ dò kênh"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC6"
 msgid "Receiver"
-msgstr "Thu"
+msgstr "Bộ thu nhận"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST10"
 msgid "Channel switching approach:"
-msgstr "Kênh tiếp cận chuyển đổi:"
+msgstr "Cách tiếp cận chuyển mạch kênh:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Xây dựng lại đồ thị bộ lọc"
+msgstr "Tạo lại đồ thị bộ lọc"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
@@ -1462,7 +1490,7 @@ msgstr "Dừng đồ thị bộ lọc"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Đồng bộ video để hiển thị"
+msgstr "Đồng bộ video theo màn hình"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
@@ -1470,7 +1498,7 @@ msgstr "Điều chỉnh tần số:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Màn hình hiển thị video"
+msgstr "Đồng bộ màn hình theo video"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
@@ -1486,19 +1514,19 @@ msgstr "cột"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCNEAREST"
 msgid "Present at nearest VSync"
-msgstr "Hiện VSync gần nhất"
+msgstr "Hiện diện tại VSync gần nhất"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC5"
 msgid "Target sync offset:"
-msgstr "Đồng bộ offset đích:"
+msgstr "Bù đắp đồng bộ đích:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC6"
 msgid "ms"
-msgstr "giây"
+msgstr "mili giây"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC7"
 msgid "Control limits:"
-msgstr "Giới hạn điều khiển:"
+msgstr "Điều chỉnh hạn mức:"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC8"
 msgid "+/-"
@@ -1506,40 +1534,41 @@ msgstr "+/-"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC9"
 msgid "ms"
-msgstr "giây"
+msgstr "mili giây"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr ""
-"Thay đổi có hiệu lực sau khi phát lại đã bị đóng cửa và khởi động lại."
+"Các thay đổi có hiệu lực sau khi quá trình phát lại được đóng và bắt đầu "
+"lại."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
-msgstr "Phát tệp toàn màn hình"
+msgstr "Khởi chạy tập tin ở chế độ toàn màn hình"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK4"
 msgid "Hide controls in fullscreen"
-msgstr "Ẩn điều khiển ở chế độ toàn màn hình"
+msgstr "Ẩn các điều khiển trong chế độ toàn màn hình"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC1"
 msgid "ms"
-msgstr "giây"
+msgstr "mili giây"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr "Ẩn tấm cập "
+msgstr "Ẩn bảng điều khiển được cố định"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Thoát khỏi toàn màn hình khi kết thúc phát lại"
+msgstr "Thoát chế độ toàn màn hình khi kết thúc phát lại"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
-msgstr "Toàn màn hình"
+msgstr "Màn hình toàn màn hình"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK2"
 msgid "Use autochange fullscreen monitor mode"
-msgstr "Tự động thay đổi chế độ màn hình được sử dụng toàn màn hình"
+msgstr "Sử dụng chế độ màn hình toàn màn hình tự động thay đổi"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON1"
 msgid "Add"
@@ -1551,19 +1580,19 @@ msgstr "Xóa"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON3"
 msgid "Up"
-msgstr "Tăng"
+msgstr "Lên"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_BUTTON4"
 msgid "Down"
-msgstr "Giảm"
+msgstr "Xuống"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Áp dụng chế độ màn hình mặc định trên màn hình đầy đủ lúc thoát"
+msgstr "Áp dụng chế độ màn hình mặc định khi thoát chế độ toàn màn hình"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Khôi phục lại độ phân giải khi kết thúc"
+msgstr "Khôi phục độ phân giải khi thoát chương trình"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
@@ -1583,15 +1612,15 @@ msgstr "Quét"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Buộc phụ đề mặc định bài hát"
+msgstr "Ưu tiên các rãnh phụ đề bắt buộc và/hoặc mặc định"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Thích phụ đề bên ngoài hơn phụ đề nhúng"
+msgstr "Ưu tiên phụ đề bên ngoài hơn phụ đề được nhúng"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
-msgstr "Bỏ qua phụ đề nhúng"
+msgstr "Bỏ qua phụ đề được nhúng"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Autoload paths"
@@ -1599,7 +1628,7 @@ msgstr "Tự động nạp đường dẫn"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_BUTTON1"
 msgid "Reset"
-msgstr "Đặt lại"
+msgstr "Cài đặt lại"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Online subtitle search"
@@ -1607,35 +1636,35 @@ msgstr "Tìm kiếm phụ đề trực tuyến"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK4"
 msgid "Automatically search and download subtitles if none are found locally"
-msgstr "Tự động tìm và tải xuống nếu không tìm thấy phụ đề nào trên máy tính"
+msgstr "Tự động tìm kiếm và tải xuống phụ đề nếu không tìm thấy trên máy tính"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
 "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
 msgstr ""
-"Dùng phụ đề thay thế khi âm thanh nghe không rõ (chỉ khi nguồn cấp phụ đề đã"
-" được chỉ ra)"
+"Ưu tiên phụ đề cho người khiếm thính (khi được nhà cung cấp phụ đề chỉ định)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
-msgstr "Bỏ qua những tập tin có chứa bất kỳ từ ngữ sau:"
+msgstr "Bỏ qua các tập tin chứa bất kỳ (các) từ nào sau đây:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC"
 msgid "Languages in order of preference:"
-msgstr "Thứ tự ngôn ngữ được ưu tiên:"
+msgstr "Ngôn ngữ theo thứ tự ưu tiên:"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
 msgstr ""
+"Tự động lưu phụ đề đã tải xuống vào thư mục đường dẫn tự động nạp trước tiên"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Trình kiểm tra nâng cấp"
+msgstr "Cập nhật trình kiểm tra"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
-msgstr "&Tải về ngay"
+msgstr "&Tải xuống ngay"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_LATER_BUTTON"
 msgid "Remind me &later"
@@ -1643,19 +1672,19 @@ msgstr "&Nhắc tôi sau"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr "&Bỏ qua cập nhật này"
+msgstr "&Bỏ qua bản cập nhật này"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid ""
 "Shaders contain special effects which can be added to the video rendering "
 "process."
 msgstr ""
-"Bộ đổ bóng có các hiệu ứng đặc biệt mà có thể được thêm vào trong quá trình "
-"dựng hình."
+"Trình tạo bóng chứa các hiệu ứng đặc biệt có thể được thêm vào quá trình kết"
+" xuất video."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Thêm tập tin bộ đổ bóng"
+msgstr "Thêm tập tin tạo bóng"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1663,15 +1692,15 @@ msgstr "Loại bỏ"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON1"
 msgid "Add to pre-resize"
-msgstr "Thêm vào trước thay đổi kích cỡ"
+msgstr "Thêm vào thay đổi kích cỡ trước"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON2"
 msgid "Add to post-resize"
-msgstr "Thêm vào sau thay đổi kích cỡ"
+msgstr "Thêm vào thay đổi kích cỡ sau"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Cài đặt bộ đổ bóng có sẵn"
+msgstr "Trình tạo bóng được cài đặt sẵn"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
@@ -1687,28 +1716,27 @@ msgstr "Xóa"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active pre-resize shaders"
-msgstr "Hoạt động bóng đổ trước khi thay đổi kích cỡ"
+msgstr "Trình tạo bóng thay đổi kích cõ trước đang hoạt động"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Active post-resize shaders"
-msgstr "Hoạt động đổ bóng sau khi thay đổi kích cỡ"
+msgstr "Trình tạo bóng thay đổi kích cỡ sau đang hoạt động"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC5"
 msgid ""
 "MPC-VR does not support pre-resize shaders. It will run them after resize, "
 "before the post-resize shaders."
 msgstr ""
-"MPC-VR không hỗ trợ bộ đổ bóng đã được đặt sẵn kích thước. Nó sẽ khởi chạy "
-"bộ đổ bóng sau khi dặt lại kích thước, trước khi kích thước bộ đổ bóng được "
-"chuyển đổi."
+"MPC-VR không hỗ trợ trình tạo bóng thay đổi kích cỡ trước. Nó sẽ chạy chúng "
+"sau khi thay đổi kích cỡ, trước khi các trình tạo bóng thay đổi kích cỡ sau."
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "Gỡ rối bộ đổ bóng"
+msgstr "Gỡ lỗi Trình tạo bóng"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Thông tin gỡ rối"
+msgstr "Thông tin gỡ lỗi"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
@@ -1728,9 +1756,7 @@ msgstr "PS 3.0"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_STATIC"
 msgid "Advanced Settings, do not edit unless you know what you are doing."
-msgstr ""
-"Thiết Lập Nâng Cao, không được chỉnh sửa trừ khi bạn biết những gì bạn đang "
-"làm."
+msgstr "Cài đặt Nâng cao, không chỉnh sửa trừ khi bạn biết mình đang làm gì."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
@@ -1746,7 +1772,7 @@ msgstr "Mặc định"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
 msgid "SaneAR Audio Renderer Enabled"
-msgstr "Bộ dựng âm thanh SaneAR đã được kích hoạt"
+msgstr "Đã bật trình kết xuất âm thanh SaneAR"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
@@ -1758,56 +1784,55 @@ msgstr "Tùy chọn"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK1"
 msgid "Exclusive mode"
-msgstr "Kiểu chuyên dụng"
+msgstr "Chế độ độc quyền"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK4"
 msgid "Ignore system channel mixer (always ignored in exclusive WASAPI mode)"
-msgstr ""
-"Bỏ qua bộ trộn kênh hệ thống (luôn bỏ qua trong chế dộ WASAPI độc quyền)"
+msgstr "Bỏ qua bộ trộn kênh hệ thống (luôn bỏ qua ở chế độ WASAPI độc quyền)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK3"
 msgid "Enable stereo crossfeed (for headphones)"
-msgstr "Kích hoạt âm thanh nổi (dành cho tai nghe)"
+msgstr "Bật âm thanh nổi giao nhau (dành cho tai nghe)"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON1"
 msgid "C. Moy"
-msgstr "C. Moy. Được dịch bởi Trần Anh Minh - anhminhvks"
+msgstr "anhminhvks 1"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON2"
 msgid "J. Meier"
-msgstr "J. Meier. Được dịch bởi Trần Anh Minh - anhminhvks"
+msgstr "anhminhvks 2"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC1"
 msgid "Cut-off:"
-msgstr "Cắt bớt:"
+msgstr "Cắt giảm:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC3"
 msgid "Level:"
-msgstr "Mức độ:"
+msgstr "Cấp độ:"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC7"
 msgid "Note"
-msgstr "Chú ý"
+msgstr "Lưu ý"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC8"
 msgid ""
 "To minimize audio distortion, it is recommended to keep player volume at "
 "around 85% when playing loud lossy-encoded content."
 msgstr ""
-"Để giảm thiểu hiện tượng méo âm thanh, đề nghị chỉnh âm lượng của trình phát"
-" ở mức khoảng 85% khi phát các nội dung được mã hóa giảm lớn."
+"Để giảm thiểu sự biến dạng âm thanh, bạn nên để âm lượng trình phát ở mức "
+"khoảng 85% khi phát nội dung mã hóa bị mất tiếng lớn."
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_BUTTON3"
 msgid "MPC Audio Renderer Settings"
-msgstr "Thiết lập bộ dựng âm thanh MPC"
+msgstr "Cài đặt Trình kết xuất âm thanh MPC"
 
 msgctxt "IDD_SAVEIMAGEDIALOGTEMPL_IDC_STATIC"
 msgid "JPEG quality:"
-msgstr "Chất lượng JPEG"
+msgstr "Chất lượng JPEG:"
 
 msgctxt "IDD_CMD_LINE_HELP_CAPTION"
 msgid "Command line help"
-msgstr "Hướng dẫn chế độ lệnh"
+msgstr "Trợ giúp chế độ dòng lệnh"
 
 msgctxt "IDD_CMD_LINE_HELP_IDOK"
 msgid "OK"
@@ -1815,15 +1840,15 @@ msgstr "Đồng ý"
 
 msgctxt "IDD_CRASH_REPORTER_CAPTION"
 msgid "Crash reporter"
-msgstr "Báo cáo lỗi"
+msgstr "Báo cáo sự cố"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC"
 msgid "We are sorry, it seems MPC-HC just crashed. :("
-msgstr "Xin lỗi bạn, MPC-HC vừa bị lỗi dừng chương trình. :("
+msgstr "Chúng tôi rất tiếc, có vẻ như MPC-HC vừa bị lỗi. :("
 
 msgctxt "IDD_CRASH_REPORTER_IDC_CHECK1"
 msgid "Send a bug report to help us diagnose and fix the problem."
-msgstr "Gửi báo cáo lỗi để giúp chúng tôi phân tích và sửa chữa."
+msgstr "Gửi báo cáo lỗi để giúp chúng tôi chẩn đoán và khắc phục sự cố."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC1"
 msgid "Optional information"
@@ -1838,12 +1863,12 @@ msgid ""
 "Your email address is optional and will only be used if the developers need "
 "to contact you for more information."
 msgstr ""
-"Địa chỉ thư điện tử của bạn là một tùy chọn và sẽ chỉ được sử dụng nếu các "
-"nhà phát triển cần phải liên lạc với bạn để biết thêm thông tin chi tiết."
+"Địa chỉ thư điện tử của bạn là tùy chọn và sẽ chỉ được sử dụng nếu các nhà "
+"phát triển cần liên hệ với bạn để biết thêm thông tin."
 
 msgctxt "IDD_CRASH_REPORTER_IDC_STATIC4"
 msgid "Problem description (use English only):"
-msgstr "Diễn tả vấn đề gặp phải (chỉ dùng tiếng Anh):"
+msgstr "Mô tả vấn đề (chỉ sử dụng tiếng Anh):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
@@ -1860,3 +1885,19 @@ msgstr "Hộp nhóm"
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
 msgstr "Tự động phát"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
+msgid "Modern Theme Settings (require restart)"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
+msgid "Use Modern Theme"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Modern Seekbar height:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
+msgid "Modern Theme Color:"
+msgstr ""

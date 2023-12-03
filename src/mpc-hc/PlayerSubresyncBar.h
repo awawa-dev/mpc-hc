@@ -22,7 +22,7 @@
 #pragma once
 
 #include "CMPCThemePlayerBar.h"
-#include "CMPCThemePlayerListCtrl.h"
+#include "PlayerListCtrl.h"
 #include "../Subtitles/STS.h"
 #include "../Subtitles/VobSubFile.h"
 #include <map>
@@ -44,7 +44,7 @@ private:
     CString m_strYes, m_strNo;
     CString m_strYesMenu, m_strNoMenu;
 
-    CMPCThemePlayerListCtrl m_list;
+    CPlayerListCtrl m_list;
 
     CMainFrame* m_pMainFrame;
 

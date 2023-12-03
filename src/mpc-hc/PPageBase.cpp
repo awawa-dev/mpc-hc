@@ -24,6 +24,8 @@
 #include "mplayerc.h"
 #include "PPageBase.h"
 #include "SettingsDefines.h"
+#include "ComPropertySheet.h"
+
 
 // CPPageBase dialog
 
@@ -159,4 +161,27 @@ void CPPageBase::OnDestroy()
 {
     __super::OnDestroy();
     m_wndToolTip.DestroyWindow();
+}
+
+void CPPageBase::ShowPPage(CUnknown* (WINAPI* CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr)) {
+    if (!CreateInstance) {
+        return;
+    }
+
+    HRESULT hr;
+    CUnknown* pObj = CreateInstance(nullptr, &hr);
+
+    if (!pObj) {
+        return;
+    }
+
+    CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pObj;
+
+    if (SUCCEEDED(hr)) {
+        if (CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk) {
+            CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), this);
+            ps.AddPages(pSPP);
+            ps.DoModal();
+        }
+    }
 }

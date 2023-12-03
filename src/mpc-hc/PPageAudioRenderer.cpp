@@ -29,8 +29,7 @@
 #include <sanear/src/Settings.h>
 #include "AppSettings.h"
 #include "PPageOutput.h"
-#include "MpcAudioRenderer/MpcAudioRenderer.h"
-#include "ComPropertySheet.h"
+#include "FGManager.h"
 
 namespace
 {
@@ -249,88 +248,9 @@ void CPPageAudioRenderer::OnClickInternalAudioRenderer()
     SetModified(TRUE);
 }
 
-void CPPageAudioRenderer::ShowPPage(CUnknown* (WINAPI* CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr)) {
-    if (!CreateInstance) {
-        return;
-    }
-
-    HRESULT hr;
-    CUnknown* pObj = CreateInstance(nullptr, &hr);
-
-    if (!pObj) {
-        return;
-    }
-
-    CComPtr<IUnknown> pUnk = (IUnknown*)(INonDelegatingUnknown*)pObj;
-
-    if (SUCCEEDED(hr)) {
-        if (CComQIPtr<ISpecifyPropertyPages> pSPP = pUnk) {
-            CComPropertySheet ps(ResStr(IDS_PROPSHEET_PROPERTIES), this);
-            ps.AddPages(pSPP);
-            ps.DoModal();
-        }
-    }
-}
-
 void CPPageAudioRenderer::OnMPCAudioRendererButton() {
     if (curAudioRenderer == AUDRNDT_MPC) {
-        ShowPPage(CreateInstance<CMpcAudioRenderer>);
-    } else {
-        BeginEnumSysDev(CLSID_AudioRendererCategory, pMoniker) {
-            LPOLESTR olestr = nullptr;
-            if (FAILED(pMoniker->GetDisplayName(0, 0, &olestr))) {
-                continue;
-            }
-
-            CStringW str(olestr);
-            CoTaskMemFree(olestr);
-
-            if (str == curAudioRenderer) {
-                CComPtr<IBaseFilter> pBF;
-                HRESULT hr = pMoniker->BindToObject(nullptr, nullptr, IID_PPV_ARGS(&pBF));
-                if (SUCCEEDED(hr)) {
-                    ISpecifyPropertyPages* pProp = nullptr;
-                    hr = pBF->QueryInterface(IID_PPV_ARGS(&pProp));
-                    if (SUCCEEDED(hr)) {
-                        // Get the filter's name and IUnknown pointer.
-                        FILTER_INFO FilterInfo;
-                        hr = pBF->QueryFilterInfo(&FilterInfo);
-                        if (SUCCEEDED(hr)) {
-                            IUnknown* pFilterUnk;
-                            hr = pBF->QueryInterface(IID_PPV_ARGS(&pFilterUnk));
-                            if (SUCCEEDED(hr)) {
-
-                                // Show the page.
-                                CAUUID caGUID;
-                                pProp->GetPages(&caGUID);
-                                pProp->Release();
-
-                                OleCreatePropertyFrame(
-                                    this->m_hWnd,			// Parent window
-                                    0, 0,					// Reserved
-                                    FilterInfo.achName,		// Caption for the dialog box
-                                    1,						// Number of objects (just the filter)
-                                    &pFilterUnk,			// Array of object pointers.
-                                    caGUID.cElems,			// Number of property pages
-                                    caGUID.pElems,			// Array of property page CLSIDs
-                                    0,						// Locale identifier
-                                    0, nullptr				// Reserved
-                                );
-
-                                // Clean up.
-                                CoTaskMemFree(caGUID.pElems);
-                                pFilterUnk->Release();
-                            }
-                            if (FilterInfo.pGraph) {
-                                FilterInfo.pGraph->Release();
-                            }
-                        }
-                    }
-                }
-                break;
-            }
-        }
-        EndEnumSysDev
+        ShowPPage(CFGManager::GetMpcAudioRendererInstance);
     }
 }
 

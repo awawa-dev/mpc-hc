@@ -1,15 +1,15 @@
 #include "rar.hpp"
 
 #ifdef RARDLL
-static bool DllVolChange(RAROptions *Cmd,wchar *NextName,size_t NameSize);
-static bool DllVolNotify(RAROptions *Cmd,wchar *NextName);
+static bool DllVolChange(CommandData *Cmd,wchar *NextName,size_t NameSize);
+static bool DllVolNotify(CommandData *Cmd,wchar *NextName);
 #endif
 
 
 
 bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Command)
 {
-  RAROptions *Cmd=Arc.GetRAROptions();
+  CommandData *Cmd=Arc.GetCommandData();
 
   HEADER_TYPE HeaderType=Arc.GetHeaderType();
   FileHeader *hd=HeaderType==HEAD_SERVICE ? &Arc.SubHead:&Arc.FileHead;
@@ -130,8 +130,12 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
   if (Command=='T' || Command=='X' || Command=='E')
     mprintf(St(Command=='T' ? MTestVol:MExtrVol),Arc.FileName);
 
+  try { // MPC-HC custom code
+      Arc.CheckArc(true);
+  } catch (RAR_EXIT ErrCode) {
+      return false;
+  }
 
-  Arc.CheckArc(true);
 #ifdef RARDLL
   if (!DllVolNotify(Cmd,NextName))
     return false;
@@ -190,7 +194,7 @@ bool MergeArchive(Archive &Arc,ComprDataIO *DataIO,bool ShowFileName,wchar Comma
 
 
 #ifdef RARDLL
-bool DllVolChange(RAROptions *Cmd,wchar *NextName,size_t NameSize)
+bool DllVolChange(CommandData *Cmd,wchar *NextName,size_t NameSize)
 {
   bool DllVolChanged=false,DllVolAborted=false;
 
@@ -246,7 +250,7 @@ bool DllVolChange(RAROptions *Cmd,wchar *NextName,size_t NameSize)
 
 
 #ifdef RARDLL
-bool DllVolNotify(RAROptions *Cmd,wchar *NextName)
+bool DllVolNotify(CommandData *Cmd,wchar *NextName)
 {
   char NextNameA[NM];
   WideToChar(NextName,NextNameA,ASIZE(NextNameA));

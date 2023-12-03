@@ -43,6 +43,24 @@
 
 #define EndEnumDescriptors }}
 
+#define BeginEnumDescriptorsATSC(gb, nType, nLength, bits)          \
+{                                                                   \
+    BYTE DescBuffer[256];                                           \
+    size_t nLimit = (size_t)gb.BitRead(bits) + gb.GetPos();         \
+    while (gb.GetPos() < nLimit) {                                  \
+        MPEG2_DESCRIPTOR nType = (MPEG2_DESCRIPTOR)gb.BitRead(8);   \
+        WORD nLength = (WORD)gb.BitRead(8);
+
+
+void UTF16BE2LE(BYTE* in, int len) {
+    for (int i = 0; i < len; i+=2) {
+        BYTE in0 = in[i];
+        in[i] = in[i+1];
+        in[i+1] = in0;
+    }
+    in[len] = 0;
+    in[len + 1] = 0;
+}
 
 CMpeg2DataParser::CMpeg2DataParser(IBaseFilter* pFilter)
 {
@@ -322,6 +340,128 @@ HRESULT CMpeg2DataParser::ParseSDT(ULONG ulFrequency, ULONG ulBandwidth, ULONG u
                 default:
                     BDA_LOG(_T("DVB: Skipping not supported service: %-20s %lu"), Channel.GetName(), Channel.GetSID());
                     break;
+            }
+        }
+    }
+
+    return S_OK;
+}
+
+//supports Master Guide Table; see ATSC A/65:2013
+HRESULT CMpeg2DataParser::ParseMGT(enum DVB_SI &vctType)
+{
+    vctType = SI_undef;
+    HRESULT hr;
+    CComPtr<ISectionList> pSectionList;
+    DWORD dwLength;
+    PSECTION data;
+    WORD wTSID;
+    WORD wSectionLength;
+
+    hr = m_pData->GetSection(PID_PSIP, TID_MGT, &m_Filter, 15000, &pSectionList);
+    CheckNoLog(hr);
+    CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
+
+    CGolombBuffer gb((BYTE*)data, dwLength);
+
+    CheckNoLog(ParseSIHeader(gb, TID_MGT, wSectionLength, wTSID));
+    gb.BitRead(8);
+    uint16_t num_tables = gb.BitRead(16);
+
+    for (uint8_t i = 0; i < num_tables; i++) {
+        uint16_t table_type = gb.BitRead(16); //table_type
+        
+        gb.BitRead(3);  //reserved
+        uint16_t table_type_PID = gb.BitRead(13); //table_type_PID
+        if (table_type_PID == PID_PSIP) { //expect to find TVCT table with PID_PSIP id
+            if (table_type == TT_TVCT_C0 || table_type == TT_TVCT_C1) {
+                vctType = (DVB_SI)TID_TVCT;
+            } else if (table_type == TT_CVCT_C0 || table_type == TT_CVCT_C1) {
+                vctType = (DVB_SI)TID_CVCT;
+            }
+        }
+        gb.BitRead(3);  //reserved
+        gb.BitRead(5);  //table_type_version_number
+        gb.BitRead(32); //number_bytes
+        gb.BitRead(4);  //reserved
+
+        BeginEnumDescriptorsATSC(gb, nType, nLength, 12) {          // for (i=0;i<N;i++) {
+            SkipDescriptor(gb, nType, nLength);                     // descriptor()
+        }
+        EndEnumDescriptors;
+    }
+
+    return S_OK;
+}
+
+//supports Terrestrial Virtual Channel Table and Cable Virtual Channel Table; see ATSC A/65:2013
+HRESULT CMpeg2DataParser::ParseVCT(ULONG ulFrequency, ULONG ulBandwidth, ULONG ulSymbolRate, enum DVB_SI vctType)
+{
+    HRESULT hr;
+    CComPtr<ISectionList> pSectionList;
+    DWORD dwLength;
+    PSECTION data;
+    WORD wTSID;
+    WORD wSectionLength;
+    WORD serviceType = 0;
+
+    hr = m_pData->GetSection(PID_PSIP, vctType, &m_Filter, 15000, &pSectionList);
+    CheckNoLog(hr);
+    CheckNoLog(pSectionList->GetSectionData(0, &dwLength, &data));
+
+    CGolombBuffer gb((BYTE*)data, dwLength);
+
+    CheckNoLog(ParseSIHeader(gb, vctType, wSectionLength, wTSID));
+    gb.BitRead(8); //protocol_version
+    uint8_t num_channels = gb.BitRead(8);
+
+    const int SHORT_NAME_LEN = 7*2;
+    BYTE short_name[SHORT_NAME_LEN+2];
+
+    for (uint8_t i = 0; i < num_channels; i++) {
+        gb.ReadBuffer(short_name, SHORT_NAME_LEN); //short_name
+        UTF16BE2LE(short_name, SHORT_NAME_LEN);
+        CStringW shortName((wchar_t*)short_name);
+        gb.BitRead(4); //reserved
+        uint16_t major_channel_number = gb.BitRead(10); //major_channel_number
+        uint16_t minor_channel_number = gb.BitRead(10); //minor_channel_number
+        gb.BitRead(8); //modulation_mode
+        gb.BitRead(32); //carrier_frequency
+        uint16_t channel_TSID=gb.BitRead(16); //channel_TSID
+        uint16_t program_number=gb.BitRead(16); //program_number
+        gb.BitRead(2); //ETM_location
+        gb.BitRead(1); //access_controlled
+        gb.BitRead(1); //hidden
+        gb.BitRead(2); //TVCT: reserved(1), CVCT: path_select(1) / out_of_band(1)
+        gb.BitRead(1); //hide_guide
+        gb.BitRead(3); //reserved
+        serviceType = gb.BitRead(6); //service_type
+        uint16_t source_id=gb.BitRead(16); //source_id
+        gb.BitRead(6); //reserved
+        BeginEnumDescriptorsATSC(gb, nType, nLength, 10) {          // for (i=0;i<N;i++) {
+            SkipDescriptor(gb, nType, nLength);                     // descriptor()
+        }
+        EndEnumDescriptors;
+
+        CBDAChannel Channel;
+        CStringW name;
+        name.Format(L"%d.%d - %s", major_channel_number, minor_channel_number, shortName);
+        Channel.SetName(name);
+        Channel.SetFrequency(ulFrequency);
+        Channel.SetBandwidth(ulBandwidth);
+        Channel.SetSymbolRate(ulSymbolRate);
+        Channel.SetTSID(channel_TSID);
+        Channel.SetONID(0); //ATSC doesn't apply
+        Channel.SetSID(program_number);
+
+        if (!Channels.Lookup(Channel.GetSID())) {
+            switch (serviceType) {
+            case ATSC_DIGITAL_TV:
+                Channels[Channel.GetSID()] = Channel;
+                break;
+            default:
+                BDA_LOG(_T("ATSC: Skipping not supported service: %-20s %lu"), Channel.GetName(), Channel.GetSID());
+                break;
             }
         }
     }

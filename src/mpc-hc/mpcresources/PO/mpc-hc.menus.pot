@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,10 +147,6 @@ msgstr ""
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr ""
-
-msgctxt "ID_VIEW_MPCTHEME"
-msgid "Dark Theme (restart)"
 msgstr ""
 
 msgctxt "ID_VIEW_FULLSCREEN"
@@ -442,7 +438,7 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr ""
 
 msgctxt "POPUP"
-msgid "Pa&n && Scan"
+msgid "P&nS Frame Adjust"
 msgstr ""
 
 msgctxt "ID_VIEW_INCSIZE"

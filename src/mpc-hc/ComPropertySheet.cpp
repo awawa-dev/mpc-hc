@@ -255,14 +255,14 @@ BOOL CComPropertySheet::OnInitDialog()
 
 void CComPropertySheet::fulfillThemeReqs()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CMPCThemeUtil::fulfillThemeReqs((CWnd*)this);
     }
 }
 
 HBRUSH CComPropertySheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         LRESULT lResult;
         if (pWnd->SendChildNotifyLastMsg(&lResult)) {
             return (HBRUSH)lResult;
@@ -274,4 +274,10 @@ HBRUSH CComPropertySheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         HBRUSH hbr = __super::OnCtlColor(pDC, pWnd, nCtlColor);
         return hbr;
     }
+}
+
+
+INT_PTR CComPropertySheet::DoModal() {
+    PreDoModalRTL(&m_psh);
+    return __super::DoModal();
 }

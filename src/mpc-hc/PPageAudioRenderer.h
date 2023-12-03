@@ -35,6 +35,7 @@ public:
     enum { IDD = IDD_PPAGEAUDIORENDERER };
     void SetEnabled(bool enabled);
     void SetCurAudioRenderer(CString renderer);
+    void OnMPCAudioRendererButton();
 
 protected:
 
@@ -48,8 +49,6 @@ protected:
     void OnCMoyButton();
     void OnJMeierButton();
     void OnClickInternalAudioRenderer();
-    void ShowPPage(CUnknown* (__stdcall* CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr));
-    void OnMPCAudioRendererButton();
 
     void OnUpdateCrossfeedGroup(CCmdUI* pCmdUI);
     void OnUpdateCrossfeedCutoffLabel(CCmdUI* pCmdUI);

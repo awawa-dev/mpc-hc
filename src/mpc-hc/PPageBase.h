@@ -51,6 +51,7 @@ protected:
     virtual BOOL PreTranslateMessage(MSG* pMsg);
     virtual BOOL OnSetActive();
     virtual BOOL OnApply();
+    void ShowPPage(CUnknown* (__stdcall* CreateInstance)(LPUNKNOWN lpunk, HRESULT* phr));
 
     DECLARE_MESSAGE_MAP()
 

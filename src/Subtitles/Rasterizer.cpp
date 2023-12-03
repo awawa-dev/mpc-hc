@@ -38,21 +38,23 @@
 #include <sstream>
 #include <chrono>
 #define BEGIN_PERF_TIMER(a) \
-    std::chrono::steady_clock::time_point begin##a = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point begin##a = std::chrono::steady_clock::now(); \
+    std::wostringstream ss##a; \
+
+#define TRACE_PERF_TIMER(a, idx, ref1, ref2) \
+    std::chrono::steady_clock::time_point end##a##idx = std::chrono::steady_clock::now(); \
+    ss##a << "\n"; \
+    ss##a << std::chrono::time_point_cast<std::chrono::microseconds>(end##a##idx).time_since_epoch().count(); \
+    ss##a << ": "##ref1 << "(" << ref2 << ") = "; \
+    ss##a << std::chrono::duration_cast<std::chrono::microseconds>(end##a##idx - begin##a).count() << "[µs]" << std::endl; \
 
 #define END_PERF_TIMER(a, ref1, ref2) \
-    std::chrono::steady_clock::time_point end##a = std::chrono::steady_clock::now(); \
-    { \
-        std::ostringstream ss; \
-        ss << "\n"; \
-        ss << std::chrono::time_point_cast<std::chrono::microseconds>(end##a).time_since_epoch().count(); \
-        ss << ": "##ref1 << "(" << CW2A(ref2) << ") = "; \
-        ss << std::chrono::duration_cast<std::chrono::microseconds>(end##a - begin##a).count() << "[µs]" << std::endl; \
-        TRACE("%s\n", ss.str().c_str()); \
-    }
+    TRACE_PERF_TIMER(a, 0, ref1, ref2) \
+    TRACE("%s\n", ss##a.str().c_str()); \
 
 #else
 #define BEGIN_PERF_TIMER(a)
+#define TRACE_PERF_TIMER(a, idx, ref1, ref2)
 #define END_PERF_TIMER(a, ref1, ref2)
 #endif
 
@@ -71,8 +73,6 @@ Rasterizer::Rasterizer()
     , mEdgeHeapSize(0)
     , mEdgeNext(0)
     , mpScanBuffer(nullptr)
-    , ftInitialized(false)
-    , ftLibrary(nullptr)
 {
     int cpuinfo[4];
     __cpuid(cpuinfo, 1);
@@ -92,14 +92,6 @@ Rasterizer::Rasterizer()
 
 Rasterizer::~Rasterizer()
 {
-    if (ftInitialized) {
-        for (auto& it : faceCache) {
-            FT_Done_Face(it.second.face);
-            delete[] it.second.fontData;
-        }
-
-        FT_Done_FreeType(ftLibrary);
-    }
     _TrashPath();
 }
 
@@ -1935,95 +1927,68 @@ FT_DEFINE_OUTLINE_FUNCS(
     0,                                      /* shift    */
     0                                       /* delta    */
 )
-bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, CStringW fontName, wchar_t ch, int size, int dx, int dy) {
+
+FT_UInt Rasterizer::GetLangCodePoint(wchar_t ch, faceData& fd) {
+    FT_UInt cp;
+
+    if (fd.codePoints.count(ch)) {
+        cp = fd.codePoints[ch];
+    } else {
+        cp = FT_Get_Char_Index(fd.face, ch);
+    }
+    return cp;
+}
+
+bool Rasterizer::GetPathFreeType(HDC hdc, bool bClearPath, std::wstring fontNameK, wchar_t ch, int dx, int dy, CStringA langHint, FTLibraryData* ftLibraryData) {
     BEGIN_PERF_TIMER(GetPathFreeType);
     if (bClearPath) {
         _TrashPath();
     }
 
-    FT_Face face;
-    FT_Error error;
-    if (!ftInitialized) {
-        ftInitialized = !FT_Init_FreeType(&ftLibrary);
+    auto& fc = ftLibraryData->GetFaceCache();
+    if (fc.count(fontNameK) == 0) {
+        return false;
     }
 
+    auto& fd = fc[fontNameK];
+    FT_Face& face = fd.face;
+    FT_Error error;
 
-    if (ftInitialized) {
-        std::wstring fontNameK = CW2W(fontName);
-        fontNameK += std::to_wstring(size);
-        LONG tmAscent;
-        if (faceCache.count(fontNameK)>0) {
-            face = faceCache[fontNameK].face;
-            tmAscent = faceCache[fontNameK].ascent;
-            error = FT_Set_Pixel_Sizes(face, faceCache[fontNameK].ratio, faceCache[fontNameK].ratio);
-        } else {
-            DWORD fontSize = GetFontData(hdc, 0, 0, NULL, 0);
-            FT_Byte* fontData = nullptr;
-            try {
-                fontData = DEBUG_NEW FT_Byte[fontSize];
-            } catch (...) {
-                return false;
-            }
-            GetFontData(hdc, 0, 0, fontData, fontSize);
-            error = FT_New_Memory_Face(ftLibrary, fontData, fontSize, 0, &face);
-            if (!error) {
-                TEXTMETRIC GDIMetrics;
-                GetTextMetricsW(hdc, &GDIMetrics);
-
-                error = FT_Set_Pixel_Sizes(face, 0xffff, 0xffff);
-                FT_UInt fRatio;
-                //this is a weird hack, but the ratio of the ascent seems a good estimate of the right font size.  Worked perfectly with Arial
-                FT_Pos tHeight = face->size->metrics.height;
-                fRatio = static_cast<FT_UInt>(float(GDIMetrics.tmAscent) / face->size->metrics.ascender * 0xffff * 64);
-                error = !error && FT_Set_Pixel_Sizes(face, fRatio, fRatio);
-                //If the ascent ratio didn't work (>3.125%), we will do a basic height ratio.  it works well on other fonts
-                if (!error && std::abs(64 - float(face->size->metrics.height) / GDIMetrics.tmHeight) > 2) {
-                    fRatio = static_cast<FT_UInt>(float(GDIMetrics.tmHeight) / tHeight * 0xffff * 64);
-                    error = FT_Set_Pixel_Sizes(face, fRatio, fRatio);
-                }
-                if (!error) {
-                    tmAscent = GDIMetrics.tmAscent;
-                    faceCache[fontNameK] = { fontData, face, fRatio, tmAscent };
-                }
-            }
-        }
-
+    if (ftLibraryData && ftLibraryData->IsInitialized()) {
+        //error = FT_Load_Char(face, ch, FT_LOAD_NO_HINTING|FT_LOAD_NO_BITMAP);
+        FT_UInt cp =  GetLangCodePoint(ch, fd);
+        error = FT_Load_Glyph(face, cp, FT_LOAD_NO_HINTING | FT_LOAD_NO_BITMAP);
         if (!error) {
-            BEGIN_PERF_TIMER(FT_Load_Glyph)
-            error = FT_Load_Char(face, ch, FT_LOAD_NO_HINTING|FT_LOAD_NO_BITMAP);
-            if (!error) {
-                FT_Glyph_Metrics* metrics = &face->glyph->metrics;
-                FTPathData pd;
-                pd.dx = dx;
-                pd.dy = dy;
-                pd.r = this;
-                pd.tmAscent = tmAscent; //this is the y baseline.  match windows and not Freetype
-                error = FT_Outline_Decompose(&face->glyph->outline, &ft_decompose_funcs, (void*)&pd);
-                END_PERF_TIMER(FT_Load_Glyph, "2", fontName)
+            FT_Glyph_Metrics* metrics = &face->glyph->metrics;
+            FTPathData pd;
+            pd.dx = dx;
+            pd.dy = dy;
+            pd.r = this;
+            pd.tmAscent = fc[fontNameK].ascent; //this is the y baseline.  match windows and not Freetype
+            error = FT_Outline_Decompose(&face->glyph->outline, &ft_decompose_funcs, (void*)&pd);
 #if 0
-                for (int a = 0; a < mPathPoints; a++) {
-                    TRACE("winxxx\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
-                }
-#endif
-                int nPoints = pd.ftPoints.size();
-                if (nPoints > 0 && ResizePath(nPoints)) {
-                    for (int a = 0; a < pd.ftPoints.size(); a++) {
-                        mpPathTypes[mPathPoints + a] = pd.ftTypes[a];
-                        mpPathPoints[mPathPoints + a] = pd.ftPoints[a];
-                    }
-                    mPathPoints += nPoints;
-                } else {
-                    error = nPoints > 0 || !CStringW::StrTraits::IsSpace(ch);
-                }
-#if 0
-                for (int a = mPathPoints - nPoints; a < mPathPoints; a++) {
-                    TRACE("ft\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
-                }
-#endif
+            for (int a = 0; a < mPathPoints; a++) {
+                TRACE("winxxx\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
             }
+#endif
+            int nPoints = pd.ftPoints.size();
+            if (nPoints > 0 && ResizePath(nPoints)) {
+                for (int a = 0; a < pd.ftPoints.size(); a++) {
+                    mpPathTypes[mPathPoints + a] = pd.ftTypes[a];
+                    mpPathPoints[mPathPoints + a] = pd.ftPoints[a];
+                }
+                mPathPoints += nPoints;
+            } else {
+                error = nPoints > 0 || !CStringW::StrTraits::IsSpace(ch);
+            }
+#if 0
+            for (int a = mPathPoints - nPoints; a < mPathPoints; a++) {
+                TRACE("ft\t%d\t%d\t%d\n", mpPathPoints[a].x, mpPathPoints[a].y, mpPathTypes[a]);
+            }
+#endif
         }
         if (!error) {
-            END_PERF_TIMER(GetPathFreeType, "function", CW2A(fontName));
+            END_PERF_TIMER(GetPathFreeType, "function", fontNameK);
             return true;
         }
     }

@@ -224,6 +224,10 @@ BOOL CPPageSubtitles::OnApply()
     CRenderersSettings& r = GetRenderersSettings();
     bool changed = false;
 
+    if (m_nSubDelayStep < 10) {
+        m_nSubDelayStep = 500;
+    }
+
     r.subPicQueueSettings.nSize = m_nSPQSize;
     s.nSubDelayStep = m_nSubDelayStep;
     TranslateResUIPosToSetting(m_cbSPQMaxRes.GetCurSel(), r.subPicQueueSettings.nMaxResX, r.subPicQueueSettings.nMaxResY);

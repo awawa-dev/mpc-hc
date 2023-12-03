@@ -155,10 +155,6 @@ msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
 msgstr "&Normal"
 
-msgctxt "ID_VIEW_MPCTHEME"
-msgid "Dark Theme (restart)"
-msgstr "Mörkt tema (omstart)"
-
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
 msgstr "He&lskärm"
@@ -448,8 +444,8 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Korrigera bildförhållandet mellan skärm/skrivbord"
 
 msgctxt "POPUP"
-msgid "Pa&n && Scan"
-msgstr "Pan && S&can"
+msgid "P&nS Frame Adjust"
+msgstr ""
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

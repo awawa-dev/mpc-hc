@@ -25,7 +25,6 @@
 #include "PlayerListCtrl.h"
 #include "CMPCThemeComboBox.h"
 #include "CMPCThemeSpinButtonCtrl.h"
-#include "CMPCThemePlayerListCtrl.h"
 
 // CPPageFullscreen dialog
 
@@ -60,7 +59,7 @@ private:
     BOOL m_bAutoChangeFSModeRestoreResAfterProgExit;
     unsigned m_uAutoChangeFullscrResDelay;
 
-    CMPCThemePlayerListCtrl m_list;
+    CPlayerListCtrl m_list;
     enum {
         COL_N,
         COL_FRAMERATE_START,

@@ -300,17 +300,33 @@ void CPropPageFrameDefault::DrawCaption(CDC *pDc, CRect rect, LPCTSTR lpszCaptio
     int             nBkStyle = pDc->SetBkMode(TRANSPARENT);
     CFont           *pFont = (CFont*)pDc->SelectStockObject(SYSTEM_FONT);
 
-    // <MPC-HC Custom Code>
+// <MPC-HC Custom Code>
     LOGFONT lf;
     GetMessageFont(&lf);
-    lf.lfHeight = rect.Height();
+    lf.lfHeight = static_cast<long>(-.8f * rect.Height());
     lf.lfWeight = FW_BOLD;
-    // <MPC-HC Custom Code>
     CFont f;
-    f.CreateFontIndirect(&lf);
-    pDc->SelectObject(&f);
+    f.CreateFontIndirectW(&lf);
+    pFont = pDc->SelectObject(&f);
 
-    pDc->DrawText(lpszCaption, rect, DT_LEFT|DT_VCENTER|DT_SINGLELINE|DT_END_ELLIPSIS);
+    TEXTMETRIC GDIMetrics;
+    GetTextMetricsW(pDc->GetSafeHdc(), &GDIMetrics);
+    while (GDIMetrics.tmHeight > rect.Height() && abs(lf.lfHeight) > 10) {
+        pDc->SelectObject(pFont);
+        f.DeleteObject();
+        lf.lfHeight++;
+        f.CreateFontIndirectW(&lf);
+        pDc->SelectObject(&f);
+        GetTextMetricsW(pDc->GetSafeHdc(), &GDIMetrics);
+    }
+
+    rect.top -= GDIMetrics.tmDescent - 1;
+//    CFont f;
+//    f.CreateFontIndirect(&lf);
+//    pDc->SelectObject(&f);
+    pDc->DrawText(lpszCaption, rect, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS);
+// <MPC-HC Custom Code>
+
 
     pDc->SetTextColor(clrPrev);
     pDc->SetBkMode(nBkStyle);

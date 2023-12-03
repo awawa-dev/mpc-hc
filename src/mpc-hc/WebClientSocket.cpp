@@ -212,6 +212,7 @@ void CWebClientSocket::HandleRequest()
         }
 
         reshdr +=
+            "Access-Control-Allow-Origin: *\r\n"
             "Server: MPC-HC WebServer\r\n"
             "Connection: close\r\n"
             "\r\n";
@@ -239,10 +240,18 @@ void CWebClientSocket::ParseHeader(const char* headerEnd)
 
     // Parse the request type
     end = strchr(start, ' ');
+    if (!end) {
+        ASSERT(false);
+        return;
+    }
     m_cmd.SetString(start, int(end - start));
     m_cmd.MakeUpper();
     start = end + 1;
     end = strchr(start, ' ');
+    if (!end) {
+        ASSERT(false);
+        return;
+    }
     m_path.SetString(start, int(end - start));
     start = end + 1;
     end = strstr(start, "\r\n");
@@ -702,6 +711,7 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
 {
     CString path = m_pMainFrame->m_wndPlaylistBar.GetCurFileName();
     CString dir;
+    CString strName;
 
     if (!path.IsEmpty() && !PathUtils::IsURL(path)) {
         CPath p(path);
@@ -754,6 +764,10 @@ bool CWebClientSocket::OnVariables(CStringA& hdr, CStringA& body, CStringA& mime
     body.Replace("[size]", UTF8(GetSize()));
     body.Replace("[reloadtime]", UTF8(reloadtime));
     body.Replace("[version]", UTF8(AfxGetMyApp()->m_strVersion));
+    m_pMainFrame->GetCurrentAudioTrackIdx(&strName);
+    body.Replace("[audiotrack]", UTF8(strName));
+    m_pMainFrame->GetCurrentSubtitleTrackIdx(&strName);
+    body.Replace("[subtitletrack]", UTF8(strName));
 
     return true;
 }

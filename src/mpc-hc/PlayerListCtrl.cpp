@@ -484,7 +484,7 @@ void CInPlaceListBox::OnNcDestroy()
 
 // CPlayerListCtrl
 
-IMPLEMENT_DYNAMIC(CPlayerListCtrl, CListCtrl)
+IMPLEMENT_DYNAMIC(CPlayerListCtrl, CMPCThemePlayerListCtrl)
 CPlayerListCtrl::CPlayerListCtrl(int tStartEditingDelay)
     : m_nItemClicked(-1)
     , m_nSubItemClicked(-1)
@@ -836,7 +836,7 @@ CListBox* CPlayerListCtrl::ShowInPlaceListBox(int nItem, int nCol, CAtlList<CStr
     return pListBox;
 }
 
-BEGIN_MESSAGE_MAP(CPlayerListCtrl, CListCtrl)
+BEGIN_MESSAGE_MAP(CPlayerListCtrl, CMPCThemePlayerListCtrl)
     ON_WM_VSCROLL()
     ON_WM_HSCROLL()
     ON_WM_MOUSEWHEEL()

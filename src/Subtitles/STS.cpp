@@ -33,8 +33,8 @@
 #include "../DSUtil/DSUtil.h"
 #include  <comutil.h>
 #include <regex>
-#include "SSASub.h"
-#include "../mpc-hc/RegexUtil.h"
+#include "LibassContext.h"
+#include "../DSUtil/RegexUtil.h"
 #include "../mpc-hc/SubtitlesProvidersUtils.h"
 #include "../DSUtil/ISOLang.h"
 
@@ -223,13 +223,10 @@ static std::wstring SSAColorTagCS(std::wstring arg, CStringW ctag = L"c") {
 const BYTE CharSetList[] = {
     ANSI_CHARSET,
     DEFAULT_CHARSET,
-    SYMBOL_CHARSET,
     SHIFTJIS_CHARSET,
-    HANGEUL_CHARSET,
     HANGUL_CHARSET,
     GB2312_CHARSET,
     CHINESEBIG5_CHARSET,
-    OEM_CHARSET,
     JOHAB_CHARSET,
     HEBREW_CHARSET,
     ARABIC_CHARSET,
@@ -239,20 +236,16 @@ const BYTE CharSetList[] = {
     THAI_CHARSET,
     EASTEUROPE_CHARSET,
     RUSSIAN_CHARSET,
-    MAC_CHARSET,
     BALTIC_CHARSET
 };
 
 const TCHAR* CharSetNames[] = {
     _T("ANSI"),
     _T("DEFAULT"),
-    _T("SYMBOL"),
     _T("SHIFTJIS"),
-    _T("HANGEUL"),
     _T("HANGUL"),
     _T("GB2312"),
     _T("CHINESEBIG5"),
-    _T("OEM"),
     _T("JOHAB"),
     _T("HEBREW"),
     _T("ARABIC"),
@@ -262,7 +255,6 @@ const TCHAR* CharSetNames[] = {
     _T("THAI"),
     _T("EASTEUROPE"),
     _T("RUSSIAN"),
-    _T("MAC"),
     _T("BALTIC"),
 };
 
@@ -500,15 +492,32 @@ static CStringW SubRipper2SSA(CStringW str)
     return str;
 }
 
-static void WebVTTCueStrip(CStringW& str)
+CStringW WebVTTCueStrip(CStringW& str)
 {
+    CStringW cues;
     int p = str.Find(L'\n');
-    if (p > 0) {
-        if (str.Left(6) == _T("align:") || str.Left(9) == _T("position:") || str.Left(9) == _T("vertical:") || str.Left(5) == _T("line:") || str.Left(5) == _T("size:")) {
-            str.Delete(0, p);
-            str.TrimLeft();
+    if (p == 0) p = str.Find(L'\r');
+    if (p > 0 && p < 6) { // check for optional cue id: https://w3c.github.io/webvtt/#webvtt-cue-identifier
+        int cueid;
+        WCHAR cr;
+        int c = swscanf_s(str.Left(p), L"%d%c", &cueid, &cr, 1);
+        if (c == 1 || c == 2 && cr == L'\r') {
+            str.Delete(0, p + 1);
+            p = str.Find(L'\n');
+            if (p == 0) p = str.Find(L'\r');
         }
     }
+    if (p > 0) {
+        if (str.Left(6) == _T("align:") || str.Left(9) == _T("position:") || str.Left(9) == _T("vertical:") || str.Left(5) == _T("line:") || str.Left(5) == _T("size:")) {
+            if (p > 1 && str[p - 1] == L'\r') {
+                cues = str.Left(p - 1);
+            } else {
+                cues = str.Left(p);
+            }
+            str.Delete(0, p + 1);
+        }
+    }
+    return cues;
 }
 
 using WebVTTcolorData = struct _WebVTTcolorData { std::wstring color; std::wstring bg; bool applied = false; };
@@ -847,7 +856,7 @@ static bool OpenVTT(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet) {
 }
 
 
-static bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
+bool OpenSubRipper(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
     CStringW buff, start, end;
     while (file->ReadString(buff)) {
@@ -1744,7 +1753,7 @@ static bool LoadUUEFont(CTextFile* file)
     return true;
 }
 
-static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
+bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
 {
     bool fRet = false;
     int version = 3, sver = 3;
@@ -1971,7 +1980,7 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
             if (nBuffLength) {
                 buff = GetStrW(pszBuff, nBuffLength);
                 buff.MakeLower();
-                ret.m_fScaledBAS = buff.Find(L"yes") >= 0;
+                ret.m_scaledBAS = (buff.Find(L"yes") >= 0) ? 1 : 0;
             }
         } else if (entry == L"[v4 styles]") {
             fRet = true;
@@ -1984,6 +1993,8 @@ static bool OpenSubStationAlpha(CTextFile* file, CSimpleTextSubtitle& ret, int C
             sver = 6;
         } else if (entry == L"[events]") {
             fRet = true;
+        } else if (entry == L"language") {
+            ret.openTypeLangHint = WToA(GetStrW(pszBuff, nBuffLength));
         } else if (entry == L"fontname") {
             LoadUUEFont(file);
         } else if (entry == L"ycbcr matrix") {
@@ -2287,30 +2298,19 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_layoutRes(CSize(0, 0))
     , m_defaultWrapStyle(0)
     , m_collisions(0)
-    , m_fScaledBAS(false)
+    , m_scaledBAS(-1)
     , m_bUsingPlayerDefaultStyle(false)
     , m_ePARCompensationType(EPCTDisabled)
     , m_dPARCompensation(1.0)
+    , m_SubRendererSettings(AfxGetAppSettings().GetSubRendererSettings())
 #if USE_LIBASS
-    , m_renderUsingLibass(true)
-    , m_openTypeLangHint()
-    , m_assloaded(false)
-    , m_assfontloaded(false)
-    , m_pGraph(nullptr)
-    , m_pPin(nullptr)
-    , m_ass(nullptr)
-    , m_renderer(nullptr)
-    , m_track(nullptr)
+    , m_LibassContext(this)
 #endif
 {
 }
 
 CSimpleTextSubtitle::~CSimpleTextSubtitle()
 {
-#if USE_LIBASS
-    UnloadASS();
-#endif
-
     Empty();
 }
 /*
@@ -2341,7 +2341,7 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
         m_layoutRes = sts.m_layoutRes;
         m_defaultWrapStyle = sts.m_defaultWrapStyle;
         m_collisions = sts.m_collisions;
-        m_fScaledBAS = sts.m_fScaledBAS;
+        m_scaledBAS = sts.m_scaledBAS;
         m_encoding = sts.m_encoding;
         m_bUsingPlayerDefaultStyle = sts.m_bUsingPlayerDefaultStyle;
         m_provider = sts.m_provider;
@@ -2349,10 +2349,9 @@ void CSimpleTextSubtitle::Copy(CSimpleTextSubtitle& sts)
         CopyStyles(sts.m_styles);
         m_segments.Copy(sts.m_segments);
         __super::Copy(sts);
-
 #if USE_LIBASS
-        if (m_assloaded) {
-            LoadASSFile(m_subtitleType);
+        if (m_LibassContext.IsLibassActive()) {
+            m_LibassContext.LoadASSFile(m_subtitleType);
         }
 #endif
     }
@@ -2445,8 +2444,9 @@ void CSimpleTextSubtitle::Add(CStringW str, bool fUnicode, REFERENCE_TIME start,
     }
     //TRACE(_T("CSimpleTextSubtitle::Add (%d) = %s\n"), m_segments.GetCount(), str.GetString());
     if (m_subtitleType == Subtitle::VTT) {
-        WebVTTCueStrip(str);
-        WebVTT2SSA(str);
+        CStringW cueTags = WebVTTCueStrip(str);
+        WebVTTcolorMap clrMap;
+        WebVTT2SSA(str, cueTags, clrMap);
         if (str.IsEmpty()) return;
     }
 
@@ -2587,6 +2587,8 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
         m_bUsingPlayerDefaultStyle = true;
     }
 
+    m_originalDefaultStyle = *ret;
+
     return ret;
 }
 
@@ -2683,6 +2685,15 @@ bool CSimpleTextSubtitle::SetDefaultStyle(const STSStyle& s)
         m_bUsingPlayerDefaultStyle = true;
     }
 
+    bool changed = (s != m_SubRendererSettings.defaultStyle);
+    if (changed) {
+        m_SubRendererSettings.defaultStyle = s;
+#if USE_LIBASS
+        if (m_LibassContext.IsLibassActive()) {
+            m_LibassContext.DefaultStyleChanged();
+        }
+#endif
+    }
     return true;
 }
 
@@ -3117,6 +3128,13 @@ void CSimpleTextSubtitle::CreateSegments()
     */
 }
 
+void CSimpleTextSubtitle::FlushEventsLibass()
+{
+    if (m_LibassContext.IsLibassActive()) {
+        ass_flush_events(m_LibassContext.m_track.get());
+    }
+}
+
 bool CSimpleTextSubtitle::Open(CString fn, int CharSet, CString name, CString videoName)
 {
     Empty();
@@ -3199,49 +3217,33 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
         m_langname = ISOLang::LCIDToLanguage(m_lcid);
     }
 
-#if USE_LIBASS
-    if (m_renderUsingLibass) {
-        if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ass") == 0 || lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".ssa") == 0) {
-            CreateDefaultStyle(CharSet);
-            m_path = f->GetFilePath();
-            LoadASSFile(Subtitle::SubType::SSA);
-            m_subtitleType = Subtitle::SubType::SSA;
-            OpenSubStationAlpha(f, *this, CharSet);
-            CWebTextFile f2(CTextFile::UTF8);
-            if (f2.Open(f->GetFilePath() + _T(".style"))) {
-                OpenSubStationAlpha(&f2, *this, CharSet);
+    auto initRes = [&]() {
+        if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
+            m_storageRes = m_layoutRes;
+        } else if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
+            if (m_playRes.cx > 0 && m_playRes.cy > 0) {
+                m_storageRes = m_playRes;
+            } else {
+                m_storageRes = CSize(384, 288);
             }
-        } else if (lstrcmpi(PathFindExtensionW(f->GetFilePath()), L".srt") == 0) {
-            CreateDefaultStyle(CharSet);
-            m_path = f->GetFilePath();
-            LoadASSFile(Subtitle::SubType::SRT);
-            m_subtitleType = Subtitle::SubType::SRT;
-            OpenSubRipper(f, *this, CharSet);
         }
-
-        if (m_assloaded) {
-            m_name = name;
-            m_encoding = f->GetEncoding();
-            m_mode = TIME;
-
-            ChangeUnknownStylesToDefault();
-
-            if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
-                if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
-                    m_storageRes = m_layoutRes;
-                } else if (m_playRes.cx > 0 && m_playRes.cy > 0) {
-                    m_storageRes = m_playRes;
-                } else {
-                    m_storageRes = CSize(384, 288);
-                }
-            }
-            if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
-                m_playRes = m_storageRes;
-            }
-            return true;
+        if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
+            m_playRes = m_storageRes;
         }
-    }
-#endif
+    };
+
+    auto loadSSAStyle = [&]() {
+        CWebTextFile f2(CTextFile::UTF8);
+        if (f2.Open(f->GetFilePath() + _T(".style"))) {
+            OpenSubStationAlpha(&f2, *this, CharSet);
+        }
+    };
+
+    auto setVars = [&](auto name, auto encoding, auto mode) {
+        m_name = name;
+        m_encoding = encoding;
+        m_mode = mode;
+    };
 
     ULONGLONG pos = f->GetPosition();
 
@@ -3264,35 +3266,27 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
             continue;
         }
 
-        m_name = name;
-        m_subtitleType = OpenFuncts[i].type;
-        m_mode = OpenFuncts[i].mode;
-        m_encoding = f->GetEncoding();
         m_path = f->GetFilePath();
-
-        // No need to call Sort() or CreateSegments(), everything is done on the fly
-
-        CWebTextFile f2(CTextFile::UTF8);
-        if (f2.Open(f->GetFilePath() + _T(".style"))) {
-            OpenSubStationAlpha(&f2, *this, CharSet);
-        }
-
+        m_subtitleType = OpenFuncts[i].type;
+        setVars(name, f->GetEncoding(), OpenFuncts[i].mode);
         CreateDefaultStyle(CharSet);
 
-        ChangeUnknownStylesToDefault();
+#if USE_LIBASS
+        if ((m_subtitleType == Subtitle::SubType::SSA || m_subtitleType == Subtitle::SubType::ASS) && m_SubRendererSettings.renderSSAUsingLibass) {
+            m_LibassContext.LoadASSFile(Subtitle::SubType::SSA);
+        } else if (m_subtitleType == Subtitle::SubType::SRT && m_SubRendererSettings.renderSRTUsingLibass) {
+            m_LibassContext.LoadASSFile(Subtitle::SubType::SRT);
+        }
+        if (m_LibassContext.IsLibassActive()) {
+            // we are done now
+            // note: the subtitle data loaded by internal parser is kept so that saving (downloaded) subtitle works
+            return true;
+        }
+#endif
 
-        if (m_layoutRes.cx > 0 && m_layoutRes.cy > 0) {
-            m_storageRes = m_layoutRes;
-        } else if (m_storageRes.cx <= 0 || m_storageRes.cy <= 0) {
-            if (m_playRes.cx > 0 && m_playRes.cy > 0) {
-                m_storageRes = m_playRes;
-            } else {
-                m_storageRes = CSize(384, 288);
-            }
-        }
-        if (m_playRes.cx <= 0 || m_playRes.cy <= 0) {
-            m_playRes = m_storageRes;
-        }
+        loadSSAStyle();
+        ChangeUnknownStylesToDefault();
+        initRes();
 
         return true;
     }
@@ -3300,185 +3294,6 @@ bool CSimpleTextSubtitle::Open(CTextFile* f, int CharSet, CString name) {
     m_path = _T("");
     return false;
 }
-
-#if USE_LIBASS
-
-void CSimpleTextSubtitle::SetSubRenderSettings(SubRendererSettings settings) {
-    bool wasUsingLibass = subRendererSettings.renderUsingLibass;
-    subRendererSettings = settings;
-    if (settings.renderUsingLibass || wasUsingLibass) {
-        ResetASS();
-    }
-}
-
-void CSimpleTextSubtitle::ResetASS() {
-    if (subRendererSettings.renderUsingLibass) { 
-        m_renderUsingLibass = true;
-        if (!m_path.IsEmpty()) {
-            LoadASSFile(m_subtitleType);
-        }
-    } else {
-        if (m_assloaded) {
-            UnloadASS();
-        }
-        m_renderUsingLibass = false;
-    }
-}
-
-bool CSimpleTextSubtitle::LoadASSFile(Subtitle::SubType subType) {
-    if (m_path.IsEmpty() || !PathUtils::Exists(m_path)) return false;
-    UnloadASS();
-
-    m_assfontloaded = false;
-
-    m_ass = decltype(m_ass)(ass_library_init());
-    ass_set_extract_fonts(m_ass.get(), true);
-    ass_set_style_overrides(m_ass.get(), NULL);
-
-    m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
-    ass_set_use_margins(m_renderer.get(), false);
-    ass_set_font_scale(m_renderer.get(), 1.0);
-
-    STSStyle defStyle;
-    GetDefaultStyle(defStyle);
-    if (subType == Subtitle::SRT) {
-        m_track = decltype(m_track)(srt_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), defStyle.charSet, defStyle, subRendererSettings));
-        if (m_storageRes == CSize(0, 0)) {
-            m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
-        }
-    } else { //subType == Subtitle::SSA/ASS
-        m_track = decltype(m_track)(ass_read_file(m_ass.get(), const_cast<char*>((const char*)(CStringA)m_path), "UTF-8"));
-        if (m_storageRes == CSize(0, 0)) {
-            m_storageRes = CSize(defStyle.SrtResX, defStyle.SrtResY);
-        }
-    }
-
-    if (!m_track) return false;
-
-    CT2CA tmpFontName(defStyle.fontName);
-    ass_set_fonts(m_renderer.get(), NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
-
-    m_assloaded = true;
-    m_assfontloaded = true;
-
-    return true;
-}
-
-bool CSimpleTextSubtitle::LoadASSTrack(char* data, int size, Subtitle::SubType subType) {
-    UnloadASS();
-    m_assfontloaded = false;
-
-    m_ass = decltype(m_ass)(ass_library_init());
-    m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
-    m_track = decltype(m_track)(ass_new_track(m_ass.get()));
-
-    if (!m_track) return false;
-
-    STSStyle defStyle;
-    GetDefaultStyle(defStyle);
-    if (subType == Subtitle::SRT) {
-        std::stringstream srtData;
-        srtData.write(data, size);
-        srt_read_data(m_ass.get(), m_track.get(), srtData, defStyle.charSet, defStyle, subRendererSettings);
-    } else { //subType == Subtitle::SSA/ASS
-        ass_process_codec_private(m_track.get(), data, size);
-    }
-    CT2CA tmpFontName(defStyle.fontName);
-    ass_set_fonts(m_renderer.get(), NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
-    //don't set m_assfontloaded here, in case we can load embedded fonts later?
-
-    m_assloaded = true;
-    return true;
-}
-
-void CSimpleTextSubtitle::LoadASSFont(IPin* pPin, ASS_Library* ass, ASS_Renderer* renderer) {
-    // Try to load fonts in the container
-    CComPtr<IAMGraphStreams> graphStreams;
-    CComPtr<IDSMResourceBag> bag;
-    if (m_pGraph && SUCCEEDED(m_pGraph->QueryInterface(IID_PPV_ARGS(&graphStreams))) &&
-        SUCCEEDED(graphStreams->FindUpstreamInterface(pPin, IID_PPV_ARGS(&bag), AM_INTF_SEARCH_FILTER))) {
-        for (DWORD i = 0; i < bag->ResGetCount(); ++i) {
-            _bstr_t name, desc, mime;
-            BYTE* pData = nullptr;
-            DWORD len = 0;
-            if (SUCCEEDED(bag->ResGet(i, &name.GetBSTR(), &desc.GetBSTR(), &mime.GetBSTR(), &pData, &len, nullptr))) {
-                if (wcscmp(mime.GetBSTR(), L"application/x-truetype-font") == 0 ||
-                    wcscmp(mime.GetBSTR(), L"application/vnd.ms-opentype") == 0) // TODO: more mimes?
-                {
-                    ass_add_font(ass, (char*)name, (char*)pData, len);
-                    // TODO: clear these fonts somewhere?
-                }
-                CoTaskMemFree(pData);
-            }
-        }
-        m_assfontloaded = true;
-        STSStyle defStyle;
-        GetDefaultStyle(defStyle);
-        CT2CA tmpFontName(defStyle.fontName);
-        ass_set_fonts(renderer, NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_DIRECTWRITE, NULL, 0);
-    }
-}
-
-void CSimpleTextSubtitle::UnloadASS() {
-    m_assloaded = false;
-    if (m_track) m_track.reset();
-    if (m_renderer) m_renderer.reset();
-    if (m_ass) m_ass.reset();
-}
-
-void CSimpleTextSubtitle::LoadASSSample(char *data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop) {
-    if (m_renderUsingLibass) {
-        if (m_subtitleType == Subtitle::SRT) { //received SRT sample, try to use libass to handle
-            if (!m_assloaded) { //create ass header
-                UnloadASS();
-                m_assfontloaded = false;
-
-                m_ass = decltype(m_ass)(ass_library_init());
-                m_renderer = decltype(m_renderer)(ass_renderer_init(m_ass.get()));
-                m_track = decltype(m_track)(ass_new_track(m_ass.get()));
-
-                char outBuffer[1024];
-                STSStyle defStyle;
-                GetDefaultStyle(defStyle);
-                srt_header(outBuffer, defStyle, subRendererSettings);
-                ass_process_codec_private(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))));
-                m_assloaded = true;
-            }
-
-            if (m_assloaded) {
-                char subLineData[1024]{};
-                strncpy_s(subLineData, _countof(subLineData), data, dataSize);
-                std::string str = subLineData;
-
-                // This is the way i use to get a unique id for the subtitle line
-                // It will only fail in the case there is 2 or more lines with the same start timecode
-                // (Need to check if the matroska muxer join lines in such a case)
-                REFERENCE_TIME m_iSubLineCount = tStart / 10000;
-
-                // Change srt tags to ass tags
-                STSStyle defStyle;
-                GetDefaultStyle(defStyle);
-                ParseSrtLine(str, defStyle);
-
-                // Add the custom tags
-                CT2CA tmpCustomTags(defStyle.customTags);
-                str.insert(0, std::string(tmpCustomTags));
-
-                // Add blur
-                char blur[20]{};
-                _snprintf_s(blur, _TRUNCATE, "{\\blur%u}", defStyle.fBlur);
-                str.insert(0, blur);
-
-                // ASS in MKV: ReadOrder, Layer, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-                char outBuffer[1024]{};
-                _snprintf_s(outBuffer, _TRUNCATE, "%lld,0,Default,Main,0,0,0,,%s", m_iSubLineCount, str.c_str());
-                ass_process_chunk(m_track.get(), outBuffer, static_cast<int>(strnlen_s(outBuffer, sizeof(outBuffer))), tStart / 10000, (tStop - tStart) / 10000);
-            }
-        }
-    }
-}
-
-#endif
 
 bool CSimpleTextSubtitle::Open(CString provider, BYTE* data, int len, int CharSet, CString name, Subtitle::HearingImpairedType eHearingImpaired, LCID lcid)
 {
@@ -3565,8 +3380,12 @@ bool CSimpleTextSubtitle::SaveAs(CString fn, Subtitle::SubType type,
         str += _T("; Note: This file was saved by MPC-HC.\n");
         str += (type == Subtitle::SSA) ? _T("ScriptType: v4.00\n") : _T("ScriptType: v4.00+\n");
         str += (m_collisions == 0) ? _T("Collisions: Normal\n") : _T("Collisions: Reverse\n");
-        if (type == Subtitle::ASS && m_fScaledBAS) {
-            str += _T("ScaledBorderAndShadow: Yes\n");
+        if (type == Subtitle::ASS && m_scaledBAS >= 0) {
+            if (m_scaledBAS == 1) {
+                str += _T("ScaledBorderAndShadow: yes\n");
+            } else {
+                str += _T("ScaledBorderAndShadow: no\n");
+            }
         }
         if (m_sYCbCrMatrix.IsEmpty()) {
             str += _T("YCbCr Matrix: None\n");
@@ -3807,14 +3626,14 @@ bool STSStyle::operator == (const STSStyle& s) const
     return (marginRect == s.marginRect
             && scrAlignment == s.scrAlignment
             && borderStyle == s.borderStyle
-            && outlineWidthX == s.outlineWidthX
-            && outlineWidthY == s.outlineWidthY
-            && shadowDepthX == s.shadowDepthX
-            && shadowDepthY == s.shadowDepthY
+            && abs(outlineWidthX - s.outlineWidthX) < 0.00000001
+            && abs(outlineWidthY - s.outlineWidthY) < 0.00000001
+            && abs(shadowDepthX - s.shadowDepthX) < 0.00000001
+            && abs(shadowDepthY - s.shadowDepthY) < 0.00000001
             && colors == s.colors
             && alpha == s.alpha
             && fBlur == s.fBlur
-            && fGaussianBlur == s.fGaussianBlur
+            && abs(fGaussianBlur - s.fGaussianBlur) < 0.00000001
             && relativeTo == s.relativeTo
             && IsFontStyleEqual(s));
 }
@@ -3825,19 +3644,18 @@ bool STSStyle::IsFontStyleEqual(const STSStyle& s) const
                charSet == s.charSet
                && fontName == s.fontName
                && fontSize == s.fontSize
-               && fontScaleX == s.fontScaleX
-               && fontScaleY == s.fontScaleY
-               && fontSpacing == s.fontSpacing
+               && abs(fontScaleX - s.fontScaleX) < 0.00000001
+               && abs(fontScaleY - s.fontScaleY) < 0.00000001
+               && abs(fontSpacing - s.fontSpacing) < 0.00000001
                && fontWeight == s.fontWeight
                && fItalic == s.fItalic
                && fUnderline == s.fUnderline
                && fStrikeOut == s.fStrikeOut
-               && fontAngleZ == s.fontAngleZ
-               && fontAngleX == s.fontAngleX
-               && fontAngleY == s.fontAngleY
-               // patch f001. fax fay patch (many instances at line)
-               && fontShiftX == s.fontShiftX
-               && fontShiftY == s.fontShiftY);
+               && abs(fontAngleZ - s.fontAngleZ) < 0.00000001
+               && abs(fontAngleX - s.fontAngleX) < 0.00000001
+               && abs(fontAngleY - s.fontAngleY) < 0.00000001
+               && abs(fontShiftX - s.fontShiftX) < 0.00000001
+               && abs(fontShiftY - s.fontShiftY) < 0.00000001);
 }
 
 STSStyle& STSStyle::operator = (LOGFONT& lf)
@@ -3986,4 +3804,27 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     }
 
     return !ret.IsEmpty();
+}
+
+// RenderersSettings.h
+
+CRenderersData* GetRenderersData() {
+    return &AfxGetMyApp()->m_Renderers;
+}
+
+CRenderersSettings& GetRenderersSettings() {
+    return AfxGetAppSettings().m_RenderersSettings;
+}
+
+// ToDo: move these settings into CRendererSettings or make an implementation similar to CRendererSettings that holds old subtitle settings
+SubRendererSettings CAppSettings::GetSubRendererSettings() {
+    SubRendererSettings s;
+    s.defaultStyle = this->subtitlesDefStyle;
+    s.overrideDefaultStyle = this->fUseDefaultSubtitlesStyle;
+#if USE_LIBASS
+    s.renderSSAUsingLibass = this->bRenderSSAUsingLibass;
+    s.renderSRTUsingLibass = this->bRenderSRTUsingLibass;
+#endif
+    OpenTypeLang::CStringAtoHintStr(s.openTypeLangHint, this->strOpenTypeLangHint);
+    return s;
 }

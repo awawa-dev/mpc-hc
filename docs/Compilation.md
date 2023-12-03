@@ -2,7 +2,7 @@
 
 ## Part A: Preparing the Visual Studio environment
 
-### Visual Studio 2019 (or 2017)
+### Visual Studio 2019
 
 1. Install Visual Studio (any edition will work fine). Select at minimum the following components:
     - C++ core features
@@ -134,7 +134,7 @@ stable version instead of the latest development version.
 
 ## PART G: Install NASM
 
-1. Download NASM from <https://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.zip>
+1. Download NASM from <https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip>
 2. Put nasm.exe in the VC folder of your Visual Studio intallation.
    Example: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC
 

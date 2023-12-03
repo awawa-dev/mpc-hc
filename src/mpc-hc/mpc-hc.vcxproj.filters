@@ -590,12 +590,17 @@
     <ClCompile Include="PlayerPreView.cpp">
       <Filter>Toolbars</Filter>
     </ClCompile>
-    <ClCompile Include="RegexUtil.cpp" />
     <ClCompile Include="MediaTransControls.cpp">
       <Filter>Main View</Filter>
     </ClCompile>
     <ClCompile Include="ModelessResizableDialog.cpp">
       <Filter>Modal Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseWndWithArtView.cpp">
+      <Filter>Main View</Filter>
+    </ClCompile>
+    <ClCompile Include="PPageTheme.cpp">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1126,12 +1131,18 @@
     <ClInclude Include="PlayerPreView.h">
       <Filter>Toolbars</Filter>
     </ClInclude>
-    <ClInclude Include="RegexUtil.h" />
     <ClInclude Include="MediaTransControls.h">
       <Filter>Main View</Filter>
     </ClInclude>
     <ClInclude Include="ModelessResizableDialog.h">
       <Filter>Modal Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseWndWithArtView.h">
+      <Filter>Main View</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\mpc-hc_config.h" />
+    <ClInclude Include="PPageTheme.h">
+      <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1399,6 +1410,11 @@
       <Filter>MPCTheme\resources</Filter>
     </Image>
     <Image Include="res\noimage.png" />
+    <Image Include="res\darktheme\gripper-168.png" />
+    <Image Include="res\darktheme\gripper-144.png" />
+    <Image Include="res\darktheme\gripper-192.png" />
+    <Image Include="res\darktheme\gripper-96.png" />
+    <Image Include="res\darktheme\gripper-120.png" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\subtitles\favicon_opensubtitles.ico">

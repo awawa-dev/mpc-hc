@@ -242,6 +242,8 @@ private:
     friend class CMouse;
     friend class CPlayerSeekBar; // for accessing m_controls.ControlChecked()
     friend class CChildView; // for accessing m_controls.DelayShowNotLoaded()
+    friend class CFullscreenWnd; // for accessing m_controls.DelayShowNotLoaded()
+    friend class CMouseWndWithArtView; // for accessing m_controls.DelayShowNotLoaded()
     friend class SubtitlesProvider;
 
     // TODO: wrap these graph objects into a class to make it look cleaner
@@ -336,6 +338,8 @@ private:
     CString m_statusbarVideoSize;
 
     SubtitleInput* GetSubtitleInput(int& i, bool bIsOffset = false);
+    bool IsValidAudioStream(int i);
+    bool IsValidSubtitleStream(int i);
 
     friend class CTextPassThruFilter;
 
@@ -371,7 +375,7 @@ private:
     bool SetupShadersSubMenu();
     void SetupRecentFilesSubMenu();
 
-    void SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup);
+    DWORD SetupNavStreamSelectSubMenu(CMenu& subMenu, UINT id, DWORD dwSelGroup);
     void OnNavStreamSelectSubMenu(UINT id, DWORD dwSelGroup);
     void OnStreamSelect(bool forward, DWORD dwSelGroup);
     static CString GetStreamOSDString(CString name, LCID lcid, DWORD dwSelGroup);
@@ -480,7 +484,7 @@ private:
     void OnVideoSizeChanged(const bool bWasAudioOnly = false);
 
     CDropTarget m_dropTarget;
-    void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) override;
+    void OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect) override;
     DROPEFFECT OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) override;
 
 public:
@@ -510,8 +514,9 @@ public:
     bool m_fFullScreen;
     bool m_fFirstFSAfterLaunchOnFS;
     bool m_fStartInD3DFullscreen;
-    bool m_fStartInFullscreenMainFrame;
+    bool m_fStartInFullscreen;
     bool m_bFullScreenWindowIsD3D;
+    bool m_bFullScreenWindowIsOnSeparateDisplay;
 
     CComPtr<IBaseFilter> m_pRefClock; // Adjustable reference clock. GothSync
     CComPtr<ISyncClock> m_pSyncClock;
@@ -523,7 +528,7 @@ public:
     bool IsInteractiveVideo() const;
     bool IsFullScreenMode() const;
     bool IsFullScreenMainFrame() const;
-    bool HasFullScreenWindow() const;
+    bool HasDedicatedFSVideoWindow() const;
     bool IsD3DFullScreenMode() const;
     bool IsSubresyncBarVisible() const;
 
@@ -541,8 +546,11 @@ protected:
     CString m_LastOpenBDPath;
     CAutoPtr<OpenMediaData> m_lastOMD;
 
-    DVD_DOMAIN m_iDVDDomain;
-    DWORD m_iDVDTitle;
+    DVD_DOMAIN  m_iDVDDomain;
+    DWORD       m_iDVDTitle;
+    int         m_loadedAudioTrackIndex = -1;
+    int         m_loadedSubtitleTrackIndex = -1;
+
     double m_dSpeedRate;
     double m_ZoomX, m_ZoomY, m_PosX, m_PosY;
     int m_AngleX, m_AngleY, m_AngleZ;
@@ -676,8 +684,8 @@ public:
 
     void SetAudioTrackIdx(int index);
     void SetSubtitleTrackIdx(int index);
-    int GetCurrentAudioTrackIdx();
-    int GetCurrentSubtitleTrackIdx();
+    int GetCurrentAudioTrackIdx(CString *pstrName = nullptr);
+    int GetCurrentSubtitleTrackIdx(CString *pstrName = nullptr);
 
     void AddFavorite(bool fDisplayMessage = false, bool fShowDialog = true);
 
@@ -705,7 +713,7 @@ public:
 
     void DoAfterPlaybackEvent();
     bool SearchInDir(bool bDirForward, bool bLoop = false);
-    bool WildcardFileSearch(CString searchstr, std::set<CString, CStringUtils::LogicalLess>& results);
+    bool WildcardFileSearch(CString searchstr, std::set<CString, CStringUtils::LogicalLess>& results, bool recurse_dirs);
     CString lastOpenFile;
     bool CanSkipFromClosedFile();
 
@@ -1143,6 +1151,9 @@ public:
     afx_msg void OnHelpDonate();
 
     afx_msg void OnClose();
+    bool FilterSettingsByClassID(CLSID clsid, CWnd* parent);
+    void FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent);
+
 
     CMPC_Lcd m_Lcd;
 
@@ -1154,7 +1165,7 @@ public:
     HRESULT PreviewWindowShow(REFERENCE_TIME rtCur2);
     bool CanPreviewUse();
 
-    CFullscreenWnd* m_pFullscreenWnd;
+    CFullscreenWnd* m_pDedicatedFSVideoWnd;
     CVMROSD     m_OSD;
     bool        m_bOSDDisplayTime;
     int         m_nCurSubtitle;
@@ -1186,7 +1197,7 @@ public:
     // MPC API functions
     void        ProcessAPICommand(COPYDATASTRUCT* pCDS);
     void        SendAPICommand(MPCAPI_COMMAND nCommand, LPCWSTR fmt, ...);
-    void        SendNowPlayingToApi();
+    void        SendNowPlayingToApi(bool sendtrackinfo = true);
     void        SendSubtitleTracksToApi();
     void        SendAudioTracksToApi();
     void        SendPlaylistToApi();
@@ -1229,6 +1240,10 @@ protected:
     void UpdateSkypeHandler();
     void UpdateSeekbarChapterBag();
     void UpdateAudioSwitcher();
+
+    void LoadArtToViews(const CString& imagePath);
+    void LoadArtToViews(std::vector<BYTE> buffer);
+    void ClearArtFromViews();
 
     void UpdateUILanguage();
 
@@ -1285,6 +1300,8 @@ public:
     };
 
     void UpdateControlState(UpdateControlTarget target);
+
+    void ReloadMenus();
 
     // TODO: refactor it outside of MainFrm
     GUID GetTimeFormat();

@@ -183,7 +183,7 @@ namespace DSObjects
 
         bool                             m_fUseInternalTimer;
         INT32                            m_LastSetOutputRange;
-        bool                             m_bPendingRenegotiate;
+        std::atomic_bool                 m_bPendingRenegotiate;
         bool                             m_bPendingMediaFinished;
 
         HANDLE                           m_hThread;

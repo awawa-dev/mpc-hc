@@ -23,8 +23,8 @@
 #include <FunctionDiscoveryKeys_devpkey.h>
 #include <ks.h>
 #include <ksmedia.h>
-#include "../../DSUtil/DSUtil.h"
 #include "MpcAudioRendererSettingsWnd.h"
+#include "../../DSUtil/DSUtil.h"
 #include "../../DSUtil/AudioParser.h"
 
 //
@@ -60,7 +60,8 @@ void CMpcAudioRendererSettingsWnd::OnDisconnect()
 
 bool CMpcAudioRendererSettingsWnd::OnActivate()
 {
-    m_dpi.Override(GetSafeHwnd());
+	const DWORD dwStyle = WS_VISIBLE | WS_CHILD | WS_TABSTOP;
+	m_dpi.Override(GetSafeHwnd());
 	const int h20 = m_dpi.ScaleY(20);
 	const int h25 = m_dpi.ScaleY(25);
 	const int h35 = m_dpi.ScaleY(35);
@@ -68,36 +69,39 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 
 	m_txtSoundDevice.Create(ResStr(IDS_ARS_SOUND_DEVICE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, (UINT)IDC_STATIC);
 	p.y += h20;
-	m_cbSoundDevice.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p, CSize(m_dpi.ScaleX(320), 200)), this, IDC_PP_SOUND_DEVICE);
+	m_cbSoundDevice.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p, CSize(m_dpi.ScaleX(320), 200)), this, IDC_PP_SOUND_DEVICE);
 	p.y += h35;
 
 	m_txtWasapiMode.Create(ResStr(IDS_ARS_WASAPI_MODE), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
-	m_cbWasapiMode.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_MODE);
+	m_cbWasapiMode.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_MODE);
 	m_cbWasapiMode.AddString(ResStr(IDS_ARS_SHARED));
 	m_cbWasapiMode.AddString(ResStr(IDS_ARS_EXCLUSIVE));
 	p.y += h25;
 	m_txtWasapiMethod.Create(ResStr(IDS_ARS_WASAPI_METHOD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
-	m_cbWasapiMethod.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_METHOD);
+	m_cbWasapiMethod.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_METHOD);
 	m_cbWasapiMethod.AddString(L"Event");
 	m_cbWasapiMethod.AddString(L"Push");
 	p.y += h25;
 	m_txtDevicePeriod.Create(ResStr(IDS_ARS_DEVICE_PERIOD), WS_VISIBLE | WS_CHILD, CRect(p, CSize(m_dpi.ScaleX(200), m_fontheight)), this, (UINT)IDC_STATIC);
-	m_cbDevicePeriod.Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_DEVICE_PERIOD);
+	m_cbDevicePeriod.Create(dwStyle | CBS_DROPDOWNLIST | WS_VSCROLL, CRect(p + CPoint(m_dpi.ScaleX(200), -4), CSize(m_dpi.ScaleX(120), 200)), this, IDC_PP_WASAPI_DEVICE_PERIOD);
 	AddStringData(m_cbDevicePeriod, ResStr(IDS_AG_DEFAULT), 0);
 	AddStringData(m_cbDevicePeriod, L"50 ms", 50);
 	AddStringData(m_cbDevicePeriod, L"100 ms", 100);
 	p.y += h25;
-	m_cbUseBitExactOutput.Create(ResStr(IDS_ARS_BITEXACT_OUTPUT), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_BITEXACT_OUTPUT);
+	m_cbUseBitExactOutput.Create(ResStr(IDS_ARS_BITEXACT_OUTPUT), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_BITEXACT_OUTPUT);
 	p.y += h20;
-	m_cbUseSystemLayoutChannels.Create(ResStr(IDS_ARS_SYSTEM_LAYOUT_CHANNELS), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_SYSTEM_LAYOUT_CHANNELS);
+	m_cbUseSystemLayoutChannels.Create(ResStr(IDS_ARS_SYSTEM_LAYOUT_CHANNELS), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_SYSTEM_LAYOUT_CHANNELS);
 	p.y += h20;
-	m_cbCheckFormat.Create(ResStr(IDS_ARS_CHECK_FORMAT), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_CHECK_FORMAT);
+	m_cbAltCheckFormat.Create(ResStr(IDS_ARS_ALT_CHECK_FORMAT), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_ALT_FORMAT_CHECK);
 	p.y += h20;
-	m_cbReleaseDeviceIdle.Create(ResStr(IDS_ARS_RELEASE_DEVICE_IDLE), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_FREE_DEVICE_INACTIVE);
+	m_cbReleaseDeviceIdle.Create(ResStr(IDS_ARS_RELEASE_DEVICE_IDLE), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_FREE_DEVICE_INACTIVE);
 	p.y += h20;
-	m_cbUseCrossFeed.Create(ResStr(IDS_ARS_CROSSFEED), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_CROSSFEED);
+	m_cbUseCrossFeed.Create(ResStr(IDS_ARS_CROSSFEED), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_USE_CROSSFEED);
 	p.y += h20;
-	m_cbDummyChannels.Create(ResStr(IDS_ARS_DUMMY_CHANNELS), WS_VISIBLE | WS_CHILD | WS_TABSTOP | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_DUMMY_CHANNELS);
+	m_cbDummyChannels.Create(ResStr(IDS_ARS_DUMMY_CHANNELS), dwStyle | BS_AUTOCHECKBOX | BS_LEFTTEXT, CRect(p, CSize(m_dpi.ScaleX(320), m_fontheight)), this, IDC_PP_DUMMY_CHANNELS);
+	p.y += h20;
+	p.x += m_dpi.ScaleX(240);
+	m_btnReset.Create(ResStr(IDS_FILTER_RESET_SETTINGS), dwStyle | BS_MULTILINE, CRect(p, CSize(m_dpi.ScaleX(80), m_fontheight + 10)), this, IDC_PP_RESET);
 
 	AudioDevices::GetActiveAudioDevices(nullptr, &m_deviceList, nullptr, TRUE);
 	for (const auto& device : m_deviceList) {
@@ -134,7 +138,7 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 		SelectByItemData(m_cbDevicePeriod, m_pMAR->GetDevicePeriod());
 		m_cbUseBitExactOutput.SetCheck(m_pMAR->GetBitExactOutput());
 		m_cbUseSystemLayoutChannels.SetCheck(m_pMAR->GetSystemLayoutChannels());
-		m_cbCheckFormat.SetCheck(!m_pMAR->GetCheckFormat());
+		m_cbAltCheckFormat.SetCheck(m_pMAR->GetAltCheckFormat());
 		m_cbReleaseDeviceIdle.SetCheck(m_pMAR->GetReleaseDeviceIdle());
 		m_cbUseCrossFeed.SetCheck(m_pMAR->GetCrossFeed());
 		m_cbDummyChannels.SetCheck(m_pMAR->GetDummyChannels());
@@ -150,6 +154,8 @@ bool CMpcAudioRendererSettingsWnd::OnActivate()
 	SetCursor(m_hWnd, IDC_PP_SOUND_DEVICE, IDC_HAND);
 
 	OnClickedWasapiMode();
+
+	EnableToolTips(TRUE);
 
 	return true;
 }
@@ -168,7 +174,7 @@ bool CMpcAudioRendererSettingsWnd::OnApply()
 		m_pMAR->SetDevicePeriod(GetCurItemData(m_cbDevicePeriod));
 		m_pMAR->SetBitExactOutput(m_cbUseBitExactOutput.GetCheck());
 		m_pMAR->SetSystemLayoutChannels(m_cbUseSystemLayoutChannels.GetCheck());
-		m_pMAR->SetCheckFormat(!m_cbCheckFormat.GetCheck());
+		m_pMAR->SetAltCheckFormat(m_cbAltCheckFormat.GetCheck());
 		m_pMAR->SetReleaseDeviceIdle(m_cbReleaseDeviceIdle.GetCheck());
 		m_pMAR->SetCrossFeed(m_cbUseCrossFeed.GetCheck());
 		m_pMAR->SetDummyChannels(m_cbDummyChannels.GetCheck());
@@ -185,6 +191,8 @@ bool CMpcAudioRendererSettingsWnd::OnApply()
 BEGIN_MESSAGE_MAP(CMpcAudioRendererSettingsWnd, CMPCThemeInternalPropertyPageWnd)
 	ON_CBN_SELCHANGE(IDC_PP_WASAPI_MODE, OnClickedWasapiMode)
 	ON_BN_CLICKED(IDC_PP_USE_BITEXACT_OUTPUT, OnClickedBitExact)
+	ON_BN_CLICKED(IDC_PP_RESET, OnBnClickedReset)
+	ON_NOTIFY_EX(TTN_NEEDTEXTW, 0, OnToolTipNotify)
 END_MESSAGE_MAP()
 
 
@@ -200,7 +208,57 @@ void CMpcAudioRendererSettingsWnd::OnClickedWasapiMode()
 void CMpcAudioRendererSettingsWnd::OnClickedBitExact()
 {
 	m_cbUseSystemLayoutChannels.EnableWindow(m_cbUseBitExactOutput.GetCheck() && m_cbUseBitExactOutput.IsWindowEnabled());
-	m_cbCheckFormat.EnableWindow(m_cbUseBitExactOutput.GetCheck() && m_cbUseBitExactOutput.IsWindowEnabled());
+	m_cbAltCheckFormat.EnableWindow(m_cbUseBitExactOutput.GetCheck() && m_cbUseBitExactOutput.IsWindowEnabled());
+}
+
+void CMpcAudioRendererSettingsWnd::OnBnClickedReset()
+{
+	m_cbWasapiMode.SetCurSel(MODE_WASAPI_SHARED);
+	m_cbWasapiMethod.SetCurSel(WASAPI_METHOD::EVENT);
+	m_cbDevicePeriod.SelectByItemData(50);
+
+	m_cbUseBitExactOutput.SetCheck(BST_CHECKED);
+	m_cbUseSystemLayoutChannels.SetCheck(BST_CHECKED);
+	m_cbAltCheckFormat.SetCheck(BST_UNCHECKED);
+	m_cbReleaseDeviceIdle.SetCheck(BST_UNCHECKED);
+	m_cbUseCrossFeed.SetCheck(BST_UNCHECKED);
+	m_cbDummyChannels.SetCheck(BST_UNCHECKED);
+
+	OnClickedWasapiMode();
+}
+
+BOOL CMpcAudioRendererSettingsWnd::OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult)
+{
+	TOOLTIPTEXTW* pTTT = (TOOLTIPTEXTW*)pNMHDR;
+
+	if (pNMHDR->code == TTN_NEEDTEXTW && (pTTT->uFlags & TTF_IDISHWND)) {
+		static CString strTipText;
+		UINT_PTR nID = pNMHDR->idFrom;
+
+		CToolTipCtrl* pToolTip = AfxGetModuleThreadState()->m_pToolTip;
+		if (pToolTip) {
+			pToolTip->SetMaxTipWidth(SHRT_MAX);
+		}
+
+		nID = ::GetDlgCtrlID((HWND)nID);
+		switch (nID) {
+		case IDC_PP_USE_BITEXACT_OUTPUT:
+			strTipText = ResStr(IDS_ARS_TIP_BITEXACT_OUTPUT);
+			break;
+		case IDC_PP_ALT_FORMAT_CHECK:
+			strTipText = ResStr(IDS_ARS_TIP_ALT_CHECK_FORMAT);
+			break;
+		default:
+			return FALSE;
+		}
+
+		pTTT->lpszText = strTipText.GetBuffer();
+
+		*pResult = 0;
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 //
@@ -417,7 +475,7 @@ bool CMpcAudioRendererStatusWnd::OnActivate()
 
 	for (CWnd* pWnd = GetWindow(GW_CHILD); pWnd; pWnd = pWnd->GetNextWindow()) {
 		pWnd->SetFont(&m_font, FALSE);
-    }
+	}
 
 	UpdateStatus();
 

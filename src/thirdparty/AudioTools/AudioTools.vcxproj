@@ -42,12 +42,16 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)src\thirdparty\mpcbe_common;$(SolutionDir)src\thirdparty;$(SolutionDir)include;$(SolutionDir)src\thirdparty\LAVFilters\src;$(SolutionDir)src\thirdparty;$(SolutionDir)src\thirdparty\ffmpeg;$(SolutionDir)src\thirdparty\LAVFilters\src\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioFilter.cpp" />
     <ClCompile Include="AudioHelper.cpp" />
     <ClCompile Include="BassRedirect.cpp" />
+    <ClCompile Include="DitherInt16.cpp" />
     <ClCompile Include="Mixer.cpp" />
     <ClCompile Include="SampleFormat.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -55,8 +59,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioFilter.h" />
     <ClInclude Include="AudioHelper.h" />
     <ClInclude Include="BassRedirect.h" />
+    <ClInclude Include="DitherInt16.h" />
     <ClInclude Include="Mixer.h" />
     <ClInclude Include="SampleFormat.h" />
     <ClInclude Include="stdafx.h" />

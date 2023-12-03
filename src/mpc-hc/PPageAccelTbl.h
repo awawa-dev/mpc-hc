@@ -27,7 +27,6 @@
 #include "WinHotkeyCtrl.h"
 #include "vkCodes.h"
 #include "CMPCThemePPageBase.h"
-#include "CMPCThemePlayerListCtrl.h"
 #include "CMPCThemeStaticLink.h"
 #include "CMPCThemeEdit.h"
 
@@ -69,7 +68,7 @@ private:
 	};
 	std::vector<std::unique_ptr<ITEMDATA>> m_pItemsData;
 	
-    CMPCThemePlayerListCtrl m_list;
+    CPlayerListCtrl m_list;
     int sortColumn = -1;
     int sortDirection;
     BOOL m_fWinLirc;

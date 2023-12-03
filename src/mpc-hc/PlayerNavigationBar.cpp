@@ -27,9 +27,13 @@
 
 IMPLEMENT_DYNAMIC(CPlayerNavigationBar, CMPCThemePlayerBar)
 CPlayerNavigationBar::CPlayerNavigationBar(CMainFrame* pMainFrame)
-    : m_pParent(nullptr)
+    : CMPCThemePlayerBar(pMainFrame)
+    , m_pParent(nullptr)
     , m_navdlg(pMainFrame)
 {
+    GetEventd().Connect(m_eventc, {
+        MpcEvent::DPI_CHANGED,
+    }, std::bind(&CPlayerNavigationBar::EventCallback, this, std::placeholders::_1));
 }
 
 BOOL CPlayerNavigationBar::Create(CWnd* pParentWnd, UINT defDockBarID)
@@ -130,3 +134,15 @@ void CPlayerNavigationBar::OnNcLButtonUp(UINT nHitTest, CPoint point)
         AfxGetAppSettings().fHideNavigation = true;
     }
 }
+
+void CPlayerNavigationBar::EventCallback(MpcEvent ev) {
+    switch (ev) {
+    case MpcEvent::DPI_CHANGED:
+        InitializeSize();
+        break;
+
+    default:
+        ASSERT(FALSE);
+    }
+}
+

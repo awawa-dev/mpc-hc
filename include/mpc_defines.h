@@ -19,6 +19,8 @@
  */
 
 #pragma once
+#ifndef __MPC_DEFINES_H__
+#define __MPC_DEFINES_H__
 
 #define KILOBYTE          1024
 #define MEGABYTE       1048576
@@ -73,3 +75,5 @@
 #define VIDEOTRANSFUNC_2084       15
 #define VIDEOTRANSFUNC_HLG        16
 #define VIDEOTRANSFUNC_10_rel     17
+
+#endif

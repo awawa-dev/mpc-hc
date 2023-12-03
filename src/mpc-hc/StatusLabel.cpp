@@ -44,9 +44,7 @@ void CStatusLabel::ScaleFont(const DpiHelper& dpiHelper)
     LOGFONT lf;
 
     GetStatusFont(&lf);
-    if (!DpiHelper::CanUsePerMonitorV2()) {
-        lf.lfHeight = dpiHelper.ScaleSystemToOverrideY(lf.lfHeight);
-    }
+    lf.lfHeight = dpiHelper.ScaleSystemToOverrideY(lf.lfHeight);
     VERIFY(m_font.CreateFontIndirect(&lf));
 }
 

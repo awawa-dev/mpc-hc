@@ -39,20 +39,21 @@ make_dirs() {
   mkdir -p ${FFMPEG_DLL_PATH}
 }
 
-CV2PDB_PATH=$(readlink -f ../../..)/build/cv2pdb.exe
+CV2PDB=$(readlink -f ../../..)/build/cv2pdb.exe
 
 copy_libs() {
-  # install -s --strip-program=${cross_prefix}strip lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
-  cp lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
+  # copy and process .dll/.pdb
   if [ "${COMPILER}" == "GCC" ]; then
-    #${cross_prefix}strip ${FFMPEG_DLL_PATH}/*-lav-*.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avcodec-lav-59.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avfilter-lav-8.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avformat-lav-59.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/avutil-lav-57.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swresample-lav-4.dll
-    ${CV2PDB_PATH} ${FFMPEG_DLL_PATH}/swscale-lav-6.dll
+    for file in lib*/*-lav-*.dll; do
+      file_basename=$(basename $file)
+      file_pdb=$(basename $file .dll).pdb
+      ${CV2PDB} -p${file_pdb} ${file} ${FFMPEG_DLL_PATH}/${file_basename}
+    done
+  else
+    cp lib*/*-lav-*.dll ${FFMPEG_DLL_PATH}
   fi
+  
+  # copy lib files
   cp -u lib*/*.lib ${FFMPEG_LIB_PATH}
 }
 
@@ -120,12 +121,12 @@ configure() {
     if [ "${COMPILER}" == "MSVC" ]; then
       OPTIONS="${OPTIONS} --enable-debug"
       EXTRA_CFLAGS="-D_WIN32_WINNT=0x0600 -DWINVER=0x0600 -Zo -GS-"
-      EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../thirdparty/64/include -I../../../../../../thirdparty/zlib -MDd"
+      EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../thirdparty/64/include -I../../../../../zlib -I../../../../msvcInclude -MDd"
       EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -LIBPATH:../../../thirdparty/64/lib -LIBPATH:../../../../../../../bin/lib/Debug_x64 -NODEFAULTLIB:libcmt"
       TOOLCHAIN="--toolchain=msvc"
     else
       OPTIONS="${OPTIONS} --enable-cross-compile --cross-prefix=${cross_prefix} --target-os=mingw32 --pkg-config=pkg-config"
-      EXTRA_CFLAGS="-fno-tree-vectorize -D_WIN32_WINNT=0x0600 -DWINVER=0x0600 -gdwarf-2 -fno-omit-frame-pointer"
+      EXTRA_CFLAGS="-fno-tree-vectorize -D_WIN32_WINNT=0x0600 -DWINVER=0x0600 -gdwarf-5 -fno-omit-frame-pointer"
       EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../thirdparty/64/include"
       EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/64/lib"
     fi
@@ -135,12 +136,12 @@ configure() {
     if [ "${COMPILER}" == "MSVC" ]; then
       OPTIONS="${OPTIONS} --enable-debug"
       EXTRA_CFLAGS="-D_WIN32_WINNT=0x0600 -DWINVER=0x0600 -Zo -GS-"
-      EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../thirdparty/32/include -I../../../../../../thirdparty/zlib -MDd"
+      EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../thirdparty/32/include -I../../../../../zlib -I../../../../msvcInclude -MDd"
       EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -LIBPATH:../../../thirdparty/32/lib -LIBPATH:../../../../../../../bin/lib/Debug_Win32 -NODEFAULTLIB:libcmt"
       TOOLCHAIN="--toolchain=msvc"
     else
       OPTIONS="${OPTIONS} --cpu=i686 --target-os=mingw32"
-      EXTRA_CFLAGS="-fno-tree-vectorize -D_WIN32_WINNT=0x0600 -DWINVER=0x0600 -gdwarf-2 -fno-omit-frame-pointer"
+      EXTRA_CFLAGS="-fno-tree-vectorize -D_WIN32_WINNT=0x0600 -DWINVER=0x0600 -gdwarf-5 -fno-omit-frame-pointer"
       EXTRA_CFLAGS="${EXTRA_CFLAGS} -I../../../thirdparty/32/include -mmmx -msse -msse2 -mfpmath=sse -mstackrealign"
       EXTRA_LDFLAGS="${EXTRA_LDFLAGS} -L../../../thirdparty/32/lib"
     fi

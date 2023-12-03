@@ -58,6 +58,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -69,7 +70,6 @@
   <ItemGroup>
     <ClCompile Include="AudioDevice.cpp" />
     <ClCompile Include="AudioSyncClock.cpp" />
-    <ClCompile Include="Filter.cpp" />
     <ClCompile Include="MpcAudioRenderer.cpp" />
     <ClCompile Include="MpcAudioRendererSettingsWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -82,7 +82,6 @@
   <ItemGroup>
     <ClInclude Include="AudioDevice.h" />
     <ClInclude Include="AudioSyncClock.h" />
-    <ClInclude Include="Filter.h" />
     <ClInclude Include="IMpcAudioRenderer.h" />
     <ClInclude Include="MpcAudioRenderer.h" />
     <ClInclude Include="MpcAudioRendererSettingsWnd.h" />

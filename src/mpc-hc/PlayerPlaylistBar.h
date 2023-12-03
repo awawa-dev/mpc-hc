@@ -23,7 +23,7 @@
 
 #include <afxcoll.h>
 #include "CMPCThemePlayerBar.h"
-#include "CMPCThemePlayerListCtrl.h"
+#include "PlayerListCtrl.h"
 #include "Playlist.h"
 #include "DropTarget.h"
 #include "../Subtitles/TextFile.h"
@@ -58,22 +58,24 @@ private:
     void ScaleFont();
 
     CImageList m_fakeImageList;
-    CMPCThemePlayerListCtrl m_list;
+    CPlayerListCtrl m_list;
 
-	int m_itemHeight = 0;
-	bool createdWindow;
+    int m_itemHeight = 0;
+    int m_initialWindowDPI = 0;
+    bool createdWindow;
 
-	EventClient m_eventc;
+    EventClient m_eventc;
     void EventCallback(MpcEvent ev);
 
     int m_nTimeColWidth;
     void ResizeListColumn();
 
-    void AddItem(CString fn, CAtlList<CString>* subs = nullptr);
+    void AddItem(CString fn, bool insertAtCurrent = false);
+    void AddItem(CString fn, CAtlList<CString>* subs);
     void AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs = nullptr, CString label = _T(""), CString ydl_src = _T(""), CString cue = _T(""), CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs = nullptr);
-    bool AddItemNoDuplicate(CString fn);
-    bool AddFromFilemask(CString mask);
-    bool AddItemsInFolder(CString folder);
+    bool AddItemNoDuplicate(CString fn, bool insertAtCurrent = false);
+    bool AddFromFilemask(CString mask, bool recurse_dirs, bool insertAtCurrent = false);
+    bool AddItemsInFolder(CString folder, bool insertAtCurrent = false);
     void ParsePlayList(CString fn, CAtlList<CString>* subs, int redir_count = 0);
     void ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count = 0, CString label = _T(""), CString ydl_src = _T(""), CString cue = _T(""), CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs = nullptr);
     void ResolveLinkFiles(CAtlList<CString>& fns);
@@ -91,6 +93,7 @@ private:
     void EnsureVisible(POSITION pos);
     int FindItem(const POSITION pos) const;
     POSITION FindPos(int i);
+    POSITION m_insertingPos;
 
     CImageList* m_pDragImage;
     BOOL m_bDragging;
@@ -123,6 +126,8 @@ public:
 
     bool IsHiddenDueToFullscreen() const;
     void SetHiddenDueToFullscreen(bool bHidenDueToFullscreen);
+
+    void LoadDuration(POSITION pos);
 
     CPlaylist m_pl;
 

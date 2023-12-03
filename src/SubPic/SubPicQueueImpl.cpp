@@ -74,6 +74,12 @@ STDMETHODIMP CSubPicQueueImpl::SetSubPicProvider(ISubPicProvider* pSubPicProvide
 {
     CAutoLock cAutoLock(&m_csSubPicProvider);
 
+    if (m_pSubPicProviderWithSharedLock && m_pSubPicProviderWithSharedLock->pSubPicProvider != pSubPicProvider) {
+        m_pSubPicProviderWithSharedLock->Lock();
+        m_pSubPicProviderWithSharedLock->Unlock();
+        // queue is now not processing anything
+    }
+
     m_pSubPicProviderWithSharedLock = std::make_shared<SubPicProviderWithSharedLock>(pSubPicProvider);
 
     Invalidate();
@@ -249,13 +255,13 @@ STDMETHODIMP CSubPicQueue::Invalidate(REFERENCE_TIME rtInvalidate /*= -1*/)
 #endif
         m_queue.RemoveTailNoReturn();
 #if SUBPIC_TRACE_LEVEL > 0
-        TRACE(_T("subpic queue size = %d"), (int)m_queue.GetCount());
+        TRACE(_T("subpic queue size = %d\n"), (int)m_queue.GetCount());
 #endif
     }
 
     // If we invalidate in the past, always give the queue a chance to re-render the modified subtitles
-    if (rtInvalidate >= 0 && rtInvalidate < m_rtNow) {
-        m_rtNow = rtInvalidate;
+    if (rtInvalidate < m_rtNow) {
+        m_rtNow = std::max(rtInvalidate, 0LL);
     }
 
     lockQueue.unlock();

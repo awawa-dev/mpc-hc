@@ -52,16 +52,21 @@ CVMROSD::CVMROSD(CMainFrame* pMainFrame)
     , m_bShowMessage(true)
     , m_nMessagePos(OSD_NOMESSAGE)
 {
+    m_colors[OSD_TRANSPARENT] = RGB(0, 0, 0);
     if (AppIsThemeLoaded()) {
-        m_colors[OSD_TRANSPARENT] = RGB(0, 0, 0);
         m_colors[OSD_BACKGROUND] = CMPCTheme::ContentBGColor;
         m_colors[OSD_BORDER] = CMPCTheme::WindowBorderColorDim;
         m_colors[OSD_TEXT] = CMPCTheme::TextFGColor;
         m_colors[OSD_BAR] = CMPCTheme::ScrollBGColor;
         m_colors[OSD_CURSOR] = CMPCTheme::ScrollThumbColor;
         m_colors[OSD_DEBUGCLR] = CMPCTheme::DebugColorRed;
+
+        for (int a = OSD_TRANSPARENT + 1; a < std::size(m_colors); a++) {
+            if (m_colors[a] == 0) { //we cannot permit any standard color to be transparent=RGB(0,0,0)
+                m_colors[a] = RGB(1,1,1);
+            }
+        }
     } else {
-        m_colors[OSD_TRANSPARENT] = RGB(0, 0, 0);
         m_colors[OSD_BACKGROUND] = RGB(32, 40, 48);
         m_colors[OSD_BORDER] = RGB(48, 56, 62);
         m_colors[OSD_TEXT] = RGB(224, 224, 224);
@@ -391,7 +396,7 @@ void CVMROSD::UpdateSeekBarPos(CPoint point)
     }
 
     if (m_pWnd) {
-        AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, NULL, reinterpret_cast<LPARAM>(m_pWnd->m_hWnd));
+        AfxGetApp()->GetMainWnd()->PostMessage(WM_HSCROLL, (WPARAM)0, reinterpret_cast<LPARAM>(m_pWnd->m_hWnd));
     }
 }
 

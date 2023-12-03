@@ -51,6 +51,7 @@ namespace DSObjects
         D3DFORMAT                   m_BackbufferType;
         D3DFORMAT                   m_DisplayType;
         CSize                       m_ScreenSize;
+        CSize                       m_BackBufferSize;
         int                         m_nNbDXSurface;                 // Total number of DX Surfaces
         int                         m_nCurSurface;                  // Surface currently displayed
 

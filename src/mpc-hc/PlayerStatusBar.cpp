@@ -93,10 +93,12 @@ BOOL CPlayerStatusBar::PreCreateWindow(CREATESTRUCT& cs)
 CSize CPlayerStatusBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
-    ret.cy = std::max<long>(ret.cy, 24);
-    if (!DpiHelper::CanUsePerMonitorV2()) {
-        ret.cy = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(ret.cy);
+    if (!m_initialWindowDPI) {
+        m_initialWindowDPI = m_pMainFrame->m_dpi.DPIY(); //the initial DPI is always cached by CDialogBar and is never updated for future calculations of CalcFixedLayout
     }
+    CSize r2 = ret;
+    ret.cy = m_pMainFrame->m_dpi.ScaleArbitraryToOverrideY(ret.cy, m_initialWindowDPI); //we must scale by initial DPI, NOT current DPI
+    ret.cy = std::max<long>(ret.cy, m_pMainFrame->m_dpi.ScaleY(24)); //at least 24px scaled to current dpi
     return ret;
 }
 
@@ -122,17 +124,23 @@ int CPlayerStatusBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
     m_status.SetWindowPos(&m_time, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
+    ScaleFont();
+
     Relayout();
 
     return 0;
+}
+
+void CPlayerStatusBar::ScaleFont() {
+    m_status.ScaleFont(m_pMainFrame->m_dpi);
+    m_time.ScaleFont(m_pMainFrame->m_dpi);
 }
 
 void CPlayerStatusBar::EventCallback(MpcEvent ev)
 {
     switch (ev) {
         case MpcEvent::DPI_CHANGED:
-            m_status.ScaleFont(m_pMainFrame->m_dpi);
-            m_time.ScaleFont(m_pMainFrame->m_dpi);
+            ScaleFont();
             SetMediaTypeIcon();
             break;
 
@@ -293,51 +301,76 @@ void CPlayerStatusBar::SetStatusTimer(CString str)
 void CPlayerStatusBar::SetStatusTimer(REFERENCE_TIME rtNow, REFERENCE_TIME rtDur, bool fHighPrecision, const GUID& timeFormat/* = TIME_FORMAT_MEDIA_TIME*/)
 {
     CString str;
-    CString posstr, durstr, rstr;
+    CString posstr;
     const CAppSettings& s = AfxGetAppSettings();
 
-    if (timeFormat == TIME_FORMAT_MEDIA_TIME) {
-        DVD_HMSF_TIMECODE tcNow, tcDur, tcRt;
+    if (rtDur > 0) {
+        REFERENCE_TIME rtRem = rtDur - rtNow;
+        CString durstr, remstr;
 
-        if (fHighPrecision || s.bHighPrecisionTimer) {
-            tcNow = RT2HMSF(rtNow);
-            tcDur = RT2HMSF(rtDur);
-            tcRt  = RT2HMSF(rtDur - rtNow);
+        if (timeFormat == TIME_FORMAT_MEDIA_TIME) {
+            DVD_HMSF_TIMECODE tcNow, tcDur, tcRem;
+
+            if (fHighPrecision || s.bHighPrecisionTimer) {
+                tcNow = RT2HMSF(rtNow);
+                tcDur = RT2HMSF(rtDur);
+                tcRem = RT2HMSF(rtRem);
+            } else {
+                tcNow = RT2HMS(rtNow);
+                tcDur = RT2HMS(rtDur);
+                tcRem = RT2HMS(rtRem);
+            }
+
+            if (tcDur.bHours > 0 || (rtNow > rtDur && tcNow.bHours > 0)) {
+                posstr.Format(_T("%02u:%02u:%02u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+                durstr.Format(_T("%02u:%02u:%02u"), tcDur.bHours, tcDur.bMinutes, tcDur.bSeconds);
+                remstr.Format(_T("%02u:%02u:%02u"), tcRem.bHours, tcRem.bMinutes, tcRem.bSeconds);
+            } else {
+                posstr.Format(_T("%02u:%02u"), tcNow.bMinutes, tcNow.bSeconds);
+                durstr.Format(_T("%02u:%02u"), tcDur.bMinutes, tcDur.bSeconds);
+                remstr.Format(_T("%02u:%02u"), tcRem.bMinutes, tcRem.bSeconds);
+            }
+
+            if (fHighPrecision || s.bHighPrecisionTimer) {
+                posstr.AppendFormat(_T(".%03d"), int((rtNow / 10000) % 1000));
+                durstr.AppendFormat(_T(".%03d"), int((rtDur / 10000) % 1000));
+                remstr.AppendFormat(_T(".%03d"), int((rtRem / 10000) % 1000));
+            }
+        } else if (timeFormat == TIME_FORMAT_FRAME) {
+            posstr.Format(_T("%I64d"), rtNow);
+            durstr.Format(_T("%I64d"), rtDur);
+            remstr.Format(_T("%I64d"), rtRem);
+        }
+
+        if (s.fRemainingTime) {
+            str = _T("- ") + remstr + _T(" / ") + durstr;
         } else {
-            tcNow = RT2HMS(rtNow);
-            tcDur = RT2HMS(rtDur);
-            tcRt  = RT2HMS(rtDur - rtNow);
+            str = posstr + _T(" / ") + durstr;
         }
-
-        if (tcDur.bHours > 0 || (rtNow >= rtDur && tcNow.bHours > 0)) {
-            posstr.Format(_T("%02u:%02u:%02u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
-            rstr.Format(_T("%02u:%02u:%02u"), tcRt.bHours, tcRt.bMinutes, tcRt.bSeconds);
-        } else {
-            posstr.Format(_T("%02u:%02u"), tcNow.bMinutes, tcNow.bSeconds);
-            rstr.Format(_T("%02u:%02u"), tcRt.bMinutes, tcRt.bSeconds);
+        if (s.bTimerShowPercentage) {
+            str.AppendFormat(_T(" (%.01f%%)"), s.fRemainingTime ? (100.0 * rtRem / rtDur) : (100.0 * rtNow / rtDur));
         }
-
-        if (tcDur.bHours > 0) {
-            durstr.Format(_T("%02u:%02u:%02u"), tcDur.bHours, tcDur.bMinutes, tcDur.bSeconds);
-        } else {
-            durstr.Format(_T("%02u:%02u"), tcDur.bMinutes, tcDur.bSeconds);
-        }
-
-        if (fHighPrecision || s.bHighPrecisionTimer) {
-            posstr.AppendFormat(_T(".%03d"), int((rtNow / 10000) % 1000));
-            durstr.AppendFormat(_T(".%03d"), int((rtDur / 10000) % 1000));
-            rstr.AppendFormat(_T(".%03d"), int(((rtDur - rtNow) / 10000) % 1000));
-        }
-    } else if (timeFormat == TIME_FORMAT_FRAME) {
-        posstr.Format(_T("%I64d"), rtNow);
-        durstr.Format(_T("%I64d"), rtDur);
-        rstr.Format(_T("%I64d"), rtDur - rtNow);
-    }
-
-    if (!s.fRemainingTime) {
-        str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : posstr + _T(" / ") + durstr;
     } else {
-        str = ((rtDur <= 0) || (rtDur < rtNow)) ? posstr : _T("- ") + rstr + _T(" / ") + durstr;
+        if (timeFormat == TIME_FORMAT_MEDIA_TIME) {
+            DVD_HMSF_TIMECODE tcNow;
+            if (fHighPrecision || s.bHighPrecisionTimer) {
+                tcNow = RT2HMSF(rtNow);
+            } else {
+                tcNow = RT2HMS(rtNow);
+            }
+
+            if (tcNow.bHours > 0) {
+                str.Format(_T("%02u:%02u:%02u"), tcNow.bHours, tcNow.bMinutes, tcNow.bSeconds);
+            } else {
+                str.Format(_T("%02u:%02u"), tcNow.bMinutes, tcNow.bSeconds);
+            }
+
+            if (fHighPrecision || s.bHighPrecisionTimer) {
+                str.AppendFormat(_T(".%03d"), int((rtNow / 10000) % 1000));
+            }
+        } else if (timeFormat == TIME_FORMAT_FRAME) {
+            str.Format(_T("%I64d"), rtNow);
+        }
     }
 
     SetStatusTimer(str);
@@ -542,7 +575,8 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
 
     enum {
         REMAINING_TIME = 1,
-        HIGH_PRECISION
+        HIGH_PRECISION,
+        SHOW_PERCENTAGE
     };
 
     m_timerMenu.CreatePopupMenu();
@@ -554,6 +588,7 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
         nFlags |= MF_ENABLED | (s.bHighPrecisionTimer ? MF_CHECKED : MF_UNCHECKED);
     }
     m_timerMenu.AppendMenu(nFlags, HIGH_PRECISION, ResStr(IDS_TIMER_HIGH_PRECISION));
+    m_timerMenu.AppendMenu(MF_STRING | MF_ENABLED | (s.bTimerShowPercentage ? MF_CHECKED : MF_UNCHECKED), SHOW_PERCENTAGE, ResStr(IDS_TIMER_SHOW_PERCENTAGE));
 
     m_timerMenu.fulfillThemeReqs();
     switch (m_timerMenu.TrackPopupMenu(TPM_LEFTBUTTON | TPM_RETURNCMD, point.x, point.y, this)) {
@@ -563,6 +598,10 @@ void CPlayerStatusBar::OnContextMenu(CWnd* pWnd, CPoint point)
             break;
         case HIGH_PRECISION:
             s.bHighPrecisionTimer = !s.bHighPrecisionTimer;
+            m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
+            break;
+        case SHOW_PERCENTAGE:
+            s.bTimerShowPercentage = !s.bTimerShowPercentage;
             m_eventc.FireEvent(MpcEvent::STREAM_POS_UPDATE_REQUEST);
             break;
     }

@@ -71,6 +71,8 @@ public:
     CMpeg2DataParser(IBaseFilter* pFilter);
 
     HRESULT     ParseSDT(ULONG ulFrequency, ULONG ulBandwidth, ULONG ulSymbolRate);
+    HRESULT     ParseVCT(ULONG ulFrequency, ULONG ulBandwidth, ULONG ulSymbolRate, enum DVB_SI vctType);
+    HRESULT     ParseMGT(enum DVB_SI &vctType);
     HRESULT     ParsePAT();
     HRESULT     ParseNIT();
     HRESULT     ParseEIT(ULONG ulSID, EventDescriptor& NowNext);

@@ -62,17 +62,21 @@ BOOL CMPCThemeMsgBox::OnEraseBkgnd(CDC* pDC)
     }
 }
 
-BOOL CMPCThemeMsgBox::MessageBox(CWnd* parent, LPCWSTR lpText)
+BOOL CMPCThemeMsgBox::MessageBoxW(CWnd* parent, LPCWSTR lpText)
 {
-    return CMPCThemeMsgBox::MessageBox(parent, lpText, _T(""), MB_OK);
+    return CMPCThemeMsgBox::MessageBox(parent, lpText, NULL, MB_OK);
 }
 
-BOOL CMPCThemeMsgBox::MessageBox(CWnd* parent, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType)
+BOOL CMPCThemeMsgBox::MessageBoxW(CWnd* parent, LPCWSTR lpText, LPCWSTR lpCaption, UINT uType)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CMPCThemeMsgBox dlgMessage(parent, lpText, lpCaption, uType, NULL);
         return (BOOL)dlgMessage.DoModal();
     } else {
-        return ::MessageBox(parent->GetSafeHwnd(), lpText, lpCaption, uType);
+        if (parent) {
+            return parent->MessageBoxW(lpText, lpCaption, uType);
+        } else {
+            return ::MessageBoxW(NULL, lpText, lpCaption, uType);
+        }
     }
 }

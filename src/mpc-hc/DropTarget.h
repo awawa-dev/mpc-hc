@@ -26,13 +26,14 @@
 #define DROPEFFECT_APPEND 16
 
 struct CDropClient {
-    virtual void OnDropFiles(CAtlList<CString>& slFiles, DROPEFFECT dropEffect) PURE;
+    virtual void OnDropFiles(CAtlList<CStringW>& slFiles, DROPEFFECT dropEffect) PURE;
     virtual DROPEFFECT OnDropAccept(COleDataObject* pDataObject, DWORD dwKeyState, CPoint point) PURE;
 };
 
 class CDropTarget : public COleDropTarget
 {
-    const CLIPFORMAT CF_URL = static_cast<CLIPFORMAT>(RegisterClipboardFormat(_T("UniformResourceLocator")));
+    const CLIPFORMAT CF_URLA = static_cast<CLIPFORMAT>(RegisterClipboardFormat(_T("UniformResourceLocator")));
+    const CLIPFORMAT CF_URLW = static_cast<CLIPFORMAT>(RegisterClipboardFormat(_T("UniformResourceLocatorW")));
     CComPtr<IDropTargetHelper> m_pDropHelper;
 
 public:

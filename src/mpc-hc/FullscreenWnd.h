@@ -21,11 +21,11 @@
 
 #pragma once
 
-#include "MouseTouch.h"
+#include "MouseWndWithArtView.h"
 
 class CMainFrame;
 
-class CFullscreenWnd final : public CMouseWnd
+class CFullscreenWnd final : public CMouseWndWithArtView
 {
     DECLARE_DYNAMIC(CFullscreenWnd)
 

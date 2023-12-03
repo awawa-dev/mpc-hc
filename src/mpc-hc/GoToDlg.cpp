@@ -86,7 +86,7 @@ BOOL CGoToDlg::OnInitDialog()
         }
 
         if (m_fps > 0) {
-            m_framestr.Format(_T("%d, %.3f"), (int)(m_fps * m_time / 10000000 + 0.5), m_fps);
+            m_framestr.Format(_T("%d, %.3f"), (int)(m_fps * m_time / 10000000 + 1.5), m_fps);
         }
 
         UpdateData(FALSE);
@@ -151,17 +151,17 @@ void CGoToDlg::OnParseFrameCode()
 
     AfxGetApp()->WriteProfileInt(IDS_R_SETTINGS, IDS_RS_GOTO_LAST_USED, TYPE_FRAME);
 
-    unsigned int frame;
+    int frame;
     float fps;
     WCHAR c1; // delimiter character
     WCHAR c2; // extra character to ensure the end of string was reached
 
-    int result = swscanf_s(m_framestr, L"%u%c%f%c", &frame, &c1, 1, &fps, &c2, 1);
+    int result = swscanf_s(m_framestr, L"%d%c%f%c", &frame, &c1, 1, &fps, &c2, 1);
     if (result == 1) {
-        m_time = (REFERENCE_TIME)ceil(10000000.0 * frame / m_fps);
+        m_time = frame < 2 ? 0LL : (REFERENCE_TIME)ceil(10000000.0 * (frame - 1) / m_fps);
         OnOK();
     } else if (result == 3 && c1 == L',') {
-        m_time = (REFERENCE_TIME)ceil(10000000.0 * frame / fps);
+        m_time = frame < 2 ? 0LL : (REFERENCE_TIME)ceil(10000000.0 * (frame - 1) / fps);
         OnOK();
     } else if (result == 0 || c1 != L',') {
         AfxMessageBox(IDS_GOTO_ERROR_PARSING_TEXT, MB_ICONEXCLAMATION | MB_OK, 0);

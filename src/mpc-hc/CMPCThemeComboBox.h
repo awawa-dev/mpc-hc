@@ -16,6 +16,8 @@ public:
     void PreSubclassWindow();
     void drawComboArrow(CDC& dc, COLORREF arrowClr, CRect arrowRect);
     void checkHover(UINT nFlags, CPoint point, bool invalidate = true);
+    int SetCurSel(int nSelect);
+    void SelectByItemData(DWORD_PTR data);
     DECLARE_MESSAGE_MAP()
     afx_msg void OnPaint();
     afx_msg void OnSetFocus(CWnd* pOldWnd);

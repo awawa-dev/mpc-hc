@@ -187,14 +187,19 @@ void Subtitle::GetLCIDAndLangName(CStringW subName, LCID& lcid, CString& langnam
             lcid = lcidFull;
             langname = langFull;
         } else {
-            langname = ISOLang::ISO639XToLanguage(langSimple, true);
-
-            if (!langname.IsEmpty()) {
-                size_t len = mc[1].str().size();
-                if (len == 3) {
-                    lcid = ISOLang::ISO6392ToLcid(langSimple);
-                } else if (len == 2) {
-                    lcid = ISOLang::ISO6391ToLcid(langSimple);
+            size_t len = langSimple.GetLength();
+            if (len == 2 || len == 3) {
+                langname = ISOLang::ISO639XToLanguage(langSimple);
+                if (!langname.IsEmpty()) {
+                    if (len == 3) {
+                        lcid = ISOLang::ISO6392ToLcid(langSimple);
+                    } else  {
+                        lcid = ISOLang::ISO6391ToLcid(langSimple);
+                    }
+                }
+            } else if (len > 3) {
+                if (ISOLang::IsISO639Language(langSimple, &lcid)) {
+                    langname = langSimple;
                 }
             }
         }

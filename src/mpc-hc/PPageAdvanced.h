@@ -172,16 +172,17 @@ public:
 
 class CPPageAdvanced : public CMPCThemePPageBase
 {
+    DECLARE_DYNAMIC(CPPageAdvanced)
 public:
     CPPageAdvanced();
     virtual ~CPPageAdvanced() = default;
+    virtual void DoDPIChanged();
 
 private:
     enum { IDD = IDD_PPAGEADVANCED };
 
     enum ADVANCED_SETTINGS {
         HIDE_WINDOWED,
-        MPCTHEME_MODERNSEEKBAR,
         MODERNSEEKBAR_HEIGHT,
         DEFAULT_TOOLBAR_SIZE,
         USE_LEGACY_TOOLBAR,
@@ -215,6 +216,7 @@ private:
         USE_TITLE_IN_RECENT_FILE_LIST,
         MOUSE_LEFTUP_DELAY,
         LOCK_NOPAUSE,
+        PREVENT_DISPLAY_SLEEP,
         RELOAD_AFTER_LONG_PAUSE,
         INACCURATE_FASTSEEK,
         STILL_VIDEO_DURATION,
@@ -229,6 +231,8 @@ private:
         AUTO_DOWNLOAD_SCORE_SERIES,
         OPEN_REC_PANEL_WHEN_OPENING_DEVICE,
         ALWAYS_USE_SHORT_MENU,
+        USE_FREETYPE,
+        USE_MEDIAINFO_LOAD_FILE_DURATION
     };
 
     enum {
@@ -266,6 +270,8 @@ protected:
     virtual void DoDataExchange(CDataExchange* pDX) override;
     virtual BOOL OnInitDialog() override;
     virtual BOOL OnApply() override;
+    void initBoldFont();
+
 
     afx_msg void OnBnClickedDefaultButton();
     afx_msg void OnUpdateDefaultButton(CCmdUI* pCmdUI);

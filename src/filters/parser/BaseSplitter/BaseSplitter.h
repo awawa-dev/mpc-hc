@@ -65,14 +65,14 @@ public:
     }
 };
 
-class CPacketQueue
+class CPacketQueue2
     : public CCritSec
     , protected CAutoPtrList<Packet>
 {
     int m_size;
 
 public:
-    CPacketQueue();
+    CPacketQueue2();
     void Add(CAutoPtr<Packet> p);
     CAutoPtr<Packet> Remove();
     void RemoveAll();
@@ -118,7 +118,7 @@ protected:
     int m_nBuffers;
 
 private:
-    CPacketQueue m_queue;
+    CPacketQueue2 m_queue;
 
     HRESULT m_hrDeliver;
 

@@ -172,6 +172,7 @@ DWORD WINAPI CRFSFile::ReadThread::ThreadStartStatic(void *param) {
 
 HRESULT CRFSFile::SyncRead(LONGLONG llPosition, DWORD lLength, BYTE* pBuffer, LONG* cbActual) {
     Archive rarArchive;
+    rarArchive.SetExceptions(false);
     CommandData cdata;
     cdata.Test = true;
     cdata.FileArgs.AddString(filename);

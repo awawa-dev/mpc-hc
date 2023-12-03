@@ -41,8 +41,16 @@ public:
     CSCBButton();
 
     void Move(CPoint ptTo) {ptOrg = ptTo; };
-    CRect GetRect() { return CRect(ptOrg, CSize(11, 11)); };
+    //mpc-hc changes to allow DPI changes
+    //CRect GetRect() { return CRect(ptOrg, CSize(11, 11)); };
+    CRect GetRect() { return CRect(ptOrg, dpiSize); };
+    void SetDpiSize(CSize s) { dpiSize = s; };
+
+    CSize dpiSize;
+    //end mpc-hc
+
     void Paint(CDC* pDC);
+
 
     BOOL    bPushed;
     BOOL    bRaised;

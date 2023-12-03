@@ -3,8 +3,9 @@
 #include <string>
 #include <streambuf>
 #include "SubRendererSettings.h"
-
-class STSStyle;
+#include "SubtitleHelpers.h"
+#include "../SubPic/SubPicProviderImpl.h"
+#include "STSStyle.h"
 
 struct ASS_LibraryDeleter {
     void operator()(ASS_Library* p) { if (p) ass_library_done(p); }
@@ -19,10 +20,10 @@ struct ASS_TrackDeleter {
 };
 
 std::string ConsumeAttribute(const char** ppsz_subtitle, std::string& attribute_value);
-ASS_Track* srt_read_file(ASS_Library* library, char* fname, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings);
-ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const UINT codePage, const STSStyle& style, const SubRendererSettings& subRendererSettings);
-void srt_header(char (&outBuffer)[1024], const STSStyle& style, const SubRendererSettings& subRendererSettings);
-void ConvertCPToUTF8(UINT CP, std::string& codepage_str);
+ASS_Track* srt_read_file(ASS_Library* library, CStringW fname, const STSStyle& style, OpenTypeLang::HintStr openTypeLangHint);
+ASS_Track* srt_read_data(ASS_Library* library, ASS_Track* track, std::istream &stream, const STSStyle& style, OpenTypeLang::HintStr openTypeLangHint);
+void srt_header(char (&outBuffer)[1024], const STSStyle& style, OpenTypeLang::HintStr openTypeLangHint);
+void ConvertCPToUTF8(int charset, std::string& codepage_str);
 std::string GetTag(const char** line, bool b_closing);
 bool IsClosed(const char* psz_subtitle, const char* psz_tagname);
 void ParseSrtLine(std::string& srtLine, const STSStyle& style);
@@ -89,4 +90,53 @@ static const struct s_color_tag {
         { "violet",         "EE82EE" },
         { "white",          "FFFFFF" },
         { "yellow",         "FFFF00" },
+};
+
+class CSimpleTextSubtitle;
+
+class LibassContext {
+public:
+    LibassContext(CSimpleTextSubtitle* sts);
+    ~LibassContext();
+    bool m_renderUsingLibass;
+
+    bool m_assloaded;
+    bool m_assfontloaded;
+    std::string m_trackData;
+
+    IFilterGraph* m_pGraph;
+    std::unique_ptr<ASS_Library, ASS_LibraryDeleter> m_ass;
+    std::unique_ptr<ASS_Renderer, ASS_RendererDeleter> m_renderer;
+    std::unique_ptr<ASS_Track, ASS_TrackDeleter> m_track;
+
+    boolean LibassEnabled();
+    boolean CheckSubType();
+    void InitLibASS();
+    bool LoadASSFile(Subtitle::SubType subType);
+    bool LoadASSTrack(char* data, int size, Subtitle::SubType subType);
+    void Unload();
+    void LoadASSSample(char* data, int dataSize, REFERENCE_TIME tStart, REFERENCE_TIME tStop);
+    void LoadTrackData(ASS_Track* track, char* data, int size);
+    void DefaultStyleChanged();
+    void LoadASSFont();
+    CRect GetSPDRect(SubPicDesc& spd);
+    POSITION GetStartPosition(REFERENCE_TIME rt, double fps);
+    REFERENCE_TIME GetCurrent(POSITION pos);
+    POSITION GetNext(POSITION pos);
+    STDMETHODIMP Render(REFERENCE_TIME rt, SubPicDesc& spd, RECT& bbox, CSize& size, CRect& vidRect);
+    bool RenderFrame(long long now, SubPicDesc& spd, CRect& rcDirty);
+    void SetFilterGraph(IFilterGraph* g) { m_pGraph = g; };
+    void SetPin(IPin* i) { m_pPin = i; };
+    void AssFlattenSSE2(ASS_Image* imagee, SubPicDesc& spd, CRect& rcDirty);
+    void AssFlatten(ASS_Image* image, SubPicDesc& spd, CRect& rcDirty);
+    void SetFrameSize(int w, int h);
+    bool IsLibassActive() { return m_assloaded; }
+
+protected:
+    CSimpleTextSubtitle* m_STS;
+    IPin* m_pPin;
+    std::unique_ptr<uint32_t[]> m_pixels;
+    CRect lastDirty;
+    REFERENCE_TIME rtCurrent;
+    bool curTimeInitialized;
 };

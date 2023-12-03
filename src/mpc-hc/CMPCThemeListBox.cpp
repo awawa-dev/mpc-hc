@@ -74,7 +74,7 @@ void CMPCThemeListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 void CMPCThemeListBox::OnNcPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (nullptr != themedSBHelper) {
             themedSBHelper->themedNcPaintWithSB();
         } else {
@@ -87,7 +87,7 @@ void CMPCThemeListBox::OnNcPaint()
 
 BOOL CMPCThemeListBox::PreTranslateMessage(MSG* pMsg)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         themedToolTip.RelayEvent(pMsg);
     }
     return CListBox::PreTranslateMessage(pMsg);
@@ -96,7 +96,7 @@ BOOL CMPCThemeListBox::PreTranslateMessage(MSG* pMsg)
 void CMPCThemeListBox::PreSubclassWindow()
 {
     CListBox::PreSubclassWindow();
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (CMPCThemeUtil::canUseWin10DarkTheme()) {
             SetWindowTheme(GetSafeHwnd(), L"DarkMode_Explorer", NULL);
         } else {
@@ -140,7 +140,7 @@ BOOL CMPCThemeListBox::OnLbnSelchange()
 
 void CMPCThemeListBox::updateToolTip(CPoint point)
 {
-    if (AppIsThemeLoaded() && nullptr != themedToolTip) {
+    if (AppNeedsThemedControls() && nullptr != themedToolTip) {
         TOOLINFO ti = { 0 };
         UINT_PTR tid = OnToolHitTest(point, &ti);
         //OnToolHitTest returns -1 on failure but doesn't update uId to match

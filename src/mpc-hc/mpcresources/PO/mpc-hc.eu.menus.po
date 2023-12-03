@@ -154,10 +154,6 @@ msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
 msgstr "&Arrunt"
 
-msgctxt "ID_VIEW_MPCTHEME"
-msgid "Dark Theme (restart)"
-msgstr "Azalgai Iluna (berrabiarazi)"
-
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
 msgstr "Ikusleiho &Osoan"
@@ -447,8 +443,8 @@ msgid "&Correct Monitor/Desktop AR Diff"
 msgstr "Z&uzendu Monitore/Mahaigain IM Aldea"
 
 msgctxt "POPUP"
-msgid "Pa&n && Scan"
-msgstr "Pan-S&can"
+msgid "P&nS Frame Adjust"
+msgstr ""
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

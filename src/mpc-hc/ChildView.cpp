@@ -28,13 +28,10 @@
 #include "ColorProfileUtil.h"
 
 CChildView::CChildView(CMainFrame* pMainFrame)
-    : m_vrect(0, 0, 0, 0)
-    , CMouseWnd(pMainFrame)
-    , m_pMainFrame(pMainFrame)
+    : CMouseWndWithArtView(pMainFrame)
     , m_bSwitchingFullscreen(false)
     , m_bFirstMedia(true)
 {
-    LoadImg();
     GetEventd().Connect(m_eventc, {
         MpcEvent::SWITCHING_TO_FULLSCREEN,
         MpcEvent::SWITCHED_TO_FULLSCREEN,
@@ -110,75 +107,6 @@ BOOL CChildView::PreTranslateMessage(MSG* pMsg)
     return CWnd::PreTranslateMessage(pMsg);
 }
 
-void CChildView::SetVideoRect(const CRect& r)
-{
-    m_vrect = r;
-
-    Invalidate();
-}
-
-void CChildView::LoadImg(const CString& imagePath)
-{
-    CMPCPngImage img;
-
-    if (!imagePath.IsEmpty()) {
-        img.LoadFromFile(imagePath);
-    }
-
-    LoadImgInternal(img.Detach());
-}
-
-void CChildView::LoadImg(std::vector<BYTE> buffer)
-{
-    CMPCPngImage img;
-
-    if (!buffer.empty()) {
-        img.LoadFromBuffer(buffer.data(), (UINT)buffer.size());
-    }
-
-    LoadImgInternal(img.Detach());
-}
-
-void CChildView::LoadImgInternal(HGDIOBJ hImg)
-{
-    CAppSettings& s = AfxGetAppSettings();
-    bool bHaveLogo = false;
-
-    m_img.DeleteObject();
-    m_resizedImg.Destroy();
-    m_bCustomImgLoaded = !!m_img.Attach(hImg);
-
-    if (!m_bCustomImgLoaded && s.fLogoExternal) {
-        bHaveLogo = !!m_img.LoadFromFile(s.strLogoFileName);
-    }
-
-    if (!bHaveLogo && !m_bCustomImgLoaded) {
-        s.fLogoExternal = false;               // use the built-in logo instead
-        s.strLogoFileName.Empty();             // clear logo file name
-        int useLogoId = s.nLogoId;
-        if (useLogoId == -1) { // if the user has never chosen a logo, we can try loading a theme default logo
-            if (AppIsThemeLoaded()) {
-                useLogoId = CMPCThemeUtil::defaultLogo();
-            } else {
-                useLogoId = DEF_LOGO;
-            }
-        }
-        if (!m_img.Load(useLogoId)) { // try the latest selected build-in logo
-            s.nLogoId = -1;           // upon failure, use default
-            m_img.Load(DEF_LOGO);
-        }
-    }
-
-    if (m_hWnd) {
-        Invalidate();
-    }
-}
-
-CSize CChildView::GetLogoSize()
-{
-    return m_img.GetSize();
-}
-
 IMPLEMENT_DYNAMIC(CChildView, CMouseWnd)
 
 BEGIN_MESSAGE_MAP(CChildView, CMouseWnd)
@@ -193,73 +121,6 @@ void CChildView::OnPaint()
 {
     CPaintDC dc(this);
     m_pMainFrame->RepaintVideo();
-}
-
-BOOL CChildView::OnEraseBkgnd(CDC* pDC)
-{
-    if (!pDC) {
-        ASSERT(FALSE);
-        return FALSE;
-    }
-
-    CRect r;
-    CImage img;
-    img.Attach(m_img);
-
-    if ((m_pMainFrame->GetLoadState() != MLS::CLOSED || (!m_bFirstMedia && m_pMainFrame->m_controls.DelayShowNotLoaded())) &&
-            !m_pMainFrame->HasFullScreenWindow() && !m_pMainFrame->m_fAudioOnly) {
-        pDC->ExcludeClipRect(m_vrect);
-    } else if (!img.IsNull()) {
-        const double dImageAR = double(img.GetWidth()) / img.GetHeight();
-
-        GetClientRect(r);
-        int width = r.Width();
-        int height = r.Height();
-        if (!m_bCustomImgLoaded) {
-            // Limit logo size
-            // TODO: Use vector logo to preserve quality and remove limit.
-            width = std::min(img.GetWidth(), width);
-            height = std::min(img.GetHeight(), height);
-        }
-
-        double dImgWidth = height * dImageAR;
-        double dImgHeight;
-        if (width < dImgWidth) {
-            dImgWidth = width;
-            dImgHeight = dImgWidth / dImageAR;
-        } else {
-            dImgHeight = height;
-        }
-
-        int x = std::lround((r.Width() - dImgWidth) / 2.0);
-        int y = std::lround((r.Height() - dImgHeight) / 2.0);
-
-        r = CRect(CPoint(x, y), CSize(std::lround(dImgWidth), std::lround(dImgHeight)));
-
-        if (!r.IsRectEmpty()) {
-            if (m_resizedImg.IsNull() || r.Width() != m_resizedImg.GetWidth() || r.Height() != m_resizedImg.GetHeight() || img.GetBPP() != m_resizedImg.GetBPP()) {
-                m_resizedImg.Destroy();
-                m_resizedImg.Create(r.Width(), r.Height(), std::max(img.GetBPP(), 24));
-
-                HDC hDC = m_resizedImg.GetDC();
-                SetStretchBltMode(hDC, STRETCH_HALFTONE);
-                img.StretchBlt(hDC, 0, 0, r.Width(), r.Height(), SRCCOPY);
-                m_resizedImg.ReleaseDC();
-                if (AfxGetAppSettings().fLogoColorProfileEnabled) {
-                    ColorProfileUtil::applyColorProfile(m_hWnd, m_resizedImg);
-                }
-            }
-
-            m_resizedImg.BitBlt(*pDC, r.TopLeft());
-            pDC->ExcludeClipRect(r);
-        }
-    }
-    img.Detach();
-
-    GetClientRect(r);
-    pDC->FillSolidRect(r, 0);
-
-    return TRUE;
 }
 
 void CChildView::OnSize(UINT nType, int cx, int cy)

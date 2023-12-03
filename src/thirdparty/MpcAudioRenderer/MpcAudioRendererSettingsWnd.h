@@ -38,27 +38,28 @@ class __declspec(uuid("1E53BA32-3BCC-4dff-9342-34E46BE3F5A5"))
 private :
 	CComQIPtr<IMpcAudioRendererFilter> m_pMAR;
 
-    DpiHelper m_dpi;
+		DpiHelper m_dpi;
 
 	AudioDevices::deviceList_t m_deviceList;
 
-	CMPCThemeGroupBox	m_output_group;
-	CMPCThemeStatic		m_txtWasapiMode;
-	CMPCThemeComboBox	m_cbWasapiMode;
-	CMPCThemeStatic		m_txtWasapiMethod;
-	CMPCThemeComboBox	m_cbWasapiMethod;
-	CMPCThemeStatic		m_txtDevicePeriod;
-	CMPCThemeComboBox	m_cbDevicePeriod;
+	CMPCThemeGroupBox m_output_group;
+	CMPCThemeStatic   m_txtWasapiMode;
+	CMPCThemeComboBox m_cbWasapiMode;
+	CMPCThemeStatic   m_txtWasapiMethod;
+	CMPCThemeComboBox m_cbWasapiMethod;
+	CMPCThemeStatic   m_txtDevicePeriod;
+	CMPCThemeComboBox m_cbDevicePeriod;
 
-	CMPCThemeRadioOrCheck		m_cbUseBitExactOutput;
-    CMPCThemeRadioOrCheck		m_cbUseSystemLayoutChannels;
-	CMPCThemeRadioOrCheck       m_cbCheckFormat;
-    CMPCThemeRadioOrCheck		m_cbReleaseDeviceIdle;
-    CMPCThemeRadioOrCheck		m_cbUseCrossFeed;
-	CMPCThemeRadioOrCheck		m_cbDummyChannels;
+	CMPCThemeRadioOrCheck m_cbUseBitExactOutput;
+	CMPCThemeRadioOrCheck m_cbUseSystemLayoutChannels;
+	CMPCThemeRadioOrCheck m_cbAltCheckFormat;
+	CMPCThemeRadioOrCheck m_cbReleaseDeviceIdle;
+	CMPCThemeRadioOrCheck m_cbUseCrossFeed;
+	CMPCThemeRadioOrCheck m_cbDummyChannels;
+	CMPCThemeButton       m_btnReset;
 
-	CMPCThemeStatic		m_txtSoundDevice;
-	CMPCThemeComboBox	m_cbSoundDevice;
+	CMPCThemeStatic	  m_txtSoundDevice;
+	CMPCThemeComboBox m_cbSoundDevice;
 
 	enum {
 		IDC_PP_SOUND_DEVICE = 10000,
@@ -67,16 +68,17 @@ private :
 		IDC_PP_WASAPI_DEVICE_PERIOD,
 		IDC_PP_USE_BITEXACT_OUTPUT,
 		IDC_PP_USE_SYSTEM_LAYOUT_CHANNELS,
-		IDC_PP_CHECK_FORMAT,
+		IDC_PP_ALT_FORMAT_CHECK,
 		IDC_PP_FREE_DEVICE_INACTIVE,
 		IDC_PP_USE_CROSSFEED,
-		IDC_PP_DUMMY_CHANNELS
+		IDC_PP_DUMMY_CHANNELS,
+		IDC_PP_RESET,
 	};
 
 public:
 	CMpcAudioRendererSettingsWnd();
 
-	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks) override;
 	void OnDisconnect();
 	bool OnActivate();
 	void OnDeactivate();
@@ -89,6 +91,8 @@ public:
 
 	afx_msg void OnClickedWasapiMode();
 	afx_msg void OnClickedBitExact();
+	afx_msg void OnBnClickedReset();
+	afx_msg BOOL OnToolTipNotify(UINT id, NMHDR * pNMHDR, LRESULT * pResult);
 };
 
 
@@ -98,12 +102,12 @@ class __declspec(uuid("E3D0704B-1579-4E9E-8674-2674CB90D07A"))
 private :
 	CComQIPtr<IMpcAudioRendererFilter> m_pMAR;
 
-	CMPCThemeStatic		m_txtDevice;
+	CMPCThemeStatic	m_txtDevice;
 	CMPCThemeEdit		m_edtDevice;
-	CMPCThemeStatic		m_txtMode;
+	CMPCThemeStatic	m_txtMode;
 	CMPCThemeEdit		m_edtMode;
 
-    CMPCThemeGroupBox	m_grpInput;
+	CMPCThemeGroupBox	m_grpInput;
 	CMPCThemeStatic		m_InputFormatLabel;
 	CMPCThemeStatic		m_InputFormatText;
 	CMPCThemeStatic		m_InputChannelLabel;
@@ -111,7 +115,7 @@ private :
 	CMPCThemeStatic		m_InputRateLabel;
 	CMPCThemeStatic		m_InputRateText;
 
-    CMPCThemeGroupBox	m_grpOutput;
+	CMPCThemeGroupBox	m_grpOutput;
 	CMPCThemeStatic		m_OutputFormatLabel;
 	CMPCThemeStatic		m_OutputFormatText;
 	CMPCThemeStatic		m_OutputChannelLabel;
@@ -127,7 +131,7 @@ protected:
 public:
 	CMpcAudioRendererStatusWnd();
 
-	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks);
+	bool OnConnect(const CInterfaceList<IUnknown, &IID_IUnknown>& pUnks) override;
 	void OnDisconnect();
 	bool OnActivate();
 	void OnDeactivate();

@@ -5,8 +5,9 @@
 #undef SubclassWindow
 
 
-CMPCThemeDialog::CMPCThemeDialog()
+CMPCThemeDialog::CMPCThemeDialog(bool isDummy /* = false */)
 {
+    this->isDummy = isDummy;
 }
 
 CMPCThemeDialog::CMPCThemeDialog(UINT nIDTemplate, CWnd* pParentWnd) : CDialog(nIDTemplate, pParentWnd)
@@ -40,3 +41,11 @@ HBRUSH CMPCThemeDialog::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         return hbr;
     }
 }
+BOOL CMPCThemeDialog::PreTranslateMessage(MSG* pMsg) {
+    if (isDummy) {
+        return FALSE;
+    } else {
+        return CDialog::PreTranslateMessage(pMsg);
+    }
+}
+

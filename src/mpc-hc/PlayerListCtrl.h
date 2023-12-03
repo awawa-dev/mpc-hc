@@ -23,6 +23,7 @@
 
 #include "WinHotkeyCtrl.h"
 #include "CMPCThemeComboBox.h"
+#include "CMPCThemePlayerListCtrl.h"
 
 #define LVN_DOLABELEDIT (LVN_FIRST+1)
 
@@ -141,7 +142,7 @@ public:
 
 // CPlayerListCtrl
 
-class CPlayerListCtrl : public CListCtrl
+class CPlayerListCtrl : public CMPCThemePlayerListCtrl
 {
     DECLARE_DYNAMIC(CPlayerListCtrl)
 

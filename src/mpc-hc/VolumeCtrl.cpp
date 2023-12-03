@@ -34,7 +34,7 @@ CVolumeCtrl::CVolumeCtrl(bool fSelfDrawn)
     : m_fSelfDrawn(fSelfDrawn)
     , m_bDrag(false)
     , m_bHover(false)
-    , modernStyle(AfxGetAppSettings().bModernSeekbar)
+    , modernStyle(AfxGetAppSettings().bMPCTheme)
 {
 }
 

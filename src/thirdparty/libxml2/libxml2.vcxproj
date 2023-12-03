@@ -166,7 +166,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>..\liblzma\liblzma\src\liblzma\api;..\zlib;..\libiconv\libiconv-for-Windows\libiconv-1.16\include;libxml2\include;libxml2\SMP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\liblzma\liblzma\src\liblzma\api;..\zlib;..\libiconv\libiconv-for-Windows\libiconv\include;libxml2\include;libxml2\SMP;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatSpecificWarningsAsErrors>4113;%(TreatSpecificWarningsAsErrors)</TreatSpecificWarningsAsErrors>
       <DisableSpecificWarnings>4267;4244;4005;4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>

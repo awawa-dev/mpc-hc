@@ -47,7 +47,7 @@
 #define DEF_LOGO IDF_LOGO3
 
 #define MIN_MODERN_SEEKBAR_HEIGHT 8
-#define DEF_MODERN_SEEKBAR_HEIGHT 12
+#define DEF_MODERN_SEEKBAR_HEIGHT 16
 #define MAX_MODERN_SEEKBAR_HEIGHT 64
 
 #define MIN_FULLSCREEN_DELAY 0
@@ -217,6 +217,7 @@ public:
 #define GetEventd() AfxGetMyApp()->m_eventd
 
 #define AppIsThemeLoaded() (static_cast<CMPlayerCApp*>(AfxGetApp())->m_bThemeLoaded)
+#define AppNeedsThemedControls() (AppIsThemeLoaded() && CMPCTheme::drawThemedControls)
 
 #define AfxGetMainFrame()   static_cast<CMainFrame*>(AfxGetMainWnd())
 #define AfxFindMainFrame()  dynamic_cast<CMainFrame*>(AfxGetMainWnd())

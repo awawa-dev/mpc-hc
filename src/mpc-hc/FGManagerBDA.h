@@ -144,6 +144,7 @@ private:
     CComPtr<IBDA_AutoDemodulate>         m_pBDAAutoDemulate;
     DVB_RebuildFilterGraph m_nDVBRebuildFilterGraph;
     CAtlMap<BDA_STREAM_TYPE, CDVBStream> m_DVBStreams;
+    bool tunerIsATSC;
 
     BDA_STREAM_TYPE m_nCurVideoType;
     BDA_STREAM_TYPE m_nCurAudioType;

@@ -1,0 +1,92 @@
+# MPC-HC - Strings extracted from string tables
+# Copyright (C) 2002 - 2017 see Authors.txt
+# This file is distributed under the same license as the MPC-HC package.
+# Translators:
+# skog lol, 2023
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: MPC-HC\n"
+"POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
+"PO-Revision-Date: 2020-01-02 07:46+0000\n"
+"Last-Translator: skog lol, 2023\n"
+"Language-Team: Norwegian Bokmål (https://app.transifex.com/mpchc/teams/106126/nb/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: nb\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "Messages_WelcomeLabel2"
+msgid ""
+"This will install [name] on your computer.\n"
+"\n"
+"It is recommended that you close all other applications before continuing."
+msgstr ""
+"Dette vil installere [name] på din datamaskin.\n"
+"\n"
+"Det er anbefalt at du lukker alle andre applikasjoner før du fortsetter."
+
+msgctxt "Messages_WinVersionTooLowError"
+msgid "[name] requires Windows Vista or newer to run."
+msgstr "[name] behøver Windows Vista eller nyere for å kjøre."
+
+msgctxt "CustomMessages_comp_mpciconlib"
+msgid "Icon Library"
+msgstr "Ikonsbibliotek"
+
+msgctxt "CustomMessages_comp_mpcresources"
+msgid "Translations"
+msgstr "Oversettelser"
+
+msgctxt "CustomMessages_msg_DeleteSettings"
+msgid ""
+"Do you also want to delete MPC-HC settings?\n"
+"\n"
+"If you plan on installing MPC-HC again then you do not have to delete them."
+msgstr ""
+"Ønsker du å også slettte MPC-HC innstillingene?\n"
+"\n"
+"Hvis du har tenkt å installere MPC-HC igjen trenger du ikke å slette dem."
+
+msgctxt "CustomMessages_msg_simd_sse2"
+msgid ""
+"This build of MPC-HC requires a CPU with SSE2 extension support.\n"
+"\n"
+"Your CPU does not have those capabilities."
+msgstr ""
+"Denne versjonen av MPC-HC krever en CPU som støtter SSE2 utvidelsen.\n"
+"\n"
+"Din CPU støtter ikke denne."
+
+msgctxt "CustomMessages_run_DownloadToolbarImages"
+msgid "Visit our Wiki page to download toolbar images"
+msgstr "Besøk Wiki-siden vår for å laste ned verktøyslinje-ikoner"
+
+msgctxt "CustomMessages_tsk_AllUsers"
+msgid "For all users"
+msgstr "For alle brukere"
+
+msgctxt "CustomMessages_tsk_CurrentUser"
+msgid "For the current user only"
+msgstr "Kun for nåværende bruker"
+
+msgctxt "CustomMessages_tsk_Other"
+msgid "Other tasks:"
+msgstr "Andre gjøremål:"
+
+msgctxt "CustomMessages_tsk_ResetSettings"
+msgid "Reset settings"
+msgstr "Tilbakestill innstillinger"
+
+msgctxt "CustomMessages_types_DefaultInstallation"
+msgid "Default installation"
+msgstr "Standard installasjon"
+
+msgctxt "CustomMessages_types_CustomInstallation"
+msgid "Custom installation"
+msgstr "Egendefinert installasjon"
+
+msgctxt "CustomMessages_ViewChangelog"
+msgid "View Changelog"
+msgstr "Vis endringslogg"

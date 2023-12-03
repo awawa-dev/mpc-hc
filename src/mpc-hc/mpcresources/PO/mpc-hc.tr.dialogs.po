@@ -4,15 +4,15 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
-# Mücahid Aksel <mucahidaksel@gmail.com>, 2022
+# Mücahid Aksel <mucahidaksel@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-01-01 22:20:31+0000\n"
+"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2022\n"
-"Language-Team: Turkish (https://www.transifex.com/mpchc/teams/106126/tr/)\n"
+"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2023\n"
+"Language-Team: Turkish (https://app.transifex.com/mpchc/teams/106126/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -77,7 +77,8 @@ msgstr "Kayıt"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
-msgstr "Dahili ses dönüştürücü süzgecini kullan (yeniden başlatma gerektirir)"
+msgstr ""
+"Dahili ses dönüştürücü filtresini kullan (yeniden başlatma gerektirir)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -206,19 +207,17 @@ msgstr "Hakkında"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
 msgid "Copyright 2002-2023 clsid2 and others"
-msgstr "Telif Hakkı 2002-2023 clsid2 ve diğerleri"
+msgstr "Telif hakkı 2002-2023 clsid2 ve diğerleri"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
 "This program is freeware and released under the GNU General Public License."
 msgstr ""
-"Bu yazılım ücretsizdir ve Genel Kamu Lisansı (GNU) altında yayınlanmıştır."
+"Bu yazılım ücretsizdir ve Genel Kamu Lisansı (GNU) ile yayınlanmıştır."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr ""
-"bosluk - Sinan Hunerel ve xLn2 - Mücahid Aksel tarafından "
-"Türkçeleştirilmiştir"
+msgstr "Türkçe çevirisi Mücahid Aksel tarafından yapıldı"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -358,7 +357,7 @@ msgstr "Son pencere boyutunu hatırla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Son büyütme ayarlarını hatırla"
+msgstr "Son Süzme ve Tarama ayarlarını hatırla"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
@@ -394,7 +393,7 @@ msgstr "Diğer ayarlar"
 
 msgctxt "IDD_PPAGEDVD_IDC_CHECK2"
 msgid "Allow closed captions in \"Line 21 Decoder\""
-msgstr "\"Line 21 Çözücüsü\" için görüntü almaya izin ver"
+msgstr "Ayrıntılı altyazılara \"Line 21 Çözücüsü\" içerisinde izin ver"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio"
@@ -498,7 +497,7 @@ msgstr "Ses:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK4"
 msgid "Allow overriding external splitter choice"
-msgstr "Harici ayırıcı komut seçimlerine izin ver"
+msgstr "Harici ayırıcı tercihlerini geçersiz kıl"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
@@ -506,7 +505,7 @@ msgstr "Genel Ayarlar"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
-msgstr "Süzgeç grafiği kurulumu için oynatıcı önceliğini kullan"
+msgstr "Filtre grafiğini oluşturmak için üstlenici izlek özelliğini kullan"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
@@ -640,7 +639,7 @@ msgstr "Dizin"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK7"
 msgid "Playlist"
-msgstr ""
+msgstr "Oynatma listesi"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC1"
 msgid "Autoplay"
@@ -716,8 +715,8 @@ msgstr ""
 "önceki/sonraki dosyayı aç"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Show time tooltip:"
-msgstr "Süre gösterim yerleşimi:"
+msgid "Show time tooltip (and preview):"
+msgstr "Zaman (ve önizleme) bilgi kutusunu göster:"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
 msgid "OSD font:"
@@ -725,7 +724,7 @@ msgstr "OSD yazı tipi:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Süzgeç Ekle..."
+msgstr "Filtre Ekle..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
@@ -793,7 +792,7 @@ msgstr "Klip:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Author:"
-msgstr "Yazar:"
+msgstr "Eser sahibi:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Copyright:"
@@ -813,7 +812,7 @@ msgstr "Açıklama:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Sık Kullanılanlara Ekle"
+msgstr "Favorilere Ekle"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
@@ -829,7 +828,7 @@ msgstr "A-B tekrarlama noktalarını hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
-msgstr "İlişkili sürücü"
+msgstr "Bağıl sürücü"
 
 msgctxt "IDD_FAVADD_IDOK"
 msgid "OK"
@@ -841,7 +840,7 @@ msgstr "İptal"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Sık Kullanılanları Düzenle"
+msgstr "Favorileri Düzenle"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
@@ -864,8 +863,8 @@ msgid "OK"
 msgstr "Tamam"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
-msgid "Pan & Scan Presets"
-msgstr "Süzme & Tarama Varsayılanları"
+msgid "PnS Frame Adjust Presets"
+msgstr ""
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -928,12 +927,12 @@ msgid ""
 "MPC-HC could not render some of the pins in the graph, you may not have the "
 "needed codecs or filters installed on the system."
 msgstr ""
-"MPC-HC, grafikteki bazı görüntüleri gösteremedi. Gerekli süzgeçler "
-"indirilmemiş ya da sisteminize yüklenmemiş olabilir."
+"MPC-HC, grafikteki bazı görüntüleri gösteremedi. Gerekli kodek veya "
+"filtreler mevcut değil ya da sisteminize yüklenmemiş olabilir."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Aşağıdaki işlem(ler) uygun bir süzgeç bulmakta başarısız oldu:"
+msgstr "Aşağıdaki işlem(ler) uygun bir filtre bulmakta başarısız oldu:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
@@ -993,7 +992,7 @@ msgstr "piksel"
 
 msgctxt "IDD_ADDREGFILTER_CAPTION"
 msgid "Select Filter"
-msgstr "Süzgeç Seçimi"
+msgstr "Filtre Seçimi"
 
 msgctxt "IDD_ADDREGFILTER_IDC_BUTTON1"
 msgid "Browse..."
@@ -1103,22 +1102,41 @@ msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
 msgstr "Alfa kanallarını bağla"
 
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC21"
+msgid "8-bit Character Set"
+msgstr "8-bit Karakter kümesi"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC22"
+msgid "OpenType Language"
+msgstr "OpenType Dili"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC_LIBASS"
+msgid "Libass Options"
+msgstr "Libass Seçenekleri"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK2"
+msgid "Use libass for SSA/ASS"
+msgstr "SSA/ASS için libass kullan"
+
+msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK3"
+msgid "Use libass for SRT"
+msgstr "SRT için libass kullan"
+
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
 "If you would like to use the stand-alone versions of these filters or "
 "another replacement, disable them here."
 msgstr ""
-"Süzgeçlerin başka sürümlerini veya aynı işte görevli başka yapımlarını "
-"kullanmak istiyorsanız, aşağıdaki bölümden kapatıp açma işlemlerini "
-"gerçekleştirebilirsiniz."
+"Bu filtrelerin bağımsız sürümlerini veya başka bir ikame kullanmak "
+"isterseniz, onları burada devre dışı bırakın."
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Source Filters"
-msgstr "Kaynak Süzgeçleri"
+msgstr "Kaynak Filtreleri"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Transform Filters"
-msgstr "Dönüştürme Süzgeçleri"
+msgstr "Dönüştürme Filtreleri"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid "Internal LAV Filters settings"
@@ -1154,7 +1172,11 @@ msgstr "Monitör renk profilini uygula"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
-msgstr "DirectShow Video'su"
+msgstr "DirectShow Videosu"
+
+msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
+msgid "Settings"
+msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1180,13 +1202,17 @@ msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Audio Renderer"
 msgstr "Ses İşleyicisi"
 
+msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
+msgid "Settings"
+msgstr ""
+
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
 msgstr "Altyazı İşleyicisi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "VMR-9 (renderless) and EVR (CP) settings"
-msgstr "VKI-9 (işleyicisiz) ve EVR (CP) ayarları"
+msgstr "VKI-9 (işleyicisiz) ve GVİ (ÖS) ayarları"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Surface:"
@@ -1202,7 +1228,7 @@ msgstr "D3D9 İşleyici aygıtı seçimi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
-msgstr "Görüntüyü değiştirirken yeniden başlat"
+msgstr "Ekranı değiştirirken yeniden başlat"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
@@ -1402,7 +1428,7 @@ msgstr "Dengeli kullanım"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Symbol Rate"
-msgstr ""
+msgstr "Symbol Rate"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
@@ -1454,11 +1480,11 @@ msgstr "Kanal değiştirme yöntemi:"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST11"
 msgid "Rebuild filter graph"
-msgstr "Süzgeç grafiği oluştur"
+msgstr "Filtre grafiği oluştur"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_PPAGECAPTURE_ST12"
 msgid "Stop filter graph"
-msgstr "Süzgeç grafiği durdur"
+msgstr "Filtre grafiği durdur"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
@@ -1512,7 +1538,7 @@ msgctxt "IDD_PPAGESYNC_IDC_STATIC10"
 msgid "Changes take effect after the playback has been closed and restarted."
 msgstr ""
 "Değişiklikler, yürütme kapatıldıktan ve uygulama yeniden başlatıldıktan "
-"sonra uygulanacaktır."
+"sonra geçerli olacaktır."
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK1"
 msgid "Launch files in fullscreen"
@@ -1614,8 +1640,8 @@ msgctxt "IDD_PPAGESUBMISC_IDC_CHECK5"
 msgid ""
 "Prefer subtitles for hearing impaired (when indicated by subtitles provider)"
 msgstr ""
-"İşitme engelliler için hazırlanmış altyazıları tercih et (sağlayıcı "
-"tanımlamışsa)"
+"İşitme güçlüğü olanlar için hazırlanmış ayrıntılı altyazıları tercih et "
+"(sağlayıcı tarafından belirtilmişse)"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_STATIC1"
 msgid "Ignore files containing any of the following word(s):"
@@ -1629,6 +1655,8 @@ msgctxt "IDD_PPAGESUBMISC_IDC_CHECK_AUTOSAVE_ONLINE_SUBTITLE"
 msgid ""
 "Automatically save downloaded subtitles to the first autoload path folder"
 msgstr ""
+"İndirilen altyazıları otomatik olarak altyazı konumlarındaki ilk klasöre "
+"kaydet"
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
@@ -1671,7 +1699,7 @@ msgstr "Arka tonlayıcı ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Tonlama varsayılanları"
+msgstr "Önayarlı Tonlayıcılar"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
@@ -1698,6 +1726,8 @@ msgid ""
 "MPC-VR does not support pre-resize shaders. It will run them after resize, "
 "before the post-resize shaders."
 msgstr ""
+" MPC-VR ön tonlayıcıları desteklemez. Tonlayıcılar son tonlama öncesinde "
+"çalışır."
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
@@ -1849,12 +1879,28 @@ msgstr "MPC-HC 'yi yeniden başlat"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr "MPC-HC 'yi Kapat"
+msgstr "MPC-HC'yi Kapat"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC1"
 msgid "Groupbox"
-msgstr ""
+msgstr "Groupbox"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC2"
 msgid "Autoplay"
-msgstr ""
+msgstr "Autoplay"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
+msgid "Modern Theme Settings (require restart)"
+msgstr "Modern Tema Ayarları (yeniden başlatma gerektirir)"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
+msgid "Use Modern Theme"
+msgstr "Modern Tema kullan"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Modern Seekbar height:"
+msgstr "Modern İlerleme çubuğu yüksekliği:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
+msgid "Modern Theme Color:"
+msgstr "Modern Tema Rengi:"

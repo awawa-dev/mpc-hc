@@ -61,14 +61,21 @@ void CMPCThemeSliderCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     CRect thumbRect;
                     GetThumbRect(thumbRect);
 
-                    CopyRect(&pNMCD->rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 2));
+                    CRect r;
+                    if (TBS_VERT == (GetStyle() & TBS_VERT)) {
+                        channelRect = CRect(channelRect.top, channelRect.left, channelRect.bottom, channelRect.right); //for vertical, channelrect returns 90deg rotated dimensions
+                        channelRect.NormalizeRect();
+                        CopyRect(&pNMCD->rc, CRect(thumbRect.left + 2, channelRect.top, thumbRect.right - 3, channelRect.bottom - 2));
+                        CopyRect(r, &pNMCD->rc);
+                        r.DeflateRect(6, 0, 6, 0);
+                    }
+                    else {
+                        CopyRect(&pNMCD->rc, CRect(channelRect.left, thumbRect.top + 2, channelRect.right - 2, thumbRect.bottom - 3));
+                        CopyRect(r, &pNMCD->rc);
+                        r.DeflateRect(0, 6, 0, 6);
+                    }
 
-                    CPen shadow;
-                    CPen light;
-                    shadow.CreatePen(PS_SOLID, 1, CMPCTheme::ShadowColor);
-                    light.CreatePen(PS_SOLID, 1, CMPCTheme::LightColor);
-                    CRect r(pNMCD->rc);
-                    r.DeflateRect(0, 6, 0, 6);
+
                     dc.FillSolidRect(r, CMPCTheme::SliderChannelColor);
                     CBrush fb;
                     fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
@@ -76,8 +83,6 @@ void CMPCThemeSliderCtrl::OnNMCustomdraw(NMHDR* pNMHDR, LRESULT* pResult)
                     fb.DeleteObject();
 
                     dc.Detach();
-                    light.DeleteObject();
-                    shadow.DeleteObject();
                     lr = CDRF_SKIPDEFAULT;
                 } else if (pNMCD->dwItemSpec == TBCD_THUMB) {
                     CDC dc;

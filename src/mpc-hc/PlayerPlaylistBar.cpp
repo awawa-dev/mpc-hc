@@ -34,13 +34,16 @@
 #include "CMPCTheme.h"
 #include "CoverArt.h"
 #include "FileHandle.h"
+#include "MediaInfo/MediaInfoDLL.h"
+
 #undef SubclassWindow
 
 
 
 IMPLEMENT_DYNAMIC(CPlayerPlaylistBar, CMPCThemePlayerBar)
 CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
-    : m_pMainFrame(pMainFrame)
+    : CMPCThemePlayerBar(pMainFrame)
+    , m_pMainFrame(pMainFrame)
     , m_list(0)
     , m_nTimeColWidth(0)
     , m_pDragImage(nullptr)
@@ -53,6 +56,7 @@ CPlayerPlaylistBar::CPlayerPlaylistBar(CMainFrame* pMainFrame)
     , inlineEditXpos(0)
     , m_tcLastSave(0)
     , m_SaveDelayed(false)
+    , m_insertingPos(nullptr)
 {
     GetEventd().Connect(m_eventc, {
         MpcEvent::DPI_CHANGED,
@@ -158,6 +162,56 @@ void CPlayerPlaylistBar::SetHiddenDueToFullscreen(bool bHiddenDueToFullscreen)
     m_bHiddenDueToFullscreen = bHiddenDueToFullscreen;
 }
 
+void CPlayerPlaylistBar::LoadDuration(POSITION pos) {
+    if (AfxGetAppSettings().bUseMediainfoLoadFileDuration) {
+
+        CPlaylistItem& pli = m_pl.GetAt(pos);
+
+        MediaInfoDLL::MediaInfo mi;
+        if (mi.IsReady()) {
+            auto fn = pli.m_fns.GetHead();
+            if (!PathUtils::IsURL(fn)) {
+                auto fnString = fn.GetBuffer();
+                size_t fp = mi.Open(fnString);
+                fn.ReleaseBuffer();
+                if (fp > 0) {
+                    MediaInfoDLL::String info = mi.Get(MediaInfoDLL::Stream_General, 0, L"Duration");
+                    if (!info.empty()) {
+                        try {
+                            int duration = std::stoi(info);
+                            if (duration > 0) {
+                                pli.m_duration = duration * 10000LL;
+                                m_list.SetItemText(FindItem(pos), COL_TIME, pli.GetLabel(1));
+                            }
+                        } catch (...) {
+                        }
+                    }
+                }
+            }
+            mi.Close();
+        }
+    }
+}
+
+void CPlayerPlaylistBar::AddItem(CString fn, bool insertAtCurrent /*= false*/)
+{
+    if (fn.IsEmpty()) {
+        return;
+    }
+
+    CPlaylistItem pli;
+    pli.m_fns.AddTail(fn);
+    pli.AutoLoadFiles();
+
+    POSITION pos;
+    if (insertAtCurrent && m_insertingPos != nullptr) {
+        pos = m_insertingPos = m_pl.InsertAfter(m_insertingPos, pli);
+    } else {
+        pos = m_pl.AddTail(pli);
+    }
+    LoadDuration(pos);
+}
+
 void CPlayerPlaylistBar::AddItem(CString fn, CAtlList<CString>* subs)
 {
     CAtlList<CString> sl;
@@ -207,7 +261,11 @@ void CPlayerPlaylistBar::AddItem(CAtlList<CString>& fns, CAtlList<CString>* subs
         pli.m_ydl_subs.AddTailList(ydl_subs);
     }
 
-    m_pl.AddTail(pli);
+    POSITION ipos = m_pl.AddTail(pli);
+
+    if (m_pl.GetCount() > 1) {
+        LoadDuration(ipos);
+    }
 }
 
 void CPlayerPlaylistBar::ReplaceCurrentItem(CAtlList<CString>& fns, CAtlList<CString>* subs, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
@@ -272,7 +330,7 @@ void CPlayerPlaylistBar::ResolveLinkFiles(CAtlList<CString>& fns)
     }
 }
 
-bool CPlayerPlaylistBar::AddItemNoDuplicate(CString fn)
+bool CPlayerPlaylistBar::AddItemNoDuplicate(CString fn, bool insertAtCurrent /*= false*/)
 {
     POSITION pos = m_pl.GetHeadPosition();
     CString fnLower = CString(fn).MakeLower();
@@ -288,20 +346,21 @@ bool CPlayerPlaylistBar::AddItemNoDuplicate(CString fn)
         }
     }
 
-    AddItem(fn);
+    AddItem(fn, insertAtCurrent);
     return true;
 }
 
-bool CPlayerPlaylistBar::AddFromFilemask(CString mask)
+bool CPlayerPlaylistBar::AddFromFilemask(CString mask, bool recurse_dirs, bool insertAtCurrent /*= false*/)
 {
     ASSERT(ContainsWildcard(mask));
+
     bool added = false;
 
     std::set<CString, CStringUtils::LogicalLess> filelist;
-    if (m_pMainFrame->WildcardFileSearch(mask, filelist)) {
+    if (m_pMainFrame->WildcardFileSearch(mask, filelist, recurse_dirs)) {
         auto it = filelist.begin();
         while (it != filelist.end()) {
-            if (AddItemNoDuplicate(*it)) {
+            if (AddItemNoDuplicate(*it, insertAtCurrent)) {
                 added = true;
             }
             it++;
@@ -311,10 +370,10 @@ bool CPlayerPlaylistBar::AddFromFilemask(CString mask)
     return added;
 }
 
-bool CPlayerPlaylistBar::AddItemsInFolder(CString pathname)
+bool CPlayerPlaylistBar::AddItemsInFolder(CString pathname, bool insertAtCurrent /*= false*/)
 {
     CString mask = CString(pathname).TrimRight(_T("\\/")) + _T("\\*.*");
-    return AddFromFilemask(mask);
+    return AddFromFilemask(mask, false, insertAtCurrent);
 }
 
 void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>* subs, int redir_count, CString label, CString ydl_src, CString cue, CAtlList<CYoutubeDLInstance::YDLSubInfo>* ydl_subs)
@@ -336,7 +395,7 @@ void CPlayerPlaylistBar::ParsePlayList(CAtlList<CString>& fns, CAtlList<CString>
             CString fname = fns.GetHead();
             if (!PathUtils::IsURL(fname)) {
                 if (ContainsWildcard(fname)) {
-                    AddFromFilemask(fname);
+                    AddFromFilemask(fname, true);
                     return;
                 } else if (PathUtils::IsDir(fname)) {
                     AddItemsInFolder(fname);
@@ -673,7 +732,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
         if (!isurl && !PathUtils::IsURL(str) && ContainsWildcard(str)) {
             // wildcard entry
             std::set<CString, CStringUtils::LogicalLess> filelist;
-            if (m_pMainFrame->WildcardFileSearch(str, filelist)) {
+            if (m_pMainFrame->WildcardFileSearch(str, filelist, true)) {
                 auto it = filelist.begin();
                 while (it != filelist.end()) {
                     pli = CPlaylistItem();
@@ -1161,7 +1220,14 @@ CPlaylistItem* CPlayerPlaylistBar::GetCur()
     if (!m_pl.IsEmpty()) {
         POSITION p = m_pl.GetPos();
         if (p) {
-            return &m_pl.GetAt(p);
+            CPlaylistItem* result = &m_pl.GetAt(p);
+            // validate
+            if (result->m_type >= 0 && result->m_type <= 1 && !result->m_fns.IsEmpty()) {
+                return result;
+            } else {
+                ASSERT(false);
+                return nullptr;
+            }
         }
     }
     return nullptr;
@@ -1376,28 +1442,29 @@ bool CPlayerPlaylistBar::DeleteFileInPlaylist(POSITION pos, bool recycle)
     }
 
     CString filename = m_pl.GetAt(pos).m_fns.GetHead();
+    int listPos = FindItem(pos);
 
     // Get position of next file
     POSITION nextpos = pos;
     if (isplaying) {
         m_pl.GetNext(nextpos);
     }
-    // remove selected from playlist
-    int listPos = FindItem(pos);
-    m_list.DeleteItem(listPos);
-    m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
-    m_pl.RemoveAt(pos);
-    SavePlaylist();
 
     // Delete file
-    FileDelete(filename, m_pMainFrame->m_hWnd, recycle);
-    // Continue with next file
-    if (isplaying) {
-        if (folderPlayNext) {
-            m_pMainFrame->DoAfterPlaybackEvent(); //we know this will call PLAY_NEXT, which should do normal folder looping
-        } else if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
-            m_pl.SetPos(nextpos);
-            m_pMainFrame->OpenCurPlaylistItem();
+    if (SUCCEEDED(FileDelete(filename, m_pMainFrame->m_hWnd, recycle))) {
+        // remove selected from playlist
+        m_list.DeleteItem(listPos);
+        m_list.RedrawItems(listPos, m_list.GetItemCount() - 1);
+        m_pl.RemoveAt(pos);
+        SavePlaylist();
+        // Continue with next file
+        if (isplaying) {
+            if (folderPlayNext) {
+                m_pMainFrame->DoAfterPlaybackEvent(); //we know this will call PLAY_NEXT, which should do normal folder looping
+            } else if (nextpos || AfxGetAppSettings().bLoopFolderOnPlayNextFile) {
+                m_pl.SetPos(nextpos);
+                m_pMainFrame->OpenCurPlaylistItem();
+            }
         }
     }
 
@@ -1492,8 +1559,8 @@ END_MESSAGE_MAP()
 void CPlayerPlaylistBar::ScaleFont()
 {
     LOGFONT lf;
-    GetMessageFont(&lf);
-    lf.lfHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lf.lfHeight);
+    m_pMainFrame->m_dpi.GetMessageFont(&lf);
+    //lf.lfHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lf.lfHeight);
 
     m_font.DeleteObject();
     if (m_font.CreateFontIndirect(&lf)) {
@@ -1512,6 +1579,7 @@ void CPlayerPlaylistBar::EventCallback(MpcEvent ev)
 {
     switch (ev) {
         case MpcEvent::DPI_CHANGED:
+            InitializeSize();
             ScaleFont();
             ResizeListColumn();
             break;
@@ -1624,19 +1692,22 @@ void CPlayerPlaylistBar::OnNMDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CPlayerPlaylistBar::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
-	__super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
-
-	if (createdWindow) {
-		//after creation, measureitem is called once for every window resize.  we will cache the default before DPI scaling
+    __super::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
+    lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.CalculateListCtrlItemHeight((CListCtrl*)&m_list);
+#if 0
+    if (createdWindow) {
+        //after creation, measureitem is called once for every window resize.  we will cache the default height before DPI scaling
         if (m_itemHeight == 0) {
-			m_itemHeight = lpMeasureItemStruct->itemHeight;
-		}
-		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(m_itemHeight);
-	} else { 
-		//before creation, we must return a valid DPI scaled value, to prevent visual glitches when icon height has been tweaked.
-		//we cannot cache this value as it may be different from that calculated after font has been set
-		lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
-	}
+            m_itemHeight = lpMeasureItemStruct->itemHeight;
+        }
+        lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleArbitraryToOverrideY(m_itemHeight, m_initialWindowDPI); //we must scale by initial DPI, NOT current DPI
+    } else {
+        //before creation, we must return a valid DPI scaled value, to prevent visual glitches when icon height has been tweaked.
+        //we cannot cache this value as it may be different from that calculated after font has been set
+        lpMeasureItemStruct->itemHeight = m_pMainFrame->m_dpi.ScaleSystemToOverrideY(lpMeasureItemStruct->itemHeight);
+        m_initialWindowDPI = m_pMainFrame->m_dpi.DPIY(); //the initial DPI is always cached by ListCtrl and is never updated for future calculations of OnMeasureItem
+    }
+#endif
 }
 
 /*
@@ -1693,7 +1764,13 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     int nItem = lpDrawItemStruct->itemID;
     CRect rcItem = lpDrawItemStruct->rcItem;
     POSITION pos = FindPos(nItem);
-    if (pos == NULL) return;
+    if (pos == NULL) {
+        return;
+    }
+    if (m_pl.IsEmpty()) {
+        ASSERT(false);
+        return;
+    }
     bool itemPlaying = pos == m_pl.GetPos();
     bool itemSelected = !!m_list.GetItemState(nItem, LVIS_SELECTED);
     CPlaylistItem& pli = m_pl.GetAt(pos);
@@ -1710,7 +1787,7 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
 
     COLORREF bgColor, contentBGColor;
 
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         contentBGColor = CMPCTheme::ContentBGColor;
     } else {
         contentBGColor = GetSysColor(COLOR_WINDOW);
@@ -1722,7 +1799,7 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
     seqRect.right = fileRect.left;
 
     if (itemSelected) {
-        if (AppIsThemeLoaded()) {
+        if (AppNeedsThemedControls()) {
             bgColor = CMPCTheme::ContentSelectedColor;
         } else {
             bgColor = 0xf1dacc;
@@ -1737,7 +1814,7 @@ void CPlayerPlaylistBar::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStruc
 
     COLORREF textColor, sequenceColor;
 
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (pli.m_fInvalid) {
             textColor = CMPCTheme::ContentTextDisabledFGColorFade2;
             sequenceColor = textColor;
@@ -2116,7 +2193,7 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bShufflePlaylistItems ? MF_CHECKED : MF_UNCHECKED), M_SHUFFLE, ResStr(IDS_PLAYLIST_SHUFFLE));
     m.AppendMenu(MF_SEPARATOR);
     m.AppendMenu(MF_STRING | MF_ENABLED | (s.bHidePlaylistFullScreen ? MF_CHECKED : MF_UNCHECKED), M_HIDEFULLSCREEN, ResStr(IDS_PLAYLIST_HIDEFS));
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         m.fulfillThemeReqs();
     }
 
@@ -2187,7 +2264,8 @@ void CPlayerPlaylistBar::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
             // add all media files in current playlist item folder that are not yet in the playlist
             const CString dirName = PathUtils::DirName(m_pl.GetAt(pos).m_fns.GetHead());
             if (PathUtils::IsDir(dirName)) {
-                if (AddItemsInFolder(dirName)) {
+                m_insertingPos = pos;
+                if (AddItemsInFolder(dirName, true)) {
                     Refresh();
                     SavePlaylist();
                 }

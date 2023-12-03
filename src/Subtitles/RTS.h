@@ -168,17 +168,19 @@ public:
     friend class COutlineKey;
 };
 
+class CRenderedTextSubtitle;
 class CText : public CWord
 {
 protected:
     virtual bool CreatePath();
-
+    CRenderedTextSubtitle* m_RTS;
 public:
     CText(const STSStyle& style, CStringW str, int ktype, int kstart, int kend, double scalex, double scaley,
           RenderingCaches& renderingCaches);
 
     virtual CWord* Copy();
     virtual bool Append(CWord* w);
+    void SetRts(CRenderedTextSubtitle* RTS) { m_RTS = RTS; };
 };
 
 class CPolygon : public CWord
@@ -288,6 +290,7 @@ public:
     int m_descent = 0;
     int m_borderX = 0;
     int m_borderY = 0;
+    int m_linePadding = 0;
 
     virtual ~CLine();
 
@@ -421,6 +424,8 @@ public:
     double m_script_scale_x, m_script_scale_y;
     double m_total_scale_x,  m_total_scale_y;
 
+    bool m_allowLinePadding;
+
 public:
     CSubtitle(RenderingCaches& renderingCaches);
     virtual ~CSubtitle();
@@ -472,6 +477,7 @@ class __declspec(uuid("537DCACA-2812-4a4f-B2C6-1A34C17ADEB0"))
     int m_polygonBaselineOffset;
     bool m_bOverrideStyle;
     bool m_bOverridePlacement;
+    bool m_bUseFreeType;
     CSize m_overridePlacement;
 
     void ParseEffect(CSubtitle* sub, CString str);
@@ -496,19 +502,10 @@ public:
     virtual void Empty();
 
     // call to signal this RTS to ignore any of the styles and apply the given override style
-    void SetOverride(bool bOverride, const STSStyle& styleOverride) {
-        bool changed = (m_bOverrideStyle != bOverride) || (m_styleOverride != styleOverride);
-        if (changed) {
-            m_bOverrideStyle = bOverride;
-            m_styleOverride = styleOverride;
-            if (bOverride) {
-                m_storageRes = m_playRes; // needed to get correct font scaling with default style
-            }
-#if USE_LIBASS
-            ResetASS(); //styles may change the way the libass file was loaded, so we reload it here
-#endif
-        }
-    }
+    void SetOverride(bool bOverride, const STSStyle& styleOverride);
+ 
+    void SetUseFreeType(bool useFreeType) { m_bUseFreeType = useFreeType; }
+    bool GetUseFreeType() { return m_bUseFreeType; }
 
     void SetAlignment(bool bOverridePlacement, LONG lHorPos, LONG lVerPos) {
         m_bOverridePlacement = bOverridePlacement;
@@ -521,6 +518,9 @@ public:
     CString GetPath();
 
     bool m_webvtt_allow_clear;
+    //FT cache for RTS
+    FTLibraryData m_ftLibrary;
+    //end FT cache
 
     DECLARE_IUNKNOWN
     STDMETHODIMP NonDelegatingQueryInterface(REFIID riid, void** ppv);
@@ -543,4 +543,5 @@ public:
     STDMETHODIMP SetStream(int iStream);
     STDMETHODIMP Reload();
     STDMETHODIMP SetSourceTargetInfo(CString yuvMatrix, int targetBlackLevel, int targetWhiteLevel);
+    void SetSubtitleTypeFromGUID(GUID subtype);
 };

@@ -21,41 +21,22 @@
 
 #pragma once
 
-#include "MPCPngImage.h"
-#include "MouseTouch.h"
+#include "MouseWndWithArtView.h"
 
-class CChildView : public CMouseWnd
+class CChildView : public CMouseWndWithArtView
 {
-    CRect m_vrect;
-
-    CMPCPngImage m_img;
-    CImage m_resizedImg;
-
-    CMainFrame* m_pMainFrame;
-
     bool m_bSwitchingFullscreen;
     bool m_bFirstMedia;
-    bool m_bCustomImgLoaded;
 
     EventClient m_eventc;
 
     void EventCallback(MpcEvent ev);
-
-    void LoadImgInternal(HGDIOBJ hImg);
 
 public:
     CChildView(CMainFrame* pMainFrm);
     virtual ~CChildView();
 
     DECLARE_DYNAMIC(CChildView)
-
-    void SetVideoRect(const CRect& r = CRect(0, 0, 0, 0));
-    CRect GetVideoRect() const { return m_vrect; }
-
-    void LoadImg(const CString& imagePath = _T(""));
-    void LoadImg(std::vector<BYTE> buffer);
-    CSize GetLogoSize();
-    bool IsCustomImgLoaded() const { return m_bCustomImgLoaded; };
 
 protected:
     virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
@@ -64,7 +45,6 @@ protected:
     DECLARE_MESSAGE_MAP()
 
     afx_msg void OnPaint();
-    afx_msg BOOL OnEraseBkgnd(CDC* pDC);
     afx_msg void OnSize(UINT nType, int cx, int cy);
     afx_msg LRESULT OnNcHitTest(CPoint point);
     afx_msg void OnNcLButtonDown(UINT nHitTest, CPoint point);

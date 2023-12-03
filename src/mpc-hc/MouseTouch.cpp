@@ -186,8 +186,8 @@ CPoint CMouse::GetVideoPoint(const CPoint& point) const
 
 bool CMouse::IsOnFullscreenWindow() const
 {
-    if (m_pMainFrame->HasFullScreenWindow()) {
-        return m_pMainFrame->m_pFullscreenWnd == this; //we are the fullscreen window
+    if (m_pMainFrame->HasDedicatedFSVideoWindow()) {
+        return m_pMainFrame->m_pDedicatedFSVideoWnd == this; //we are the fullscreen window
     } else {
         return &m_pMainFrame->m_wndView == this && m_pMainFrame->IsFullScreenMainFrame(); //we are the view and it is fullscreened
     }
@@ -723,7 +723,7 @@ std::unordered_set<const CWnd*> CMainFrameMouseHook::GetRoots()
     if (pMainFrame) {
         ret.emplace(pMainFrame);
         if (pMainFrame->IsD3DFullScreenMode()) {
-            ret.emplace(pMainFrame->m_pFullscreenWnd);
+            ret.emplace(pMainFrame->m_pDedicatedFSVideoWnd);
         }
     }
     return ret;

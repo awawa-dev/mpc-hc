@@ -5,7 +5,7 @@
 #include "mplayerc.h"
 #undef SubclassWindow
 
-CMPCThemePlayerListCtrl::CMPCThemePlayerListCtrl(int tStartEditingDelay) : CPlayerListCtrl(tStartEditingDelay)
+CMPCThemePlayerListCtrl::CMPCThemePlayerListCtrl() : CListCtrl()
 {
     themeGridLines = false;
     fullRowSelect = false;
@@ -29,7 +29,7 @@ CMPCThemePlayerListCtrl::~CMPCThemePlayerListCtrl()
 
 void CMPCThemePlayerListCtrl::PreSubclassWindow()
 {
-    if (!AppIsThemeLoaded()) {
+    if (!AppNeedsThemedControls()) {
         EnableToolTips(TRUE);
     } else {
         if (CMPCThemeUtil::canUseWin10DarkTheme()) {
@@ -43,12 +43,12 @@ void CMPCThemePlayerListCtrl::PreSubclassWindow()
         }
         subclassHeader();
     }
-    CPlayerListCtrl::PreSubclassWindow();
+    CListCtrl::PreSubclassWindow();
 }
 
-IMPLEMENT_DYNAMIC(CMPCThemePlayerListCtrl, CPlayerListCtrl)
+IMPLEMENT_DYNAMIC(CMPCThemePlayerListCtrl, CListCtrl)
 
-BEGIN_MESSAGE_MAP(CMPCThemePlayerListCtrl, CPlayerListCtrl)
+BEGIN_MESSAGE_MAP(CMPCThemePlayerListCtrl, CListCtrl)
     ON_WM_NCPAINT()
     ON_WM_CREATE()
     ON_NOTIFY_REFLECT_EX(LVN_ENDSCROLL, OnLvnEndScroll)
@@ -74,7 +74,7 @@ void CMPCThemePlayerListCtrl::subclassHeader()
 
 void CMPCThemePlayerListCtrl::setAdditionalStyles(DWORD styles)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         DWORD stylesToAdd = styles, stylesToRemove = 0;
         if (styles & LVS_EX_GRIDLINES) {
             stylesToAdd &= ~LVS_EX_GRIDLINES;
@@ -125,10 +125,18 @@ bool CMPCThemePlayerListCtrl::getFlaggedItem(int iItem)
     }
 }
 
+void CMPCThemePlayerListCtrl::DoDPIChanged()
+{
+    if (listMPCThemeFontBold.m_hObject) {
+        listMPCThemeFontBold.DeleteObject();
+    }
+
+}
+
 
 BOOL CMPCThemePlayerListCtrl::PreTranslateMessage(MSG* pMsg)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (!IsWindow(themedToolTip.m_hWnd)) {
             themedToolTip.Create(this, TTS_ALWAYSTIP);
             themedToolTip.enableFlickerHelper();
@@ -150,7 +158,7 @@ void CMPCThemePlayerListCtrl::setCheckedColors(COLORREF checkedBG, COLORREF chec
 
 void CMPCThemePlayerListCtrl::OnNcPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (nullptr != themedSBHelper) {
             themedSBHelper->themedNcPaintWithSB();
         } else {
@@ -168,7 +176,7 @@ int CMPCThemePlayerListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
         return -1;
     }
 
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         SetBkColor(CMPCTheme::ContentBGColor);
         subclassHeader();
     }
@@ -178,7 +186,7 @@ int CMPCThemePlayerListCtrl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CMPCThemePlayerListCtrl::OnLvnEndScroll(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (nullptr != themedSBHelper) {
             themedSBHelper->updateScrollInfo();
         }
@@ -203,7 +211,7 @@ void CMPCThemePlayerListCtrl::updateScrollInfo()
 
 LRESULT CMPCThemePlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-    if (AppIsThemeLoaded() && nullptr != themedSBHelper) {
+    if (AppNeedsThemedControls() && nullptr != themedSBHelper) {
         if (themedSBHelper->WindowProc(this, message, wParam, lParam)) {
             return 1;
         }
@@ -213,7 +221,7 @@ LRESULT CMPCThemePlayerListCtrl::WindowProc(UINT message, WPARAM wParam, LPARAM 
 
 void CMPCThemePlayerListCtrl::updateToolTip(CPoint point)
 {
-    if (AppIsThemeLoaded() && nullptr != themedToolTip) {
+    if (AppNeedsThemedControls() && nullptr != themedToolTip) {
         TOOLINFO ti = { 0 };
         UINT_PTR tid = OnToolHitTest(point, &ti);
         //OnToolHitTest returns -1 on failure but doesn't update uId to match
@@ -258,6 +266,11 @@ BOOL CMPCThemePlayerListCtrl::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 void CMPCThemePlayerListCtrl::OnNcCalcSize(BOOL bCalcValidRects, NCCALCSIZE_PARAMS* lpncsp)
 {
     __super::OnNcCalcSize(bCalcValidRects, lpncsp);
+    if (AppNeedsThemedControls()) {
+        if (GetStyle() & WS_HSCROLL && nullptr == themedSBHelper) {
+            themedSBHelper = DEBUG_NEW CMPCThemeScrollBarHelper(this);
+        }
+    }
 }
 
 void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
@@ -456,7 +469,7 @@ void CMPCThemePlayerListCtrl::drawItem(CDC* pDC, int nItem, int nSubItem)
 
 BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         NMLVCUSTOMDRAW* pLVCD = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 
         *pResult = CDRF_DODEFAULT;
@@ -497,7 +510,7 @@ BOOL CMPCThemePlayerListCtrl::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 
 BOOL CMPCThemePlayerListCtrl::OnEraseBkgnd(CDC* pDC)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CRect r;
         GetClientRect(r);
         int dcState = pDC->SaveDC();
@@ -571,7 +584,7 @@ HBRUSH CMPCThemePlayerListCtrl::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 void CMPCThemePlayerListCtrl::OnHdnEndtrack(NMHDR* pNMHDR, LRESULT* pResult)
 {
     //    LPNMHEADER phdr = reinterpret_cast<LPNMHEADER>(pNMHDR);
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (nullptr != themedSBHelper) {
             themedSBHelper->updateScrollInfo();
         }
@@ -588,8 +601,8 @@ LRESULT CMPCThemePlayerListCtrl::OnDelayed_updateListCtrl(WPARAM, LPARAM)
 BOOL CMPCThemePlayerListCtrl::OnLvnItemchanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
     //LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
-    if (AppIsThemeLoaded()) {
-        ::PostMessage(m_hWnd, PLAYER_PLAYLIST_LVN_ITEMCHANGED, 0, 0);
+    if (AppNeedsThemedControls()) {
+        ::PostMessage(m_hWnd, PLAYER_PLAYLIST_LVN_ITEMCHANGED, (WPARAM)0, (LPARAM)0);
     }
     *pResult = 0;
     return FALSE;

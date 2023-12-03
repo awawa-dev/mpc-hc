@@ -1002,6 +1002,10 @@ HRESULT CFGManager::RenderRFSFileEntry(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrP
     return RenderFile(lpcwstrFileName, lpcwstrPlayList);
 }
 
+CUnknown* WINAPI CFGManager::GetMpcAudioRendererInstance(LPUNKNOWN lpunk, HRESULT* phr) {
+    return CreateInstance<CMpcAudioRenderer>(lpunk, phr);
+}
+
 STDMETHODIMP CFGManager::RenderFile(LPCWSTR lpcwstrFileName, LPCWSTR lpcwstrPlayList)
 {
     TRACE(_T("CFGManager::RenderFile on thread: %lu\n"), GetCurrentThreadId());

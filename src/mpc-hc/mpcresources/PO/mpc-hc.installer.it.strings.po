@@ -4,19 +4,20 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # ThePiratePeter, 2020
+# Gianni Chedda <gianni.chedda0@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: ThePiratePeter, 2020\n"
-"Language-Team: Italian (https://www.transifex.com/mpchc/teams/106126/it/)\n"
+"Last-Translator: Gianni Chedda <gianni.chedda0@gmail.com>, 2023\n"
+"Language-Team: Italian (https://app.transifex.com/mpchc/teams/106126/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 msgctxt "Messages_WelcomeLabel2"
 msgid ""
@@ -34,7 +35,7 @@ msgstr "[name] richiede per l'esecuzione Windows Vista o versioni successive."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
-msgstr "Icona Libreria"
+msgstr "Libreria delle icone"
 
 msgctxt "CustomMessages_comp_mpcresources"
 msgid "Translations"

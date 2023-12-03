@@ -41,6 +41,8 @@ public:
     virtual void ReloadTranslatableResources();
 
     void InitControls();
+    EventClient m_eventc;
+    void EventCallback(MpcEvent ev);
 
 protected:
     virtual BOOL PreTranslateMessage(MSG* pMsg);

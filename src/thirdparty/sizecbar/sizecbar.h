@@ -104,6 +104,12 @@ public:
 //mpc-hc custom code start
     virtual void mpc_fillNcBG(CDC *mdc, CRect rcDraw);
 
+    void SetWidth(const int nWidth)
+    {
+        m_szFloat.cx = m_szHorz.cx = m_szVert.cx = nWidth;
+        m_pDockSite->DelayRecalcLayout();
+    }
+
     void SetHeight(const int nHeight)
     {
         m_szFloat.cy = m_szHorz.cy = m_szVert.cy = nHeight;

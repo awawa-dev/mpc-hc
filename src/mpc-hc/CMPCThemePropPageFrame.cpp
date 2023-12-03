@@ -46,7 +46,7 @@ void CMPCThemePropPageFrame::DrawCaption(CDC* pDC, CRect rect, LPCTSTR lpszCapti
 
     rect.left += 2;
 
-    COLORREF clrPrev = pDC->SetTextColor(CMPCTheme::TextFGColor);
+    COLORREF clrPrev = pDC->SetTextColor(CMPCTheme::PropPageCaptionFGColor);
     int nBkStyle = pDC->SetBkMode(TRANSPARENT);
 
     LOGFONT lf;
@@ -54,10 +54,24 @@ void CMPCThemePropPageFrame::DrawCaption(CDC* pDC, CRect rect, LPCTSTR lpszCapti
     lf.lfHeight = static_cast<long>(-.8f * rect.Height());
     lf.lfWeight = FW_BOLD;
     CFont f;
-    f.CreateFontIndirect(&lf);
+    f.CreateFontIndirectW(&lf);
     CFont* oldFont = pDC->SelectObject(&f);
 
-    pDC->DrawText(lpszCaption, rect, DT_LEFT | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS);
+    TEXTMETRIC GDIMetrics;
+    GetTextMetricsW(pDC->GetSafeHdc(), &GDIMetrics);
+    while (GDIMetrics.tmHeight > rect.Height() && abs(lf.lfHeight) > 10) {
+        pDC->SelectObject(oldFont);
+        f.DeleteObject();
+        lf.lfHeight++;
+        f.CreateFontIndirectW(&lf);
+        pDC->SelectObject(&f);
+        GetTextMetricsW(pDC->GetSafeHdc(), &GDIMetrics);
+    }
+
+
+    rect.top -= GDIMetrics.tmDescent - 1;
+
+    pDC->DrawTextW(lpszCaption, rect, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS);
 
     pDC->SetTextColor(clrPrev);
     pDC->SelectObject(oldFont);

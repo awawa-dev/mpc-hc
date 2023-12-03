@@ -261,7 +261,7 @@ void CPPageAudioSwitcher::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 
     COLORREF frameClr, textClr, textDisabledClr, textNAClr;
     COLORREF oldBkColor = pDC->GetBkColor();
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         frameClr = CMPCTheme::AudioSwitcherGridColor;
         textClr = CMPCTheme::TextFGColor;
         textDisabledClr = CMPCTheme::ContentTextDisabledFGColorFade;

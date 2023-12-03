@@ -1,5 +1,5 @@
 /*
- * (C) 2006-2018 see Authors.txt
+ * (C) 2006-2023 see Authors.txt
  *
  * This file is part of MPC-HC.
  *
@@ -22,63 +22,122 @@
 #include "Packet.h"
 
 //
+// CPacket
+//
+
+CPacket::~CPacket()
+{
+	DeleteMediaType(pmt);
+}
+
+bool CPacket::SetCount(const size_t newsize)
+{
+	try {
+		resize(newsize);
+	}
+	catch (...) {
+		return false;
+	}
+	return true;
+}
+
+void CPacket::SetData(const CPacket& packet)
+{
+	*this = packet;
+}
+
+void CPacket::SetData(const void* ptr, const size_t size)
+{
+	resize(size);
+	memcpy(data(), ptr, size);
+}
+
+void CPacket::AppendData(const CPacket& packet)
+{
+	insert(cend(), packet.cbegin(), packet.cend());
+}
+
+void CPacket::AppendData(const void* ptr, const size_t size)
+{
+	const size_t oldsize = this->size();
+	resize(oldsize + size);
+	memcpy(data() + oldsize, ptr, size);
+}
+
+void CPacket::RemoveHead(const size_t size)
+{
+	erase(begin(), begin() + size);
+}
+
+//
 // CPacketQueue
 //
 
-void CPacketQueue2::Add(CAutoPtr<CPacket> p)
+void CPacketQueue::Add(std::unique_ptr<CPacket>& p)
 {
 	std::unique_lock<std::mutex> lock(m_mutex);
+
 	if (p) {
 		m_size += p->size();
 	}
-	emplace_back(p);
+	m_deque.emplace_back(std::move(p));
 }
 
-CAutoPtr<CPacket> CPacketQueue2::Remove()
+std::unique_ptr<CPacket> CPacketQueue::Remove()
 {
 	std::unique_lock<std::mutex> lock(m_mutex);
-	ASSERT(!empty());
-	CAutoPtr<CPacket> p = front(); pop_front();
+
+	ASSERT(!m_deque.empty());
+	std::unique_ptr<CPacket> p = std::move(m_deque.front());
+	m_deque.pop_front();
 	if (p) {
 		m_size -= p->size();
 	}
 	return p;
 }
 
-void CPacketQueue2::RemoveSafe(CAutoPtr<CPacket>& p, size_t& count)
+void CPacketQueue::RemoveSafe(std::unique_ptr<CPacket>& p, size_t& count)
 {
 	std::unique_lock<std::mutex> lock(m_mutex);
-	count = size();
 
+	count = m_deque.size();
 	if (count) {
-		p = front(); pop_front();
+		p = std::move(m_deque.front());
+		m_deque.pop_front();
 		if (p) {
 			m_size -= p->size();
 		}
 	}
 }
 
-void CPacketQueue2::RemoveAll()
+void CPacketQueue::RemoveAll()
 {
 	std::unique_lock<std::mutex> lock(m_mutex);
+
 	m_size = 0;
-	clear();
+	m_deque.clear();
 }
 
-const size_t CPacketQueue2::GetCount()
+const size_t CPacketQueue::GetCount()
 {
 	std::unique_lock<std::mutex> lock(m_mutex);
-	return size();
+
+	return m_deque.size();
 }
 
-const size_t CPacketQueue2::GetSize()
+const size_t CPacketQueue::GetSize()
 {
 	std::unique_lock<std::mutex> lock(m_mutex);
+
 	return m_size;
 }
 
-const REFERENCE_TIME CPacketQueue2::GetDuration()
+const REFERENCE_TIME CPacketQueue::GetDuration()
 {
 	std::unique_lock<std::mutex> lock(m_mutex);
-	return !empty() ? (back()->rtStop - front()->rtStart) : 0;
+
+	if (m_deque.size()) {
+		return (m_deque.back()->rtStop - m_deque.front()->rtStart);
+	}
+	return 0;
 }

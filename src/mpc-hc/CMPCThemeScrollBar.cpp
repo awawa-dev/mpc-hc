@@ -147,6 +147,7 @@ void CMPCThemeScrollBar::DrawScrollBar(CDC* pDC)
         if (stArea.IsButton()) {
             CBrush brushButton;
             COLORREF buttonClr = RGB(0, 0, 0);
+            COLORREF buttonFGClr = CMPCTheme::ScrollButtonArrowColor;
             switch (eState) {
                 case eDisabled:
                     //no example found of disabled dark scrollbar, but when disabled, button bg = scroll bg
@@ -158,6 +159,7 @@ void CMPCThemeScrollBar::DrawScrollBar(CDC* pDC)
                     break;
                 case eDown:
                     buttonClr = CMPCTheme::ScrollButtonClickColor;
+                    buttonFGClr = CMPCTheme::ScrollButtonArrowClickColor;
                     break;
                 case eHot:
                     buttonClr = CMPCTheme::ScrollButtonHoverColor;

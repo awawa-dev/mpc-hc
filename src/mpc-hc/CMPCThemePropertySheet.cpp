@@ -33,14 +33,14 @@ BOOL CMPCThemePropertySheet::OnInitDialog()
 
 void CMPCThemePropertySheet::fulfillThemeReqs()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CMPCThemeUtil::fulfillThemeReqs((CWnd*)this);
     }
 }
 
 HBRUSH CMPCThemePropertySheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         LRESULT lResult;
         if (pWnd->SendChildNotifyLastMsg(&lResult)) {
             return (HBRUSH)lResult;
@@ -52,4 +52,9 @@ HBRUSH CMPCThemePropertySheet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
         HBRUSH hbr = __super::OnCtlColor(pDC, pWnd, nCtlColor);
         return hbr;
     }
+}
+
+INT_PTR CMPCThemePropertySheet::DoModal() {
+    PreDoModalRTL(&m_psh);
+    return __super::DoModal();
 }

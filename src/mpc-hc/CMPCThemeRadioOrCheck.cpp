@@ -53,7 +53,7 @@ END_MESSAGE_MAP()
 
 void CMPCThemeRadioOrCheck::OnPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppIsThemeLoaded() && CMPCTheme::drawThemedControls) {
         CPaintDC dc(this);
         CRect   rectItem;
         GetClientRect(rectItem);

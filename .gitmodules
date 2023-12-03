@@ -49,3 +49,6 @@
 [submodule "src/thirdparty/libiconv/libiconv-for-Windows"]
 	path = src/thirdparty/libiconv/libiconv-for-Windows
 	url = https://github.com/pffang/libiconv-for-Windows.git
+[submodule "src/thirdparty/libunibreak/libunibreak"]
+	path = src/thirdparty/libunibreak/libunibreak
+	url = https://github.com/adah1972/libunibreak

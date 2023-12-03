@@ -35,7 +35,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // CAboutDlg dialog used for App About
 
-CAboutDlg::CAboutDlg() : CMPCThemeDialog(CAboutDlg::IDD)
+CAboutDlg::CAboutDlg() : CMPCThemeDialog(CAboutDlg::IDD, NULL)
 {
     //{{AFX_DATA_INIT(CAboutDlg)
     //}}AFX_DATA_INIT

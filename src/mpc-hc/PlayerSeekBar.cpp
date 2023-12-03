@@ -125,7 +125,7 @@ CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme && s.bModernSeekbar) {
+    if (s.bMPCTheme) {
         ret.cy = m_pMainFrame->m_dpi.ScaleY(5 + s.iModernSeekbarHeight); //expand the toolbar if using "fill" mode
     } else {
         ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
@@ -153,7 +153,7 @@ void CPlayerSeekBar::MoveThumb(const CPoint& point)
 
 void CPlayerSeekBar::SyncVideoToThumb()
 {
-    GetParent()->PostMessage(WM_HSCROLL, NULL, reinterpret_cast<LPARAM>(m_hWnd));
+    GetParent()->PostMessage(WM_HSCROLL, (WPARAM)0, reinterpret_cast<LPARAM>(m_hWnd));
 }
 
 void CPlayerSeekBar::CheckScrollDistance(CPoint point, REFERENCE_TIME minimum_duration_change, ULONGLONG minimum_elapsed_tickcount)
@@ -274,7 +274,7 @@ CRect CPlayerSeekBar::GetChannelRect() const
     }
 
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme && s.bModernSeekbar) { //no thumb so we can use all the space
+    if (s.bMPCTheme) { //no thumb so we can use all the space
         r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(2), m_pMainFrame->m_dpi.ScaleFloorX(2));
     } else {
         CSize sz(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
@@ -335,7 +335,6 @@ void CPlayerSeekBar::UpdateTooltip(const CPoint& point)
             break;
         case TOOLTIP_VISIBLE:
             // Update the tooltip if needed
-            ASSERT(!m_bIgnoreLastTooltipPoint || !m_pMainFrame->CanPreviewUse()); // ??
             if (point != m_tooltipPoint) {
                 m_tooltipPoint = point;
                 if (!m_pMainFrame->CanPreviewUse()) {
@@ -366,7 +365,14 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint point)
         GetMonitorInfoW(MonitorFromWindow(m_hWnd, MONITOR_DEFAULTTONEAREST), &mi);
 
         point.x -= r_width / 2 - 2;
-        point.y = GetChannelRect().TopLeft().y - (r_height + 13);
+        CRect cRect = GetChannelRect();
+        CPoint bottomRight = cRect.BottomRight();
+        ClientToScreen(&bottomRight);
+        if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_BELOW_SEEKBAR && mi.rcWork.bottom > bottomRight.y + 8 + rc.Height()) {
+            point.y = cRect.BottomRight().y + 8;
+        } else {
+            point.y = cRect.TopLeft().y - (r_height + 13);
+        }
         ClientToScreen(&point);
         point.x = std::max(mi.rcWork.left + 5, std::min(point.x, mi.rcWork.right - r_width - 5));
 
@@ -590,32 +596,8 @@ void CPlayerSeekBar::OnPaint()
     const CAppSettings& s = AfxGetAppSettings();
     if (s.bMPCTheme) {
         // Thumb
-        if (!s.bModernSeekbar) { //no thumb while showing seek progress
-            CRect r(GetThumbRect());
-            if (DraggingThumb()) {
-                dc.FillSolidRect(r, CMPCTheme::ScrollThumbDragColor);
-            } else if (m_bHoverThumb) {
-                dc.FillSolidRect(r, CMPCTheme::ScrollThumbHoverColor);
-            } else if (m_bEnabled) {
-                dc.FillSolidRect(r, CMPCTheme::ScrollThumbColor);
-            } else {
-                dc.FillSolidRect(r, CMPCTheme::ScrollBGColor);
-            }
-            CBrush fb;
-            fb.CreateSolidBrush(CMPCTheme::NoBorderColor);
-            dc.FrameRect(r, &fb);
-            fb.DeleteObject();
-
-            CRgn rg;
-            VERIFY(rg.CreateRectRgnIndirect(&r));
-            ExtSelectClipRgn(dc, rg, RGN_XOR);
-            rg.DeleteObject();
-
-            m_lastThumbRect = r;
-        } else {
-            CRect r(GetThumbRect());
-            m_lastThumbRect = r;
-        }
+        CRect r(GetThumbRect());
+        m_lastThumbRect = r;
 
         if (m_bHasDuration) {
             // A-B Repeat
@@ -645,7 +627,7 @@ void CPlayerSeekBar::OnPaint()
 
         // Channel
         {
-            if (s.bModernSeekbar) {
+            {
                 long seekPos = ChannelPointFromPosition(m_rtPosDraw);
                 CRect r, playedRect, unplayedRect, curPosRect;
                 playedRect = channelRect;
@@ -658,8 +640,6 @@ void CPlayerSeekBar::OnPaint()
                 curPosRect.left = playedRect.right;
                 curPosRect.right = unplayedRect.left;
                 dc.FillSolidRect(&curPosRect, CMPCTheme::SeekbarCurrentPositionColor);
-            } else {
-                dc.FillSolidRect(&channelRect, m_bEnabled ? CMPCTheme::ScrollBGColor : CMPCTheme::ScrollBGColor);
             }
             CRect r(channelRect);
             CBrush fb;
@@ -836,21 +816,20 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
         // update video position if seekbar moved at least 500ms or 1/30th of duration
         CheckScrollDistance(point, std::min(5000000LL, m_rtStop / 30), 150LL);
     }
-    if (AfxGetAppSettings().fUseTimeTooltip) {
+
+    bool usepreview = m_bHasDuration && m_pMainFrame->CanPreviewUse();
+
+    if (usepreview || AfxGetAppSettings().fUseTimeTooltip) {
         UpdateTooltip(point);
     }
 
-    if (m_bHasDuration && m_pMainFrame->CanPreviewUse()) {
-        UpdateTooltip(point);
-
-        checkHover(point);
+    if (usepreview) {
+        //checkHover(point);
 
         const OAFilterState fs = m_pMainFrame->m_CachedFilterState;
         if (fs != -1) {
-            if (m_pMainFrame->CanPreviewUse()) {
-                UpdateToolTipPosition(point);
-                PreviewWindowShow(point);
-            }
+            UpdateToolTipPosition(point);
+            PreviewWindowShow(point);
         } else {
             m_pMainFrame->PreviewWindowHide();
         }
@@ -949,9 +928,15 @@ void CPlayerSeekBar::PreviewWindowShow(CPoint point) {
 }
 
 void CPlayerSeekBar::OnMButtonDown(UINT nFlags, CPoint point) {
-    if (m_pMainFrame->m_wndPreView.IsWindowVisible()) {
-        m_pMainFrame->PreviewWindowHide();
-        m_pMainFrame->ReleasePreviewGraph();
-        OnMouseMove(nFlags, point);
+    if (m_pMainFrame->m_wndPreView && ::IsWindow(m_pMainFrame->m_wndPreView)) {
+        if (m_pMainFrame->m_bUseSeekPreview) {
+            if (m_pMainFrame->m_wndPreView.IsWindowVisible()) {
+                m_pMainFrame->PreviewWindowHide();
+                OnMouseMove(nFlags, point);
+            }
+            m_pMainFrame->m_bUseSeekPreview = false;
+        } else {
+            m_pMainFrame->m_bUseSeekPreview = (m_pMainFrame->m_pGB_preview != nullptr);
+        }
     }
 }

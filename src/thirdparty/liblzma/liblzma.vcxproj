@@ -98,6 +98,7 @@
     <ClCompile Include="liblzma\src\liblzma\common\easy_encoder.c" />
     <ClCompile Include="liblzma\src\liblzma\common\easy_encoder_memusage.c" />
     <ClCompile Include="liblzma\src\liblzma\common\easy_preset.c" />
+    <ClCompile Include="liblzma\src\liblzma\common\file_info.c" />
     <ClCompile Include="liblzma\src\liblzma\common\filter_buffer_decoder.c" />
     <ClCompile Include="liblzma\src\liblzma\common\filter_buffer_encoder.c" />
     <ClCompile Include="liblzma\src\liblzma\common\filter_common.c" />
@@ -111,6 +112,7 @@
     <ClCompile Include="liblzma\src\liblzma\common\index_decoder.c" />
     <ClCompile Include="liblzma\src\liblzma\common\index_encoder.c" />
     <ClCompile Include="liblzma\src\liblzma\common\index_hash.c" />
+    <ClCompile Include="liblzma\src\liblzma\common\lzip_decoder.c" />
     <ClCompile Include="liblzma\src\liblzma\common\outqueue.c" />
     <ClCompile Include="liblzma\src\liblzma\common\stream_buffer_decoder.c" />
     <ClCompile Include="liblzma\src\liblzma\common\stream_buffer_encoder.c" />
@@ -139,6 +141,7 @@
     <ClCompile Include="liblzma\src\liblzma\lz\lz_encoder_mf.c" />
     <ClCompile Include="liblzma\src\liblzma\rangecoder\price_table.c" />
     <ClCompile Include="liblzma\src\liblzma\simple\arm.c" />
+    <ClCompile Include="liblzma\src\liblzma\simple\arm64.c" />
     <ClCompile Include="liblzma\src\liblzma\simple\armthumb.c" />
     <ClCompile Include="liblzma\src\liblzma\simple\ia64.c" />
     <ClCompile Include="liblzma\src\liblzma\simple\powerpc.c" />

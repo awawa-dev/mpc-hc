@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CMPCThemeScrollBarHelper.h"
 #include "CMPCTheme.h"
+#include "CMPCThemeUtil.h"
 
 CMPCThemeScrollBarHelper::CMPCThemeScrollBarHelper(CWnd* scrollWindow)
 {
@@ -16,8 +17,8 @@ CMPCThemeScrollBarHelper::~CMPCThemeScrollBarHelper()
 void CMPCThemeScrollBarHelper::createSB()
 {
     pParent = window->GetParent();
-    hasVSB = 0 != (window->GetStyle() & WS_VSCROLL);
-    hasHSB = 0 != (window->GetStyle() & WS_HSCROLL);
+    hasVSB = 0 != (window->GetStyle() & WS_VSCROLL) && !CMPCThemeUtil::canUseWin10DarkTheme(); //we don't need vertical scrollbars because windows dark theme is "ok"
+    hasHSB = 0 != (window->GetStyle() & WS_HSCROLL); //windows dark theme horizontal scrollbar is broken
     if (nullptr != pParent && IsWindow(pParent->m_hWnd)) {
         if (hasVSB && !IsWindow(vertSB.m_hWnd)) {
             VERIFY(vertSB.Create(SBS_VERT | WS_CHILD |

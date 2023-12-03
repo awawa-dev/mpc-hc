@@ -40,7 +40,8 @@ private:
     int getHitButtonIdx(CPoint point);
     bool LoadExternalToolBar(CImage& image);
     void LoadToolbarImage();
-    bool mouseDown;
+    bool mouseDownL, mouseDownR;
+    int rightButtonIndex=-1;
     CMPCThemeToolTipCtrl themedToolTip;
 
     int m_nButtonHeight;
@@ -84,6 +85,7 @@ protected:
     afx_msg BOOL OnVolumeDown(UINT nID);
     afx_msg void OnNcPaint();
     afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+    afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
     afx_msg void OnMouseMove(UINT nFlags, CPoint point);
     afx_msg BOOL OnSetCursor(CWnd* pWnd, UINT nHitTest, UINT message);
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
@@ -91,4 +93,5 @@ protected:
     DECLARE_MESSAGE_MAP()
 public:
     afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+    afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 };

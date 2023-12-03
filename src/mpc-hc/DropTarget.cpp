@@ -32,7 +32,7 @@ DROPEFFECT CDropTarget::OnDragEnter(CWnd* pWnd, COleDataObject* pDataObject, DWO
     DROPEFFECT dropEffect = DROPEFFECT_NONE;
 
     auto pClient = dynamic_cast<CDropClient*>(pWnd);
-    if (pClient && (pDataObject->IsDataAvailable(CF_HDROP) || pDataObject->IsDataAvailable(CF_URL))) {
+    if (pClient && (pDataObject->IsDataAvailable(CF_HDROP) || pDataObject->IsDataAvailable(CF_URLW) || pDataObject->IsDataAvailable(CF_URLA) || pDataObject->IsDataAvailable(CF_UNICODETEXT) || pDataObject->IsDataAvailable(CF_TEXT))) {
         dropEffect = pClient->OnDropAccept(pDataObject, dwKeyState, point);
     }
 
@@ -48,7 +48,7 @@ DROPEFFECT CDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWOR
     DROPEFFECT dropEffect = DROPEFFECT_NONE;
 
     auto pClient = dynamic_cast<CDropClient*>(pWnd);
-    if (pClient && (pDataObject->IsDataAvailable(CF_HDROP) || pDataObject->IsDataAvailable(CF_URL))) {
+    if (pClient && (pDataObject->IsDataAvailable(CF_HDROP) || pDataObject->IsDataAvailable(CF_URLW) || pDataObject->IsDataAvailable(CF_URLA) || pDataObject->IsDataAvailable(CF_UNICODETEXT) || pDataObject->IsDataAvailable(CF_TEXT))) {
         dropEffect = pClient->OnDropAccept(pDataObject, dwKeyState, point);
     }
 
@@ -62,18 +62,25 @@ DROPEFFECT CDropTarget::OnDragOver(CWnd* pWnd, COleDataObject* pDataObject, DWOR
 BOOL CDropTarget::OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dropEffect, CPoint point)
 {
     BOOL bResult = FALSE;
-    CAtlList<CString> slFiles;
+    CAtlList<CStringW> slFiles;
+
+    CLIPFORMAT cfFormat = 0;
 
     if (auto pClient = dynamic_cast<CDropClient*>(pWnd)) {
-        if (pDataObject->IsDataAvailable(CF_HDROP)) {
-            if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_HDROP)) {
+        if (pDataObject->IsDataAvailable(CF_URLW)) {
+            cfFormat = CF_URLW;
+        } else if (pDataObject->IsDataAvailable(CF_URLA)) {
+            cfFormat = CF_URLA;
+        } else if (pDataObject->IsDataAvailable(CF_HDROP)) {
+            if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_HDROP)) { // fails for long paths
                 if (HDROP hDrop = static_cast<HDROP>(GlobalLock(hGlobal))) {
                     UINT nFiles = ::DragQueryFile(hDrop, UINT_MAX, nullptr, 0);
                     for (UINT iFile = 0; iFile < nFiles; iFile++) {
                         CString fn;
-                        UINT res = ::DragQueryFile(hDrop, iFile, fn.GetBuffer(MAX_PATH), MAX_PATH);
+                        UINT res = ::DragQueryFile(hDrop, iFile, fn.GetBuffer(2048), 2048);
                         if (res) {
                             fn.ReleaseBuffer(res);
+                            //ExtendMaxPathLengthIfNeeded(fn);
                             slFiles.AddTail(fn);
                         }
                     }
@@ -82,17 +89,46 @@ BOOL CDropTarget::OnDrop(CWnd* pWnd, COleDataObject* pDataObject, DROPEFFECT dro
                     bResult = TRUE;
                 }
                 GlobalUnlock(hGlobal);
+            } else {
+                AfxMessageBox(L"Error when dropping file", MB_OK);
             }
-        } else if (pDataObject->IsDataAvailable(CF_URL)) {
-            FORMATETC fmt = { CF_URL, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-            if (HGLOBAL hGlobal = pDataObject->GetGlobalData(CF_URL, &fmt)) {
-                LPCSTR pText = static_cast<LPCSTR>(GlobalLock(hGlobal));
-                if (AfxIsValidString(pText)) {
-                    slFiles.AddTail(pText);
-                    pClient->OnDropFiles(slFiles, dropEffect);
-                    GlobalUnlock(hGlobal);
-                    bResult = TRUE;
+        } else if (pDataObject->IsDataAvailable(CF_UNICODETEXT)) {
+            cfFormat = CF_UNICODETEXT;
+        } else if (pDataObject->IsDataAvailable(CF_TEXT)) {
+            cfFormat = CF_TEXT;
+        }
+
+        if (cfFormat) {
+            FORMATETC fmt = { cfFormat, nullptr, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
+            if (HGLOBAL hGlobal = pDataObject->GetGlobalData(cfFormat, &fmt)) {
+                LPVOID LockData = GlobalLock(hGlobal);
+                auto pUnicodeText = reinterpret_cast<LPCWSTR>(LockData);
+                auto pAnsiText = reinterpret_cast<LPCSTR>(LockData);
+                bool bUnicode = cfFormat == CF_URLW || cfFormat == CF_UNICODETEXT;
+                if (bUnicode ? AfxIsValidString(pUnicodeText) : AfxIsValidString(pAnsiText)) {
+                    CStringW text = bUnicode ? CStringW(pUnicodeText) : CStringW(pAnsiText);
+                    if (!text.IsEmpty()) {
+                        if (cfFormat == CF_URLW || cfFormat == CF_URLA) {
+                            slFiles.AddTail(text);
+                        } else {
+                            CAtlList<CStringW> lines;
+                            Explode(text, lines, L'\n');
+                            POSITION pos = lines.GetHeadPosition();
+                            while (pos) {
+                                const CString& line = lines.GetNext(pos);
+                                if (::PathIsURLW(line) || ::PathFileExistsW(line)) {
+                                    slFiles.AddTail(line);
+                                }
+                            }
+                        }
+
+                        if (!slFiles.IsEmpty()) {
+                            pClient->OnDropFiles(slFiles, dropEffect);
+                            bResult = TRUE;
+                        }
+                    }
                 }
+                GlobalUnlock(hGlobal);
             }
         }
     }

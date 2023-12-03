@@ -24,7 +24,7 @@ END_MESSAGE_MAP()
 
 void CMPCThemeStatic::OnPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CPaintDC dc(this);
 
         CString sTitle;
@@ -86,7 +86,7 @@ void CMPCThemeStatic::OnPaint()
 
 void CMPCThemeStatic::OnNcPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CDC* pDC = GetWindowDC();
 
         CRect rect;
@@ -112,7 +112,7 @@ void CMPCThemeStatic::OnNcPaint()
 
 void CMPCThemeStatic::OnEnable(BOOL bEnable)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         SetRedraw(FALSE);
         __super::OnEnable(bEnable);
         SetRedraw(TRUE);
@@ -132,7 +132,7 @@ void CMPCThemeStatic::OnEnable(BOOL bEnable)
 
 BOOL CMPCThemeStatic::OnEraseBkgnd(CDC* pDC)
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CRect r;
         GetClientRect(r);
         if (isFileDialogChild) {

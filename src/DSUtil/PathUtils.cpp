@@ -22,6 +22,7 @@
 #include "PathUtils.h"
 #include <memory>
 #include "text.h"
+#include "DSUtil.h"
 
 namespace PathUtils
 {
@@ -228,6 +229,7 @@ namespace PathUtils
 
             if (!finder.IsDots() && finder.IsDirectory()) {
                 CString folderPath = finder.GetFilePath();
+                ExtendMaxPathLengthIfNeeded(folderPath);
                 paths.AddTail(folderPath);
                 RecurseAddDir(folderPath, paths);
             }

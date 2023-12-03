@@ -144,7 +144,8 @@ public:
     }
 
     void Unsubscribe(T id) {
-        if (m_subscribers.size() > 0) {
+        auto size = m_subscribers.size();
+        if (size > 0 && size != 0xFFFFFFFF) {
             auto it = m_subscribers.find(id);
             if (it != m_subscribers.end()) {
                 const UINT_PTR nIDEvent = it->second.first;
@@ -159,7 +160,8 @@ public:
     }
 
     void NotifySubscribers(UINT_PTR nIDEvent) {
-        if (m_subscribers.size() > 0) {
+        auto size = m_subscribers.size();
+        if (size > 0 && size != 0xFFFFFFFF) {
             for (auto it = m_subscribers.begin(); it != m_subscribers.end(); ++it) {
                 if (it->second.first == nIDEvent) {
                     ASSERT(m_used[nIDEvent]);

@@ -89,6 +89,9 @@ HRESULT CreateEVR(const CLSID& clsid, HWND hWnd, bool bFullscreen, ISubPicAlloca
     if (clsid == CLSID_EVRAllocatorPresenter) {
         CString Error;
         *ppAP = DEBUG_NEW DSObjects::CEVRAllocatorPresenter(hWnd, bFullscreen, hr, Error, isPreview);
+        if (*ppAP == nullptr) {
+            return E_OUTOFMEMORY;
+        }
         (*ppAP)->AddRef();
 
         if (FAILED(hr)) {

@@ -102,9 +102,6 @@ BOOL CPPageTweaks::OnInitDialog()
     m_fPreventMinimize = s.fPreventMinimize;
 
     m_bUseEnhancedTaskBar = s.bUseEnhancedTaskBar;
-    if (!IsWindows7OrGreater()) {
-        GetDlgItem(IDC_CHECK_ENHANCED_TASKBAR)->EnableWindow(FALSE);
-    }
 
     m_fUseSearchInFolder = s.fUseSearchInFolder;
 

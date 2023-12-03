@@ -22,6 +22,12 @@
     <Filter Include="Header Files\libass\x86">
       <UniqueIdentifier>{cecd9ba8-49f4-46cf-94ac-bdb674aaea96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\libass\c">
+      <UniqueIdentifier>{cdef4dec-5539-41e4-901e-d09dee8bd08d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\libass\c">
+      <UniqueIdentifier>{3005579f-158f-497f-8360-bb4b0b82fa1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libass\libass\ass_cache_template.h">
@@ -34,9 +40,6 @@
       <Filter>Header Files\libass</Filter>
     </ClInclude>
     <ClInclude Include="libass\libass\ass_fontconfig.h">
-      <Filter>Header Files\libass</Filter>
-    </ClInclude>
-    <ClInclude Include="libass\libass\ass_library.h">
       <Filter>Header Files\libass</Filter>
     </ClInclude>
     <ClInclude Include="libass\libass\ass_parse.h">
@@ -90,7 +93,24 @@
     <ClInclude Include="libass\libass\ass_outline.h">
       <Filter>Header Files\libass</Filter>
     </ClInclude>
-    <ClInclude Include="config.h" />
+    <ClInclude Include="libass\libass\wyhash.h">
+      <Filter>Header Files\libass</Filter>
+    </ClInclude>
+    <ClInclude Include="libass\libass\ass_bitmap_engine.h">
+      <Filter>Header Files\libass</Filter>
+    </ClInclude>
+    <ClInclude Include="libass\libass\ass_directwrite_info_template.h">
+      <Filter>Header Files\libass</Filter>
+    </ClInclude>
+    <ClInclude Include="libass\libass\ass_filesystem.h">
+      <Filter>Header Files\libass</Filter>
+    </ClInclude>
+    <ClInclude Include="libass\libass\ass_library.h">
+      <Filter>Header Files\libass</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
+      <Filter>Header Files\libass</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="libass\libass\ass_fontconfig.c">
@@ -132,9 +152,6 @@
     <ClCompile Include="libass\libass\ass_font.c">
       <Filter>Source Files\libass</Filter>
     </ClCompile>
-    <ClCompile Include="libass\libass\ass_rasterizer_c.c">
-      <Filter>Source Files\libass</Filter>
-    </ClCompile>
     <ClCompile Include="libass\libass\ass_rasterizer.c">
       <Filter>Source Files\libass</Filter>
     </ClCompile>
@@ -151,6 +168,12 @@
       <Filter>Source Files\libass</Filter>
     </ClCompile>
     <ClCompile Include="libass\libass\ass_outline.c">
+      <Filter>Source Files\libass</Filter>
+    </ClCompile>
+    <ClCompile Include="libass\libass\ass_filesystem.c">
+      <Filter>Source Files\libass</Filter>
+    </ClCompile>
+    <ClCompile Include="libass\libass\ass_rasterizer_c.c">
       <Filter>Source Files\libass</Filter>
     </ClCompile>
   </ItemGroup>
@@ -175,8 +198,5 @@
     <NASM Include="libass\libass\x86\blur.asm">
       <Filter>Source Files\libass\x86</Filter>
     </NASM>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="readme.txt" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,10 @@
 #include "CMPCTheme.h"
 #include "CMPCThemeToolTipCtrl.h"
 
+#define TOOLBAR_HIDE_ICON 0xF900
+
 class CMPCThemeTitleBarControlButton;
+int CALLBACK PropSheetCallBackRTL(HWND hWnd, UINT message, LPARAM lParam);
 
 class CMPCThemeUtil
 {
@@ -36,6 +39,7 @@ protected:
     void EnableThemedDialogTooltips(CDialog* wnd);
     void PlaceThemedDialogTooltip(UINT_PTR nID);
     void RelayThemedDialogTooltip(MSG* pMsg);
+    static bool metricsNeedCalculation;
 public:
     static bool getFontByFace(CFont& font, CWnd *wnd, wchar_t* fontName, int size, LONG weight = FW_REGULAR);
     static bool getFixedFont(CFont& font, CDC* pDC, CWnd* wnd);
@@ -65,12 +69,17 @@ public:
     static int getConstantByDPI(CWnd* window, const int* constants);
     static UINT getResourceByDPI(CWnd* window, CDC* pDC, const UINT* resources);
     static const std::vector<CMPCTheme::pathPoint> getIconPathByDPI(CMPCThemeTitleBarControlButton* button);
+    static const std::vector<CMPCTheme::pathPoint> getIconPathByDPI(CWnd* wnd, WPARAM buttonType);
     static void drawCheckBox(CWnd* window, UINT checkState, bool isHover, bool useSystemSize, CRect rectCheck, CDC* pDC, bool isRadio = false);
+    static void drawGripper(CWnd* window, CWnd* dpiRefWnd, CRect rectGripper, CDC* pDC, bool rot90);
+    static void drawToolbarHideButton(CDC* pDC, CWnd* window, CRect iconRect, std::vector<CMPCTheme::pathPoint> icon, double dpiScaling, bool antiAlias, bool hover);
     static bool canUseWin10DarkTheme();
     static UINT defaultLogo();
     static void drawParentDialogBGClr(CWnd* wnd, CDC* pDC, CRect r, bool fill = true);
     static void fulfillThemeReqs(CProgressCtrl* ctl);
     static void enableWindows10DarkFrame(CWnd* window);
+
+    void PreDoModalRTL(LPPROPSHEETHEADERW m_psh);
 
     enum CheckBoxStyle {
         CheckBoxRegular = 0,

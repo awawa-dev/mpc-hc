@@ -83,7 +83,7 @@ void CBassRedirect::SetOptions(int cutoff_freq)
 	}
 }
 
-void CBassRedirect::UpdateInput(SampleFormat sf, DWORD layout, int samplerate)
+void CBassRedirect::UpdateInput(SampleFormat sf, uint32_t layout, int samplerate)
 {
 	m_sf = sf;
 

@@ -23,7 +23,7 @@
 
 #include <afxwin.h>
 #include "CMPCThemePPageBase.h"
-#include "CMPCThemePlayerListCtrl.h"
+#include "PlayerListCtrl.h"
 #include "CMPCThemeButton.h"
 #include "CMPCThemeGroupBox.h"
 #include "CMPCThemeRadioOrCheck.h"
@@ -38,7 +38,7 @@ class CPPageFormats : public CMPCThemePPageBase
 
 private:
 
-    CMPCThemePlayerListCtrl m_list;
+    CPlayerListCtrl m_list;
     CImageList m_onoff;
     CMPCThemeRadioOrCheck m_fContextDir;
     CMPCThemeRadioOrCheck m_fContextFiles;

@@ -9,6 +9,7 @@
 
 std::map<UINT, CMPCThemeMenu*> CMPCThemeMenu::subMenuIDs;
 HBRUSH CMPCThemeMenu::bgBrush = 0;
+HBRUSH CMPCThemeMenu::bgMenubarBrush = 0;
 CFont CMPCThemeMenu::font;
 CFont CMPCThemeMenu::symbolFont;
 CFont CMPCThemeMenu::bulletFont;
@@ -219,7 +220,14 @@ void CMPCThemeMenu::fulfillThemeReqs(bool isMenubar)
         if (!bgBrush) {
             bgBrush = ::CreateSolidBrush(CMPCTheme::MenuBGColor);
         }
-        MenuInfo.hbrBack = bgBrush;
+        if (!bgMenubarBrush) {
+            bgMenubarBrush = ::CreateSolidBrush(CMPCTheme::MenubarBGColor);
+        }
+        if (isMenubar) {
+            MenuInfo.hbrBack = bgMenubarBrush;
+        } else {
+            MenuInfo.hbrBack = bgBrush;
+        }
         SetMenuInfo(&MenuInfo);
 
         int iMaxItems = GetMenuItemCount();
@@ -414,9 +422,16 @@ void CMPCThemeMenu::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
         COLORREF ArrowColor = CMPCTheme::SubmenuColor;
         COLORREF TextFGColor;
-        COLORREF TextBGColor = CMPCTheme::MenuBGColor;
-        //TextBGColor = R255; //test
-        COLORREF TextSelectColor = CMPCTheme::MenuSelectedColor;
+        COLORREF TextBGColor;
+        COLORREF TextSelectColor;
+
+        if (menuObject->isMenubar) {
+            TextBGColor = CMPCTheme::MenubarBGColor;
+            TextSelectColor = CMPCTheme::MenubarSelectedBGColor;
+        } else {
+            TextBGColor = CMPCTheme::MenuBGColor;
+            TextSelectColor = CMPCTheme::MenuSelectedColor;
+        }
 
         CDC* pDC = CDC::FromHandle(lpDrawItemStruct->hDC);
 

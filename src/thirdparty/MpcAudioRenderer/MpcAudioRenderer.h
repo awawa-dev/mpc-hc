@@ -26,10 +26,11 @@
 #include <audioclient.h>
 #include <FunctionDiscoveryKeys_devpkey.h>
 #include "MpcAudioRendererSettingsWnd.h"
-#include "Mixer.h"
-#include "Filter.h"
+#include "AudioTools/Mixer.h"
+#include "AudioTools/AudioFilter.h"
+#include "AudioTools/DitherInt16.h"
 #include "AudioSyncClock.h"
-#include "../../DSUtil/Packet.h"
+
 #include <bs2b/libbs2b/src/bs2bclass.h>
 
 #define MpcAudioRendererName L"MPC Audio Renderer"
@@ -56,8 +57,8 @@ class __declspec(uuid("601D2A2B-9CDE-40bd-8650-0485E3522727"))
 
 	CMixer            m_Resampler;
 
-	CPacketQueue2     m_WasapiQueue;
-	CAutoPtr<CPacket> m_CurrentPacket;
+	CPacketQueue      m_WasapiQueue;
+	std::unique_ptr<CPacket> m_CurrentPacket;
 	UINT32            m_nSampleOffset;
 
 	REFERENCE_TIME    m_rtStartTime;
@@ -176,8 +177,8 @@ public:
 	STDMETHODIMP_(BOOL)           GetBitExactOutput() override;
 	STDMETHODIMP                  SetSystemLayoutChannels(BOOL bValue) override;
 	STDMETHODIMP_(BOOL)           GetSystemLayoutChannels() override;
-	STDMETHODIMP                  SetCheckFormat(BOOL bValue) override;
-	STDMETHODIMP_(BOOL)           GetCheckFormat() override;
+	STDMETHODIMP                  SetAltCheckFormat(BOOL bValue) override;
+	STDMETHODIMP_(BOOL)           GetAltCheckFormat() override;
 	STDMETHODIMP                  SetReleaseDeviceIdle(BOOL bValue) override;
 	STDMETHODIMP_(BOOL)           GetReleaseDeviceIdle() override;
 	STDMETHODIMP_(BITSTREAM_MODE) GetBitstreamMode() override;
@@ -205,7 +206,10 @@ private:
 	void SetBalanceMask(const DWORD output_layout);
 	void ApplyVolumeBalance(BYTE* pData, UINT32 size);
 
-	CFilter m_Filter;
+	CAudioFilter m_AudioFilter;
+	HRESULT SetupAudioFilter();
+
+	CDitherInt16 m_DitherInt16;
 
 	// CMpcAudioRenderer WASAPI methods
 	HRESULT GetAudioDevice(const BOOL bForceUseDefaultDevice);
@@ -215,7 +219,7 @@ private:
 	HRESULT CreateRenderClient(WAVEFORMATEX *pWaveFormatEx, const BOOL bCheckFormat = TRUE);
 
 	HRESULT Transform(IMediaSample *pMediaSample);
-	HRESULT PushToQueue(CAutoPtr<CPacket> p);
+	HRESULT PushToQueue(std::unique_ptr<CPacket>& p);
 
 	bool IsFormatChanged(const WAVEFORMATEX *pWaveFormatEx, const WAVEFORMATEX *pNewWaveFormatEx);
 	bool CopyWaveFormat(const WAVEFORMATEX *pSrcWaveFormatEx, WAVEFORMATEX **ppDestWaveFormatEx);
@@ -253,7 +257,7 @@ private:
 	BITSTREAM_MODE     m_BitstreamMode;
 	BOOL               m_bUseBitExactOutput;
 	BOOL               m_bUseSystemLayoutChannels;
-	BOOL               m_bCheckFormat;
+	BOOL               m_bAltCheckFormat;
 	BOOL               m_bReleaseDeviceIdle;
 	BOOL               m_bUseCrossFeed;
 	BOOL               m_bDummyChannels;
@@ -321,7 +325,7 @@ private:
 	};
 	AudioFormats m_input_params, m_output_params;
 
-	void WasapiQueueAdd(CAutoPtr<CPacket> p);
+	void WasapiQueueAdd(std::unique_ptr<CPacket>& p);
 };
 
 class CMpcAudioRendererInputPin final

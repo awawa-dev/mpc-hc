@@ -31,9 +31,10 @@
 #include "../filters/renderer/VideoRenderers/RenderersSettings.h"
 #include "SettingsDefines.h"
 #include "Shaders.h"
-
+#include "../Subtitles/SubRendererSettings.h"
 #include <afxadv.h>
 #include <afxsock.h>
+#include "CMPCTheme.h"
 
 class FilterOverride;
 
@@ -451,6 +452,8 @@ public:
         fns.AddHeadList(&r.fns);
         subs.AddHeadList(&r.subs);
         abRepeat = r.abRepeat;
+        AudioTrackIndex = r.AudioTrackIndex;
+        SubtitleTrackIndex = r.SubtitleTrackIndex;
     }
     RecentFileEntry(const RecentFileEntry &r) {
         InitEntry(r);
@@ -465,6 +468,8 @@ public:
     REFERENCE_TIME filePosition=0;
     DVD_POSITION DVDPosition = {};
     ABRepeat abRepeat;
+    int AudioTrackIndex = -1;
+    int SubtitleTrackIndex = -1;
 
     void operator=(const RecentFileEntry &r) {
         InitEntry(r);
@@ -522,11 +527,17 @@ class CAppSettings
         void UpdateCurrentDVDTimecode(DVD_HMSF_TIMECODE *time);
         void UpdateCurrentDVDTitle(DWORD title);
         DVD_POSITION GetCurrentDVDPosition();
+        void UpdateCurrentAudioTrack(int audioIndex);
+        int GetCurrentAudioTrack();
+        void UpdateCurrentSubtitleTrack(int audioIndex);
+        int GetCurrentSubtitleTrack();
         void AddSubToCurrent(CStringW subpath);
         void SetCurrentTitle(CStringW subpath);
         void UpdateCurrentABRepeat(ABRepeat abRepeat);
         void WriteCurrentEntry();
         void ReadMediaHistory();
+        void WriteMediaHistoryAudioIndex(RecentFileEntry& r);
+        void WriteMediaHistorySubtitleIndex(RecentFileEntry& r);
         void WriteMediaHistoryEntry(RecentFileEntry& r, bool updateLastOpened = false);
         void SaveMediaHistory();
         void ReadLegacyMediaHistory(std::map<CStringW, size_t> &filenameToIndex);
@@ -654,6 +665,7 @@ public:
     bool            bAllowInaccurateFastseek;
     bool            bLoopFolderOnPlayNextFile;
     bool            bLockNoPause;
+    bool            bPreventDisplaySleep;
     bool            bUseSMTC;
     int             iReloadAfterLongPause;
     bool            bOpenRecPanelWhenOpeningDevice;
@@ -759,13 +771,17 @@ public:
     CString         strAutoDownloadSubtitlesExclude;
     bool            bAutoUploadSubtitles;
     bool            bPreferHearingImpairedSubtitles;
-    bool            bRenderSubtitlesUsingLibass;
-    CStringA        strOpenTypeLangHint;
+#if USE_LIBASS
+    bool            bRenderSSAUsingLibass;
+    bool            bRenderSRTUsingLibass;
+#endif
     bool            bMPCTheme;
     bool            bWindows10DarkThemeActive;
     bool            bWindows10AccentColorsEnabled;
-    bool            bModernSeekbar;
     int             iModernSeekbarHeight;
+
+    CMPCTheme::ModernThemeMode eModernThemeMode;
+
     int             iFullscreenDelay;
 
     enum class verticalAlignVideoType {
@@ -854,6 +870,7 @@ public:
     WORD            nLastUsedPage;
     bool            fRemainingTime;
     bool            bHighPrecisionTimer;
+    bool            bTimerShowPercentage;
     bool            fLastFullScreen;
 
     bool            fEnableEDLEditor;
@@ -930,6 +947,9 @@ public:
     bool bUseSubsFromYDL;
     CString sYDLSubsPreference;
     bool bUseAutomaticCaptions;
+    bool bUseFreeType;
+    bool bUseMediainfoLoadFileDuration;
+    CStringA strOpenTypeLangHint;
 
     CStringW lastQuickOpenPath;
     CStringW lastSaveImagePath;
@@ -1005,8 +1025,6 @@ public:
     bool            GetAllowMultiInst() const;
 
     static bool     IsVSFilterInstalled();
-#if USE_LIBASS
     SubRendererSettings	GetSubRendererSettings();
-#endif
 };
 

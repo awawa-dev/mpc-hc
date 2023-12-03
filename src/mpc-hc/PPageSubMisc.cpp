@@ -103,7 +103,7 @@ BOOL CPPageSubMisc::OnInitDialog()
     if (columnWidth.GetCount() != COL_TOTAL_COLUMNS) {
         // default sizes
         columnWidth.RemoveAll();
-        columnWidth.Add(120);
+        columnWidth.Add(130);
         columnWidth.Add(75);
         columnWidth.Add(300);
     }
@@ -117,7 +117,7 @@ BOOL CPPageSubMisc::OnInitDialog()
 
     int i = 0;
     for (const auto& iter : m_pSubtitlesProviders->Providers()) {
-        int iItem = m_list.InsertItem(i++, CString(iter->Name().c_str()), iter->GetIconIndex());
+        int iItem = m_list.InsertItem(i++, CString(iter->DisplayName().c_str()), iter->GetIconIndex());
         m_list.SetItemText(iItem, COL_USERNAME, UTF8To16(iter->UserName().c_str()));
         m_list.SetItemText(iItem, COL_LANGUAGES, ResStr(IDS_SUBPP_DLG_FETCHING_LANGUAGES));
         m_list.SetCheck(iItem, iter->Enabled(SPF_SEARCH));
@@ -299,31 +299,50 @@ void CPPageSubMisc::OnItemChanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
     LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
 
-    if (pNMLV->iItem == 0 && pNMLV->uNewState == 8192) {
-        auto& openSubProvider = *m_pSubtitlesProviders->Providers()[0].get();
+    int provider_count = m_pSubtitlesProviders->Providers().size();
+    for (int i = 0; i < provider_count; i++) {
+        if (pNMLV->iItem == i && pNMLV->uNewState == 8192) {
+            auto& subprovider = *m_pSubtitlesProviders->Providers()[i].get();
+            std::string provname = subprovider.Name();
+            if (provname.compare("OpenSubtitles") == 0 || provname.compare("OpenSubtitles2") == 0) {
+                if (subprovider.Enabled(SPF_SEARCH) == 0 && subprovider.UserName().size() == 0) {
+                    bool allow_anon = false;
+                    CString msg;
+                    if (provname.compare("OpenSubtitles") == 0) {
+                        msg = L"You must enter your OpenSubtitles login information to continue.\r\n\r\n" \
+                            "If you do not yet have an OpenSubtitles account, you can create a free account on http://www.opensubtitles.org\r\n\r\n" \
+                            "Click OK if you have an account and want to fill in your login details. Click CANCEL to disable this subtitle search provider.";
+                    } else {
+                        msg = L"You should enter your OpenSubtitles login information to continue.\r\n\r\n" \
+                            "If you do not yet have an OpenSubtitles account, you can create a free account on http://www.opensubtitles.com\r\n\r\n" \
+                            "Click OK if you have an account and want to fill in your login details.\r\n\r\n" \
+                            "Click CANCEL to use this subtitle search provider without login. Anonymous usage is restricted to 5 downloads per day.";
+                        allow_anon = true;
+                    }
+                    if (AfxMessageBox(msg, MB_OKCANCEL | MB_ICONINFORMATION) == IDCANCEL) {
+                        if (!allow_anon) {
+                            ListView_SetCheckState(pNMHDR->hwndFrom, i, FALSE);
+                            return;
+                        }
+                        break;
+                    }
 
-        if (openSubProvider.Enabled(SPF_SEARCH) == 0 && openSubProvider.UserName().size() == 0) {
-            CString msg = L"You must enter your OpenSubtitles login information to continue.\r\n\r\n" \
-                "If you do not yet have an OpenSubtitles account, you can create a free account on http://www.opensubtitles.org\r\n\r\n" \
-                "Click OK if you have an account and want to fill in your login details. Click CANCEL to disable this subtitle search provider.";
-            if (AfxMessageBox(msg, MB_OKCANCEL | MB_ICONINFORMATION) == IDCANCEL) {
-                ListView_SetCheckState(pNMHDR->hwndFrom, 0, FALSE);
-                return;
-            }
-
-            CString szUser(UTF8To16(openSubProvider.UserName().c_str()));
-            CString szPass(UTF8To16(openSubProvider.Password().c_str()));
-            CString szDomain(UTF8To16(openSubProvider.Name().c_str()));
-            if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
-                ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) +
-                CString(openSubProvider.Url().c_str()), szDomain, szUser, szPass, nullptr)) {
-                openSubProvider.LogOut();
-                openSubProvider.UserName(static_cast<const char*>(UTF16To8(szUser)));
-                openSubProvider.Password(static_cast<const char*>(UTF16To8(szPass)));
-                m_list.SetItemText(pNMLV->iItem, 1, szUser);
-            } else {
-                ListView_SetCheckState(pNMHDR->hwndFrom, 0, FALSE);
-                return;
+                    CString szUser(UTF8To16(subprovider.UserName().c_str()));
+                    CString szPass(UTF8To16(subprovider.Password().c_str()));
+                    CString szDomain(UTF8To16(provname.c_str()));
+                    if (ERROR_SUCCESS == PromptForCredentials(GetSafeHwnd(),
+                        ResStr(IDS_SUB_CREDENTIALS_TITLE), ResStr(IDS_SUB_CREDENTIALS_MSG) +
+                        CString(subprovider.Url().c_str()), szDomain, szUser, szPass, nullptr)) {
+                        subprovider.LogOut();
+                        subprovider.UserName(static_cast<const char*>(UTF16To8(szUser)));
+                        subprovider.Password(static_cast<const char*>(UTF16To8(szPass)));
+                        m_list.SetItemText(pNMLV->iItem, 1, szUser);
+                    } else if (!allow_anon) {
+                        ListView_SetCheckState(pNMHDR->hwndFrom, i, FALSE);
+                        return;
+                    }
+                }
+                break;
             }
         }
     }

@@ -1,9 +1,12 @@
 #pragma once
-#include "PlayerListCtrl.h"
 #include "CMPCThemeScrollBarHelper.h"
 #include "CMPCThemeToolTipCtrl.h"
 #include "CMPCThemeUtil.h"
 #include "CMPCThemeHeaderCtrl.h"
+
+//undocumented state changes for LVS_EX_CHECKBOXES
+#define LVIS_UNCHECKED  0x1000
+#define LVIS_CHECKED    0x2000
 
 class CMPCThemeListCtrlCustomInterface
 {
@@ -13,10 +16,10 @@ public:
     virtual void GetCustomGridColors(int nItem, COLORREF& horzGridColor, COLORREF& vertGridColor) = 0;
 };
 
-class CMPCThemePlayerListCtrl : public CPlayerListCtrl, CMPCThemeUtil, CMPCThemeScrollable
+class CMPCThemePlayerListCtrl : public CListCtrl, CMPCThemeUtil, CMPCThemeScrollable
 {
 public:
-    CMPCThemePlayerListCtrl(int tStartEditingDelay = 500);
+    CMPCThemePlayerListCtrl();
     virtual ~CMPCThemePlayerListCtrl();
     DECLARE_DYNAMIC(CMPCThemePlayerListCtrl)
 
@@ -33,6 +36,7 @@ public:
     void setFlaggedItem(int iItem, bool flagged);
     bool getFlaggedItem(int iItem);
     void setColorInterface(CMPCThemeListCtrlCustomInterface* iface) { customThemeInterface = iface; };
+    void DoDPIChanged();
 
     DECLARE_MESSAGE_MAP()
     afx_msg void OnNcPaint();

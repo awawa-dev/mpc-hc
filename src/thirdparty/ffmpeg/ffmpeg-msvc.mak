@@ -159,7 +159,6 @@ SRCS_LU = \
 	libavutil/camellia.c \
 	libavutil/cast5.c \
 	libavutil/channel_layout.c \
-	libavutil/color_utils.c \
 	libavutil/cpu.c \
 	libavutil/crc.c \
 	libavutil/des.c \

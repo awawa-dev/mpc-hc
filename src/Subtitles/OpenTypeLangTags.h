@@ -12,4 +12,14 @@ public:
         const wchar_t* langDescription;
     } T;
     static OpenTypeLangTag OpenTypeLangTags[763];
+    static void CStringAtoHintStr(HintStr &langHint, CStringA src) {
+        src = src.Left(OpenTypeLang::OTLangHintLen);
+        int otlLen = src.GetLength();
+        if (otlLen > 0) {
+            strncpy_s(langHint, _countof(langHint), src.GetBuffer(), std::min(OpenTypeLang::OTLangHintLen + 1, otlLen + 1));
+            src.ReleaseBuffer();
+        } else {
+            langHint[0] = 0;
+        }
+    }
 };

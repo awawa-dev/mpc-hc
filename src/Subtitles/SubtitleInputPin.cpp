@@ -29,6 +29,7 @@
 #include <uuids.h>
 #include "moreuuids.h"
 #include "../DSUtil/ISOLang.h"
+#include "../mpc-hc/mplayerc.h"
 
 // our first format id
 #define __GAB1__ "GAB1"
@@ -126,20 +127,21 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
         name.Replace(_T(""), _T(""));
         name.Replace(_T(""), _T(""));
 
-        if (m_mt.subtype == MEDIASUBTYPE_UTF8
-                /*|| m_mt.subtype == MEDIASUBTYPE_USF*/
-                || m_mt.subtype == MEDIASUBTYPE_WEBVTT
-                || m_mt.subtype == MEDIASUBTYPE_SSA
-                || m_mt.subtype == MEDIASUBTYPE_ASS
-                || m_mt.subtype == MEDIASUBTYPE_ASS2) {
+        bool subtype_utf8 = m_mt.subtype == MEDIASUBTYPE_UTF8;
+        bool subtype_vtt  = m_mt.subtype == MEDIASUBTYPE_WEBVTT;
+        bool subtype_ass  = m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2;
+
+        if (subtype_utf8 || subtype_ass || subtype_vtt) {
             if (!(m_pSubStream = DEBUG_NEW CRenderedTextSubtitle(m_pSubLock))) {
                 return E_FAIL;
             }
+
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
+            pRTS->SetSubtitleTypeFromGUID(m_mt.subtype);
 #if USE_LIBASS
-            if (pRTS->m_renderUsingLibass) {
+            if (pRTS->m_LibassContext.CheckSubType()) {
                 IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                pRTS->SetFilterGraph(fg);
+                pRTS->m_LibassContext.SetFilterGraph(fg);
             }
 #endif
             pRTS->m_name = name;
@@ -149,10 +151,6 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             }
             pRTS->m_storageRes = pRTS->m_playRes = CSize(384, 288);
             pRTS->CreateDefaultStyle(DEFAULT_CHARSET);
-
-            if (m_mt.subtype == MEDIASUBTYPE_WEBVTT) {
-                pRTS->m_subtitleType = Subtitle::VTT;
-            }
 
             if (dwOffset > 0 && m_mt.cbFormat - dwOffset > 0) {
                 CMediaType mt = m_mt;
@@ -165,17 +163,22 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                     mt.pbFormat[dwOffset + 2] = 0xbf;
                 }
 
-                bool succes = false;
+                bool success = false;
 #if USE_LIBASS
-                if (pRTS->m_renderUsingLibass) {
-                    pRTS->SetPin(pReceivePin);
-                    succes = pRTS->LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset,
-                        m_mt.subtype == MEDIASUBTYPE_UTF8 ? Subtitle::SRT : Subtitle::ASS);
+                if (pRTS->m_LibassContext.m_renderUsingLibass) {
+                    pRTS->m_LibassContext.SetPin(pReceivePin);
+                    success = pRTS->m_LibassContext.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
                 }
-                if (!succes || !pRTS->m_assloaded)
 #endif
-                    succes = pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
-                ASSERT(succes);
+#if USE_LIBASS
+                if (!success || !pRTS->m_LibassContext.IsLibassActive()) {
+                    pRTS->m_LibassContext.m_renderUsingLibass = false;
+#endif
+                    success = pRTS->Open(mt.pbFormat + dwOffset, mt.cbFormat - dwOffset, DEFAULT_CHARSET, pRTS->m_name);
+#if USE_LIBASS
+                }
+#endif
+                ASSERT(success);
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             if (!(m_pSubStream = DEBUG_NEW CVobSubStream(m_pSubLock))) {
@@ -232,15 +235,16 @@ STDMETHODIMP CSubtitleInputPin::NewSegment(REFERENCE_TIME tStart, REFERENCE_TIME
     CAutoLock cAutoLock(&m_csReceive);
 
     InvalidateSamples();
-  
+
     if (m_mt.majortype == MEDIATYPE_Text || m_mt.majortype == MEDIATYPE_Subtitle && (m_mt.subtype == MEDIASUBTYPE_UTF8
-            || m_mt.subtype == MEDIASUBTYPE_WEBVTT || m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS
-            || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
+        || m_mt.subtype == MEDIASUBTYPE_WEBVTT || m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS
+        || m_mt.subtype == MEDIASUBTYPE_ASS2)) {
         CAutoLock cAutoLock2(m_pSubLock);
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
         if (pRTS->m_webvtt_allow_clear || pRTS->m_subtitleType != Subtitle::VTT) {
             pRTS->RemoveAll();
             pRTS->CreateSegments();
+            pRTS->FlushEventsLibass();
         }
         // WebVTT can be read as one big blob of data during pin connection, instead of as samples during playback.
         // This depends on how it is being demuxed. So clear only if we previously got data through samples.
@@ -388,6 +392,10 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
 {
     bool bInvalidate = false;
 
+    if (pSample->data.size() <= 0) {
+        return -1;
+    }
+
     if (m_mt.majortype == MEDIATYPE_Text) {
         CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
 
@@ -450,67 +458,65 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
     } else if (m_mt.majortype == MEDIATYPE_Subtitle) {
         if (m_mt.subtype == MEDIASUBTYPE_UTF8 || m_mt.subtype == MEDIASUBTYPE_WEBVTT) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
-
-            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
-            FastTrim(str);
-            if (!str.IsEmpty()) {
-                pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
-                bInvalidate = true;
-                if (pRTS->m_subtitleType == Subtitle::VTT) {
-                    pRTS->m_webvtt_allow_clear = true;
-                }
-            }
 #if USE_LIBASS
-            if (pRTS->m_assloaded) {
+            if (pRTS->m_LibassContext.IsLibassActive()) {
                 LPCSTR data = (LPCSTR)pSample->data.data();
                 int dataSize = (int)pSample->data.size();
-                if (dataSize > 0) {
-                    IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                    pRTS->SetFilterGraph(fg);
-                    pRTS->SetPin(this);
-                    pRTS->LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
+                IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
+                pRTS->m_LibassContext.SetFilterGraph(fg);
+                pRTS->m_LibassContext.SetPin(this);
+                pRTS->m_LibassContext.LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
+            } else
+#endif
+            {
+                CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
+                FastTrim(str);
+                if (!str.IsEmpty()) {
+                    pRTS->Add(str, true, pSample->rtStart, pSample->rtStop);
+                    bInvalidate = true;
+                    if (pRTS->m_subtitleType == Subtitle::VTT) {
+                        pRTS->m_webvtt_allow_clear = true;
+                    }
                 }
             }
-#endif
-
         } else if (m_mt.subtype == MEDIASUBTYPE_SSA || m_mt.subtype == MEDIASUBTYPE_ASS || m_mt.subtype == MEDIASUBTYPE_ASS2) {
             CRenderedTextSubtitle* pRTS = (CRenderedTextSubtitle*)(ISubStream*)m_pSubStream;
-
-            CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
-            FastTrim(str);
-            if (!str.IsEmpty()) {
-                STSEntry stse;
-
-                int fields = m_mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
-
-                CAtlList<CStringW> sl;
-                ExplodeNoTrim(str, sl, ',', fields);
-                if (sl.GetCount() == (size_t)fields) {
-                    stse.readorder = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.layer = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.style = sl.RemoveHead(); // no trim, its value is a lookup key
-                    stse.actor = sl.RemoveHead().Trim();
-                    stse.marginRect.left = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.marginRect.right = wcstol(sl.RemoveHead(), nullptr, 10);
-                    stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
-                    if (fields == 10) {
-                        stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
-                    }
-                    stse.effect = sl.RemoveHead().Trim();
-                    stse.str = sl.RemoveHead().Trim();
-                }
-
-                if (!stse.str.IsEmpty()) {
-                    pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
-                              stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
-                    bInvalidate = true;
-                }
-
 #if USE_LIBASS
-                if (pRTS->m_assloaded) {
-                    ass_process_chunk(pRTS->m_track.get(), (char *)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
-                }
+            if (pRTS->m_LibassContext.IsLibassActive()) {
+                ass_process_chunk(pRTS->m_LibassContext.m_track.get(), (char*)pSample->data.data(), (int)pSample->data.size(), pSample->rtStart / 10000, (pSample->rtStop - pSample->rtStart) / 10000);
+            } else
 #endif
+            {
+                CStringW str = UTF8To16(CStringA((LPCSTR)pSample->data.data(), (int)pSample->data.size()));
+                FastTrim(str);
+                if (!str.IsEmpty()) {
+                    STSEntry stse;
+
+                    int fields = m_mt.subtype == MEDIASUBTYPE_ASS2 ? 10 : 9;
+
+                    CAtlList<CStringW> sl;
+                    ExplodeNoTrim(str, sl, ',', fields);
+                    if (sl.GetCount() == (size_t)fields) {
+                        stse.readorder = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.layer = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.style = sl.RemoveHead(); // no trim, its value is a lookup key
+                        stse.actor = sl.RemoveHead().Trim();
+                        stse.marginRect.left = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.marginRect.right = wcstol(sl.RemoveHead(), nullptr, 10);
+                        stse.marginRect.top = stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
+                        if (fields == 10) {
+                            stse.marginRect.bottom = wcstol(sl.RemoveHead(), nullptr, 10);
+                        }
+                        stse.effect = sl.RemoveHead().Trim();
+                        stse.str = sl.RemoveHead().Trim();
+                    }
+
+                    if (!stse.str.IsEmpty()) {
+                        pRTS->Add(stse.str, true, pSample->rtStart, pSample->rtStop,
+                            stse.style, stse.actor, stse.effect, stse.marginRect, stse.layer, stse.readorder);
+                        bInvalidate = true;
+                    }
+                }
             }
         } else if (m_mt.subtype == MEDIASUBTYPE_VOBSUB) {
             CVobSubStream* pVSS = (CVobSubStream*)(ISubStream*)m_pSubStream;

@@ -311,15 +311,21 @@ Type: files; Name: {userdesktop}\Media Player Classic - Home Cinema.lnk;   Check
 Type: files; Name: {commondesktop}\Media Player Classic - Home Cinema.lnk; Check: not IsTaskSelected('desktopicon\common') and IsUpgrade()
 Type: files; Name: {#quick_launch}\Media Player Classic - Home Cinema.lnk; Check: not IsTaskSelected('quicklaunchicon')    and IsUpgrade(); OnlyBelowVersion: 6.01
 
-; Older ffmpeg dlls
+; Old ffmpeg dlls from LAV Filters
+Type: files; Name: {app}\{#lavfiltersdir}\avcodec-lav-59.dll;   Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avcodec-lav-58.dll;   Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avcodec-lav-57.dll;   Check: IsUpgrade()
+Type: files; Name: {app}\{#lavfiltersdir}\avfilter-lav-8.dll;   Check: IsUpgrade()
+Type: files; Name: {app}\{#lavfiltersdir}\avfilter-lav-7.dll;   Check: IsUpgrade()
+Type: files; Name: {app}\{#lavfiltersdir}\avformat-lav-59.dll;  Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avformat-lav-58.dll;  Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avformat-lav-57.dll;  Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avresample-lav-4.dll; Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avresample-lav-3.dll; Check: IsUpgrade()
+Type: files; Name: {app}\{#lavfiltersdir}\avutil-lav-57.dll;    Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avutil-lav-56.dll;    Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\avutil-lav-55.dll;    Check: IsUpgrade()
+Type: files; Name: {app}\{#lavfiltersdir}\swscale-lav-6.dll;    Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\swscale-lav-5.dll;    Check: IsUpgrade()
 Type: files; Name: {app}\{#lavfiltersdir}\swscale-lav-4.dll;    Check: IsUpgrade()
 

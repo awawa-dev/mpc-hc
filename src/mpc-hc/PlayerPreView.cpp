@@ -114,7 +114,6 @@ int CPreView::OnCreate(LPCREATESTRUCT lpCreateStruct) {
         return -1;
     }
 
-    ScaleFont();
     SetColor();
 
     return 0;
@@ -181,6 +180,9 @@ void CPreView::OnPaint() {
     rtime.right -= m_border + 2;
 
     // text
+    if (!m_font.m_hObject) {
+        ScaleFont();
+    }
     mdc.SelectObject(&m_font);
     mdc.SetTextColor(m_crText);
     mdc.DrawTextW(m_tooltipstr, m_tooltipstr.GetLength(), &rtime, DT_CENTER | DT_VCENTER | DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX);
@@ -249,5 +251,5 @@ void CPreView::ScaleFont() {
 }
 
 void CPreView::SetColor() {
-    const auto bUseDarkTheme = AfxGetAppSettings().bMPCTheme;
+
 }

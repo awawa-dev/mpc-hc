@@ -57,7 +57,7 @@ CMPCThemeComboBox::~CMPCThemeComboBox()
 
 void CMPCThemeComboBox::themeDropDown()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (CMPCThemeUtil::canUseWin10DarkTheme() && !isThemedDropDown) {
             COMBOBOXINFO info = { sizeof(COMBOBOXINFO) };
             if (GetComboBoxInfo(&info)) {
@@ -119,7 +119,7 @@ void CMPCThemeComboBox::drawComboArrow(CDC& dc, COLORREF arrowClr, CRect arrowRe
 
 void CMPCThemeComboBox::OnPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         CPaintDC dc(this);
         CRect r, rBorder, rText, rBG, rSelect, rDownArrow;
         GetClientRect(r);
@@ -271,4 +271,24 @@ int CMPCThemeComboBox::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CMPCThemeComboBox::OnEraseBkgnd(CDC* pDC) {
     return TRUE;
+}
+
+int CMPCThemeComboBox::SetCurSel(int nSelect) { //note, this is NOT virtual, and only works for explicit subclass
+    int cur = GetCurSel();
+    if (cur != nSelect) {
+        int ret = __super::SetCurSel(nSelect);
+        RedrawWindow();
+        return ret;
+    } else {
+        return nSelect;
+    }
+}
+
+void CMPCThemeComboBox::SelectByItemData(DWORD_PTR data) {
+    for (int i = 0; i < GetCount(); i++) {
+        if (GetItemData(i) == data) { 
+            SetCurSel(i); //calls CMPCThemeComboBox::SetCurSel
+            break;
+        }
+    }
 }

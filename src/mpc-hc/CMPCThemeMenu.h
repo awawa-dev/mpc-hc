@@ -54,7 +54,7 @@ protected:
     static int separatorHeight;
     static int postTextSpacing;
     static int accelSpacing;
-    static HBRUSH bgBrush;
+    static HBRUSH bgBrush, bgMenubarBrush;
     static CFont font, symbolFont, bulletFont, checkFont;
     static CCritSec resourceLock;
 };

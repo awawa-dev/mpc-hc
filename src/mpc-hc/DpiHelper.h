@@ -19,6 +19,7 @@
  */
 
 #pragma once
+#include <afxcmn.h>
 
 class DpiHelper final
 {
@@ -29,6 +30,11 @@ public:
     void Override(HWND hWindow);
     void Override(int dpix, int dpiy);
     int GetSystemMetricsDPI(int nIndex);
+    void GetMessageFont(LOGFONT* lf);
+    bool GetNonClientMetrics(PNONCLIENTMETRICSW, bool& dpiCorrected);
+    int GetSystemMetrics(int type);
+    static UINT GetDPIForWindow(HWND wnd);
+    int CalculateListCtrlItemHeight(CListCtrl* wnd);
 
     inline double ScaleFactorX() const { return m_dpix / 96.0; }
     inline double ScaleFactorY() const { return m_dpiy / 96.0; }
@@ -42,9 +48,12 @@ public:
 
     inline int ScaleSystemToOverrideX(int x) const { return MulDiv(x, m_dpix, m_sdpix); }
     inline int ScaleSystemToOverrideY(int y) const { return MulDiv(y, m_dpiy, m_sdpiy); }
+    inline int ScaleArbitraryToOverrideY (int y, int dpi_y) const { return MulDiv(y, m_dpix, dpi_y); }
 
     inline int DPIX() { return m_dpix; }
     inline int DPIY() { return m_dpiy; }
+    inline int SDPIX() const { return m_sdpix; }
+    inline int SDPIY() const { return m_sdpiy; }
     static bool CanUsePerMonitorV2();
     inline void ScaleRect(__inout RECT* pRect) {
         pRect->left = ScaleX(pRect->left);
