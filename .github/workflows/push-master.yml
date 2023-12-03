@@ -34,7 +34,7 @@ jobs:
           git switch -c "github-action"
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
@@ -61,7 +61,7 @@ jobs:
           python -c 'import sys; import polib; print(polib.escape(""Testing polib..."")); print(sys.version);' 
 
       - name: Set up nasm
-        uses: ilammy/setup-nasm@v1      
+        uses: ilammy/setup-nasm@v1.4.0      
         with:
           destination: ${{env.VC_DIR}}
              
@@ -115,13 +115,13 @@ jobs:
           ./build.bat x64 Release Packages
 
       - name: Upload 7z archives (x64)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with: 
           name: archive-file-x64
           path: bin/*x64.7z
 
       - name: Upload Installer (x64)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with: 
           name: setup-x64
           path: bin/*x64.exe
@@ -159,13 +159,13 @@ jobs:
           ./build.bat x86 Release Packages
 
       - name: Upload 7z archives (x86)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with: 
           name: archive-file-x86
           path: bin/*x86.7z
 
       - name: Upload Installer (x86)
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with: 
           name: setup-x86
           path: bin/*x86.exe
