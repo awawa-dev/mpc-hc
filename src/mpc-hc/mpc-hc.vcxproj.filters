@@ -602,6 +602,9 @@
     <ClCompile Include="PPageTheme.cpp">
       <Filter>Property Dialogs\Player Options\Pages</Filter>
     </ClCompile>
+    <ClCompile Include="CMPCThemePropPageButton.cpp">
+      <Filter>MPCTheme</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSettings.h">
@@ -1143,6 +1146,9 @@
     <ClInclude Include="..\..\include\mpc-hc_config.h" />
     <ClInclude Include="PPageTheme.h">
       <Filter>Property Dialogs\Player Options\Pages</Filter>
+    </ClInclude>
+    <ClInclude Include="CMPCThemePropPageButton.h">
+      <Filter>MPCTheme</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

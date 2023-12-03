@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "CMPCThemeComPropertyPage.h"
+#include "moreuuids.h"
+
+CLSID CMPCThemeComPropertyPage::dialogClsid = GUID_NULL;
 
 CMPCThemeComPropertyPage::CMPCThemeComPropertyPage(IPropertyPage* pPage) : CComPropertyPage(pPage)
 {
@@ -8,12 +11,18 @@ CMPCThemeComPropertyPage::CMPCThemeComPropertyPage(IPropertyPage* pPage) : CComP
 
 CMPCThemeComPropertyPage::~CMPCThemeComPropertyPage()
 {
+    dialogClsid = GUID_NULL;
 }
 
 BOOL CMPCThemeComPropertyPage::OnInitDialog()
 {
     __super::OnInitDialog();
-    fulfillThemeReqs();
+
+    if (dialogClsid == CLSID_MPCVR) {
+        fulfillThemeReqs(CMPCThemeUtil::SpecialThemeCases::ExternalPropertyPageWithDefaultButton);
+    } else {
+        fulfillThemeReqs();
+    }
     return 0;
 }
 

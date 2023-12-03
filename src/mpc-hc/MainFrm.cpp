@@ -9135,6 +9135,9 @@ void CMainFrame::FilterSettings(CComPtr<IUnknown> pUnk, CWnd* parent) {
     }
 
     if (ps.GetPageCount() > 0) {
+        CLSID clsid;
+        pBF->GetClassID(&clsid);
+        CMPCThemeComPropertyPage::SetDialogType(clsid);
         ps.DoModal();
         OpenSetupStatusBar();
 

@@ -13,8 +13,14 @@ int CALLBACK PropSheetCallBackRTL(HWND hWnd, UINT message, LPARAM lParam);
 class CMPCThemeUtil
 {
 public:
+    enum SpecialThemeCases {
+        NoSpecialCase = 0,
+        ExternalPropertyPageWithDefaultButton,
+    };
+
     CMPCThemeUtil();
     virtual ~CMPCThemeUtil();
+
     static bool ModifyTemplates(CPropertySheet* sheet, CRuntimeClass* pageClass, DWORD id, DWORD addStyle, DWORD removeStyle = 0);
 
     void enableFileDialogHook();
@@ -29,7 +35,7 @@ protected:
     static NONCLIENTMETRICS nonClientMetrics;
     std::vector<CWnd*> allocatedWindows;
 
-    void fulfillThemeReqs(CWnd* wnd);
+    void fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase = SpecialThemeCases::NoSpecialCase);
     static void initHelperObjects();
     void makeThemed(CWnd* pObject, CWnd* tChild);
 

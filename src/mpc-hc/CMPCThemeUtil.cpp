@@ -13,6 +13,7 @@
 #include "CMPCThemeWin10Api.h"
 #include "Translations.h"
 #include "ImageGrayer.h"
+#include "CMPCThemePropPageButton.h"
 #undef SubclassWindow
 
 CBrush CMPCThemeUtil::contentBrush;
@@ -35,7 +36,7 @@ CMPCThemeUtil::~CMPCThemeUtil()
 }
 
 
-void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd)
+void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd, SpecialThemeCases specialCase /* = 0 */)
 {
     if (AppIsThemeLoaded()) {
 
@@ -62,7 +63,12 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd)
             if (canSubclass) {
                 if (DLGC_BUTTON == (lRes & DLGC_BUTTON)) {
                     if (DLGC_DEFPUSHBUTTON == (lRes & DLGC_DEFPUSHBUTTON) || DLGC_UNDEFPUSHBUTTON == (lRes & DLGC_UNDEFPUSHBUTTON)) {
-                        CMPCThemeButton* pObject = DEBUG_NEW CMPCThemeButton();
+                        CMPCThemeButton* pObject;
+                        if (specialCase == ExternalPropertyPageWithDefaultButton && windowTitle == "Default" && AppNeedsThemedControls()) {
+                            pObject = DEBUG_NEW CMPCThemePropPageButton();
+                        } else {
+                            pObject = DEBUG_NEW CMPCThemeButton();
+                        }
                         makeThemed(pObject, tChild);
                     } else if (DLGC_BUTTON == (lRes & DLGC_BUTTON) && (buttonType == BS_CHECKBOX || buttonType == BS_AUTOCHECKBOX)) {
                         CMPCThemeRadioOrCheck* pObject = DEBUG_NEW CMPCThemeRadioOrCheck();
@@ -127,7 +133,7 @@ void CMPCThemeUtil::fulfillThemeReqs(CWnd* wnd)
                 }
             }
             if (0 == _tcsicmp(windowClass, _T("#32770"))) { //dialog class
-                fulfillThemeReqs(tChild);
+                fulfillThemeReqs(tChild, specialCase);
             } else if (windowTitle == _T("CInternalPropertyPageWnd")) { //internal window encompassing property pages
                 fulfillThemeReqs(tChild);
             }

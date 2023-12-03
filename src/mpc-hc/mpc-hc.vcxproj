@@ -138,6 +138,7 @@
     <ClCompile Include="CMPCThemeFrameWnd.cpp" />
     <ClCompile Include="CMPCThemeInternalPropertyPageWnd.cpp" />
     <ClCompile Include="CMPCThemeMiniDockFrameWnd.cpp" />
+    <ClCompile Include="CMPCThemePropPageButton.cpp" />
     <ClCompile Include="CMPCThemeTitleBarControlButton.cpp" />
     <ClCompile Include="CMPCThemeUtil.cpp" />
     <ClCompile Include="CMPCThemeComboBox.cpp" />
@@ -323,6 +324,7 @@
     <ClInclude Include="CMPCThemeFrameWnd.h" />
     <ClInclude Include="CMPCThemeInternalPropertyPageWnd.h" />
     <ClInclude Include="CMPCThemeMiniDockFrameWnd.h" />
+    <ClInclude Include="CMPCThemePropPageButton.h" />
     <ClInclude Include="CMPCThemeTitleBarControlButton.h" />
     <ClInclude Include="CMPCThemeUtil.h" />
     <ClInclude Include="CMPCThemeComboBox.h" />
