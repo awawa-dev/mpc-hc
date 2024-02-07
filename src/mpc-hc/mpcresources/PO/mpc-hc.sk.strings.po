@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Marián Hikaník <podnety@mojepreklady.net>, 2023
+# Marián Hikaník <podnety@mojepreklady.net>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2024-01-05 15:29:45+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2023\n"
+"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2024\n"
 "Language-Team: Slovak (https://app.transifex.com/mpchc/teams/106126/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -756,8 +756,8 @@ msgid "Player::Logo"
 msgstr "Prehrávač::Logo"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "Prehrávač::Téma"
+msgid "Player::User Interface"
+msgstr "Prehrávač::Používateľské rozhranie"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -1276,23 +1276,23 @@ msgstr "EDL - koniec"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "Snímka videa - otočenie X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "Snímka videa - otočenie Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "Snímka videa - otočenie Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "Snímka videa - otočenie Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "Snímka videa - otočenie Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1675,7 +1675,7 @@ msgstr "Veľká presnosť"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "Zobraziť percentá"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -2088,15 +2088,15 @@ msgstr "Automatické prispôsobenie priblíženia"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "Snímka videa - polovičná veľkosť"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "Snímka videa - normálna veľkosť"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "Snímka videa - dvojnásobná veľkosť"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2104,27 +2104,27 @@ msgstr "Vždy navrchu"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "Snímka videa - zväčšiť"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "Snímka videa - zväčšiť šírku"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "Snímka videa - zväčšiť výšku"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "Snímka videa - zmenšiť"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "Snímka videa - zmenšiť šírku"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "Snímka videa - zmenšiť výšku"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2198,39 +2198,39 @@ msgstr "Prosím zadajte číslo v rozmedzí 1 a 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "Snímka videa - stred"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "Snímka videa - vľavo"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "Snímka videa - vpravo"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "Snímka videa - hore"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "Snímka videa - dole"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "Snímka videa - hore/vľavo"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "Snímka videa - hore/vpravo"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "Snímka videa - dole/vľavo"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "Snímka videa - dole/vpravo"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2761,8 +2761,8 @@ msgid "Toggle Caption&Menu"
 msgstr "Prepnúť kapitolu&menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
-msgstr "Prepnúť vyhľadávač"
+msgid "Toggle Seekbar"
+msgstr "Prepnúť panel vyhľadávania"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
@@ -2974,30 +2974,30 @@ msgstr "Ďalšia predvoľba AR"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "Snímka videa - roztiahnuť"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "Snímka videa - vnútri"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "Snímka videa - zvonku"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "Reset snímky videa"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "Snímka videa - otočenie X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Nad panelom vyhľadávania"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Pod panelom vyhľadávania"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3050,15 +3050,15 @@ msgstr "Zmenšiť priblíženie okna"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr ""
+msgstr "Snímka videa - priblíženie 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr ""
+msgstr "Snímka videa - priblíženie 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr ""
+msgstr "Snímka videa - prepnúť priblíženie"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3987,6 +3987,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Vyhľadávanie titulkov online bolo neúspešné."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr "Nepodarilo sa stiahnuť titulky."
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Vyhľadávanie titulkov online bolo prerušené."
@@ -4029,6 +4033,9 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
+"/pns \"názov alebo hodnoty\"\tZadajte názov prednastavenia snímky videa, "
+"ktoré chcete použiť, alebo priamo pozíciu a hodnoty priblíženia vo formáte "
+"\"px,py,zx,zy\""
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4858,3 +4865,13 @@ msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
 msgstr ""
+"Načítať trvanie súboru pri pridávaní položiek do playlistu (používa "
+"MediaInfo a výsledky sa môžu líšiť)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr "Náhľad videa"
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr "Čas vyhľadávania"

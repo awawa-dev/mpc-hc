@@ -552,6 +552,21 @@ void CPPageInternalFilters::InitFiltersList()
         m_filters.Add(filter_t(_T("Other PCM/ADPCM"), AUDIO_DECODER, TRA_PCM, IDS_INTERNAL_LAVF));
     }
 #endif
+#if INTERNAL_DECODER_G726
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("G726"), AUDIO_DECODER, TRA_G726, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_G729
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("G729"), AUDIO_DECODER, TRA_G729, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_OTHERAUDIO
+    if (bLAVAudioIsAvailable) {
+        m_filters.Add(filter_t(_T("Other audio formats"), AUDIO_DECODER, TRA_OTHERAUDIO, IDS_INTERNAL_LAVF));
+    }
+#endif
 #if INTERNAL_DECODER_MPEG1
     if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("MPEG-1 Video"), VIDEO_DECODER, TRA_MPEG1, IDS_INTERNAL_LAVF));
@@ -675,6 +690,21 @@ void CPPageInternalFilters::InitFiltersList()
 #if INTERNAL_DECODER_V210_V410
     if (bLAVVideoIsAvailable) {
         m_filters.Add(filter_t(_T("v210/v410"), VIDEO_DECODER, TRA_V210_V410, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_PRORES
+    if (bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("ProRes"), VIDEO_DECODER, TRA_PRORES, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_DNXHD
+    if (bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("DNxHD"), VIDEO_DECODER, TRA_DNXHD, IDS_INTERNAL_LAVF));
+    }
+#endif
+#if INTERNAL_DECODER_OTHERVIDEO
+    if (bLAVVideoIsAvailable) {
+        m_filters.Add(filter_t(_T("Other video formats"), VIDEO_DECODER, TRA_OTHERVIDEO, IDS_INTERNAL_LAVF));
     }
 #endif
 }

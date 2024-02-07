@@ -23,6 +23,7 @@
 #include "freetype/freetype.h"
 #include <harfbuzz/harfbuzz/src/hb-ft.h>
 #include <unordered_map>
+#include <unordered_set>
 
 struct faceData {
     FT_Byte* fontData;
@@ -34,6 +35,7 @@ struct faceData {
 };
 
 typedef std::unordered_map<std::wstring, faceData> FTFaceCache;
+typedef std::unordered_map<std::wstring, std::unordered_set<std::wstring>> FaceFamilyCache;
 
 class FTLibraryData {
 public:
@@ -42,10 +44,12 @@ public:
     FTFaceCache& GetFaceCache();
     const FT_Library GetLibrary();
     bool IsInitialized();
+    bool CheckValidFamilyName(HDC hdc, std::wstring fontNameK, std::wstring checkFamily);
     bool LoadCodeFaceData(HDC hdc, std::wstring fontNameK);
     void LoadCodePoints(CStringW str, std::wstring fontNameK, const char* langHint);
 private:
     FTFaceCache faceCache;
+    FaceFamilyCache familyCache;
     FT_Library ftLibrary;
     bool ftInitialized;
 };

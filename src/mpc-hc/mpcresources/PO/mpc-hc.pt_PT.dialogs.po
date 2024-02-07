@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2023\n"
 "Language-Team: Portuguese (Portugal) (https://app.transifex.com/mpchc/teams/106126/pt_PT/)\n"
@@ -204,8 +204,8 @@ msgid "About"
 msgstr "Acerca"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2023 clsid2 and others"
-msgstr "Copyright 2002-2023 clsid2 e outros"
+msgid "Copyright 2002-2024 clsid2 and others"
+msgstr "Copyright 2002-2024 clsid2 e outros"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -266,10 +266,6 @@ msgid "Open a new player for each media file played"
 msgstr "Abrir um novo reprodutor para cada ficheiro de media reproduzido"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
-msgid "Language"
-msgstr "Idioma"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
 msgstr "Barra de título"
 
@@ -296,18 +292,6 @@ msgstr "Outros"
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
 msgstr "Ícone da área de notificação"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
-msgid "Show OSD (requires restart)"
-msgstr "Mostrar OSD (requer reinicio)"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
-msgid "Limit window proportions on resize"
-msgstr "Limitar as proporções da janela ao redimensionar"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
-msgid "Snap to desktop edges"
-msgstr "Alargar aos cantos do ambiente de trabalho"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
@@ -667,22 +651,6 @@ msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
 msgstr "Predefinido"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
-msgid "Show preview on seek bar"
-msgstr "Mostrar pré-visualização na barra de pesquisa"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "Preview width (% of screen width)"
-msgstr "Largura da pré-visualização (% da largura do ecrã)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
-msgid "Fast seek (on keyframe)"
-msgstr "Procura rápida (nas chaves de frames)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
-msgid "Show chapter marks in seek bar"
-msgstr "Mostrar marcas de capítulo na barra de pesquisa"
-
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
 msgstr "Auto-ocultar o cursor do rato quando a rep. está em modo de janela"
@@ -690,10 +658,6 @@ msgstr "Auto-ocultar o cursor do rato quando a rep. está em modo de janela"
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "Mostrar a info. \"Agora a reproduzir\" na mensagem de estado do Skype"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
-msgid "Use enhanced taskbar features"
-msgstr "Utilizar as capacidades melhoradas da barra de tarefas"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
@@ -714,13 +678,9 @@ msgstr ""
 "Abrir o ficheiro anterior/seguinte na pasta no \"Ignorar atrás/em frente\" "
 "quando existe só um item na lista de reprodução"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Show time tooltip (and preview):"
-msgstr "Mostrar dica da hora (e pré-visualização):"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "OSD font:"
-msgstr "Tipo de letra do OSD:"
+msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
+msgid "Fast seek (on keyframe)"
+msgstr "Procura rápida (nas chaves de frames)"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -864,7 +824,7 @@ msgstr "Aceitar"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "PnS Frame Adjust Presets"
-msgstr ""
+msgstr "Predefinições de ajuste de fotogramas PnS"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -1176,7 +1136,7 @@ msgstr "Vídeo DirectShow"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
 msgid "Settings"
-msgstr ""
+msgstr "Definições"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1204,7 +1164,7 @@ msgstr "Rend. áudio"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
 msgid "Settings"
-msgstr ""
+msgstr "Definições"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
@@ -1891,17 +1851,113 @@ msgid "Autoplay"
 msgstr "Reproduzir automaticamente"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
-msgid "Modern Theme Settings (require restart)"
-msgstr "Definições do tema moderno (requer reinício)"
+msgid "Theme"
+msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
 msgstr "Usar o tema moderno"
 
+msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
+msgid "Modern Theme Color:"
+msgstr "Cor do tema moderno:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
+msgid "Control buttons size:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
+msgid "Seekbar"
+msgstr ""
+
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
 msgstr "Altura da barra de pesquisa do tema moderno:"
 
-msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
-msgid "Modern Theme Color:"
-msgstr "Cor do tema moderno:"
+msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
+msgid "Hover:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
+msgid "Hover type:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
+msgid "Preview width (% of screen)"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
+msgid "Show chapter marks on seekbar"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
+msgid "Status Bar Elements"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK3"
+msgid "Track Language"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
+msgid "Video Info"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
+msgid "A-B Marks"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC21"
+msgid "Language"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC5"
+msgid "Language:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
+msgid "On Screen Display (OSD)"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
+msgid "Show OSD (requires restart)"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC6"
+msgid "Font:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC23"
+msgid "Font size:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Window Behavior"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
+msgid "Limit window proportions on resize"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
+msgid "Snap to desktop edges"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
+msgid "Hide Windowed Controls"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Windows Integration"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
+msgid "Control via Windows UI (SMTC)"
+msgstr ""

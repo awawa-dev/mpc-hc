@@ -138,7 +138,7 @@ void COpenDlg::OnBrowseFile()
 {
     UpdateData();
 
-    const CAppSettings& s = AfxGetAppSettings();
+    CAppSettings& s = AfxGetAppSettings();
 
     CString filter;
     CAtlArray<CString> mask;
@@ -150,6 +150,9 @@ void COpenDlg::OnBrowseFile()
     }
 
     COpenFileDlg fd(mask, true, nullptr, m_path, dwFlags, filter, this);
+    if (m_path.IsEmpty() && s.fKeepHistory && !s.lastQuickOpenPath.IsEmpty()) {
+        fd.m_ofn.lpstrInitialDir = s.lastQuickOpenPath;
+    }
     if (fd.DoModal() != IDOK) {
         return;
     }
@@ -158,24 +161,23 @@ void COpenDlg::OnBrowseFile()
 
     POSITION pos = fd.GetStartPosition();
     while (pos) {
-        /*
-                CString str = fd.GetNextPathName(pos);
-                POSITION insertpos = m_fns.GetTailPosition();
-                while (insertpos && GetFileName(str).CompareNoCase(GetFileName(m_fns.GetAt(insertpos))) <= 0)
-                    m_fns.GetPrev(insertpos);
-                if (!insertpos) m_fns.AddHead(str);
-                else m_fns.InsertAfter(insertpos, str);
-        */
         m_fns.AddTail(fd.GetNextPathName(pos));
     }
 
-    if (m_fns.GetCount() > 1
-            || m_fns.GetCount() == 1
-            && (m_fns.GetHead()[m_fns.GetHead().GetLength() - 1] == '\\'
-                || m_fns.GetHead()[m_fns.GetHead().GetLength() - 1] == '*')) {
-        m_bMultipleFiles = true;
-        EndDialog(IDOK);
-        return;
+    if (!m_fns.IsEmpty()) {
+        if (s.fKeepHistory) {
+            s.lastQuickOpenPath = PathUtils::DirName(m_fns.GetHead());
+        }
+
+        if (m_fns.GetCount() > 1) {
+            m_bMultipleFiles = true;
+            EndDialog(IDOK);
+            return;
+        } else if (m_fns.GetHead()[m_fns.GetHead().GetLength() - 1] == '\\' || m_fns.GetHead()[m_fns.GetHead().GetLength() - 1] == '*') {
+            m_bMultipleFiles = true;
+            EndDialog(IDOK);
+            return;
+        }
     }
 
     m_cbMRU.SetWindowText(fd.GetPathName());
@@ -197,7 +199,9 @@ void COpenDlg::OnBrowseDubFile()
     }
 
     COpenFileDlg fd(mask, false, nullptr, m_pathDub, dwFlags, filter, this);
-
+    if (m_pathDub.IsEmpty() && s.fKeepHistory && !s.lastQuickOpenPath.IsEmpty()) {
+        fd.m_ofn.lpstrInitialDir = s.lastQuickOpenPath;
+    }
     if (fd.DoModal() != IDOK) {
         return;
     }
@@ -211,7 +215,7 @@ void COpenDlg::OnOk()
 
     m_fns.RemoveAll();
     m_fns.AddTail(PathUtils::Unquote(m_path));
-    if (m_cbMRUDub.IsWindowEnabled()) {
+    if (m_cbMRUDub.IsWindowEnabled() && !m_pathDub.IsEmpty()) {
         m_fns.AddTail(PathUtils::Unquote(m_pathDub));
     }
 

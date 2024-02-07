@@ -43,23 +43,11 @@ public:
     BOOL m_fNotifySkype;
 
     BOOL m_fPreventMinimize;
-    BOOL m_bUseEnhancedTaskBar;
     BOOL m_fUseSearchInFolder;
-    BOOL m_fUseTimeTooltip;
     BOOL m_bHideWindowedMousePointer;
-    CMPCThemeComboBox m_TimeTooltipPosition;
-    CMPCThemeComboBox m_FontSize;
-    CMPCThemeComboBox m_FontType;
     CMPCThemeComboBox m_FastSeekMethod;
-    int m_nOSDSize;
-    CString m_strOSDFont;
 
     BOOL m_fFastSeek;
-    BOOL m_fShowChapters;
-    BOOL m_fSeekPreview;
-    int m_iSeekPreviewSize;
-    CMPCThemeSpinButtonCtrl m_SeekPreviewSizeCtrl;
-
     BOOL m_fLCDSupport;
 
 protected:
@@ -73,6 +61,4 @@ public:
     afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
     afx_msg void OnUpdateFastSeek(CCmdUI* pCmdUI);
     afx_msg void OnBnClickedButton1();
-    afx_msg void OnUseTimeTooltipClicked();
-    afx_msg void OnChngOSDCombo();
 };

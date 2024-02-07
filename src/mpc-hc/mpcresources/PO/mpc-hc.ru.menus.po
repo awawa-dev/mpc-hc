@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Alexandr Stankovich <sanekst00@yandex.ru>, 2020
-# CoolCmd, 2020
+# CoolCmd, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: CoolCmd, 2020\n"
+"Last-Translator: CoolCmd, 2023\n"
 "Language-Team: Russian (https://app.transifex.com/mpchc/teams/106126/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -444,7 +444,7 @@ msgstr "&Корректировать разницу соотношения ст
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "Параметры размера и положения кадра"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

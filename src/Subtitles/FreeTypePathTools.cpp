@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "FreeTypePathTools.h"
+#include "freetype/ftsnames.h"
 
 FTLibraryData::FTLibraryData() :
     ftInitialized(false)
@@ -34,6 +35,79 @@ bool FTLibraryData::IsInitialized() {
         ftInitialized = !FT_Init_FreeType(&ftLibrary);
     }
     return ftInitialized;
+}
+
+std::wstring UTF16BE2LE(BYTE* in, int len) {
+    std::wstring ret;
+    ret.resize(len);
+    BYTE* raw = (BYTE*)&ret[0];
+    for (int i = 0; i < len; i += 2) {
+        raw[i] = in[i + 1];
+        raw[i + 1] = in[i];
+    }
+    ret[len] = 0;
+    size_t nlen = ret.find_first_of(L'\0');
+    if (std::wstring::npos != nlen) {
+        ret.resize(nlen);
+    }
+    return ret;
+}
+
+bool FTLibraryData::CheckValidFamilyName(HDC hdc, std::wstring fontNameK, std::wstring checkFamily) {
+    FT_Face face;
+    FT_Error error;
+
+    if (IsInitialized() && familyCache.count(fontNameK) == 0) {
+
+        familyCache[fontNameK] = std::unordered_set<std::wstring>(1);
+        std::unordered_set<std::wstring>& names = familyCache[fontNameK];
+
+        auto ftLibrary = GetLibrary();
+
+        DWORD fontSize = GetFontData(hdc, 0, 0, NULL, 0);
+        FT_Byte* fontData = nullptr;
+        try {
+            fontData = DEBUG_NEW FT_Byte[fontSize];
+        } catch (...) {
+            return false;
+        }
+        GetFontData(hdc, 0, 0, fontData, fontSize);
+        error = FT_New_Memory_Face(ftLibrary, fontData, fontSize, 0, &face);
+
+        if (!error) {
+            FT_UInt nc = FT_Get_Sfnt_Name_Count(face);
+            for (FT_UInt i = 0; i < nc; i++) {
+                FT_SfntName fn;
+                error = FT_Get_Sfnt_Name(face, i, &fn);
+                if (!error && fn.name_id == 1) { //Font Family
+                    if (fn.platform_id == 3) { //Microsoft encoding
+                        std::wstring familyName = UTF16BE2LE(fn.string, fn.string_len);
+                        names.insert(familyName);
+                    } else if (fn.platform_id == 1) { //Macintosh encoding
+                        int nBufLen = MultiByteToWideChar(CP_MACCP, 0, (LPCCH)fn.string, fn.string_len, NULL, 0);
+                        if (nBufLen > 0) {
+                            std::wstring familyName;
+                            familyName.resize(nBufLen);
+                            nBufLen = MultiByteToWideChar(CP_MACCP, 0, (LPCCH)fn.string, fn.string_len, &familyName[0], nBufLen);
+                            if (nBufLen > 0) {
+                                names.insert(familyName);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        FT_Done_Face(face);
+
+        delete[] fontData;
+    }
+    if (familyCache.count(fontNameK) > 0) {
+        if (familyCache[fontNameK].count(checkFamily) > 0) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool FTLibraryData::LoadCodeFaceData(HDC hdc, std::wstring fontNameK) {

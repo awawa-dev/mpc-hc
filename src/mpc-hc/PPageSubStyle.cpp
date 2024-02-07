@@ -155,7 +155,6 @@ BOOL CPPageSubStyle::OnInitDialog()
 
     iOpenTypeLangHint = -1;
     auto& s = AfxGetAppSettings();
-    auto subRenderSettings = s.GetSubRendererSettings();
     for (int i = 0, t = 0; i < _countof(OpenTypeLang::OpenTypeLangTags); i++) {
         CString str;
         CStringA lang(OpenTypeLang::OpenTypeLangTags[i].lang);
@@ -163,7 +162,7 @@ BOOL CPPageSubStyle::OnInitDialog()
             str.Format(_T("%ls (%hs)"), OpenTypeLang::OpenTypeLangTags[i].langDescription, lang);
             openTypeLangHint.AddString(str);
             openTypeLangHint.SetItemData(t, i);
-            if (strncmp(subRenderSettings.openTypeLangHint, OpenTypeLang::OpenTypeLangTags[i].lang, OpenTypeLang::OTLangHintLen) == 0) {
+            if (strncmp(s.strOpenTypeLangHint, OpenTypeLang::OpenTypeLangTags[i].lang, OpenTypeLang::OTLangHintLen) == 0) {
                 iOpenTypeLangHint = t;
             }
             t++;
@@ -171,8 +170,8 @@ BOOL CPPageSubStyle::OnInitDialog()
     }
 
 #if USE_LIBASS
-    iRenderSSAUsingLibass = subRenderSettings.renderSSAUsingLibass;
-    iRenderSRTUsingLibass = subRenderSettings.renderSRTUsingLibass;
+    iRenderSSAUsingLibass = s.bRenderSSAUsingLibass;
+    iRenderSRTUsingLibass = s.bRenderSRTUsingLibass;
 #else
     GetDlgItem(IDC_STATIC_LIBASS)->ShowWindow(false);
     GetDlgItem(IDC_CHECK2)->ShowWindow(false);

@@ -57,12 +57,12 @@ void CMPCThemeToolTipCtrl::drawText(CDC& dc, CMPCThemeToolTipCtrl* tt, CRect& re
     rect.DeflateRect(6, 2);
     if (maxWidth == -1) {
         if (calcRect) {
-            dc.DrawText(text, rect, DT_LEFT | DT_SINGLELINE | calcStyle);
+            dc.DrawText(text, rect, DT_LEFT | DT_SINGLELINE | DT_NOPREFIX | calcStyle);
         } else {
-            dc.DrawText(text, rect, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+            dc.DrawText(text, rect, DT_VCENTER | DT_CENTER | DT_SINGLELINE | DT_NOPREFIX);
         }
     } else {
-        dc.DrawText(text, rect, DT_LEFT | DT_WORDBREAK | calcStyle);
+        dc.DrawText(text, rect, DT_LEFT | DT_WORDBREAK | DT_NOPREFIX | calcStyle);
     }
     rect.InflateRect(6, 2); //when calculating, put it back
 

@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Renz Straatman <renz75@outlook.com>, 2021
+# Renz Straatman <renz75@outlook.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
 "POT-Creation-Date: 2017-07-30 20:54:11+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Renz Straatman <renz75@outlook.com>, 2021\n"
-"Language-Team: Dutch (https://www.transifex.com/mpchc/teams/106126/nl/)\n"
+"Last-Translator: Renz Straatman <renz75@outlook.com>, 2023\n"
+"Language-Team: Dutch (https://app.transifex.com/mpchc/teams/106126/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,7 +30,7 @@ msgstr ""
 
 msgctxt "Messages_WinVersionTooLowError"
 msgid "[name] requires Windows Vista or newer to run."
-msgstr "[name] vereist Windows Vista of hoger."
+msgstr "[name] vereist Windows Vista of nieuwer."
 
 msgctxt "CustomMessages_comp_mpciconlib"
 msgid "Icon Library"
@@ -82,11 +82,11 @@ msgstr "Instellingen resetten"
 
 msgctxt "CustomMessages_types_DefaultInstallation"
 msgid "Default installation"
-msgstr "Standaard installatie"
+msgstr "Standaard"
 
 msgctxt "CustomMessages_types_CustomInstallation"
 msgid "Custom installation"
-msgstr "Aangepaste installatie"
+msgstr "Aangepast"
 
 msgctxt "CustomMessages_ViewChangelog"
 msgid "View Changelog"

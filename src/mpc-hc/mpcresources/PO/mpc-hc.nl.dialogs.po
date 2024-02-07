@@ -6,15 +6,15 @@
 # mark van tilburg <markvantilburg@gmail.com>, 2020
 # Arne Bezuijen <transifex@arnage.nl>, 2021
 # xknat <321knat@gmail.com>, 2022
-# Renz Straatman <renz75@outlook.com>, 2022
+# Renz Straatman <renz75@outlook.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-06-21 19:15:32+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Renz Straatman <renz75@outlook.com>, 2022\n"
-"Language-Team: Dutch (https://www.transifex.com/mpchc/teams/106126/nl/)\n"
+"Last-Translator: Renz Straatman <renz75@outlook.com>, 2023\n"
+"Language-Team: Dutch (https://app.transifex.com/mpchc/teams/106126/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -135,8 +135,8 @@ msgid ""
 "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
 " You do not need to enter the separators explicitly."
 msgstr ""
-"Voer een tijdcode in met een opmaak van [uu:]mm:ss.ms om naar dat tijdstip "
-"te springen. De scheidingstekens zijn optioneel."
+"Voer een tijdcode in met de opmaak [uu:]mm:ss.ms om naartoe te springen. De "
+"scheidingstekens zijn optioneel."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -151,8 +151,8 @@ msgid ""
 "Enter two numbers to jump to a specified frame, the first is the frame "
 "number, the second is the frame rate."
 msgstr ""
-"Geef twee getallen om naar een specifiek beeld te springen, het eerste getal"
-" is het beeldnummer, het tweede de beedsnelheid."
+"Ga naar een specifieke frame. Het eerst getal is de frame, het tweede getal "
+"de framerate."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
@@ -207,8 +207,8 @@ msgid "About"
 msgstr "Info"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2023 clsid2 and others"
-msgstr "Copyright 2002-2023 clsid2 en anderen"
+msgid "Copyright 2002-2024 clsid2 and others"
+msgstr "Copyright 2002-2024 clsid2 en anderen"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
@@ -218,7 +218,7 @@ msgstr ""
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
-msgstr "Nederlandse vertaling door Renz Straatman"
+msgstr "Nederlandse vertaling: Renz Straatman"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "Build information"
@@ -269,10 +269,6 @@ msgid "Open a new player for each media file played"
 msgstr "Elk bestand in een nieuwe speler openen"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
-msgid "Language"
-msgstr "Taal"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
 msgstr "Toon in titelbalk"
 
@@ -299,18 +295,6 @@ msgstr "Overige"
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
 msgstr "Pictogram in systeemvak"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
-msgid "Show OSD (requires restart)"
-msgstr "Toon OSD (vereist herstart)"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
-msgid "Limit window proportions on resize"
-msgstr "Begrens vensterverhoudingen bij wijzigen formaat"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
-msgid "Snap to desktop edges"
-msgstr "Venster vastklikken aan schermranden"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
@@ -670,22 +654,6 @@ msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
 msgstr "Standaard"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
-msgid "Show preview on seek bar"
-msgstr "Laat voorbeeld zien op zoekbalk"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "Preview width (% of screen width)"
-msgstr "Voorbeeld breedte (% van scherm breedte)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
-msgid "Fast seek (on keyframe)"
-msgstr "Snelzoeken (op keyframe)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
-msgid "Show chapter marks in seek bar"
-msgstr "Geef hoofdstukken weer in zoekbalk"
-
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
 msgstr "Muisaanwijzer automatisch verbergen bij afspelen in venster"
@@ -693,10 +661,6 @@ msgstr "Muisaanwijzer automatisch verbergen bij afspelen in venster"
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "Laat \"Nu afspelen\" zien in stemmingsbericht van Skype"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
-msgid "Use enhanced taskbar features"
-msgstr "Gebruik uitgebreide taakbalk mogelijkheden"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
@@ -715,13 +679,9 @@ msgstr ""
 "Bij 'spring vooruit en achteruit', open het vorige of volgende bestand in de"
 " map, indien er maar één bestand in de afspeellijst staat."
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Show time tooltip (and preview):"
-msgstr ""
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "OSD font:"
-msgstr "OSD lettertype:"
+msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
+msgid "Fast seek (on keyframe)"
+msgstr "Snelzoeken (op keyframe)"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
@@ -813,11 +773,11 @@ msgstr "Beschrijving:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Aan favorieten toevoegen"
+msgstr "Toevoegen aan favorieten"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
-msgstr "Kies naam voor je snelkoppeling:"
+msgstr "Naam:"
 
 msgctxt "IDD_FAVADD_IDC_CHECK1"
 msgid "Remember position"
@@ -829,7 +789,7 @@ msgstr "A-B-herhalingsmarkeringen onthouden"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
-msgstr "Relatieve schijf"
+msgstr "Relatieve stationsletter"
 
 msgctxt "IDD_FAVADD_IDOK"
 msgid "OK"
@@ -865,7 +825,7 @@ msgstr "OK"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "PnS Frame Adjust Presets"
-msgstr ""
+msgstr "Pan-en-scan presets"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -1105,23 +1065,23 @@ msgstr "Alpha kanalen verbinden"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC21"
 msgid "8-bit Character Set"
-msgstr ""
+msgstr "8-bit karakterset"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC22"
 msgid "OpenType Language"
-msgstr ""
+msgstr "OpenType taal"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC_LIBASS"
 msgid "Libass Options"
-msgstr ""
+msgstr "Libass opties"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK2"
 msgid "Use libass for SSA/ASS"
-msgstr ""
+msgstr "Gebruik libass voor SSA/ASS"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK3"
 msgid "Use libass for SRT"
-msgstr ""
+msgstr "Gebruik libass voor SRT"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
@@ -1177,7 +1137,7 @@ msgstr "DirectShow video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1205,7 +1165,7 @@ msgstr "Geluid Renderer"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
@@ -1757,11 +1717,11 @@ msgstr "Geavanceerde instellingen, pas niet aan tenzij je weet wat je doet."
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO1"
 msgid "True"
-msgstr "Waar"
+msgstr "Aan"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_RADIO2"
 msgid "False"
-msgstr "Onwaar"
+msgstr "Uit"
 
 msgctxt "IDD_PPAGEADVANCED_IDC_BUTTON1"
 msgid "Default"
@@ -1884,17 +1844,113 @@ msgid "Autoplay"
 msgstr "Automatisch afspelen"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
-msgid "Modern Theme Settings (require restart)"
+msgid "Theme"
 msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
+msgstr "Gebruik Modern Thema"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
+msgid "Modern Theme Color:"
+msgstr "Modern Thema kleur:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
+msgid "Control buttons size:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
+msgid "Seekbar"
 msgstr ""
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC"
 msgid "Modern Seekbar height:"
+msgstr "Modern Thema zoekbalk hoogte:"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
+msgid "Hover:"
 msgstr ""
 
-msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
-msgid "Modern Theme Color:"
+msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
+msgid "Hover type:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
+msgid "Preview width (% of screen)"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
+msgid "Show chapter marks on seekbar"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
+msgid "Status Bar Elements"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK3"
+msgid "Track Language"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
+msgid "Video Info"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
+msgid "FPS"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
+msgid "A-B Marks"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC21"
+msgid "Language"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC5"
+msgid "Language:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
+msgid "On Screen Display (OSD)"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
+msgid "Show OSD (requires restart)"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC6"
+msgid "Font:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC23"
+msgid "Font size:"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Window Behavior"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
+msgid "Limit window proportions on resize"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
+msgid "Snap to desktop edges"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
+msgid "Hide Windowed Controls"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Windows Integration"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr ""
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
+msgid "Control via Windows UI (SMTC)"
 msgstr ""

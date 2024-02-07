@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2022
-# Cyril Provence <ywa78408@eveav.com>, 2023
+# Cyril Provence <ywa78408@eveav.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-10-03 19:44:53+0000\n"
+"POT-Creation-Date: 2024-01-05 15:29:45+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Cyril Provence <ywa78408@eveav.com>, 2023\n"
+"Last-Translator: Cyril Provence <ywa78408@eveav.com>, 2024\n"
 "Language-Team: French (https://app.transifex.com/mpchc/teams/106126/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,15 +104,15 @@ msgstr "Inclure les sous-titres"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr ""
+msgstr "Sombre"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr ""
+msgstr "Clair"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr ""
+msgstr "Windows"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -758,8 +758,8 @@ msgid "Player::Logo"
 msgstr "Lecteur::Logo"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr ""
+msgid "Player::User Interface"
+msgstr "Lecteur::Interface Utilisateur"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -1288,23 +1288,23 @@ msgstr "Éditeur de liste d'édition : Fixer le point de sortie"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "Rotation X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "Rotation Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "Rotation Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "Rotation Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "Rotation Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1695,7 +1695,7 @@ msgstr "Haute précision"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "Afficher le pourcentage"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -2108,15 +2108,15 @@ msgstr "Zoom automatique"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "Taille réduite de moitié"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "Taille originale"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "Taille doublée"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2124,27 +2124,27 @@ msgstr "Toujours au dessus"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "Agrandir"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "Agrandir en largeur"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "Agrandir en hauteur"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "Rétrécir"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "Rétrécir en largeur"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "Rétrécir en hauteur"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2218,39 +2218,39 @@ msgstr "Veuillez entrer un nombre entre 1 et 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "Centrer"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "Déplacer vers la gauche"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "Déplacer vers la droite"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "Déplacer vers le haut"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "Déplacer vers le bas"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "Déplacer vers le haut et la gauche"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "Déplacer vers le haut et la droite"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "Déplacer vers le bas et la gauche"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "Déplacer vers le bas et la droite"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2783,8 +2783,8 @@ msgid "Toggle Caption&Menu"
 msgstr "Afficher le titre et le menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
-msgstr "Afficher la barre de recherche"
+msgid "Toggle Seekbar"
+msgstr "Afficher/masquer la barre de défilement"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
@@ -2997,31 +2997,31 @@ msgstr "Présélection d'aspect ratio suivante"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "Étirer"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "Vers l'intérieur"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "Vers l'extérieur"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "Rétablir"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "Rotation X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "Au-dessus de la barre de lecture"
+msgid "Above seekbar"
+msgstr "Au-dessus de la barre de défilement"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "Au-dessous de la barre de lecture"
+msgid "Below seekbar"
+msgstr "Au-dessous de la barre de défilement"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -3073,15 +3073,15 @@ msgstr "Zoom fenêtre -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr ""
+msgstr "Zoom 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr ""
+msgstr "Zoom 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr ""
+msgstr "Permuter le zoom"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -4013,6 +4013,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Échec de la recherche de sous-titres."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr "Échec du téléchargement des sous-titres."
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Abandon de la recherche de sous-titres."
@@ -4054,6 +4058,9 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
+"/pns \"nom ou valeurs\"\tSpécifie le nom de la présélection de recadrage à "
+"utiliser ou directement les valeurs de position et de zoom au format "
+"\"px,py,zx,zy\""
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4145,6 +4152,8 @@ msgid ""
 "Use FreeType for subtitle rendering.  Enables support for per-language "
 "glyphs."
 msgstr ""
+"Utiliser FreeType pour le rendu des sous-titres. Active la prise en charge "
+"des glyphs propres à chaque langue."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -4897,3 +4906,13 @@ msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
 msgstr ""
+"Charger la durée du contenu lors de son ajout à la liste de lecture (utilise"
+" MediaInfo et le résultat peut s'écarter)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr "Aperçu vidéo"
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr "Temps de recherche"

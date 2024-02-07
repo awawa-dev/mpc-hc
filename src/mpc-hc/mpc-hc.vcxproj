@@ -98,8 +98,16 @@
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Release_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;vcruntime.lib;ucrt.lib</IgnoreSpecificDefaultLibraries>
     </Link>
+    <ClCompile>
+      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(MPC_DRDUMP)' == '1'">USE_DRDUMP_CRASH_REPORTER=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="$(Configuration.Contains('Debug'))">
+    <ClCompile>
+      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
+    </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)bin\lib\Debug_$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
@@ -119,12 +127,6 @@
     <Link>
       <AdditionalDependencies>RARFileSource.res;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <ClCompile>
-      <DisableSpecificWarnings>26812</DisableSpecificWarnings>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(MPC_DRDUMP)' == '1'">USE_DRDUMP_CRASH_REPORTER=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\MessageBoxDialog\MessageBoxDialog.cpp" />
@@ -672,9 +674,6 @@
     </ProjectReference>
     <ProjectReference Include="..\filters\switcher\AudioSwitcher\AudioSwitcher.vcxproj">
       <Project>{d8db3e7e-d50e-4ec3-a9b9-dad18f5fe466}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\filters\transform\AVI2AC3Filter\AVI2AC3Filter.vcxproj">
-      <Project>{339a4575-e25b-45d6-94a1-d835891740b8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\filters\transform\BufferFilter\BufferFilter.vcxproj">
       <Project>{9dcfd02a-16a0-4766-bc18-66163e21929d}</Project>

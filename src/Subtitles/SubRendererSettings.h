@@ -15,3 +15,5 @@ public:
 
     OpenTypeLang::HintStr openTypeLangHint = { 0 };
 };
+
+extern SubRendererSettings GetSubRendererSettings();

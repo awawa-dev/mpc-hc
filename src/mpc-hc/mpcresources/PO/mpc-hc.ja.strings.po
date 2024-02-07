@@ -3,16 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# O SA, 2020
 # Sonozaki Shion <mskt01a@gmail.com>, 2021
-# ever_green, 2023
+# ever_green, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2024-01-05 15:29:45+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: ever_green, 2023\n"
+"Last-Translator: ever_green, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +41,7 @@ msgstr "チャプター"
 
 msgctxt "IDS_CONTROLS_COMPLETING"
 msgid "Completing..."
-msgstr "完了しています..."
+msgstr "完了中..."
 
 msgctxt "IDS_AUTOPLAY_PLAYVIDEO"
 msgid "Play Video"
@@ -86,7 +85,7 @@ msgstr "DVD"
 
 msgctxt "IDS_PLAYLOOPMODE_AB"
 msgid "A-B Repeat: Reset Positions"
-msgstr "A-B リピート: 区間をリセット"
+msgstr "A-B リピート: 区間を解除"
 
 msgctxt "IDS_PLAY_LOOPMODE_AB"
 msgid "A-B"
@@ -191,7 +190,7 @@ msgstr "なし"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG1"
 msgid "Only when switching different video types"
-msgstr "異なるビデオ タイプに切り替えた場合のみ"
+msgstr "異なるビデオ タイプに切り替える場合のみ"
 
 msgctxt "IDS_PPAGE_CAPTURE_FG2"
 msgid "Always (default)"
@@ -201,13 +200,13 @@ msgctxt "IDS_PPAGE_CAPTURE_FGDESC0"
 msgid ""
 "Not supported by some devices. Two video decoders always present in the "
 "filter graph."
-msgstr "一部のデバイスではサポートされていない。フィルタ グラフに常に 2 つのビデオ デコーダが存在する。"
+msgstr "一部のデバイスではサポートされていない。フィルタ グラフには常に 2 つのビデオ デコーダが表示される。"
 
 msgctxt "IDS_PPAGE_CAPTURE_FGDESC1"
 msgid ""
 "Fast except when switching between different video streams. Only one video "
 "decoder present in the filter graph."
-msgstr "異なるビデオ ストリームに切り替えた場合を除いて速い。一つのビデオ デコーダのみがフィルタ グラフに存在する。"
+msgstr "異なるビデオ ストリーム間の切り替え時以外は速い。1 つのビデオ デコーダのみがフィルタ グラフに表示される。"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG0"
 msgid "Never if possible (fastest, but not supported by most filters)"
@@ -215,15 +214,15 @@ msgstr "できれば使用しない (最速だが、ほとんどのフィルタ�
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG1"
 msgid "Only when switching different video types"
-msgstr "異なるビデオ タイプに切り替えた場合のみ"
+msgstr "異なるビデオ タイプに切り替える場合のみ"
 
 msgctxt "IDS_PPAGE_CAPTURE_SFG2"
 msgid "Always (may be required by some devices)"
-msgstr "常に (一部のデバイスで必要となる場合あり)"
+msgstr "常に (デバイスによっては必要な場合あり)"
 
 msgctxt "IDS_INFOBAR_PARENTAL_RATING"
 msgid "Parental rating"
-msgstr "保護者による評価"
+msgstr "保護者の評価"
 
 msgctxt "IDS_PARENTAL_RATING"
 msgid "%d+"
@@ -339,7 +338,7 @@ msgstr "編集リスト エディタ"
 
 msgctxt "IDS_GOTO_ERROR_INVALID_TIME"
 msgid "The entered time is greater than the file duration."
-msgstr "入力された時間がファイルの再生時間よりも大きくなっています。"
+msgstr "入力された時間がファイルの再生時間よりも長くなっています。"
 
 msgctxt "IDS_MISSING_ICONS_LIB"
 msgid ""
@@ -704,7 +703,7 @@ msgid ""
 "External splitters can have their own language preference options thus MPC-HC default behavior is not to change their initial choice.\n"
 "Enable this option if you want MPC-HC to control external splitters."
 msgstr ""
-"外部スプリッタは独自の言語設定オプションをもつことができるので、MPC-HC の既定の動作では初期選択を変更しません。\n"
+"外部スプリッタは独自の言語設定オプションをもつことができるため、MPC-HC の既定の動作では初期選択を変更しません。\n"
 "MPC-HC で外部スプリッタを制御する場合は、このオプションを有効にしてください。"
 
 msgctxt "IDS_NAVIGATE_BD_PLAYLISTS"
@@ -752,8 +751,8 @@ msgid "Player::Logo"
 msgstr "プレーヤー::ロゴ"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "プレーヤー::テーマ"
+msgid "Player::User Interface"
+msgstr "プレーヤー::ユーザー インターフェイス"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -811,7 +810,7 @@ msgid ""
 "MPC-HC for subtitling. Overlay video mirroring MIGHT work. \"True Color\" "
 "desktop color space recommended."
 msgstr ""
-"VMR-9 (ウィンドウ) と同じですが、字幕のために MPC-HC のアロケータ プレゼンタ プラグインを使用します。オーバーレイ ビデオ "
+"VMR-9 (ウィンドウ) と同じですが、字幕作成に MPC-HC のアロケータ プレゼンタ プラグインを使用します。オーバーレイ ビデオ "
 "ミラーリングが動作する可能性があります。デスクトップの色数を 「True Color」 にすることを推奨します。"
 
 msgctxt "IDC_DSDXR"
@@ -838,7 +837,7 @@ msgctxt "IDC_DSEVR_CUSTOM"
 msgid ""
 "Same as the EVR, but with the Allocator-Presenter of MPC-HC for subtitling "
 "and postprocessing. Recommended."
-msgstr "EVR と同じですが、字幕と後処理のために HPC-HC のアロケータ プレゼンタを使用します。(推奨)"
+msgstr "EVR と同じですが、字幕作成と後処理に HPC-HC のアロケータ プレゼンタを使用します。(推奨)"
 
 msgctxt "IDC_DSMADVR"
 msgid "High-quality renderer, requires a GPU that supports D3D9 or later."
@@ -850,8 +849,8 @@ msgid ""
 "frame rate with the display refresh rate to eliminate skipped or duplicated "
 "video frames."
 msgstr ""
-"EVR (CP) と同じですが、ビデオ フレーム レートをディスプレイ リフレッシュ レートと同期させ、スキップまたは重複されたビデオ "
-"フレームを除去するいくつかのオプションを提供します。"
+"EVR (CP) と同じですが、ビデオ フレーム レートをディスプレイ リフレッシュ レートと同期させ、ビデオ "
+"フレームのスキップや重複をなくすためのオプションがいくつかあります。"
 
 msgctxt "IDC_REGULARSURF"
 msgid "Video surface will be allocated as a regular offscreen surface."
@@ -1011,7 +1010,7 @@ msgstr "すべてのアーカイブ ボリュームを見つけられません�
 
 msgctxt "IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "Reduces tearing but prevents the toolbar from being shown."
-msgstr "テアリングを減らしますが、ツール バーが表示されなくなります。"
+msgstr "テアリングを減らしますが、ツール バーが表示せれません。"
 
 msgctxt "IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Reduces tearing by bypassing the default VSync built into D3D."
@@ -1096,7 +1095,7 @@ msgctxt "IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid ""
 "Disabling this option will prevent the subtitles from blinking but it may "
 "cause the video renderer to skip some video frames."
-msgstr "このオプションを無効にすると、字幕の点滅は防げますが、ビデオ レンダラが一部のビデオ フレームをスキップする可能性があります。"
+msgstr "このオプションを無効にすると、字幕が点滅しなくなりますが、ビデオ レンダラが一部のビデオ フレームをスキップする可能性があります。"
 
 msgctxt "ID_PLAY_PLAY"
 msgid ""
@@ -1204,7 +1203,7 @@ msgstr "一時停止"
 
 msgctxt "IDS_AG_EDL_NEW_CLIP"
 msgid "EDL new clip"
-msgstr "EDL 新しいクリップ"
+msgstr "EDL 新規クリップ"
 
 msgctxt "IDS_RECENT_FILES_CLEAR"
 msgid "&Clear list"
@@ -1236,23 +1235,23 @@ msgstr "EDL 終了点を設定"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "ビデオ フレーム: 回転 X- (上下反転)"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "ビデオ フレーム: 回転 Y+ (左回転)"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "ビデオ フレーム: 回転 Y- (左右反転)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "ビデオ フレーム: 回転 Z+ (反時計回り)"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "ビデオ フレーム: 回転 Z- (90 度時計回り)"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1396,11 +1395,11 @@ msgstr "DVD/BD を開く"
 
 msgctxt "IDS_MAINFRM_POST_SHADERS_FAILED"
 msgid "Failed to set post-resize shaders"
-msgstr "サイズ変更後のシェーダを設定できませんでした"
+msgstr "リサイズ後のシェーダを設定できませんでした"
 
 msgctxt "IDS_MAINFRM_BOTH_SHADERS_FAILED"
 msgid "Failed to set both pre-resize and post-resize shaders"
-msgstr "サイズ変更前とサイズ変更後のシェーダの両方を設定できませんでした"
+msgstr "リサイズ前と後の両方のシェーダを設定できませんでした"
 
 msgctxt "IDS_DEBUGSHADERS_FIRSTRUN_MSG"
 msgid ""
@@ -1496,7 +1495,7 @@ msgstr "カスタム スタイルを保存する"
 
 msgctxt "IDS_CONTENT_EDUCATION_SCIENCE"
 msgid "Education/Science/Factual topics"
-msgstr "教育/科学/事実に基づく話題"
+msgstr "教育/科学/事実に関する話題"
 
 msgctxt "IDS_PPAGEADVANCED_HIDE_WINDOWED"
 msgid "Hides controls and panels also in windowed mode."
@@ -1625,7 +1624,7 @@ msgstr "高精細表示"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "パーセンテージを表示"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -1794,7 +1793,7 @@ msgstr "コントロールをポイントしたときに表示する。　表示
 
 msgctxt "IDS_MAINFRM_PRE_SHADERS_FAILED"
 msgid "Failed to set pre-resize shaders"
-msgstr "サイズ変更前のシェーダを設定できませんでした"
+msgstr "リサイズ前のシェーダを設定できませんでした"
 
 msgctxt "IDS_OSD_RS_FT_CORRECTION_ON"
 msgid "Frame Time Correction: On"
@@ -1889,35 +1888,35 @@ msgstr "音声の遅延 -10 ミリ秒"
 
 msgctxt "IDS_MPLAYERC_23"
 msgid "Jump Forward (small)"
-msgstr "順方向にジャンプ (小)"
+msgstr "ジャンプ送り (小)"
 
 msgctxt "IDS_MPLAYERC_24"
 msgid "Jump Backward (small)"
-msgstr "逆方向にジャンプ (小)"
+msgstr "ジャンプ戻し (小)"
 
 msgctxt "IDS_MPLAYERC_25"
 msgid "Jump Forward (medium)"
-msgstr "順方向にジャンプ (中)"
+msgstr "ジャンプ送り (中)"
 
 msgctxt "IDS_MPLAYERC_26"
 msgid "Jump Backward (medium)"
-msgstr "逆方向にジャンプ (中)"
+msgstr "ジャンプ戻し (中)"
 
 msgctxt "IDS_MPLAYERC_27"
 msgid "Jump Forward (large)"
-msgstr "順方向にジャンプ (大)"
+msgstr "ジャンプ送り (大)"
 
 msgctxt "IDS_MPLAYERC_28"
 msgid "Jump Backward (large)"
-msgstr "逆方向にジャンプ (大)"
+msgstr "ジャンプ戻し (大)"
 
 msgctxt "IDS_MPLAYERC_29"
 msgid "Jump Forward (keyframe)"
-msgstr "順方向にジャンプ (キーフレーム)"
+msgstr "ジャンプ送り (キーフレーム)"
 
 msgctxt "IDS_MPLAYERC_30"
 msgid "Jump Backward (keyframe)"
-msgstr "逆方向にジャンプ (キーフレーム)"
+msgstr "ジャンプ戻し (キーフレーム)"
 
 msgctxt "IDS_AG_NEXT"
 msgid "Next"
@@ -2029,15 +2028,15 @@ msgstr "拡大 自動調整"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "ビデオ フレーム: 1/2 のサイズ"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "ビデオ フレーム: 標準のサイズ"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "ビデオ フレーム: 2 倍のサイズ"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2045,27 +2044,27 @@ msgstr "常に手前に表示"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "ビデオ フレーム: サイズを拡大"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "ビデオ フレーム: 幅を拡大"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "ビデオ フレーム: 高さを拡大"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "ビデオ フレーム: サイズを縮小"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "ビデオ フレーム: 幅を縮小"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "ビデオ フレーム: 高さを縮小"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2139,39 +2138,39 @@ msgstr "1 から 365 までの数字を入力してください。"
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "ビデオ フレーム: 中央へ戻す"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "ビデオ フレーム: 左へ移動"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "ビデオ フレーム: 右へ移動"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "ビデオ フレーム: 上へ移動"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "ビデオ フレーム: 下へ移動"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "ビデオ フレーム: 左上へ移動"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "ビデオ フレーム: 右上へ移動"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "ビデオ フレーム: 左下へ移動"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "ビデオ フレーム: 右下へ移動"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2478,7 +2477,7 @@ msgid ""
 "\n"
 "Do you really want to activate this option?"
 msgstr ""
-"このオプションは、テアリングを避けるように設計されています。ただし、再生中に MPC-HC がコンテキスト メニューとダイアログ ボックスを表示することもできなくなります。\n"
+"このオプションは、テアリングを回避するように設計されています。ただし、再生中に MPC-HC がコンテキスト メニューやダイアログ ボックスを表示することもできません。\n"
 "\n"
 "このオプションを有効にしますか？"
 
@@ -2697,8 +2696,8 @@ msgid "Toggle Caption&Menu"
 msgstr "タイトルとメニューの表示"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
-msgstr "シーク バーの表示"
+msgid "Toggle Seekbar"
+msgstr "シークバーの表示"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
@@ -2910,31 +2909,31 @@ msgstr "次の縦横比のプリセット"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "ビデオ フレーム: 大きさに広げる"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "ビデオ フレーム: 内接"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "ビデオ フレーム: 外接"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "ビデオ フレーム: リセット"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "ビデオ フレーム: 回転 X+ (上回転)"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "シーク バーの上に"
+msgid "Above seekbar"
+msgstr "シークバーの上に"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "シーク バーの下に"
+msgid "Below seekbar"
+msgstr "シークバーの下に"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -2986,15 +2985,15 @@ msgstr "ズーム ウィンドウ -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr ""
+msgstr "ビデオ フレーム: 拡大 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr ""
+msgstr "ビデオ フレーム: 拡大 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr ""
+msgstr "ビデオ フレーム: 拡大設定の切り替え"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3920,6 +3919,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "オンライン字幕検索に失敗しました。"
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr "字幕のダウンロードに失敗しました。"
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "オンライン字幕検索を中止しました。"
@@ -3961,6 +3964,8 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
+"/pns \"name or values\"\t使用するビデオ フレームのプリセット名を指定するか、位置とズームの値を \"px,py,zx,zy\""
+" の形式で指定する"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4496,7 +4501,7 @@ msgstr "モダン シークバーの高さ (96dpi、それ以外の場合はス�
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
-msgstr "視覚的な不具合を防ぐために、ビデオを全画面表示する前の遅延です。"
+msgstr "ビデオを全画面表示するまでの遅延です。表示の不具合を回避します。"
 
 msgctxt "IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES"
 msgid "Render subtitles onto screenshots"
@@ -4509,27 +4514,27 @@ msgstr "スナップショットのファイル名に動画ファイルの拡張
 
 msgctxt "IDS_PRESIZE_SHADERS_ENABLED"
 msgid "Pre-Resize Pixel Shaders: on"
-msgstr "サイズ変更前のピクセル シェーダ: オン"
+msgstr "リサイズ前のピクセル シェーダ: オン"
 
 msgctxt "IDS_PRESIZE_SHADERS_DISABLED"
 msgid "Pre-Resize Pixel Shaders: off"
-msgstr "サイズ変更前のピクセル シェーダ: オフ"
+msgstr "リサイズ前のピクセル シェーダ: オフ"
 
 msgctxt "IDS_PRESIZE_SHADERS_TOGGLE"
 msgid "Enable Pre-Resize Pixel Shaders"
-msgstr "サイズ変更前のピクセル シェーダを有効にする"
+msgstr "リサイズ前のピクセル シェーダを有効にする"
 
 msgctxt "IDS_POSTSIZE_SHADERS_ENABLED"
 msgid "Post-Resize Pixel Shaders: on"
-msgstr "サイズ変更後のピクセル シェーダ: オン"
+msgstr "リサイズ後のピクセル シェーダ: オン"
 
 msgctxt "IDS_POSTSIZE_SHADERS_DISABLED"
 msgid "Post-Resize Pixel Shaders: off"
-msgstr "サイズ変更後のピクセル シェーダ: オフ"
+msgstr "リサイズ後のピクセル シェーダ: オフ"
 
 msgctxt "IDS_POSTSIZE_SHADERS_TOGGLE"
 msgid "Enable Post-Resize Pixel Shaders"
-msgstr "サイズ変更後のピクセル シェーダを有効にする"
+msgstr "リサイズ後のピクセル シェーダを有効にする"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
@@ -4745,4 +4750,12 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
-msgstr ""
+msgstr "再生リストに項目を追加するときにファイルの長さを読み込みます (MediaInfo を使用し、結果は異なる場合があります)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr "ビデオ プレビュー"
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr "シーク タイム"

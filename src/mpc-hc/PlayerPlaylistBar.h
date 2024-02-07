@@ -146,6 +146,7 @@ public:
     void SetFirst();
     void SetLast();
     void SetCurValid(bool fValid);
+    void SetCurLabel(CString label);
     void SetCurTime(REFERENCE_TIME rt);
     void Randomize();
     void UpdateLabel(CString in);

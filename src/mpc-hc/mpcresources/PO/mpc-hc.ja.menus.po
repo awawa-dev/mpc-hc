@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # O SA, 2021
-# ever_green, 2021
+# ever_green, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: ever_green, 2021\n"
+"Last-Translator: ever_green, 2024\n"
 "Language-Team: Japanese (https://app.transifex.com/mpchc/teams/106126/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +105,7 @@ msgstr "タイトルとメニュー(&M)"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "シーク バー(&K)"
+msgstr "シークバー(&K)"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -125,7 +125,7 @@ msgstr "ステータス(&A)"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "字幕の再同期(&B)"
+msgstr "字幕調整(&B)"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
@@ -445,7 +445,7 @@ msgstr "モニタとデスクトップの縦横比の相違を補正(&C)"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "PnS フレーム調整(&N)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -569,7 +569,7 @@ msgstr "再生リスト(&P)"
 
 msgctxt "ID_PLAY_REPEAT_AB"
 msgid "A-B (&Reset)"
-msgstr "A-B リセット(&R)"
+msgstr "A-B 解除(&R)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
 msgid "A-B (Mark &A)"

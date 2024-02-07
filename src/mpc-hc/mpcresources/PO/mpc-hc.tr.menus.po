@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
-# Mücahid Aksel <mucahidaksel@gmail.com>, 2023
+# Mücahid Aksel <mucahidaksel@gmail.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2023\n"
+"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2024\n"
 "Language-Team: Turkish (https://app.transifex.com/mpchc/teams/106126/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,27 +25,27 @@ msgstr "&Dosya"
 
 msgctxt "ID_FILE_OPENQUICK"
 msgid "&Quick Open File..."
-msgstr "&Hızlı Dosya Aç..."
+msgstr "&Hızlı dosya aç..."
 
 msgctxt "ID_FILE_OPENMEDIA"
 msgid "&Open File/URL..."
-msgstr "Dosya/URL  &Aç..."
+msgstr "Dosya/URL &aç..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "&DVD/BD Aç..."
+msgstr "&DVD/Blu-ray aç..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
-msgstr "A&ygıt Aç..."
+msgstr "A&ygıt aç..."
 
 msgctxt "ID_FILE_OPENDIRECTORY"
 msgid "Open Dir&ectory..."
-msgstr "Diz&in Aç..."
+msgstr "Di&zin aç..."
 
 msgctxt "ID_FILE_OPENDISC"
 msgid "O&pen Disc"
-msgstr "CD-RO&M Aç"
+msgstr "Di&ski aç"
 
 msgctxt "ID_RECENT_FILES"
 msgid "Recent &Files"
@@ -57,43 +57,43 @@ msgstr "&Kapat"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
-msgstr "K&opya Kaydet..."
+msgstr "K&opya kaydet..."
 
 msgctxt "ID_FILE_SAVE_IMAGE"
 msgid "Save &Image..."
-msgstr "Re&sim Kaydet..."
+msgstr "&Resim kaydet..."
 
 msgctxt "ID_FILE_SAVE_THUMBNAILS"
 msgid "Save &Thumbnails..."
-msgstr "Küçük &Resim Kaydet..."
+msgstr "K&üçük resim kaydet..."
 
 msgctxt "POPUP"
 msgid "S&ubtitles"
-msgstr "A&ltyazılar"
+msgstr "A&ltyazı"
 
 msgctxt "ID_FILE_SUBTITLES_LOAD"
 msgid "&Load Subtitles..."
-msgstr "&Altyazı Aç..."
+msgstr "&Altyazı aç..."
 
 msgctxt "ID_FILE_SUBTITLES_SAVE"
 msgid "Save S&ubtitles..."
-msgstr "Altyazı K&aydet.."
+msgstr "Altyazı &kaydet..."
 
 msgctxt "ID_FILE_SUBTITLES_DOWNLOAD"
 msgid "&Download Subtitles..."
-msgstr "&Altyazı İndir..."
+msgstr "Altyazı &indir..."
 
 msgctxt "ID_FILE_PROPERTIES"
 msgid "P&roperties"
-msgstr "Ö&zellikler"
+msgstr "&Özellikler"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr "Dosya Ko&numunu Aç"
+msgstr "Dosya kon&umunu aç"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
-msgstr "&Çıkış"
+msgstr "Uygulamadan &çık"
 
 msgctxt "POPUP"
 msgid "&View"
@@ -105,7 +105,7 @@ msgstr "Başlık && Menü"
 
 msgctxt "ID_VIEW_SEEKER"
 msgid "See&k Bar"
-msgstr "İlerle&me Çubuğu"
+msgstr "İzle&m çubuğu"
 
 msgctxt "ID_VIEW_CONTROLS"
 msgid "&Controls"
@@ -125,31 +125,31 @@ msgstr "Du&rum"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Altyazı Eşzamanla"
+msgstr "Altyazı eşzamanla"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
-msgstr "Oyna&tma Listesi"
+msgstr "Oynatma &listesi"
 
 msgctxt "ID_VIEW_CAPTURE"
 msgid "Captu&re"
-msgstr "Ekran &Yakalama"
+msgstr "&Yakalama"
 
 msgctxt "ID_VIEW_NAVIGATION"
 msgid "Na&vigation"
-msgstr "Yö&nlendirme"
+msgstr "Gezinti"
 
 msgctxt "POPUP"
 msgid "&Presets..."
-msgstr "&Oynatıcı Ayrıntıları..."
+msgstr "Arayüz ayrıntısı..."
 
 msgctxt "ID_VIEW_PRESETS_MINIMAL"
 msgid "&Minimal"
-msgstr "&En Az"
+msgstr "Minimal"
 
 msgctxt "ID_VIEW_PRESETS_COMPACT"
 msgid "&Compact"
-msgstr "&Az"
+msgstr "Kompakt"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
@@ -157,7 +157,7 @@ msgstr "&Normal"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
-msgstr "Ta&m Ekran"
+msgstr "Ta&m ekran"
 
 msgctxt "POPUP"
 msgid "&Zoom"
@@ -181,35 +181,35 @@ msgstr "%&200"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT"
 msgid "Auto &Fit"
-msgstr "Otomatik &Sığdır"
+msgstr "&Otomatik uyum"
 
 msgctxt "ID_VIEW_ZOOM_AUTOFIT_LARGER"
 msgid "Auto Fit (&Larger Only)"
-msgstr "Sığdır (&Sadece büyütme)"
+msgstr "Oto. uyum (Sadece &büyük)"
 
 msgctxt "POPUP"
 msgid "R&enderer Settings"
-msgstr "Ç&evirici Ayarları"
+msgstr "İşleyici ayarları"
 
 msgctxt "ID_VIEW_TEARING_TEST"
 msgid "&Tearing Test"
-msgstr "&Kopukluk Testi"
+msgstr "&Yırtılma testi"
 
 msgctxt "ID_VIEW_DISPLAY_RENDERER_STATS"
 msgid "&Display Statistics"
-msgstr "&İstatistikleri Göster"
+msgstr "&İstatistikleri göster"
 
 msgctxt "ID_VIEW_OSD_DISPLAY_TIME"
 msgid "Display Current T&ime"
-msgstr "Güncel Süreyi G&öster"
+msgstr "G&üncel süreyi göster"
 
 msgctxt "ID_VIEW_OSD_SHOW_FILENAME"
 msgid "Show &File Name"
-msgstr "Dosya &Adını Göster"
+msgstr "Dosya &adını göster"
 
 msgctxt "POPUP"
 msgid "&Output Range"
-msgstr "&Çıktı Aralığı"
+msgstr "&Çıkış aralığı"
 
 msgctxt "ID_VIEW_EVROUTPUTRANGE_0_255"
 msgid "&0 - 255"
@@ -225,27 +225,27 @@ msgstr "&Sunum"
 
 msgctxt "ID_VIEW_D3DFULLSCREEN"
 msgid "D3D Fullscreen &Mode"
-msgstr "Tam ekran D3D &kipi"
+msgstr "Tam ekran D3D &modu"
 
 msgctxt "ID_VIEW_FULLSCREENGUISUPPORT"
 msgid "D3D Fullscreen &GUI Support"
-msgstr "Tam ekran D3D &arabirim desteği"
+msgstr "Tam ekran D3D &grafiksel arayüz desteği"
 
 msgctxt "ID_VIEW_HIGHCOLORRESOLUTION"
 msgid "10-bit &RGB Output"
-msgstr "10-bit &RGB Çıktısı"
+msgstr "10-bit &RGB çıkışı"
 
 msgctxt "ID_VIEW_FORCEINPUTHIGHCOLORRESOLUTION"
 msgid "Force 10-bit RGB &Input"
-msgstr "10-bit RGB &Girişini zorla"
+msgstr "10-bit RGB girişine zorla"
 
 msgctxt "ID_VIEW_FULLFLOATINGPOINTPROCESSING"
 msgid "&Full Floating Point Processing"
-msgstr "&Tam Hareketli Hedef İşleme"
+msgstr "&Tam kayan nokta işlemi"
 
 msgctxt "ID_VIEW_HALFFLOATINGPOINTPROCESSING"
 msgid "&Half Floating Point Processing"
-msgstr "&Yarım Hareketli Hedef İşleme"
+msgstr "&Yarım kayan nokta işlemi"
 
 msgctxt "ID_VIEW_DISABLEDESKTOPCOMPOSITION"
 msgid "Disable desktop composition (&Aero)"
@@ -253,19 +253,19 @@ msgstr "Masaüstü düzeltmesini kapat (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Görüntü süresi &düzeltmesini aç"
+msgstr "Kare süresi &düzeltmesini etkinleştir"
 
 msgctxt "POPUP"
 msgid "&Color Management"
-msgstr "&Renk Yönetimi"
+msgstr "&Renk yönetimi"
 
 msgctxt "ID_VIEW_CM_ENABLE"
 msgid "&Enable"
-msgstr "&Açık"
+msgstr "&Etkinleştir"
 
 msgctxt "POPUP"
 msgid "&Input Type"
-msgstr "&Giriş Biçimi"
+msgstr "&Giriş türü"
 
 msgctxt "ID_VIEW_CM_INPUT_AUTO"
 msgid "&Auto-Detect"
@@ -285,23 +285,23 @@ msgstr "SDTV &PAL"
 
 msgctxt "POPUP"
 msgid "Ambient &Light"
-msgstr "Ortam &Işığı"
+msgstr "Ortam &ışığı"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_BRIGHT"
 msgid "&Bright (2.2 Gamma)"
-msgstr "&Parlak (2.2 Karşıtlık)"
+msgstr "&Parlak (2.2 Gama)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DIM"
 msgid "&Dim (2.35 Gamma)"
-msgstr "&Donuk (2.35 Karşıtlık)"
+msgstr "&Sönük (2.35 Gama)"
 
 msgctxt "ID_VIEW_CM_AMBIENTLIGHT_DARK"
 msgid "D&ark (2.4 Gamma)"
-msgstr "K&aranlık (2.4 Karşıtlık)"
+msgstr "&Karanlık (2.4 Gama)"
 
 msgctxt "POPUP"
 msgid "&Rendering Intent"
-msgstr "&İşleyici Yöntemi"
+msgstr "&İşleme maksadı"
 
 msgctxt "ID_VIEW_CM_INTENT_PERCEPTUAL"
 msgid "&Perceptual"
@@ -321,31 +321,31 @@ msgstr "&Koşulsuz Renk Ölçümü"
 
 msgctxt "POPUP"
 msgid "&VSync"
-msgstr "&Eşzamanlılık"
+msgstr "&Dikey eşitleme (VSync)"
 
 msgctxt "ID_VIEW_VSYNC"
 msgid "&VSync"
-msgstr "&Eşzamanla"
+msgstr "&VSync"
 
 msgctxt "ID_VIEW_VSYNCACCURATE"
 msgid "&Accurate VSync"
-msgstr "&Tam Eşzamanla"
+msgstr "&Kesin VSync"
 
 msgctxt "ID_VIEW_ALTERNATIVEVSYNC"
 msgid "A&lternative VSync"
-msgstr "F&arklı Eşzamanla"
+msgstr "&Alternatif VSync"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_DECREASE"
 msgid "&Decrease VSync Offset"
-msgstr "&Eşzamanlılık dengesini azalt"
+msgstr "VSync kaydırmasını a&zalt"
 
 msgctxt "ID_VIEW_VSYNCOFFSET_INCREASE"
 msgid "&Increase VSync Offset"
-msgstr "&Eşzamanlılık dengesini arttır"
+msgstr "VSync kaydırmasını a&rttır"
 
 msgctxt "POPUP"
 msgid "&GPU Control"
-msgstr "&GPU Denetimi"
+msgstr "&GPU kontrolü"
 
 msgctxt "ID_VIEW_FLUSHGPU_BEFOREVSYNC"
 msgid "Flush GPU &before VSync"
@@ -365,35 +365,35 @@ msgstr "S&ıfırla"
 
 msgctxt "ID_VIEW_RESET_DEFAULT"
 msgid "Reset to &default renderer settings"
-msgstr "Varsayılan &işleyici ayarlarına dön"
+msgstr "&Varsayılan işleyici ayarlarına dön"
 
 msgctxt "ID_VIEW_RESET_OPTIMAL"
 msgid "Reset to &optimal renderer settings"
-msgstr "Tavsiye &edilen işleyici ayarlarına dön"
+msgstr "&Tavsiye edilen işleyici ayarlarına dön"
 
 msgctxt "POPUP"
 msgid "Video &Frame"
-msgstr "&Video Boyutu"
+msgstr "&Video karesi"
 
 msgctxt "ID_VIEW_VF_HALF"
 msgid "&Half Size"
-msgstr "&Yarım Boyut"
+msgstr "&Yarım boyut"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "&Normal Boyut"
+msgstr "&Normal boyut"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
-msgstr "&İki Kat Boyut"
+msgstr "&İki kat boyut"
 
 msgctxt "ID_VIEW_VF_STRETCH"
 msgid "&Stretch To Window"
-msgstr "&Pencereye Uzat"
+msgstr "&Pencereye uzat"
 
 msgctxt "ID_VIEW_VF_FROMINSIDE"
 msgid "Touch Window From &Inside"
-msgstr "Pencereye İçeriden &Uyarla"
+msgstr "Pencereye içeriden &uyarla"
 
 msgctxt "ID_VIEW_VF_ZOOM1"
 msgid "Zoom &1"
@@ -405,11 +405,11 @@ msgstr "Yakınlaştırma &2"
 
 msgctxt "ID_VIEW_VF_FROMOUTSIDE"
 msgid "Touch Window From &Outside"
-msgstr "Pencereye Dışarıdan U&yarla"
+msgstr "Pencereye dışarıdan u&yarla"
 
 msgctxt "POPUP"
 msgid "&Aspect Ratio"
-msgstr "En Boy Oranı"
+msgstr "&En boy oranı"
 
 msgctxt "ID_ASPECTRATIO_DAR"
 msgid "&Default (DAR)"
@@ -437,55 +437,55 @@ msgstr "1&85:100"
 
 msgctxt "ID_ASPECTRATIO_SAR"
 msgid "Assume &square pixels (SAR)"
-msgstr "Kare &çerçeve oranını kullan (SAR)"
+msgstr "&Pikselleri kare olarak varsay (SAR)"
 
 msgctxt "ID_VIEW_VF_COMPMONDESKARDIFF"
 msgid "&Correct Monitor/Desktop AR Diff"
-msgstr "Monitör/Masaüstü AR Farkını &Düzelt"
+msgstr "Monitör/Masaüstü EBO farkını &düzelt"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "Kare uyarlama P&nS"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
-msgstr "&Boyutu Arttır"
+msgstr "&Boyutu arttır"
 
 msgctxt "ID_VIEW_DECSIZE"
 msgid "&Decrease Size"
-msgstr "&Boyutu Azalt"
+msgstr "&Boyutu azalt"
 
 msgctxt "ID_VIEW_INCWIDTH"
 msgid "I&ncrease Width"
-msgstr "G&enişliği Arttır"
+msgstr "G&enişliği arttır"
 
 msgctxt "ID_VIEW_DECWIDTH"
 msgid "D&ecrease Width"
-msgstr "Ge&nişliği Azalt"
+msgstr "Genişliği azalt"
 
 msgctxt "ID_VIEW_INCHEIGHT"
 msgid "In&crease Height"
-msgstr "Yüks&ekliği Arttır"
+msgstr "Yüksekliği arttır"
 
 msgctxt "ID_VIEW_DECHEIGHT"
 msgid "Decre&ase Height"
-msgstr "Yüksek&liği Azalt"
+msgstr "Yüksekliği azalt"
 
 msgctxt "ID_PANSCAN_MOVERIGHT"
 msgid "Move &Right"
-msgstr "Sağa &Taşı"
+msgstr "Sağa taşı"
 
 msgctxt "ID_PANSCAN_MOVELEFT"
 msgid "Move &Left"
-msgstr "Sola &Taşı"
+msgstr "Sola &taşı"
 
 msgctxt "ID_PANSCAN_MOVEUP"
 msgid "Move &Up"
-msgstr "Yukarı &Taşı"
+msgstr "Yukarı taşı"
 
 msgctxt "ID_PANSCAN_MOVEDOWN"
 msgid "Move &Down"
-msgstr "Aşağı &Taşı"
+msgstr "Aşağı taşı"
 
 msgctxt "ID_PANSCAN_CENTER"
 msgid "Cen&ter"
@@ -493,15 +493,15 @@ msgstr "Ort&ala"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
-msgstr "Saat &Yönünde Döndür"
+msgstr "Saat &yönünde döndür"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
-msgstr "Saat Yö&nünün Tersine Döndür"
+msgstr "Saat yönünün tersine döndür"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
-msgstr "Dikey dönd&ür"
+msgstr "Baş aşağı dönd&ür"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
@@ -513,7 +513,7 @@ msgstr "Sı&fırla"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "Pencereyi &Üstte Tut"
+msgstr "&Üstte kal"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -533,7 +533,7 @@ msgstr "Video &oynatılırken"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Ayarlar..."
+msgstr "&Seçenekler..."
 
 msgctxt "POPUP"
 msgid "&Play"
@@ -549,7 +549,7 @@ msgstr "&Durdur"
 
 msgctxt "ID_PLAY_FRAMESTEP"
 msgid "Fra&me Step"
-msgstr "G&örüntü Atla"
+msgstr "&Kare atla"
 
 msgctxt "POPUP"
 msgid "&Repeat"
@@ -581,7 +581,7 @@ msgstr "A-B (&B yi işaretle)"
 
 msgctxt "POPUP"
 msgid "&Playback Rate"
-msgstr "Oynatma hızı"
+msgstr "Oynatma &hızı"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"
@@ -645,15 +645,15 @@ msgstr "25 Fps"
 
 msgctxt "ID_PLAY_DECRATE"
 msgid "&Decrease Rate"
-msgstr "Hızı Azalt"
+msgstr "Hızı a&zalt"
 
 msgctxt "ID_PLAY_INCRATE"
 msgid "&Increase Rate"
-msgstr "Hızı Arttır"
+msgstr "Hızı a&rttır"
 
 msgctxt "ID_PLAY_RESETRATE"
 msgid "R&eset Rate"
-msgstr "Hızı Sıfırla"
+msgstr "Hızı s&ıfırla"
 
 msgctxt "ID_FILTERS"
 msgid "&Filters"
@@ -661,7 +661,7 @@ msgstr "&Filtreler"
 
 msgctxt "ID_SHADERS"
 msgid "S&haders"
-msgstr "T&onlamalar"
+msgstr "T&onlayıcılar"
 
 msgctxt "ID_AUDIOS"
 msgid "&Audio Track"
@@ -669,7 +669,7 @@ msgstr "&Ses Parçası"
 
 msgctxt "ID_SUBTITLES"
 msgid "Su&btitle Track"
-msgstr "Al&tyazı Parçası"
+msgstr "&Altyazı Parçası"
 
 msgctxt "ID_VIDEO_STREAMS"
 msgid "Vide&o Track"
@@ -677,7 +677,7 @@ msgstr "Vide&o Parçası"
 
 msgctxt "POPUP"
 msgid "&Volume"
-msgstr "Se&s"
+msgstr "S&es düzeyi"
 
 msgctxt "ID_VOLUME_UP"
 msgid "&Up"
@@ -697,11 +697,11 @@ msgstr "Oy&natmadan Sonra"
 
 msgctxt "ID_AFTERPLAYBACK_DONOTHING"
 msgid "Do no&thing"
-msgstr "Bir &İşlem Yapma"
+msgstr "Hiçbir şey yapma"
 
 msgctxt "ID_AFTERPLAYBACK_PLAYNEXT"
 msgid "Play &next file in the folder"
-msgstr "Klasördeki &Sıradaki Dosyayı Yürüt"
+msgstr "Klasördeki sonraki dosyayı oynat"
 
 msgctxt "ID_AFTERPLAYBACK_MONITOROFF"
 msgid "Turn off the &monitor"
@@ -709,7 +709,7 @@ msgstr "E&kranı Kapat"
 
 msgctxt "ID_AFTERPLAYBACK_EXIT"
 msgid "&Exit"
-msgstr "&Çık"
+msgstr "Uygulamadan &çık"
 
 msgctxt "ID_AFTERPLAYBACK_STANDBY"
 msgid "&Stand By"
@@ -733,7 +733,7 @@ msgstr "&Bilgisayarı Kilitle"
 
 msgctxt "POPUP"
 msgid "&Navigate"
-msgstr "&Gezinti"
+msgstr "G&ezinti"
 
 msgctxt "ID_NAVIGATE_SKIPBACK"
 msgid "&Previous"
@@ -773,23 +773,23 @@ msgstr "&Bölüm Menüsü"
 
 msgctxt "ID_FAVORITES"
 msgid "F&avorites"
-msgstr "F&avoriler"
+msgstr "&Favoriler"
 
 msgctxt "POPUP"
 msgid "&Help"
-msgstr "&Yardım"
+msgstr "Y&ardım"
 
 msgctxt "ID_HELP_HOMEPAGE"
 msgid "&Home Page"
-msgstr "&Ana Sayfa"
+msgstr "&Ana sayfa"
 
 msgctxt "ID_HELP_CHECKFORUPDATE"
 msgid "Check for &updates"
-msgstr "Güncelleştirmeleri &kontrol et"
+msgstr "&Güncelleştirmeleri kontrol et"
 
 msgctxt "ID_HELP_SHOWCOMMANDLINESWITCHES"
 msgid "&Command Line Switches"
-msgstr "&Komut Satırı Anahtarları"
+msgstr "&Komut satırı anahtarları"
 
 msgctxt "ID_HELP_TOOLBARIMAGES"
 msgid "Download &Toolbar Images"

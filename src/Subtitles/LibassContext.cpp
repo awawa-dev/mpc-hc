@@ -737,7 +737,6 @@ bool LibassContext::LoadASSFile(Subtitle::SubType subType) {
     ass_set_fonts(m_renderer.get(), NULL, std::string(tmpFontName).c_str(), ASS_FONTPROVIDER_AUTODETECT, NULL, 0);
 
     m_assloaded = true;
-    m_assfontloaded = true;
 
     return true;
 }
@@ -762,6 +761,19 @@ bool LibassContext::LoadASSTrack(char* data, int size, Subtitle::SubType subType
 
     m_assloaded = true;
     return true;
+}
+
+void LibassContext::SetFilterGraphFromFilter(IBaseFilter* f) {
+    if (!m_pGraph) {
+        IFilterGraph* fg = GetGraphFromFilter(f);
+        SetFilterGraph(fg);
+    }
+}
+
+void LibassContext::SetFilterGraph(IFilterGraph* g) {
+    m_pGraph = g;
+    IBaseFilter* f = FindFirstFilter(m_pGraph);
+    m_pPin = GetFirstPin(f);
 }
 
 void LibassContext::LoadASSFont() {

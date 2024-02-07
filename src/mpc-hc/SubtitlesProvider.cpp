@@ -53,12 +53,9 @@ class LanguageDownloadException : public std::exception
 ******************************************************************************/
 void SubtitlesProviders::RegisterProviders()
 {
-    Register<OpenSubtitles>(this);
+    //Register<OpenSubtitles>(this);
     Register<OpenSubtitles2>(this);
     Register<podnapisi>(this);
-#ifdef INCLUDE_SUBDB
-    Register<SubDB>(this);
-#endif
     Register<Napisy24>(this);
 #ifdef INCLUDE_SUB_ADDIC7ED
     Register<Addic7ed>(this);
@@ -69,6 +66,7 @@ void SubtitlesProviders::RegisterProviders()
 ** OpenSubtitles
 ******************************************************************************/
 
+#if 0
 void OpenSubtitles::Initialize()
 {
     xmlrpc = std::make_unique<XmlRpcClient>((Url() + "/xml-rpc").c_str());
@@ -527,7 +525,7 @@ bool OpenSubtitles::NeedLogin()
 
     return true;
 }
-
+#endif
 
 /******************************************************************************
 ** OpenSubtitles.com
@@ -610,7 +608,13 @@ SRESULT OpenSubtitles2::Search(const SubtitlesInfo& pFileInfo)
         url.AppendFormat(_T("moviehash=%s&"), (LPCTSTR) CString(pFileInfo.fileHash.c_str()));
     }
 
-    url.AppendFormat(_T("query=%s"), (LPCTSTR)CString(pFileInfo.fileName.c_str()));
+    CString query;
+    if (pFileInfo.manualSearchString.IsEmpty())
+        query = pFileInfo.fileName.c_str();
+    else
+        query = pFileInfo.manualSearchString;
+
+    url.AppendFormat(_T("query=%s"), (LPCTSTR)query);
 
     CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_GET, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
 
@@ -647,6 +651,10 @@ SRESULT OpenSubtitles2::Search(const SubtitlesInfo& pFileInfo)
             }
         }
     }
+    httpFile->Close();
+    delete httpFile;
+    con->Close();
+    delete con;
     return result;
 }
 
@@ -661,7 +669,7 @@ SRESULT OpenSubtitles2::Download(SubtitlesInfo& pSubtitlesInfo)
     CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_POST, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
 
     CString headers(_T("Accept: application/json\r\n")); 
-    headers.AppendFormat(_T("Api-Key: %s\r\n "), APIKEY);
+    headers.AppendFormat(_T("Api-Key: %s\r\n"), APIKEY);
 	headers.Append(_T("Content-Type: application/json\r\n"));
     if (!token.IsEmpty()) {
         headers.AppendFormat(_T("Authorization: Bearer %s\r\n"), (LPCTSTR)token);
@@ -685,7 +693,10 @@ SRESULT OpenSubtitles2::Download(SubtitlesInfo& pSubtitlesInfo)
         }
 
     }
-
+    httpFile->Close();
+    delete httpFile;
+    con->Close();
+    delete con;
     return result;
 }
 
@@ -701,16 +712,20 @@ SRESULT OpenSubtitles2::LogOut()
         CHttpFile* httpFile = con->OpenRequest(CHttpConnection::HTTP_VERB_DELETE, url, NULL, 1, NULL, NULL, INTERNET_FLAG_SECURE);
 
         CString headers(_T("Accept: application/json\r\n"));
-        headers.AppendFormat(_T("Api-Key: %s \r\n"), (LPCTSTR)APIKEY);
+        headers.AppendFormat(_T("Api-Key: %s\r\n"), (LPCTSTR)APIKEY);
         headers.AppendFormat(_T("Authorization: Bearer %s\r\n"), (LPCTSTR)token);
         Response response;
         if (CallAPI(httpFile, headers, response)) {
             result = SR_SUCCEEDED;
         }
+        httpFile->Close();
+        delete httpFile;
+        con->Close();
+        delete con;
     }
 
     token.Empty();
-
+    
     return result;
 }
 
@@ -806,142 +821,6 @@ const std::set<std::string>& OpenSubtitles2::Languages() const
     result = { "af", "an", "ar", "at", "az", "be", "bg", "bn", "br", "bs", "ca", "cs", "da", "de", "el", "en", "eo", "es", "et", "eu", "ex", "fa", "fi", "fr", "ga", "gd", "gl", "he", "hi", "hr", "hu", "hy", "id", "ig", "is", "it", "ja", "ka", "kk", "km", "kn", "ko", "ku", "lb", "lt", "lv", "ma", "me", "mk", "ml", "mn", "ms", "my", "nl", "no", "oc", "pb", "pl", "pm", "pt", "ro", "ru", "sd", "se", "si", "sk", "sl", "so", "sq", "sr", "sv", "sw", "sy", "ta", "te", "th", "tl", "tr", "tt", "uk", "ur", "vi", "ze", "zh", "zt" };
     return result;
 }
-
-#ifdef INCLUDE_SUBDB
-/******************************************************************************
-** SubDB
-******************************************************************************/
-
-SRESULT SubDB::Hash(SubtitlesInfo& pFileInfo)
-{
-    std::vector<BYTE> buffer(2 * PROBE_SIZE);
-    if (pFileInfo.pAsyncReader) {
-        UINT64 position = 0;
-        pFileInfo.pAsyncReader->SyncRead(position, PROBE_SIZE, (BYTE*)&buffer[0]);
-        position = std::max((UINT64)0, (UINT64)(pFileInfo.fileSize - PROBE_SIZE));
-        pFileInfo.pAsyncReader->SyncRead(position, PROBE_SIZE, (BYTE*)&buffer[PROBE_SIZE]);
-    } else {
-        CFile file;
-        CFileException fileException;
-        if (file.Open(CString(pFileInfo.filePathW.c_str()),
-            CFile::modeRead | CFile::osSequentialScan | CFile::shareDenyNone | CFile::typeBinary,
-            &fileException)) {
-            file.Read(&buffer[0], PROBE_SIZE);
-            file.Seek(std::max((UINT64)0, (UINT64)(pFileInfo.fileSize - PROBE_SIZE)), CFile::begin);
-            file.Read(&buffer[PROBE_SIZE], PROBE_SIZE);
-        }
-    }
-    pFileInfo.fileHash = StringToHash(std::string((char*)&buffer[0], buffer.size()), CALG_MD5);
-    LOG(LOG_OUTPUT, pFileInfo.fileHash.c_str());
-    return SR_SUCCEEDED;
-}
-
-SRESULT SubDB::Search(const SubtitlesInfo& pFileInfo)
-{
-    if (!pFileInfo.manualSearchString.IsEmpty()) {
-        return SR_FAILED; //SubDB does not support manual search
-    }
-
-    SRESULT searchResult = SR_UNDEFINED;
-    std::string url(StringFormat("%s/?action=search&hash=%s", Url().c_str(), pFileInfo.fileHash.c_str()));
-    LOG(LOG_INPUT, url.c_str());
-
-    std::string data;
-    searchResult = DownloadInternal(url, "", data);
-
-    if (!data.empty()) {
-        for (const auto& iter : StringTokenize(data, ",")) {
-            CheckAbortAndReturn();
-            if (CheckLanguage(iter)) {
-                SubtitlesInfo pSubtitlesInfo;
-                pSubtitlesInfo.id = pFileInfo.fileHash;
-                pSubtitlesInfo.fileExtension = "srt";
-                pSubtitlesInfo.fileName = pFileInfo.fileName + GUESSED_NAME_POSTFIX;
-                pSubtitlesInfo.languageCode = iter;
-                pSubtitlesInfo.languageName = UTF16To8(ISOLang::ISO639XToLanguage(iter.c_str()));
-                pSubtitlesInfo.discNumber = 1;
-                pSubtitlesInfo.discCount = 1;
-                pSubtitlesInfo.title = pFileInfo.title;
-                Set(pSubtitlesInfo);
-            }
-        }
-    }
-
-    return searchResult;
-}
-
-SRESULT SubDB::Download(SubtitlesInfo& pSubtitlesInfo)
-{
-    std::string url(StringFormat("%s/?action=download&hash=%s&language=%s", Url().c_str(), pSubtitlesInfo.id.c_str(), pSubtitlesInfo.languageCode.c_str()));
-    LOG(LOG_INPUT, url.c_str());
-    return DownloadInternal(url, "", pSubtitlesInfo.fileContents);
-}
-
-SRESULT SubDB::Upload(const SubtitlesInfo& pSubtitlesInfo)
-{
-#define MULTIPART_BOUNDARY "xYzZY"
-    std::string url(StringFormat("%s/?action=upload&hash=%s", Url().c_str(), pSubtitlesInfo.fileHash.c_str()));
-    stringMap headers({
-        { "User-Agent", UserAgent() },
-        { "Content-Type", "multipart/form-data; boundary=" MULTIPART_BOUNDARY },
-        });
-
-    std::string content, data;
-    content += StringFormat("--%s\r\nContent-Disposition: form-data; name=\"%s\"\r\n\r\n%s\r\n", MULTIPART_BOUNDARY, "hash", pSubtitlesInfo.fileHash.c_str());
-    content += StringFormat("--%s\r\nContent-Disposition: form-data; name=\"%s\"; filename=\"%s.%s\"\r\nContent-Type: application/octet-stream\r\nContent-Transfer-Encoding: binary\r\n\r\n",
-        MULTIPART_BOUNDARY, "file", pSubtitlesInfo.fileHash.c_str(), "srt");
-    content += pSubtitlesInfo.fileContents;
-    content += StringFormat("\r\n--%s--\r\n", MULTIPART_BOUNDARY);
-
-    CheckAbortAndReturn();
-
-    DWORD dwStatusCode = NULL;
-    StringUpload(url, headers, content, data, FALSE, &dwStatusCode);
-
-    LOG(LOG_BOTH, url.c_str(), std::to_string(dwStatusCode).c_str());
-
-    switch (dwStatusCode) {
-    case 201:
-        return SR_SUCCEEDED;  //'Uploaded':   (HTTP/1.1 201 Created): If everything was OK, the HTTP status code 201 will be returned.
-    case 403:
-        return SR_EXISTS;     //'Duplicated': (HTTP/1.1 403 Forbidden): If the subtitle file already exists in our database, the HTTP status code 403 will be returned.
-    case 400:
-        return SR_FAILED;     //'Malformed':  (HTTP/1.1 400 Bad Request): If the request was malformed, the HTTP status code 400 will be returned.
-    case 415:
-        return SR_FAILED;     //'Invalid':    (HTTP/1.1 415 Unsupported Media Type): If the subtitle file is not supported by our database, the HTTP status code 415 will be returned.
-    default:
-        return SR_UNDEFINED;
-    }
-}
-
-const std::set<std::string>& SubDB::Languages() const
-{
-    static std::once_flag initialized;
-    static std::set<std::string> result;
-#if 1
-    result = {"en", "es", "fr", "it", "nl", "pl", "pt", "ro", "sv", "tr"};
-#else
-    try {
-        std::call_once(initialized, [this]() {
-            if (!CheckInternetConnection()) {
-                throw LanguageDownloadException("No internet connection.");
-            }
-            std::string data;
-            if (DownloadInternal(Url() + "/?action=languages", "", data) != SR_SUCCEEDED) {
-                throw LanguageDownloadException("Failed to download language list.");
-            }
-            for (const auto& str : StringTokenize(data, ",")) {
-                result.emplace(str);
-            }
-            });
-    } catch (const LanguageDownloadException& e) {
-        UNREFERENCED_PARAMETER(e);
-        LOG(LOG_ERROR, e.what());
-    }
-#endif
-    return result;
-}
-#endif
 
 /******************************************************************************
 ** podnapisi

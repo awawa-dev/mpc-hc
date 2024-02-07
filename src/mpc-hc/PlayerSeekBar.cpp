@@ -125,7 +125,7 @@ CSize CPlayerSeekBar::CalcFixedLayout(BOOL bStretch, BOOL bHorz)
 {
     CSize ret = __super::CalcFixedLayout(bStretch, bHorz);
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme) {
+    if (AppIsThemeLoaded()) {
         ret.cy = m_pMainFrame->m_dpi.ScaleY(5 + s.iModernSeekbarHeight); //expand the toolbar if using "fill" mode
     } else {
         ret.cy = m_pMainFrame->m_dpi.ScaleY(20);
@@ -274,7 +274,7 @@ CRect CPlayerSeekBar::GetChannelRect() const
     }
 
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme) { //no thumb so we can use all the space
+    if (AppIsThemeLoaded()) { //no thumb so we can use all the space
         r.DeflateRect(m_pMainFrame->m_dpi.ScaleFloorX(2), m_pMainFrame->m_dpi.ScaleFloorX(2));
     } else {
         CSize sz(m_pMainFrame->m_dpi.ScaleFloorX(8), m_pMainFrame->m_dpi.ScaleFloorY(7) + 1);
@@ -368,7 +368,7 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint point)
         CRect cRect = GetChannelRect();
         CPoint bottomRight = cRect.BottomRight();
         ClientToScreen(&bottomRight);
-        if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_BELOW_SEEKBAR && mi.rcWork.bottom > bottomRight.y + 8 + rc.Height()) {
+        if (AfxGetAppSettings().nHoverPosition == TIME_TOOLTIP_BELOW_SEEKBAR && mi.rcWork.bottom > bottomRight.y + 8 + rc.Height()) {
             point.y = cRect.BottomRight().y + 8;
         } else {
             point.y = cRect.TopLeft().y - (r_height + 13);
@@ -393,7 +393,7 @@ void CPlayerSeekBar::UpdateToolTipPosition(CPoint point)
         CRect windowRect;
         GetWindowRect(windowRect);
 
-        if (AfxGetAppSettings().nTimeTooltipPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
+        if (AfxGetAppSettings().nHoverPosition == TIME_TOOLTIP_ABOVE_SEEKBAR) {
             point.x -= bubbleSize.cx / 2 - 2;
             point.y = GetChannelRect().TopLeft().y - (bubbleSize.cy + m_pMainFrame->m_dpi.ScaleY(13));
         } else {
@@ -594,7 +594,7 @@ void CPlayerSeekBar::OnPaint()
     };
 
     const CAppSettings& s = AfxGetAppSettings();
-    if (s.bMPCTheme) {
+    if (AppIsThemeLoaded()) {
         // Thumb
         CRect r(GetThumbRect());
         m_lastThumbRect = r;
@@ -819,7 +819,7 @@ void CPlayerSeekBar::OnMouseMove(UINT nFlags, CPoint point)
 
     bool usepreview = m_bHasDuration && m_pMainFrame->CanPreviewUse();
 
-    if (usepreview || AfxGetAppSettings().fUseTimeTooltip) {
+    if (usepreview || AfxGetAppSettings().fUseSeekbarHover) {
         UpdateTooltip(point);
     }
 

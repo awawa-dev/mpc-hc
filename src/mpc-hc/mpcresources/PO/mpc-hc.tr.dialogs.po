@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Ali Kömesöğütlü <byzlo685@gmail.com>, 2020
-# Mücahid Aksel <mucahidaksel@gmail.com>, 2023
+# Mücahid Aksel <mucahidaksel@gmail.com>, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2024-01-05 15:29:45+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2023\n"
+"Last-Translator: Mücahid Aksel <mucahidaksel@gmail.com>, 2024\n"
 "Language-Team: Turkish (https://app.transifex.com/mpchc/teams/106126/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 msgctxt "IDD_SELECTMEDIATYPE_CAPTION"
 msgid "Select Media Type"
-msgstr "Medya Biçimi Seçimi"
+msgstr "Medya türü seçimi"
 
 msgctxt "IDD_SELECTMEDIATYPE_IDOK"
 msgid "OK"
@@ -45,11 +45,11 @@ msgstr "Ses"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_STATIC"
 msgid "Output"
-msgstr "Çıktı"
+msgstr "Çıkış"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK1"
 msgid "Record Video"
-msgstr "Video Kaydet"
+msgstr "Video kaydı al"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK2"
 msgid "Preview"
@@ -57,7 +57,7 @@ msgstr "Önizleme"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK3"
 msgid "Record Audio"
-msgstr "Ses Kaydet"
+msgstr "Ses kaydı al"
 
 msgctxt "IDD_CAPTURE_DLG_IDC_CHECK4"
 msgid "Preview"
@@ -78,7 +78,8 @@ msgstr "Kayıt"
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK2"
 msgid "Enable built-in audio switcher filter (requires restart)"
 msgstr ""
-"Dahili ses dönüştürücü filtresini kullan (yeniden başlatma gerektirir)"
+"Yerleşik ses değiştirici filtresini etkinleştir (yeniden başlatma "
+"gerektirir)"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK5"
 msgid "Normalize"
@@ -86,7 +87,7 @@ msgstr "Normalleştirme"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC4"
 msgid "Max amplification:"
-msgstr "Ses yükseltme oranı:"
+msgstr "Maksimum ses güçlendirme:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC5"
 msgid "%"
@@ -98,7 +99,7 @@ msgstr "Ses geri kazanımını kullan"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_STATIC6"
 msgid "Boost:"
-msgstr "Yükseltme:"
+msgstr "Ses yükseltme:"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK3"
 msgid "Down-sample to 44100 Hz"
@@ -106,7 +107,7 @@ msgstr "44100 Hz örneklemesine dönüştür"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK4"
 msgid "Audio time shift (ms):"
-msgstr "Ses süresi değişimi (ms):"
+msgstr "Ses zaman kaydırması (ms):"
 
 msgctxt "IDD_PPAGEAUDIOSWITCHER_IDC_CHECK1"
 msgid "Enable custom channel mapping"
@@ -134,8 +135,8 @@ msgid ""
 "Enter a timecode using the format [hh:]mm:ss.ms to jump to a specified time."
 " You do not need to enter the separators explicitly."
 msgstr ""
-"Belirtilmiş bir görüntüye atlamak için [ss:]dd:ss.ms biçimine uyarak bir "
-"süre girişi yapınız. Ayıraçları açık biçimde girmenize gerek yoktur."
+"Belirli bir zamana gitmek için [sa:]dk:sn.ms formatını kullanarak bir zaman "
+"kodu girin. Ayırıcıları girmeye açıkçası gerek yoktur."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Time"
@@ -150,12 +151,12 @@ msgid ""
 "Enter two numbers to jump to a specified frame, the first is the frame "
 "number, the second is the frame rate."
 msgstr ""
-"Belirtilmiş bir görüntüye atlamak için iki sayı giriniz; ilki kare sayısı, "
-"ikincisi görüntü hızı içindir."
+"Belirtilecek bir kareye atlamak için değer giriniz, ilki kare numarası, "
+"ikincisi kare hızı içindir."
 
 msgctxt "IDD_GOTO_DLG_IDC_STATIC"
 msgid "Frame"
-msgstr "Görüntü"
+msgstr "Kare"
 
 msgctxt "IDD_GOTO_DLG_IDC_OK2"
 msgid "Go!"
@@ -170,8 +171,8 @@ msgid ""
 "Type the address of a movie or audio file (on the Internet or your computer)"
 " and the player will open it for you."
 msgstr ""
-"Bir video veya ses dosyası adresi giriniz (internetteki veya "
-"bilgisayarınızdaki). Oynatıcı dosyayı sizin için yürütecektir..."
+"Bir video veya ses dosyası adresi (internet veya bilgisayarınızdaki) "
+"giriniz. Oynatıcı dosyayı sizin için yürütecektir."
 
 msgctxt "IDD_OPEN_DLG_IDC_STATIC"
 msgid "Open:"
@@ -206,14 +207,13 @@ msgid "About"
 msgstr "Hakkında"
 
 msgctxt "IDD_ABOUTBOX_IDC_AUTHORS_LINK"
-msgid "Copyright 2002-2023 clsid2 and others"
-msgstr "Telif hakkı 2002-2023 clsid2 ve diğerleri"
+msgid "Copyright 2002-2024 clsid2 and others"
+msgstr "Telif hakkı 2002-2024 clsid2 ve diğerleri"
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid ""
 "This program is freeware and released under the GNU General Public License."
-msgstr ""
-"Bu yazılım ücretsizdir ve Genel Kamu Lisansı (GNU) ile yayınlanmıştır."
+msgstr "Bu yazılım ücretsizdir ve GNU Genel Kamu Lisansı ile yayınlanmıştır."
 
 msgctxt "IDD_ABOUTBOX_IDC_STATIC"
 msgid "English translation made by MPC-HC Team"
@@ -268,10 +268,6 @@ msgid "Open a new player for each media file played"
 msgstr "Yürütülen her medya dosyası için yeni bir oynatıcı aç"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
-msgid "Language"
-msgstr "Dil"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_STATIC"
 msgid "Title bar"
 msgstr "Başlık çubuğu"
 
@@ -297,19 +293,7 @@ msgstr "Diğer"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK3"
 msgid "Tray icon"
-msgstr "Simge durumunda göster"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_SHOW_OSD"
-msgid "Show OSD (requires restart)"
-msgstr "OSD göster (yeniden başlatma gerektirir)"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK4"
-msgid "Limit window proportions on resize"
-msgstr "Boyutlandırırken pencere oranlarını sınırla"
-
-msgctxt "IDD_PPAGEPLAYER_IDC_CHECK12"
-msgid "Snap to desktop edges"
-msgstr "Masaüstü kenarlarına yapış"
+msgstr "Görev çubuğu sistem tepsisinde göster"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK8"
 msgid "Store settings in .ini file"
@@ -317,7 +301,7 @@ msgstr "Ayarları .ini dosyasında sakla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK10"
 msgid "Disable \"Open Disc\" menu"
-msgstr "\"CD-ROM aç\" menüsünü kapat"
+msgstr "\"Diski aç\" menüsünü devre dışı bırak"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK9"
 msgid "Process priority above normal"
@@ -357,11 +341,11 @@ msgstr "Son pencere boyutunu hatırla"
 
 msgctxt "IDD_PPAGEPLAYER_IDC_CHECK11"
 msgid "Remember last Pan && Scan Zoom"
-msgstr "Son Süzme ve Tarama ayarlarını hatırla"
+msgstr "Son kare uyarlama (PnS) yakınlaştırmasını hatırla"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "\"Open DVD/BD\" behavior"
-msgstr "\"DVD/BD Aç\" ayarları"
+msgstr "\"DVD/Blu-ray aç\" davranışı"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO1"
 msgid "Prompt for location"
@@ -369,7 +353,7 @@ msgstr "Konum bilgisi iste"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO2"
 msgid "Always open the default location:"
-msgstr "Varsayılan konumu aç:"
+msgstr "Her zaman varsayılan konumu aç:"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Preferred language for DVD"
@@ -385,7 +369,7 @@ msgstr "Ses"
 
 msgctxt "IDD_PPAGEDVD_IDC_RADIO5"
 msgid "Subtitles"
-msgstr "Altyazılar"
+msgstr "Altyazı"
 
 msgctxt "IDD_PPAGEDVD_IDC_STATIC"
 msgid "Additional settings"
@@ -405,7 +389,7 @@ msgstr "Düzey"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Min"
-msgstr "Alçak"
+msgstr "Düşük"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Max"
@@ -429,7 +413,7 @@ msgstr "Kontrol"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Volume step:"
-msgstr "Ses oranı:"
+msgstr "Ses değişim oranı:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "%"
@@ -437,7 +421,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Speed step:"
-msgstr "Hız oranı:"
+msgstr "Hız değişim oranı:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Playback"
@@ -457,11 +441,11 @@ msgstr "kez oynat"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Repeat mode:"
-msgstr "Tekrar kipi:"
+msgstr "Tekrar modu:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "After Playback"
-msgstr "Oynatmadan Sonra"
+msgstr "Oynatmadan sonra"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Zoom and Alignment"
@@ -469,11 +453,11 @@ msgstr "Yakınlaştırma ve Hizalama"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK5"
 msgid "Auto-zoom:"
-msgstr "Büyütme oranı:"
+msgstr "Otomatik yakınlaştır:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC2"
 msgid "Auto fit factor:"
-msgstr "Yüzdelik boyut:"
+msgstr "Otomatik uyum faktörü:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC3"
 msgid "%"
@@ -485,11 +469,11 @@ msgstr "Dikey hizalama:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Default track preference"
-msgstr "Varsayılan parça seçimi"
+msgstr "Varsayılan parça tercihi"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Subtitles:"
-msgstr "Altyazılar:"
+msgstr "Altyazı:"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Audio:"
@@ -501,7 +485,7 @@ msgstr "Harici ayırıcı tercihlerini geçersiz kıl"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_STATIC"
 msgid "Open settings"
-msgstr "Genel Ayarlar"
+msgstr "Başlangıç ayarları"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK7"
 msgid "Use worker thread to construct the filter graph"
@@ -509,7 +493,7 @@ msgstr "Filtre grafiğini oluşturmak için üstlenici izlek özelliğini kullan
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK6"
 msgid "Report pins which fail to render"
-msgstr "Video işleyicisinin başarısız olduğu işlemleri rapor et"
+msgstr "İşlenemeyen bağlantı noktalarını bildir"
 
 msgctxt "IDD_PPAGEPLAYBACK_IDC_CHECK2"
 msgid "Auto-load audio files"
@@ -517,7 +501,7 @@ msgstr "Ses dosyalarını otomatik olarak yükle"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK3"
 msgid "Override placement"
-msgstr "Özel yerleşim oranları"
+msgstr "Özel yerleşim ayarları"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC1"
 msgid "Horizontal:"
@@ -537,7 +521,7 @@ msgstr "%"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Delay step"
-msgstr "Gecikme oranı"
+msgstr "Gecikme aralığı"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "ms"
@@ -545,11 +529,11 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Texture settings (open the video again to see the changes)"
-msgstr "Kaplama ayarları (değişiklikleri görmek için video'yu tekrar açınız)"
+msgstr "Doku ayarları (değişiklikleri görmek için videoyu tekrar açın)"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Sub pictures to buffer:"
-msgstr "Tamponlanarak okunacak resim sayısı:"
+msgstr "Arabelleğe alınacak alt resim sayısı:"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Maximum texture resolution:"
@@ -573,19 +557,20 @@ msgstr "Hareketlendirmeyi %"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC8"
 msgid "% of the video frame rate"
-msgstr "oranında video görüntü hızına uygula"
+msgstr "oranında video kare hızına uygula"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_ALLOW_DROPPING_SUBPIC"
 msgid "Allow dropping some subpictures if the queue is running late"
-msgstr "Uzun hareketlendirmeleri videoyla uyumlu olacak şekilde eşzamanla"
+msgstr ""
+"Sıra gecikiyorsa altyazı alt resimlerinden bazılarının atlanmasına izin ver"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Renderer Layout"
-msgstr "İşleyici yerleşimi"
+msgstr "İşleyici düzeni"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_CHECK_SUB_AR_COMPENSATION"
 msgid "Apply aspect ratio compensation for anamorphic videos"
-msgstr "Sıkıştırılmış dosyalar için taraf oranı dengelemesini kullan"
+msgstr "Anamorfik videolar için en boy oranı telafisi uygula"
 
 msgctxt "IDD_PPAGESUBTITLES_IDC_STATIC"
 msgid "Warning"
@@ -623,15 +608,15 @@ msgstr "Her dosya biçimi için ayrı bir simge kullan"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON1"
 msgid "Run as &administrator"
-msgstr "Y&önetici olarak çalıştır"
+msgstr "&Yönetici olarak çalıştır"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_BUTTON7"
 msgid "Set as &default program"
-msgstr "V&arsayılan uygulama olarak ayarla"
+msgstr "&Varsayılan uygulama olarak ayarla"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_STATIC"
 msgid "Explorer Context Menu"
-msgstr "Sağ tuş menüsü"
+msgstr "Windows sağ tık menüsü"
 
 msgctxt "IDD_PPAGEFORMATS_IDC_CHECK6"
 msgid "Directory"
@@ -669,22 +654,6 @@ msgctxt "IDD_PPAGETWEAKS_IDC_BUTTON1"
 msgid "Default"
 msgstr "Varsayılan"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_SEEK_PREVIEW"
-msgid "Show preview on seek bar"
-msgstr "İlerleme çubuğunda önizleme göster"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "Preview width (% of screen width)"
-msgstr "Önizleme boyutu (ekran genişliğinin yüzdesi)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
-msgid "Fast seek (on keyframe)"
-msgstr "Hızlı oynatma (çerçeve içinde)"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK2"
-msgid "Show chapter marks in seek bar"
-msgstr "Bölüm işaretlerini ilerleme çubuğunda göster"
-
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK3"
 msgid "Auto-hide the mouse pointer during playback in windowed mode"
 msgstr "Pencere kipinde oynatırken fare imlecini otomatik gizle"
@@ -693,18 +662,16 @@ msgctxt "IDD_PPAGETWEAKS_IDC_CHECK4"
 msgid "Display \"Now Playing\" information in Skype's mood message"
 msgstr "Skype durumum kısmında \"Oynatılıyor\" bilgisini göster"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_ENHANCED_TASKBAR"
-msgid "Use enhanced taskbar features"
-msgstr "Geliştirilmiş görev çubuğu özelliklerini kullan"
-
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK_LCD"
 msgid "Enable Logitech LCD support (experimental)"
-msgstr "Logitech LCD desteğini kullan (deneysel)"
+msgstr "Logitech LCD desteğini etkinleştir (deneysel)"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK6"
 msgid ""
 "Prevent minimizing the player when in fullscreen on a non default monitor"
-msgstr "Varsayılan monitör dışında tam ekranda iken küçültmeye izin verme"
+msgstr ""
+"Oynatıcının varsayılan olmayan monitörde tam ekrandayken simge durumuna "
+"getirilmesine engel ol"
 
 msgctxt "IDD_PPAGETWEAKS_IDC_CHECK7"
 msgid ""
@@ -714,17 +681,13 @@ msgstr ""
 "Oynatma listesinde tek medya varken \"Önceki / Sonraki bölüm\" tuşuyla "
 "önceki/sonraki dosyayı aç"
 
-msgctxt "IDD_PPAGETWEAKS_IDC_CHECK8"
-msgid "Show time tooltip (and preview):"
-msgstr "Zaman (ve önizleme) bilgi kutusunu göster:"
-
-msgctxt "IDD_PPAGETWEAKS_IDC_STATIC"
-msgid "OSD font:"
-msgstr "OSD yazı tipi:"
+msgctxt "IDD_PPAGETWEAKS_IDC_FASTSEEK_CHECK"
+msgid "Fast seek (on keyframe)"
+msgstr "Hızlı izlem (anahtar kare üzerinde)"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON1"
 msgid "Add Filter..."
-msgstr "Filtre Ekle..."
+msgstr "Filtre ekle..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON2"
 msgid "Remove"
@@ -732,15 +695,15 @@ msgstr "Sil"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO1"
 msgid "Prefer"
-msgstr "Tercih Et"
+msgstr "Tercih et"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO2"
 msgid "Block"
-msgstr "Önle"
+msgstr "Bloke et"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_RADIO3"
 msgid "Set merit:"
-msgstr "Değer Seçimi:"
+msgstr "Seçim değeri:"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON3"
 msgid "Up"
@@ -752,11 +715,11 @@ msgstr "Aşağı"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON5"
 msgid "Add Media Type..."
-msgstr "Medya Biçimi Ekle..."
+msgstr "Medya türü ekle..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON6"
 msgid "Add Sub Type..."
-msgstr "Altyazı Biçimi Ekle..."
+msgstr "Alt tür ekle..."
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON7"
 msgid "Delete"
@@ -764,11 +727,11 @@ msgstr "Sil"
 
 msgctxt "IDD_PPAGEEXTERNALFILTERS_IDC_BUTTON8"
 msgid "Reset List"
-msgstr "Listeyi Sıfırla"
+msgstr "Listeyi sıfırla"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Type:"
-msgstr "Biçim:"
+msgstr "Tür:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Size:"
@@ -784,7 +747,7 @@ msgstr "Video boyutu:"
 
 msgctxt "IDD_FILEPROPDETAILS_IDC_STATIC"
 msgid "Created:"
-msgstr "Oluşturma:"
+msgstr "Oluşturuldu:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Clip:"
@@ -800,7 +763,7 @@ msgstr "Telif hakkı:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Rating:"
-msgstr "Beğenilme:"
+msgstr "Değerlendirme:"
 
 msgctxt "IDD_FILEPROPCLIP_IDC_STATIC"
 msgid "Location:"
@@ -812,7 +775,7 @@ msgstr "Açıklama:"
 
 msgctxt "IDD_FAVADD_CAPTION"
 msgid "Add Favorite"
-msgstr "Favorilere Ekle"
+msgstr "Favorilere ekle"
 
 msgctxt "IDD_FAVADD_IDC_STATIC"
 msgid "Choose a name for your shortcut:"
@@ -824,7 +787,7 @@ msgstr "Yerleşimi hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK3"
 msgid "Remember A-B repeat marks"
-msgstr "A-B tekrarlama noktalarını hatırla"
+msgstr "A-B tekrar noktalarını hatırla"
 
 msgctxt "IDD_FAVADD_IDC_CHECK2"
 msgid "Relative drive"
@@ -840,7 +803,7 @@ msgstr "İptal"
 
 msgctxt "IDD_FAVORGANIZE_CAPTION"
 msgid "Organize Favorites"
-msgstr "Favorileri Düzenle"
+msgstr "Favorileri düzenle"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON1"
 msgid "Rename"
@@ -848,11 +811,11 @@ msgstr "Adlandır"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON3"
 msgid "Move Up"
-msgstr "Yukarı Taşı"
+msgstr "Yukarı taşı"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON4"
 msgid "Move Down"
-msgstr "Aşağı Taşı"
+msgstr "Aşağı taşı"
 
 msgctxt "IDD_FAVORGANIZE_IDC_BUTTON2"
 msgid "Delete"
@@ -864,7 +827,7 @@ msgstr "Tamam"
 
 msgctxt "IDD_PNSPRESET_DLG_CAPTION"
 msgid "PnS Frame Adjust Presets"
-msgstr ""
+msgstr "Kare uyarlama (PnS) ön ayarları"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_BUTTON2"
 msgid "New"
@@ -900,7 +863,7 @@ msgstr "Yer: 0.0 -> 1.0"
 
 msgctxt "IDD_PNSPRESET_DLG_IDC_STATIC"
 msgid "Zoom: 0.2 -> 3.0"
-msgstr "Büyüt: 0.2 -> 3.0"
+msgstr "Yakınlaştır: 0.2 -> 3.0"
 
 msgctxt "IDD_PPAGEACCELTBL_CAPTION"
 msgid "Shortcut Keys"
@@ -908,15 +871,15 @@ msgstr "Kısayol Tuşları"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_CHECK2"
 msgid "Global Media Keys"
-msgstr "Genel Medya Tuşları"
+msgstr "Global Medya Tuşları"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON1"
 msgid "Select All"
-msgstr "Tümünü Seç"
+msgstr "Tümünü seç"
 
 msgctxt "IDD_PPAGEACCELTBL_IDC_BUTTON2"
 msgid "Reset Selected"
-msgstr "Seçimi Sıfırla"
+msgstr "Seçimi sıfırla"
 
 msgctxt "IDD_MEDIATYPES_DLG_CAPTION"
 msgid "Warning"
@@ -927,12 +890,12 @@ msgid ""
 "MPC-HC could not render some of the pins in the graph, you may not have the "
 "needed codecs or filters installed on the system."
 msgstr ""
-"MPC-HC, grafikteki bazı görüntüleri gösteremedi. Gerekli kodek veya "
-"filtreler mevcut değil ya da sisteminize yüklenmemiş olabilir."
+"MPC-HC grafikteki bazı bağlantı noktalarını işleyemedi, sisteminizde gerekli"
+" kodek veya filtreler yüklü olmayabilir."
 
 msgctxt "IDD_MEDIATYPES_DLG_IDC_STATIC2"
 msgid "The following pin(s) failed to find a connectable filter:"
-msgstr "Aşağıdaki işlem(ler) uygun bir filtre bulmakta başarısız oldu:"
+msgstr "Aşağıdaki bağlantı noktaları bağlanabilecek bir filtre bulamadı:"
 
 msgctxt "IDD_MEDIATYPES_DLG_IDOK"
 msgid "Close"
@@ -1008,15 +971,15 @@ msgstr "İptal"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Font"
-msgstr "Yazı Tipi"
+msgstr "Yazı tipi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_BUTTON1"
 msgid "Font"
-msgstr "Yazı Tipi"
+msgstr "Yazı tipi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Spacing"
-msgstr "Aralık boyutu"
+msgstr "Aralık mesafesi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Angle (z,°)"
@@ -1036,15 +999,15 @@ msgstr "Kenarlık Biçimi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO1"
 msgid "Outline"
-msgstr "Çizgisel"
+msgstr "Dış çizgi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_RADIO2"
 msgid "Opaque box"
-msgstr "Saydam kutu"
+msgstr "Mat kutu"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Width"
-msgstr "Kenar genişliği"
+msgstr "Genişlik"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Shadow"
@@ -1052,23 +1015,23 @@ msgstr "Gölge"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Screen Alignment && Margins"
-msgstr "Ekran Yerleşimi && Kenarlar"
+msgstr "Ekranda yerleşim && Kenar boşlukları"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Left"
-msgstr "Sola"
+msgstr "Solda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Right"
-msgstr "Sağa"
+msgstr "Sağda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Top"
-msgstr "Yukarı"
+msgstr "Yukarıda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Bottom"
-msgstr "Aşağı"
+msgstr "Aşağıda"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK_RELATIVETO"
 msgid "Position subtitles relative to the video frame"
@@ -1096,7 +1059,7 @@ msgstr "İkincil"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC"
 msgid "Outline"
-msgstr "Çizgi"
+msgstr "Dış çizgi"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK1"
 msgid "Link alpha channels"
@@ -1112,15 +1075,15 @@ msgstr "OpenType Dili"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_STATIC_LIBASS"
 msgid "Libass Options"
-msgstr "Libass Seçenekleri"
+msgstr "Libass seçenekleri"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK2"
 msgid "Use libass for SSA/ASS"
-msgstr "SSA/ASS için libass kullan"
+msgstr "SSA/ASS uzantıları için libass kullan"
 
 msgctxt "IDD_PPAGESUBSTYLE_IDC_CHECK3"
 msgid "Use libass for SRT"
-msgstr "SRT için libass kullan"
+msgstr "SRT uzantısı için libass kullan"
 
 msgctxt "IDD_PPAGEINTERNALFILTERS_IDC_STATIC"
 msgid ""
@@ -1172,11 +1135,11 @@ msgstr "Monitör renk profilini uygula"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DirectShow Video"
-msgstr "DirectShow Videosu"
+msgstr "DirectShow Video"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON1"
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "DXVA"
@@ -1204,7 +1167,7 @@ msgstr "Ses İşleyicisi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_BUTTON2"
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Subtitle Renderer"
@@ -1220,11 +1183,11 @@ msgstr "Yüzey:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_STATIC"
 msgid "Resizer:"
-msgstr "Yakınlaştırma:"
+msgstr "Boyutlandırıcı:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_D3D9DEVICE"
 msgid "Select D3D9 Render Device"
-msgstr "D3D9 İşleyici aygıtı seçimi"
+msgstr "D3D9 işleme aygıtı seçimi"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_RESETDEVICE"
 msgid "Reinitialize when changing display"
@@ -1232,7 +1195,7 @@ msgstr "Ekranı değiştirirken yeniden başlat"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_FULLSCREEN_MONITOR_CHECK"
 msgid "D3D Fullscreen"
-msgstr "Tam Ekran Direct3D (kopuklukları sil)"
+msgstr "D3D Tam ekran"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_DSVMR9ALTERNATIVEVSYNC"
 msgid "Alternative VSync"
@@ -1248,7 +1211,7 @@ msgstr "GVI Tamponları:"
 
 msgctxt "IDD_PPAGEOUTPUT_IDC_CACHESHADERS"
 msgid "Cache compiled Shaders"
-msgstr "Derlenmiş Tonlayıcıları önbellekle"
+msgstr "Derlenmiş tonlayıcıları önbelleğe al"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK1"
 msgid "Listen on port:"
@@ -1256,7 +1219,7 @@ msgstr "Bağlantı noktasını dinle:"
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_STATIC1"
 msgid "Launch in web browser..."
-msgstr "İnternet tarayıcısında başlatın..."
+msgstr "Tarayıcıda başlat..."
 
 msgctxt "IDD_PPAGEWEBSERVER_IDC_CHECK3"
 msgid "Enable compression"
@@ -1324,11 +1287,11 @@ msgstr "Ara"
 
 msgctxt "IDD_FILEPROPRES_IDC_BUTTON1"
 msgid "Save As..."
-msgstr "Farklı Kaydet..."
+msgstr "Farklı kaydet..."
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Color controls (for VMR-9, EVR and madVR)"
-msgstr "Renk kontrolleri (VKI-9, GVI ve madVR için)"
+msgstr "Renk kontrolleri (VKİ-9, GVİ ve madVR için)"
 
 msgctxt "IDD_PPAGEMISC_IDC_STATIC"
 msgid "Brightness"
@@ -1376,11 +1339,11 @@ msgstr "Sıfırla"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_SETTINGS"
 msgid "Export"
-msgstr "Dışa aktar"
+msgstr "Ayarları dışa aktar"
 
 msgctxt "IDD_PPAGEMISC_IDC_EXPORT_KEYS"
 msgid "Export keys"
-msgstr "Tuş Ayarlarını Aktar"
+msgstr "Kısayolları dışa aktar"
 
 msgctxt "IDD_TUNER_SCAN_CAPTION"
 msgid "Tuner scan"
@@ -1416,11 +1379,11 @@ msgstr "Kaydet"
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "S"
-msgstr "S"
+msgstr "Kuv."
 
 msgctxt "IDD_TUNER_SCAN_IDC_STATIC"
 msgid "Q"
-msgstr "Q"
+msgstr "Kal."
 
 msgctxt "IDD_TUNER_SCAN_IDC_CHECK_OFFSET"
 msgid "Use an offset"
@@ -1432,7 +1395,7 @@ msgstr "Symbol Rate"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_STATIC"
 msgid "Default Device"
-msgstr "Varsayılan Aygıt"
+msgstr "Varsayılan aygıt"
 
 msgctxt "IDD_PPAGECAPTURE_IDC_RADIO1"
 msgid "Analog"
@@ -1488,7 +1451,7 @@ msgstr "Filtre grafiği durdur"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCVIDEO"
 msgid "Sync video to display"
-msgstr "Video'yu görüntüye eşzamanla"
+msgstr "Videoyu ekranla senkronize et"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC1"
 msgid "Frequency adjustment:"
@@ -1496,7 +1459,7 @@ msgstr "Frekans düzeltmesi:"
 
 msgctxt "IDD_PPAGESYNC_IDC_SYNCDISPLAY"
 msgid "Sync display to video"
-msgstr "Görüntüyü video'ya eşzamanla"
+msgstr "Ekranı video ile senkronize et"
 
 msgctxt "IDD_PPAGESYNC_IDC_STATIC2"
 msgid "Frequency adjustment:"
@@ -1554,11 +1517,11 @@ msgstr "ms"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK6"
 msgid "Hide docked panels"
-msgstr "Yerleşik panelleri gizle"
+msgstr "Yapıştırılmış panelleri gizle"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK5"
 msgid "Exit fullscreen at the end of playback"
-msgstr "Oynatmadan sonra tam ekrandan çık"
+msgstr "Oynatmanın sonunda tam ekrandan çık"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Fullscreen monitor"
@@ -1586,11 +1549,11 @@ msgstr "Aşağı"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_CHECK3"
 msgid "Apply default monitor mode on fullscreen exit"
-msgstr "Varsayılan monitör kipini tam ekrandan çıkışta uygula"
+msgstr "Tam ekran çıkışında varsayılan monitör kipini uygula"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_RESTORERESCHECK"
 msgid "Restore resolution on program exit"
-msgstr "Çözünürlüğü çıkışta geri al"
+msgstr "Program çıkışında çözünürlüğü eski haline getir"
 
 msgctxt "IDD_PPAGEFULLSCREEN_IDC_STATIC"
 msgid "Delay"
@@ -1610,11 +1573,11 @@ msgstr "Tara"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK1"
 msgid "Prefer forced and/or default subtitles tracks"
-msgstr "Zorlanmış ve/veya varsayılan altyazı izlerini tercih et"
+msgstr "Zorlanmış veya varsayılan altyazıları tercih et"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK2"
 msgid "Prefer external subtitles over embedded subtitles"
-msgstr "Her zaman harici altyazıları tercih et"
+msgstr "Dahili altyazılar yerine harici altyazıları tercih et"
 
 msgctxt "IDD_PPAGESUBMISC_IDC_CHECK3"
 msgid "Ignore embedded subtitles"
@@ -1660,7 +1623,7 @@ msgstr ""
 
 msgctxt "IDD_UPDATE_DIALOG_CAPTION"
 msgid "Update Checker"
-msgstr "Güncelleştirme"
+msgstr "Güncelleştirme denetleyicisi"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_DL_BUTTON"
 msgid "&Download now"
@@ -1672,18 +1635,18 @@ msgstr "Daha sonra &hatırlat"
 
 msgctxt "IDD_UPDATE_DIALOG_IDC_UPDATE_IGNORE_BUTTON"
 msgid "&Ignore this update"
-msgstr "&Bu güncelleştirmeyi gizle"
+msgstr "Bu güncellemeyi &yoksay"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid ""
 "Shaders contain special effects which can be added to the video rendering "
 "process."
 msgstr ""
-"Tonlayıcılar, video çözücü işlemine eklenebilecek özel efektleri içerirler."
+"Tonlayıcılar, video işleme sürecine eklenebilecek özel efektleri içerirler."
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON12"
 msgid "Add shader file"
-msgstr "Tonlama dosyası ekle"
+msgstr "Tonlayıcı dosyası ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON13"
 msgid "Remove"
@@ -1699,7 +1662,7 @@ msgstr "Arka tonlayıcı ekle"
 
 msgctxt "IDD_PPAGESHADERS_IDC_STATIC"
 msgid "Shader presets"
-msgstr "Önayarlı Tonlayıcılar"
+msgstr "Tonlayıcı önayarları"
 
 msgctxt "IDD_PPAGESHADERS_IDC_BUTTON3"
 msgid "Load"
@@ -1731,11 +1694,11 @@ msgstr ""
 
 msgctxt "IDD_DEBUGSHADERS_DLG_CAPTION"
 msgid "Debug Shaders"
-msgstr "Tonlama hata ayıklayıcı"
+msgstr "Tonlayıcı hata ayıklayıcısı"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_STATIC"
 msgid "Debug Information"
-msgstr "Hata Ayıklama Bilgisi"
+msgstr "Hata ayıklama bilgileri"
 
 msgctxt "IDD_DEBUGSHADERS_DLG_IDC_RADIO1"
 msgid "PS 2.0"
@@ -1772,7 +1735,7 @@ msgstr "Varsayılan"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_CHECK5"
 msgid "SaneAR Audio Renderer Enabled"
-msgstr "SaneAR Ses İşleyicisini Aktifleştir"
+msgstr "SaneAR ses işleyicisini etkinleştir"
 
 msgctxt "IDD_PPAGEAUDIORENDERER_IDC_STATIC5"
 msgid "Device"
@@ -1875,11 +1838,11 @@ msgstr "Sorun açıklaması (lütfen sadece İngilizce bildiriniz):"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON1"
 msgid "Restart MPC-HC"
-msgstr "MPC-HC 'yi yeniden başlat"
+msgstr "MPC-HC'yi yeniden başlat"
 
 msgctxt "IDD_CRASH_REPORTER_IDC_BUTTON2"
 msgid "Quit MPC-HC"
-msgstr "MPC-HC'yi Kapat"
+msgstr "MPC-HC'den çık"
 
 msgctxt "IDD_PPAGEDPICALC_IDC_STATIC1"
 msgid "Groupbox"
@@ -1890,17 +1853,113 @@ msgid "Autoplay"
 msgstr "Autoplay"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC1"
-msgid "Modern Theme Settings (require restart)"
-msgstr "Modern Tema Ayarları (yeniden başlatma gerektirir)"
+msgid "Theme"
+msgstr "Tema"
 
 msgctxt "IDD_PPAGETHEME_IDC_CHECK1"
 msgid "Use Modern Theme"
-msgstr "Modern Tema kullan"
-
-msgctxt "IDD_PPAGETHEME_IDC_STATIC"
-msgid "Modern Seekbar height:"
-msgstr "Modern İlerleme çubuğu yüksekliği:"
+msgstr "Modern temayı kullan"
 
 msgctxt "IDD_PPAGETHEME_IDC_STATIC2"
 msgid "Modern Theme Color:"
-msgstr "Modern Tema Rengi:"
+msgstr "Tema rengi:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC3"
+msgid "Control buttons size:"
+msgstr "Kontrol düğmelerinin boyutu:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC4"
+msgid "Seekbar"
+msgstr "İzlem çubuğu"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Modern Seekbar height:"
+msgstr "İzlem çubuğu yüksekliği:"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK8"
+msgid "Hover:"
+msgstr "Gösterge:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC8"
+msgid "Hover type:"
+msgstr "Gösterge türü:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC7"
+msgid "Preview width (% of screen)"
+msgstr "Önizleme genişliği (ekranın yüzdesi)"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK2"
+msgid "Show chapter marks on seekbar"
+msgstr "Bölüm işaretlerini izlem çubuğunda göster"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC10"
+msgid "Status Bar Elements"
+msgstr "Durum çubuğu öğeleri"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK3"
+msgid "Track Language"
+msgstr "Parça dili"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK4"
+msgid "Video Info"
+msgstr "Video bilgisi"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK5"
+msgid "FPS"
+msgstr "FPS"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK6"
+msgid "A-B Marks"
+msgstr "A-B noktaları"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC21"
+msgid "Language"
+msgstr "Dil"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC5"
+msgid "Language:"
+msgstr "Diller:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC9"
+msgid "On Screen Display (OSD)"
+msgstr "Ekran Üzerindeki Gösterge (OSD)"
+
+msgctxt "IDD_PPAGETHEME_IDC_SHOW_OSD"
+msgid "Show OSD (requires restart)"
+msgstr "OSD'yi göster (yeniden başlatma gerektirir)"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC6"
+msgid "Font:"
+msgstr "Yazı tipi:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC23"
+msgid "Font size:"
+msgstr "Yazı boyutu:"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Window Behavior"
+msgstr "Pencere davranışı"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK7"
+msgid "Limit window proportions on resize"
+msgstr "Boyutlandırırken pencere oranlarını sınırla"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK9"
+msgid "Snap to desktop edges"
+msgstr "Masaüstü kenarlarına yapış"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK10"
+msgid "Hide Windowed Controls"
+msgstr "Penceredeyken kontrolleri otomatik gizle"
+
+msgctxt "IDD_PPAGETHEME_IDC_STATIC"
+msgid "Windows Integration"
+msgstr "Windows entegrasyonu"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK_ENHANCED_TASKBAR"
+msgid "Use enhanced taskbar features"
+msgstr "Geliştirilmiş görev çubuğu özelliklerini kullan"
+
+msgctxt "IDD_PPAGETHEME_IDC_CHECK11"
+msgid "Control via Windows UI (SMTC)"
+msgstr "Windows UI (SMTC) üzerinden kontrol"

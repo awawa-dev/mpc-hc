@@ -55,7 +55,7 @@ void CMPCThemeEdit::PreSubclassWindow()
 
 void CMPCThemeEdit::OnNcPaint()
 {
-    if (AppIsThemeLoaded()) {
+    if (AppNeedsThemedControls()) {
         if (0 != (GetStyle() & (WS_VSCROLL | WS_HSCROLL))) {  //scrollable edit will be treated like a window, not a field
             if (nullptr != themedSBHelper) {
                 themedSBHelper->themedNcPaintWithSB();

@@ -4,13 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # geogeo.gr <geogeo.gr@gmail.com>, 2021
+# George Mantratzis, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: geogeo.gr <geogeo.gr@gmail.com>, 2021\n"
+"Last-Translator: George Mantratzis, 2023\n"
 "Language-Team: Greek (https://app.transifex.com/mpchc/teams/106126/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -444,7 +445,7 @@ msgstr "Διόρθωση οθόνης/Διαφορά αναλογιών"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "P&nS Ρύθμιση Πλαισίου"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

@@ -22,16 +22,9 @@
 #include "stdafx.h"
 #include "RenderersSettings.h"
 #include <VersionHelpers.h>
-#include "../../../mpc-hc/AppSettings.h"
-#include "../../../mpc-hc/mplayerc.h"
 #include <mpc-hc_config.h>
 #include <d3d9.h>
 #include "d3dx9/d3dx9.h"
-
-void CRenderersSettings::UpdateData(bool fSave)
-{
-    AfxGetAppSettings().UpdateRenderersData(fSave);
-}
 
 void CRenderersSettings::CAdvRendererSettings::SetDefault()
 {

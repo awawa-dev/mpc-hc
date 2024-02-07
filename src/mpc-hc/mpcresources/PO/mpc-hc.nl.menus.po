@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Arne Bezuijen <transifex@arnage.nl>, 2021
-# Renz Straatman <renz75@outlook.com>, 2021
+# Renz Straatman <renz75@outlook.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Renz Straatman <renz75@outlook.com>, 2021\n"
+"Last-Translator: Renz Straatman <renz75@outlook.com>, 2023\n"
 "Language-Team: Dutch (https://app.transifex.com/mpchc/teams/106126/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr "Bestand &openen..."
 
 msgctxt "ID_FILE_OPENDVDBD"
 msgid "Open &DVD/BD..."
-msgstr "&DVD/BD openen..."
+msgstr "&DVD of Blu-ray openen..."
 
 msgctxt "ID_FILE_OPENDEVICE"
 msgid "Open De&vice..."
@@ -53,7 +53,7 @@ msgstr "&Recente bestanden"
 
 msgctxt "ID_FILE_CLOSE_AND_RESTORE"
 msgid "&Close"
-msgstr "Sl&uiten"
+msgstr "Sl&uit"
 
 msgctxt "ID_FILE_SAVE_COPY"
 msgid "&Save a Copy..."
@@ -121,11 +121,11 @@ msgstr "Statistieken"
 
 msgctxt "ID_VIEW_STATUS"
 msgid "St&atus"
-msgstr "St&atus"
+msgstr "St&atusbalk"
 
 msgctxt "ID_VIEW_SUBRESYNC"
 msgid "Su&bresync"
-msgstr "Ondertiteling verschuiven"
+msgstr "Ondertiteling-correctie"
 
 msgctxt "ID_VIEW_PLAYLIST"
 msgid "Pla&ylist"
@@ -253,7 +253,7 @@ msgstr "Aero uitschakelen tijdens afspelen"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Beeldtijd correctie inschakelen"
+msgstr "Framerate-correctie inschakelen"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -445,7 +445,7 @@ msgstr "Afwijking beeldschermverhouding corrigeren"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "PnS framerate aanpassen"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -513,7 +513,7 @@ msgstr "Resetten"
 
 msgctxt "POPUP"
 msgid "On &Top"
-msgstr "Op voorgrond"
+msgstr "Altijd op voorgrond"
 
 msgctxt "ID_ONTOP_DEFAULT"
 msgid "&Default"
@@ -533,7 +533,7 @@ msgstr "Tijdens afspelen video"
 
 msgctxt "ID_VIEW_OPTIONS"
 msgid "&Options..."
-msgstr "&Opties..."
+msgstr "&Opties"
 
 msgctxt "POPUP"
 msgid "&Play"

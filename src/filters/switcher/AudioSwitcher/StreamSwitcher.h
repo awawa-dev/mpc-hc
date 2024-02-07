@@ -118,6 +118,7 @@ class CStreamSwitcherInputPin : public CBaseInputPin, public IPinConnection, pub
 
     CAMEvent m_evBlock;
     bool m_fCanBlock;
+    bool m_bFirstSampleReceived;
     HRESULT Active();
     HRESULT Inactive();
 

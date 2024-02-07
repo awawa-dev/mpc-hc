@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Christian Elbrianno, 2021
+# Christian Elbrianno <christian.elbrianno41@gmail.com>, 2021
+# CPM GAMERS, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2021-08-25 14:36:40+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Christian Elbrianno, 2021\n"
-"Language-Team: Indonesian (https://www.transifex.com/mpchc/teams/106126/id/)\n"
+"Last-Translator: CPM GAMERS, 2023\n"
+"Language-Team: Indonesian (https://app.transifex.com/mpchc/teams/106126/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -88,7 +89,7 @@ msgstr "Pr&operti"
 
 msgctxt "ID_FILE_OPEN_LOCATION"
 msgid "Open File &Location"
-msgstr ""
+msgstr "Buka File &Lokasi"
 
 msgctxt "ID_FILE_EXIT"
 msgid "E&xit"
@@ -444,7 +445,7 @@ msgstr "&Koreksi Beda AR Monitor/Destop"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "Pengaturan Bingkai P&nS"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -492,19 +493,19 @@ msgstr "Pusa&t"
 
 msgctxt "ID_PANSCAN_ROTATEZM"
 msgid "Rotate Cloc&kwise"
-msgstr ""
+msgstr "Putar ke arah jaru&m jam"
 
 msgctxt "ID_PANSCAN_ROTATEZ270"
 msgid "Rotate Counter-Clock&wise"
-msgstr ""
+msgstr "Putar Berlawanan Arah Jaru&m Jam"
 
 msgctxt "ID_PANSCAN_ROTATEXM"
 msgid "&Flip Vertically"
-msgstr ""
+msgstr "&Membalikkan secara vertikal"
 
 msgctxt "ID_PANSCAN_ROTATEYM"
 msgid "&Mirror"
-msgstr ""
+msgstr "&Cermin"
 
 msgctxt "ID_VIEW_RESET"
 msgid "Re&set"
@@ -568,19 +569,19 @@ msgstr "Daftar &Putar"
 
 msgctxt "ID_PLAY_REPEAT_AB"
 msgid "A-B (&Reset)"
-msgstr ""
+msgstr "A-B (&Setel Ulang)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_A"
 msgid "A-B (Mark &A)"
-msgstr ""
+msgstr "A-B (Tandai &A)"
 
 msgctxt "ID_PLAY_REPEAT_AB_MARK_B"
 msgid "A-B (Mark &B)"
-msgstr ""
+msgstr "A-B (Tandai &B)"
 
 msgctxt "POPUP"
 msgid "&Playback Rate"
-msgstr ""
+msgstr "&Kecepatan Pemutar"
 
 msgctxt "ID_PLAY_PLAYBACKRATE_025"
 msgid "0.25 x"

@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # Zyz696 Paga, 2020
-# Felipefpl, 2023
+# Felipefpl, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2024-01-05 15:29:45+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Felipefpl, 2023\n"
+"Last-Translator: Felipefpl, 2024\n"
 "Language-Team: Portuguese (Brazil) (https://app.transifex.com/mpchc/teams/106126/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -758,8 +758,8 @@ msgid "Player::Logo"
 msgstr "Player::Logo"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "Player::Tema"
+msgid "Player::User Interface"
+msgstr "Player::Interface do Usuário"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -1282,23 +1282,23 @@ msgstr "EDL situado por Fora"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "Rotação do Frame do Vídeo X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "Rotação do Frame do Vídeo Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "Rotação do Frame do Vídeo Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "Rotação do Frame do Vídeo Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "Rotação do Frame do Vídeo Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1682,7 +1682,7 @@ msgstr "Alta precisão"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "Mostrar porcentagem"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -1774,11 +1774,11 @@ msgstr "Parar"
 
 msgctxt "IDS_AG_FRAMESTEP"
 msgid "Frame-step"
-msgstr "Avançar um quadro"
+msgstr "Avançar um frame"
 
 msgctxt "IDS_MPLAYERC_16"
 msgid "Frame-step back"
-msgstr "Voltar um quadro"
+msgstr "Voltar um frame"
 
 msgctxt "IDS_AG_GO_TO"
 msgid "Go To"
@@ -2095,15 +2095,15 @@ msgstr "Auto-Encaixar no Zoom"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "Metade do Tamanho do Frame do Vídeo"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "Tamanho Normal do Frame do Vídeo"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "Dobro do Tamanho do Frame do Vídeo"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2111,27 +2111,27 @@ msgstr "Sempre no Topo"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "Aumentar Tamanho do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "Aumentar a Largura do Frame do Vídeo"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "Aumentar a Altura do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "Diminuir o Tamanho do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "Diminuir a Largura do Frame do Vídeo"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "Diminuir a Altura do Frame do Vídeo"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2205,39 +2205,39 @@ msgstr "Por favor insira um número entre 1 e 365."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "Centro do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "Frame do Vídeo Esquerdo"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "Frame do Vídeo Direito"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "Frame do Vídeo Acima"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "Frame do Vídeo Abaixo"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "Acima/A Esquerda do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "Acima/A Direita do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "Abaixo/A Esquerda do Frame do Vídeo"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "Abaixo/A Direita do Frame do Vídeo"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2767,7 +2767,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Alternar Menu das &Legendas"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Alternar Barra de Busca"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2980,30 +2980,30 @@ msgstr "Próximo RA Pré-Definido"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "Esticar o Frame do Vídeo"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "Dentro do Frame do Vídeo"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "Fora do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "Reset do Frame do Vídeo"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "Rotação do Frame do Vídeo X-"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Acima da barra de busca"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Abaixo da barra de busca"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3056,15 +3056,15 @@ msgstr "Zoom Window -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr ""
+msgstr "Zoom do Frame do Vídeo 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr ""
+msgstr "Zoom do Frame do Vídeo 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr ""
+msgstr "Trocar o Zoom do Frame do Vídeo"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3993,6 +3993,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "A busca online por legendas falhou."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr "O download das legendas falhou."
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "A busca online por legendas foi abortada."
@@ -4034,6 +4038,9 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
+"/pns \"nome ou valores\"\tEspecificar o nome da pré-definição do Frame do "
+"Vídeo ou direcionar os valores da posição e do zoom no formato "
+"\"px,py,zx,zy\""
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4874,3 +4881,13 @@ msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
 msgstr ""
+"Carregar a duração do arquivo quando adicionar itens a lista de reprodução "
+"(usa o MediaInfo e os resultados podem variar)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr "Pré-visualização do Vídeo"
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr "Tempo de Busca"

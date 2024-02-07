@@ -696,7 +696,9 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
                         if (-1 == (findDelim = value.Find(_T(",")))) {
                             continue; // discard invalid EXTINF line
                         }
-                        if (f.ReadString(str)) {
+                        str = L"";
+                        while (f.ReadString(str) && str.Left(1) == L"#") {}
+                        if (!str. IsEmpty()) {
                             pli = CPlaylistItem();
                             pli.m_label = value.Mid(findDelim + 1);
                             str = CombinePath(base, str, isurl);
@@ -746,7 +748,7 @@ bool CPlayerPlaylistBar::ParseM3UPlayList(CString fn) {
             // check for nested playlist
             CString ext = GetFileExt(str);
             if (ext == L".m3u" || ext == L".m3u8") {
-                if (ParseM3UPlayList(str)) {
+                if (!PathUtils::IsURL(str) && ParseM3UPlayList(str)) {
                     success = true;
                     continue;
                 }
@@ -1336,6 +1338,16 @@ void CPlayerPlaylistBar::SetCurValid(bool fValid)
             int i = FindItem(pos);
             m_list.RedrawItems(i, i);
         }
+    }
+}
+
+void CPlayerPlaylistBar::SetCurLabel(CString label) {
+    POSITION pos = m_pl.GetPos();
+    if (pos) {
+        auto pi = m_pl.GetAt(pos);
+        pi.m_label = label;
+        m_pl.SetAt(pos, pi);
+        Refresh();
     }
 }
 

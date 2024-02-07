@@ -19,7 +19,7 @@ If you are a programmer and want to help improve MPC-HC, then you can do so by s
 ## Overview of features
 
 A lot of people seem to be unaware of some of the awesome features that have been added to MPC-HC in the past years. Here is a list of useful options and features that everyone should know about:
-* Dark interface<br/>
+* Modern GUI Theme (Dark or Light)<br/>
 Options > Player > Theme<br/>
 When using modern theme it is also possible to change the height of the seekbar and size of the toolbar buttons.<br/>
 Options > Advanced > DefaultToolbarSize
@@ -30,6 +30,9 @@ This requires using [MPC Video Renderer](https://github.com/Aleksoid1978/VideoRe
 After installation these renderers can be selected here:<br/>
 Options > Playback > Output<br/>
 Tip: If you want an easy to use all-in-one package that contains MPC-HC and these renderers, then use [K-Lite Codec pack](http://codecguide.com/download_kl.htm).
+* Ability to search for subtitles<br/>
+Press D for manual search.<br/>
+Or enable automatic search in: Options > Subtitles > Misc<br/>
 * Adjust playback speed<br/>
 Menu > Play > Playback rate<br/>
 The buttons in the player that control playback rate take a 2x step by default. This can be customized to smaller values (like 10%):<br/>
@@ -55,14 +58,11 @@ Tip: there is a search box above the table.
 Put [yt-dlp.exe](https://github.com/yt-dlp/yt-dlp/releases) in the MPC-HC installation folder.<br/>
 Then you can open website URLs in the player: Menu > File > Open File/URL<br/>
 You can even download those videos: Menu > File > Save a copy<br/>
-Tip: to be able to download in best quality with yt-dlp/youtube-dl, it is recommended to also put [ffmpeg.exe](https://www.gyan.dev/ffmpeg/builds/) in the MPC-HC folder.<br/>
+Tip: to be able to download in best quality with yt-dlp, it is recommended to also put [ffmpeg.exe](https://www.gyan.dev/ffmpeg/builds/) in the MPC-HC folder.<br/>
 Several YDL configuration options are found here: Options > Advanced<br/>
 This includes an option to specify the location of the .exe in case you don't want to put it in MPC-HC folder.<br/>
-Note 1: instead of yt-dlp.exe you can also use [youtube-dl.exe](https://youtube-dl.org/downloads/latest/youtube-dl.exe). I do however recommend using yt-dlp because that works better and has active development, while youtube-dl development is currently inactive.<br/>
-Note 2: You also need to install [Microsoft Visual C++ 2010 SP1 Redistributable Package (x86)](https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe)<br/>
-Note 3: [yt-dlp nightly build](https://github.com/yt-dlp/yt-dlp-nightly-builds/) (very latest version made daily)
-* Ability to search for and download subtitles, either automatically or manually (press D):<br/>
-Options > Subtitles > Misc
+Note 1: You also need to install [Microsoft Visual C++ 2010 SP1 Redistributable Package (x86)](https://download.microsoft.com/download/1/6/5/165255E7-1014-4D0A-B094-B6A430A6BFFC/vcredist_x86.exe)<br/>
+Note 2: [yt-dlp nightly build](https://github.com/yt-dlp/yt-dlp-nightly-builds/) (very latest version made daily)
 * Besides all these (new) features, there have also been many bugfixes and internal improvements in the player in the past years that give better performance and stability. It also has updated internal codecs. Support was added for CUE sheets, WebVTT subtitles, etc.
 
 ## System Requirements

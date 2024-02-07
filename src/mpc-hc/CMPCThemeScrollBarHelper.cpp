@@ -17,7 +17,7 @@ CMPCThemeScrollBarHelper::~CMPCThemeScrollBarHelper()
 void CMPCThemeScrollBarHelper::createSB()
 {
     pParent = window->GetParent();
-    hasVSB = 0 != (window->GetStyle() & WS_VSCROLL) && !CMPCThemeUtil::canUseWin10DarkTheme(); //we don't need vertical scrollbars because windows dark theme is "ok"
+    hasVSB = 0 != (window->GetStyle() & WS_VSCROLL); //we have to draw vertical scrollbar because ncpaint is overridden to handle horizontal scrollbar
     hasHSB = 0 != (window->GetStyle() & WS_HSCROLL); //windows dark theme horizontal scrollbar is broken
     if (nullptr != pParent && IsWindow(pParent->m_hWnd)) {
         if (hasVSB && !IsWindow(vertSB.m_hWnd)) {

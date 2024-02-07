@@ -25,6 +25,7 @@
 
 #include "CMPCThemePPageBase.h"
 #include "CMPCThemeSpinButtonCtrl.h"
+#include "CMPCThemeEdit.h"
 
 class CPPageTheme : public CMPCThemePPageBase
 {
@@ -34,13 +35,42 @@ private:
     BOOL m_bUseModernTheme;
     int m_iModernSeekbarHeight;
     CMPCThemeSpinButtonCtrl m_ModernSeekbarHeightCtrl;
+    CMPCThemeEdit m_ModernSeekbarHeightEdit;
+    CMPCThemeSpinButtonCtrl m_DefaultToolbarSizeCtrl;
     CMPCThemeComboBox m_ThemeMode;
     int m_iThemeMode;
+    CMPCThemeComboBox m_langsComboBox;
+    CMPCThemeComboBox m_HoverPosition;
+    int m_nPosLangEnglish;
+    int m_iDefaultToolbarSize;
+    CMPCThemeComboBox m_FontSize;
+    CMPCThemeComboBox m_FontType;
+    int m_nOSDSize;
+
+    BOOL m_fUseSeekbarHover;
+    CString m_strOSDFont;
+
+    BOOL m_fShowChapters;
+    CMPCThemeComboBox m_HoverType;
+    int m_iSeekPreviewSize;
+    CMPCThemeSpinButtonCtrl m_SeekPreviewSizeCtrl;
+    CMPCThemeEdit m_SeekPreviewSizeEdit;
+    BOOL m_fShowOSD;
+    BOOL m_bShowVideoInfoInStatusbar;
+    BOOL m_bShowLangInStatusbar;
+    BOOL m_bShowFPSInStatusbar;
+    BOOL m_bShowABMarksInStatusbar;
+    BOOL m_fSnapToDesktopEdges;
+    BOOL m_fLimitWindowProportions;
+    BOOL m_bHideWindowedControls;
+    BOOL m_bUseEnhancedTaskBar;
+    BOOL m_bUseSMTC;
 public:
     CPPageTheme();
     virtual ~CPPageTheme();
 
     // Dialog Data
+    EventClient m_eventc;
     enum { IDD = IDD_PPAGETHEME };
 
 protected:
@@ -48,7 +78,13 @@ protected:
     virtual BOOL OnInitDialog();
     virtual BOOL OnApply();
 
-    DECLARE_MESSAGE_MAP()
+    void HoverEnableSubControls(bool hoverEnabled);
+    void ThemeEnableSubControls(bool themeEnabled);
 
+    DECLARE_MESSAGE_MAP()
 public:
+    afx_msg BOOL OnToolTipNotify(UINT id, NMHDR* pNMH, LRESULT* pResult);
+    afx_msg void OnHoverClicked();
+    afx_msg void OnThemeClicked();
+    afx_msg void OnChngOSDCombo();
 };

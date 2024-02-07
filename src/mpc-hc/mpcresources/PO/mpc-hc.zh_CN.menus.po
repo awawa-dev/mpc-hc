@@ -4,13 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # lifegpc <g1710431395@gmail.com>, 2020
+# CyanVesper <SharpNight93@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: lifegpc <g1710431395@gmail.com>, 2020\n"
+"Last-Translator: CyanVesper <SharpNight93@gmail.com>, 2023\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/mpchc/teams/106126/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -444,7 +445,7 @@ msgstr "纠正显示器/桌面高宽比差异(&C)"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "播放画面调节(&N)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

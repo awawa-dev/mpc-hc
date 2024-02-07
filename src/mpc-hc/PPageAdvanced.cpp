@@ -32,9 +32,6 @@ IMPLEMENT_DYNAMIC(CPPageAdvanced, CMPCThemePPageBase)
 CPPageAdvanced::CPPageAdvanced()
     : CMPCThemePPageBase(IDD, IDD)
 {
-    EventRouter::EventSelection fires;
-    fires.insert(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
-    GetEventd().Connect(m_eventc, fires);
 }
 
 void CPPageAdvanced::DoDataExchange(CDataExchange* pDX)
@@ -136,16 +133,9 @@ void CPPageAdvanced::InitSettings()
         m_list.SetItemData(iItem, nItem);
     };
 
-    addBoolItem(HIDE_WINDOWED, IDS_RS_HIDE_WINDOWED_CONTROLS, false, s.bHideWindowedControls, StrRes(IDS_PPAGEADVANCED_HIDE_WINDOWED));
-    addIntItem(DEFAULT_TOOLBAR_SIZE, IDS_RS_DEFAULTTOOLBARSIZE, 24, s.nDefaultToolbarSize,
-        std::make_pair(16, 128), StrRes(IDS_PPAGEADVANCED_DEFAULTTOOLBARSIZE));
     addBoolItem(USE_LEGACY_TOOLBAR, IDS_RS_USE_LEGACY_TOOLBAR, false, s.bUseLegacyToolbar, StrRes(IDS_PPAGEADVANCED_USE_LEGACY_TOOLBAR));
-    addBoolItem(VIDEOINFO_STATUSBAR, IDS_RS_SHOW_VIDEOINFO_STATUSBAR, false, s.bShowVideoInfoInStatusbar, StrRes(IDS_PPAGEADVANCED_SHOW_VIDEOINFO_STATUSBAR));
-    addBoolItem(LANG_STATUSBAR, IDS_RS_SHOW_LANG_STATUSBAR, false, s.bShowLangInStatusbar, StrRes(IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR));
-    addBoolItem(FPS_STATUSBAR, IDS_RS_SHOW_FPS_STATUSBAR, false, s.bShowFPSInStatusbar, StrRes(IDS_PPAGEADVANCED_SHOW_FPS_STATUSBAR));
-    addBoolItem(ABMARKS_STATUSBAR, IDS_RS_SHOW_ABMARKS_STATUSBAR, false, s.bShowABMarksInStatusbar, StrRes(IDS_PPAGEADVANCED_SHOW_ABMARKS_STATUSBAR));
     addIntItem(RECENT_FILES_NB, IDS_RS_RECENT_FILES_NUMBER, 100, s.iRecentFilesNumber, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_RECENT_FILES_NUMBER));
-    addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 5, s.iRememberPosForLongerThan, std::make_pair(1, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));
+    addIntItem(FILE_POS_LONGER, IDS_RS_FILEPOSLONGER, 5, s.iRememberPosForLongerThan, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_FILE_POS_LONGER));
     addBoolItem(FILE_POS_AUDIO, IDS_RS_FILEPOSAUDIO, true, s.bRememberPosForAudioFiles, StrRes(IDS_PPAGEADVANCED_FILE_POS_AUDIO));
     addBoolItem(FULLSCREEN_SEPARATE_CONTROLS, IDS_RS_FULLSCREEN_SEPARATE_CONTROLS, false, s.bFullscreenSeparateControls, StrRes(IDS_PPAGEADVANCED_FULLSCREEN_SEPARATE_CONTROLS));
     addIntItem(COVER_SIZE_LIMIT, IDS_RS_COVER_ART_SIZE_LIMIT, 600, s.nCoverArtSizeLimit, std::make_pair(0, INT_MAX), StrRes(IDS_PPAGEADVANCED_COVER_SIZE_LIMIT));
@@ -165,7 +155,6 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(SAVEIMAGE_CURRENTTIME, IDS_RS_SAVEIMAGE_CURRENTTIME, false, s.bSaveImageCurrentTime, StrRes(IDS_PPAGEADVANCED_SAVEIMAGE_CURRENTTIME));
     addBoolItem(SNAPSHOTSUBTITLES, IDS_RS_SNAPSHOTSUBTITLES, true, s.bSnapShotSubtitles, StrRes(IDS_PPAGEADVANCED_SNAPSHOTSUBTITLES));
     addBoolItem(SNAPSHOTKEEPVIDEOEXTENSION, IDS_RS_SNAPSHOTKEEPVIDEOEXTENSION, true, s.bSnapShotKeepVideoExtension, StrRes(IDS_PPAGEADVANCED_SNAPSHOTKEEPVIDEOEXTENSION));
-    addBoolItem(USE_SMTC, IDS_RS_USE_SMTC, false, s.bUseSMTC, StrRes(IDS_PPAGEADVANCED_USE_SMTC));
     addBoolItem(ADD_LANGCODE_WHEN_SAVE_SUBTITLES, IDS_RS_ADD_LANGCODE_WHEN_SAVE_SUBTITLES, false, s.bAddLangCodeWhenSaveSubtitles, StrRes(IDS_PPAGEADVANCED_ADD_LANGCODE_WHEN_SAVE_SUBTITLES));
     addBoolItem(USE_TITLE_IN_RECENT_FILE_LIST, IDS_RS_USE_TITLE_IN_RECENT_FILE_LIST, true, s.bUseTitleInRecentFileList, StrRes(IDS_PPAGEADVANCED_USE_TITLE_IN_RECENT_FILE_LIST));
     addIntItem(MOUSE_LEFTUP_DELAY, IDS_RS_MOUSE_LEFTUP_DELAY, 0, s.iMouseLeftUpDelay, std::make_pair(0, 1000), StrRes(IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY));
@@ -189,13 +178,12 @@ void CPPageAdvanced::InitSettings()
     addBoolItem(ALWAYS_USE_SHORT_MENU, IDS_RS_ALWAYS_USE_SHORT_MENU, false, s.bAlwaysUseShortMenu, StrRes(IDS_PPAGEADVANCED_ALWAYS_USE_SHORT_MENU));
     addBoolItem(USE_FREETYPE, IDS_RS_USE_FREETYPE, false, s.bUseFreeType, StrRes(IDS_PPAGEADVANCED_USE_FREETYPE));
     addBoolItem(USE_MEDIAINFO_LOAD_FILE_DURATION, IDS_RS_USE_MEDIAINFO_LOAD_FILE_DURATION, false, s.bUseMediainfoLoadFileDuration, StrRes(IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION));
+    addBoolItem(CAPTURE_DEINTERLACE, IDS_RS_CAPTURE_DEINTERLACE, false, s.bCaptureDeinterlace, _T("Insert deinterlace filter (blend) in capture mode"));
 }
 
 BOOL CPPageAdvanced::OnApply()
 {
     auto& s = AfxGetAppSettings();
-
-    int nOldDefaultToolbarSize = s.nDefaultToolbarSize;
 
     for (int i = 0; i < m_list.GetItemCount(); i++) {
         auto eSetting = static_cast<ADVANCED_SETTINGS>(m_list.GetItemData(i));
@@ -215,13 +203,6 @@ BOOL CPPageAdvanced::OnApply()
     if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
         pMainFrame->UpdateControlState(CMainFrame::UPDATE_CONTROLS_VISIBILITY);
         pMainFrame->AdjustStreamPosPoller(true);
-    }
-
-    if (nOldDefaultToolbarSize != s.nDefaultToolbarSize) {
-        m_eventc.FireEvent(MpcEvent::DEFAULT_TOOLBAR_SIZE_CHANGED);
-        if (CMainFrame* pMainFrame = AfxGetMainFrame()) {
-            pMainFrame->RecalcLayout();
-        }
     }
 
     return __super::OnApply();

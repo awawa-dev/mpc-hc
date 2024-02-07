@@ -760,7 +760,7 @@ msgid "Player::Logo"
 msgstr "Program::Logo"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
+msgid "Player::User Interface"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
@@ -1311,7 +1311,7 @@ msgstr "Przetestuj szarpanie obrazu"
 
 msgctxt "IDS_SCALE_16_9"
 msgid "Scale to 16:9 TV,%.3f,%.3f,%.3f,%.3f"
-msgstr "Przeskaluj do formatu 16:9 TV ,%.3f,%.3f,%.3f,%.3f"
+msgstr "Przeskaluj do formatu 16:9 TV,%.3f,%.3f,%.3f,%.3f"
 
 msgctxt "IDS_SCALE_WIDESCREEN"
 msgid "Zoom to Widescreen,%.3f,%.3f,%.3f,%.3f"
@@ -2773,7 +2773,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Przełącz widoczność paska tytułu i menu"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Przełącz widoczność paska postępu"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -3006,11 +3006,11 @@ msgid "Video Frame Rotate X+"
 msgstr ""
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Ponad paskiem postępu"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Poniżej paska postępu"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -4003,6 +4003,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Wyszukiwanie napisów w internetowej bazie nie powiodło się."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Wyszukiwanie napisów w internetowej bazie przerwane."
@@ -4849,4 +4853,12 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
 msgstr ""

@@ -172,17 +172,24 @@ void CMPCThemeSpinButtonCtrl::OnPaint()
             dc.FillSolidRect(butRect, bgClr);
             dc.FrameRect(butRect, &butBorderBrush);
 
+            COLORREF arrowColor;
+            if (IsWindowEnabled()) {
+                arrowColor = CMPCTheme::TextFGColor;
+            } else {
+                arrowColor = CMPCTheme::ButtonDisabledFGColor;
+            }
+
             if (horz) {
                 if (0 == firstOrSecond) { //left
-                    drawSpinArrow(dc, CMPCTheme::TextFGColor, butRect, arrowOrientation::arrowLeft);
+                    drawSpinArrow(dc, arrowColor, butRect, arrowOrientation::arrowLeft);
                 } else {
-                    drawSpinArrow(dc, CMPCTheme::TextFGColor, butRect, arrowOrientation::arrowRight);
+                    drawSpinArrow(dc, arrowColor, butRect, arrowOrientation::arrowRight);
                 }
             } else {
                 if (0 == firstOrSecond) { //top
-                    drawSpinArrow(dc, CMPCTheme::TextFGColor, butRect, arrowOrientation::arrowTop);
+                    drawSpinArrow(dc, arrowColor, butRect, arrowOrientation::arrowTop);
                 } else {
-                    drawSpinArrow(dc, CMPCTheme::TextFGColor, butRect, arrowOrientation::arrowBottom);
+                    drawSpinArrow(dc, arrowColor, butRect, arrowOrientation::arrowBottom);
                 }
             }
         }

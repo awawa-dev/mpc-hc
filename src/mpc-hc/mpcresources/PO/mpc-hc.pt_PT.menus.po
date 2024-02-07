@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Hugo Simões <hugo.simoes.1984@gmail.com>, 2021
-# Hugo Carvalho <hugokarvalho@hotmail.com>, 2022
+# Hugo Carvalho <hugokarvalho@hotmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2022\n"
+"Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>, 2023\n"
 "Language-Team: Portuguese (Portugal) (https://app.transifex.com/mpchc/teams/106126/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -252,7 +252,7 @@ msgstr "Desativar comp. Ambiente de Trabalho (&Aero)"
 
 msgctxt "ID_VIEW_ENABLEFRAMETIMECORRECTION"
 msgid "Enable Frame Time &Correction"
-msgstr "Ativar &correção encaixe de tempo"
+msgstr "Ativar &correção do tempo de fotogramas"
 
 msgctxt "POPUP"
 msgid "&Color Management"
@@ -444,7 +444,7 @@ msgstr "&Corrigir dif. rác. asp. ecrã/amb. de trabalho"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "A&juste dos fotogramas PnS"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"
@@ -540,7 +540,7 @@ msgstr "Re&produzir"
 
 msgctxt "ID_PLAY_PLAYPAUSE"
 msgid "&Play/Pause"
-msgstr "Re&produzir/pausar"
+msgstr "Re&produzir/Pausa"
 
 msgctxt "ID_PLAY_STOP"
 msgid "&Stop"

@@ -808,8 +808,8 @@ public:
     bool            fSeekPreview;
     int             iSeekPreviewSize;
     bool            fUseSearchInFolder;
-    bool            fUseTimeTooltip;
-    int             nTimeTooltipPosition;
+    bool            fUseSeekbarHover;
+    int             nHoverPosition;
     CString         strOSDFont;
     int             nOSDSize;
     bool            bHideWindowedMousePointer;
@@ -865,7 +865,7 @@ public:
     bool            bHidePlaylistFullScreen;
 
     // OTHER STATES
-    CStringW        strLastOpenDir;
+    //CStringW        strLastOpenDir;
     UINT            nLastWindowType;
     WORD            nLastUsedPage;
     bool            fRemainingTime;
@@ -952,13 +952,16 @@ public:
     CStringA strOpenTypeLangHint;
 
     CStringW lastQuickOpenPath;
-    CStringW lastSaveImagePath;
+    CStringW lastFileSaveCopyPath;
+    CStringW lastFileOpenDirPath;
 
     int iRedirectOpenToAppendThreshold;
     bool bFullscreenSeparateControls;
     bool bAlwaysUseShortMenu;
     int iStillVideoDuration;
     int iMouseLeftUpDelay;
+
+    bool bCaptureDeinterlace;
 
 private:
     struct FilterKey {
@@ -991,7 +994,6 @@ private:
     void            SaveSettingsAutoChangeFullScreenMode();
 
     void            UpdateRenderersData(bool fSave);
-    friend void     CRenderersSettings::UpdateData(bool bSave);
 
     SubtitleRenderer eSubtitleRenderer;
     CSize            sizeAspectRatio;
@@ -1025,6 +1027,5 @@ public:
     bool            GetAllowMultiInst() const;
 
     static bool     IsVSFilterInstalled();
-    SubRendererSettings	GetSubRendererSettings();
 };
 

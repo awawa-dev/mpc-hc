@@ -247,6 +247,15 @@ IBaseFilter* FindFilter(const CLSID& clsid, IFilterGraph* pFG)
     return nullptr;
 }
 
+IBaseFilter* FindFirstFilter(IFilterGraph* pFG) {
+    BeginEnumFilters(pFG, pEF, pBF) {
+        return pBF;
+    }
+    EndEnumFilters;
+
+    return nullptr;
+}
+
 IPin* FindPin(IBaseFilter* pBF, PIN_DIRECTION direction, const AM_MEDIA_TYPE* pRequestedMT)
 {
     PIN_DIRECTION pindir;
@@ -2000,4 +2009,11 @@ bool FindStringInList(const CAtlList<CString>& list, CString& value)
         }
     }
     return found;
+}
+
+CStringW ForceTrailingSlash(CStringW folder) {
+    if (folder.Right(1) != L'\\' && folder.GetLength() > 0) {
+        folder += L'\\';
+    }
+    return folder;
 }

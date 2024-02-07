@@ -272,8 +272,8 @@ static void SetupMediaTypes(IAMStreamConfig* pAMSC, CFormatArray<T>& tfa, CCombo
                             || presets[j].cx > pcaps->MaxOutputSize.cx
                             || presets[j].cy < pcaps->MinOutputSize.cy
                             || presets[j].cy > pcaps->MaxOutputSize.cy
-                            || presets[j].cx % pcaps->OutputGranularityX
-                            || presets[j].cy % pcaps->OutputGranularityY) {
+                            || pcaps->OutputGranularityX > 0 && (presets[j].cx % pcaps->OutputGranularityX) > 0
+                            || pcaps->OutputGranularityY > 0 && (presets[j].cy % pcaps->OutputGranularityY) > 0) {
                         continue;
                     }
 

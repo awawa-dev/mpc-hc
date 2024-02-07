@@ -754,7 +754,7 @@ msgid "Player::Logo"
 msgstr "Плејер::Логотип"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
+msgid "Player::User Interface"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
@@ -2726,7 +2726,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Укључи/искључи наслов и мени"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Укључи/искључи траку за премотавање"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2958,11 +2958,11 @@ msgid "Video Frame Rotate X+"
 msgstr ""
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "изнад траке за премотавање"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "испод траке за премотавање"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3951,6 +3951,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr ""
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr ""
@@ -4732,4 +4736,12 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
 msgstr ""

@@ -43,16 +43,6 @@ void CSubtitleDlDlgListCtrl::PreSubclassWindow()
 BOOL CSubtitleDlDlgListCtrl::OnToolNeedText(UINT id, NMHDR* pNMHDR, LRESULT*)
 {
     auto pTTT = reinterpret_cast<TOOLTIPTEXT*>(pNMHDR);
-    UINT_PTR nID = pNMHDR->idFrom;
-
-    if (pTTT->uFlags & TTF_IDISHWND) {
-        // idFrom is actually the HWND of the tool
-        nID = ::GetDlgCtrlID((HWND)nID);
-    }
-
-    if (nID == 0) {   // Notification in NT from automatically
-        return FALSE; // created tooltip
-    }
 
     CPoint pt(GetMessagePos());
     ScreenToClient(&pt);
@@ -95,7 +85,8 @@ enum {
     UWM_DOWNLOADED,
     UWM_COMPLETED,
     UWM_FINISHED,
-    UWM_FAILED,
+    UWM_FAILED_SEARCH,
+    UWM_FAILED_DOWNLOAD,
     UWM_CLEAR
 };
 
@@ -452,7 +443,8 @@ BEGIN_MESSAGE_MAP(CSubtitleDlDlg, CModelessResizableDialog)
     ON_MESSAGE(UWM_DOWNLOADED, OnDownloaded)
     ON_MESSAGE(UWM_COMPLETED, OnCompleted)
     ON_MESSAGE(UWM_FINISHED, OnFinished)
-    ON_MESSAGE(UWM_FAILED, OnFailed)
+    ON_MESSAGE(UWM_FAILED_SEARCH, OnFailedSearch)
+    ON_MESSAGE(UWM_FAILED_DOWNLOAD, OnFailedDownload)
     ON_MESSAGE(UWM_CLEAR, OnClear)
 END_MESSAGE_MAP()
 
@@ -698,9 +690,16 @@ afx_msg LRESULT CSubtitleDlDlg::OnFinished(WPARAM wParam, LPARAM lParam)
     return S_OK;
 }
 
-afx_msg LRESULT CSubtitleDlDlg::OnFailed(WPARAM /*wParam*/, LPARAM /*lParam*/)
+afx_msg LRESULT CSubtitleDlDlg::OnFailedSearch(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
     SetStatusText(StrRes(IDS_SUBDL_DLG_FAILED));
+
+    return S_OK;
+}
+
+afx_msg LRESULT CSubtitleDlDlg::OnFailedDownload(WPARAM /*wParam*/, LPARAM /*lParam*/)
+{
+    SetStatusText(StrRes(IDS_SUBDL_DLG_FAILED_DL));
 
     return S_OK;
 }
@@ -750,9 +749,13 @@ void CSubtitleDlDlg::DoFinished(BOOL _bAborted, BOOL _bShowDialog)
 {
     SendMessage(UWM_FINISHED, (WPARAM)_bAborted, (LPARAM)_bShowDialog);
 }
-void CSubtitleDlDlg::DoFailed()
+void CSubtitleDlDlg::DoSearchFailed()
 {
-    SendMessage(UWM_FAILED, (WPARAM)nullptr, (LPARAM)nullptr);
+    SendMessage(UWM_FAILED_SEARCH, (WPARAM)nullptr, (LPARAM)nullptr);
+}
+void CSubtitleDlDlg::DoDownloadFailed()
+{
+    SendMessage(UWM_FAILED_DOWNLOAD, (WPARAM)nullptr, (LPARAM)nullptr);
 }
 void CSubtitleDlDlg::DoClear()
 {

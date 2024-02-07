@@ -29,7 +29,6 @@
 #include <uuids.h>
 #include "moreuuids.h"
 #include "../DSUtil/ISOLang.h"
-#include "../mpc-hc/mplayerc.h"
 
 // our first format id
 #define __GAB1__ "GAB1"
@@ -140,8 +139,7 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
             pRTS->SetSubtitleTypeFromGUID(m_mt.subtype);
 #if USE_LIBASS
             if (pRTS->m_LibassContext.CheckSubType()) {
-                IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                pRTS->m_LibassContext.SetFilterGraph(fg);
+                pRTS->m_LibassContext.SetFilterGraphFromFilter(m_pFilter);
             }
 #endif
             pRTS->m_name = name;
@@ -166,7 +164,6 @@ HRESULT CSubtitleInputPin::CompleteConnect(IPin* pReceivePin)
                 bool success = false;
 #if USE_LIBASS
                 if (pRTS->m_LibassContext.m_renderUsingLibass) {
-                    pRTS->m_LibassContext.SetPin(pReceivePin);
                     success = pRTS->m_LibassContext.LoadASSTrack((char*)m_mt.Format() + psi->dwOffset, m_mt.FormatLength() - psi->dwOffset, subtype_ass ? Subtitle::ASS : Subtitle::SRT);
                 }
 #endif
@@ -462,9 +459,7 @@ REFERENCE_TIME CSubtitleInputPin::DecodeSample(const std::unique_ptr<SubtitleSam
             if (pRTS->m_LibassContext.IsLibassActive()) {
                 LPCSTR data = (LPCSTR)pSample->data.data();
                 int dataSize = (int)pSample->data.size();
-                IFilterGraph* fg = GetGraphFromFilter(m_pFilter);
-                pRTS->m_LibassContext.SetFilterGraph(fg);
-                pRTS->m_LibassContext.SetPin(this);
+                pRTS->m_LibassContext.SetFilterGraphFromFilter(m_pFilter);
                 pRTS->m_LibassContext.LoadASSSample((char*)data, dataSize, pSample->rtStart, pSample->rtStop);
             } else
 #endif

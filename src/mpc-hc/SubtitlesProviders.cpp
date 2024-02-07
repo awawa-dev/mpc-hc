@@ -571,7 +571,7 @@ void SubtitlesProviders::Search(bool bAutoDownload)
     if (CheckInternetConnection()) {
         InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, bAutoDownload, LanguagesISO6391()));
     } else if (bAutoDownload == FALSE) {
-        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFailed();
+        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearchFailed();
     }
 }
 
@@ -583,7 +583,7 @@ void SubtitlesProviders::ManualSearch(bool bAutoDownload, CString manualSearch)
     if (CheckInternetConnection()) {
         InsertTask(DEBUG_NEW SubtitlesTask(m_pMainFrame, bAutoDownload, LanguagesISO6391(), manualSearch));
     } else if (bAutoDownload == FALSE) {
-        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoFailed();
+        m_pMainFrame->m_wndSubtitlesDownloadDialog.DoSearchFailed();
     }
 }
 
@@ -904,6 +904,8 @@ void SubtitlesThread::Download(SubtitlesInfo& pSubtitlesInfo, BOOL bActivate)
                 }
             }
         }
+    } else {
+        m_pTask->m_pMainFrame->m_wndSubtitlesDownloadDialog.DoDownloadFailed();
     }
 }
 

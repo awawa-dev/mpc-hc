@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Marián Hikaník <podnety@mojepreklady.net>, 2021
+# Marián Hikaník <podnety@mojepreklady.net>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2021\n"
+"Last-Translator: Marián Hikaník <podnety@mojepreklady.net>, 2023\n"
 "Language-Team: Slovak (https://app.transifex.com/mpchc/teams/106126/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -444,7 +444,7 @@ msgstr "Upraviť nastavenie AR monitora/Pra&covnej plochy"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "Prispôsobenie snímky Pan and Scan"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

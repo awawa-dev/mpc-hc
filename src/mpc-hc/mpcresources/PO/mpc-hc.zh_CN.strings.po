@@ -5,17 +5,17 @@
 # MPC HC <adiposegithub@gmail.com>, 2020
 # lifegpc <g1710431395@gmail.com>, 2021
 # BCZJG6GT <luticliu@foxmail.com>, 2021
-# CyanVesper <SharpNight93@gmail.com>, 2021
 # Jackson Chen, 2022
 # lychichem <leichixian@outlook.com>, 2022
+# CyanVesper <SharpNight93@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-06-24 16:57:41+0000\n"
+"POT-Creation-Date: 2023-11-23 01:08:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: lychichem <leichixian@outlook.com>, 2022\n"
-"Language-Team: Chinese (China) (https://www.transifex.com/mpchc/teams/106126/zh_CN/)\n"
+"Last-Translator: CyanVesper <SharpNight93@gmail.com>, 2023\n"
+"Language-Team: Chinese (China) (https://app.transifex.com/mpchc/teams/106126/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -108,15 +108,15 @@ msgstr "包括字幕"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr ""
+msgstr "深色"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr ""
+msgstr "浅色"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr ""
+msgstr "Windows 默认"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -752,7 +752,7 @@ msgid "Player::Logo"
 msgstr "播放器::标志"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
+msgid "Player::User Interface"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
@@ -1223,23 +1223,23 @@ msgstr "EDL 输出"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "视频画面绕 X 轴向负方向旋转"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "视频画面绕 Y 轴向正方向旋转"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "视频画面绕 Y 轴向负方向旋转"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "视频画面绕 Z 轴向正方向旋转"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "视频画面绕 Z 轴向负方向旋转"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1612,7 +1612,7 @@ msgstr "高精确度"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "显示百分比"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -2014,15 +2014,15 @@ msgstr "自动适应缩放"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "视频画面半数尺寸"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "视频画面普通尺寸"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "视频画面双倍尺寸"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2030,27 +2030,27 @@ msgstr "总是前端显示"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "视频画面增大尺寸"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "视频画面增加宽度"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "视频画面增加高度"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "视频画面减小尺寸"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "视频画面减小宽度"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "视频画面减小高度"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2124,39 +2124,39 @@ msgstr "请输入 1 到 365 之间的数字。"
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "视频画面居中"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "视频画面向左移动"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "视频画面向右移动"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "视频画面向上移动"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "视频画面向下移动"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "视频画面向左上移动"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "视频画面向右上移动"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "视频画面向左下移动"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "视频画面向右下移动"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2682,7 +2682,7 @@ msgid "Toggle Caption&Menu"
 msgstr "切换标题与菜单"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "切换进度栏"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2895,30 +2895,30 @@ msgstr "下一个高宽比预设"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "视频画面拉伸"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "视频画面向内对齐"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "视频画面向外对齐"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "视频画面重置"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "视频画面绕 X 轴向正方向旋转"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "在进度栏之上"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "在进度栏之下"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -2971,15 +2971,15 @@ msgstr " 窗口缩放 -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr ""
+msgstr "视频画面缩放 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr ""
+msgstr "视频画面缩放 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr ""
+msgstr "视频画面切换缩放"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3905,6 +3905,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "在线字幕搜索失败。"
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "在线字幕搜索已中止。"
@@ -3945,7 +3949,7 @@ msgctxt "IDS_CMD_PNS"
 msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
-msgstr ""
+msgstr "/pns \"名称 或 值\"\t指定视频画面预设名称以进行选用，或者直接以 \"px,py,zx,zy\" 的格式指定位置与缩放的值"
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4024,13 +4028,13 @@ msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
 msgid ""
 "Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
 "video."
-msgstr ""
+msgstr "当在视频中进行点击时，鼠标 LeftUp 事件的最大延迟（毫秒）。"
 
 msgctxt "IDS_PPAGEADVANCED_USE_FREETYPE"
 msgid ""
 "Use FreeType for subtitle rendering.  Enables support for per-language "
 "glyphs."
-msgstr ""
+msgstr "使用 FreeType 进行字幕渲染。将对每种语言字形都启用支持。"
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -4654,7 +4658,7 @@ msgstr "设备缓冲区:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr ""
+msgstr "不检查格式支持"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
@@ -4700,15 +4704,15 @@ msgctxt "IDS_ARS_TIP_BITEXACT_OUTPUT"
 msgid ""
 "If possible, the audio will be sent out in its original format.\n"
 "Otherwise, the format specified in the system settings will be used."
-msgstr ""
+msgstr "如果可能的话，音频将会以其原始格式进行发送。但如果不行的话，则将使用系统设置中指定的格式。"
 
 msgctxt "IDS_ARS_TIP_ALT_CHECK_FORMAT"
 msgid "The renderer will try to initialize the device skipping some checks."
-msgstr ""
+msgstr "渲染器将会尝试初始化设备来跳过一些检测"
 
 msgctxt "IDS_FILTER_RESET_SETTINGS"
 msgid "Reset"
-msgstr ""
+msgstr "重置"
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
@@ -4718,4 +4722,12 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
+msgstr "将内容添加到播放列表时加载文件时长 (使用 MediaInfo 获取，结果可能会与实际值有所不同)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
 msgstr ""

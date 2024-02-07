@@ -642,9 +642,6 @@
 #define IDB_GRIPPER_120                 20075
 #define IDI_OPENSUBTITLES               21001
 #define IDI_PODNAPISI                   21002
-#define IDI_SUBDB                       21003
-#define IDI_TITLOVI                     21004
-#define IDI_YSUBS                       21005
 #define IDI_N24                         21006
 #define IDI_ADDIC7ED                    21007
 #define IDC_FULLSCREEN_MONITOR_CHECK    22002
@@ -1105,6 +1102,8 @@
 #define ID_VIEW_ZOOM_ADD                33457
 #define IDS_AG_ZOOM_ADD                 33458
 #define IDS_AG_ZOOM_SUB                 33459
+#define IDS_SEEKBAR_HOVER_PREVIEW       33460
+#define IDS_SEEKBAR_HOVER_TOOLTIP       33461
 #define ID_RECENT_FILE_START            34000
 #define ID_RECENT_FILE_END              34999
 #define IDS_MFMT_AVI                    39001
@@ -1706,6 +1705,7 @@
 #define IDS_PPAGEADVANCED_USE_FREETYPE  57634
 #define IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION  57635
 #define IDS_TIMER_SHOW_PERCENTAGE       57636
+#define IDS_SUBDL_DLG_FAILED_DL         57637
 
 #define IDS_ARS_WASAPI_MODE             57700
 #define IDS_ARS_EXCLUSIVE               57701
@@ -1737,7 +1737,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        20076
-#define _APS_NEXT_COMMAND_VALUE         33460
+#define _APS_NEXT_COMMAND_VALUE         33462
 #define _APS_NEXT_CONTROL_VALUE         22094
 #define _APS_NEXT_SYMED_VALUE           24052
 #endif

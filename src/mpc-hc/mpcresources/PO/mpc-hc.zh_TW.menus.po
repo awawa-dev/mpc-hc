@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Peter Chen <petercpg@gmail.com>, 2022
+# Peter Chen <petercpg@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2023-11-19 23:27:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Peter Chen <petercpg@gmail.com>, 2022\n"
+"Last-Translator: Peter Chen <petercpg@gmail.com>, 2023\n"
 "Language-Team: Chinese (Taiwan) (https://app.transifex.com/mpchc/teams/106126/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -152,7 +152,7 @@ msgstr "簡潔(&C)"
 
 msgctxt "ID_VIEW_PRESETS_NORMAL"
 msgid "&Normal"
-msgstr "正常(&N)"
+msgstr "一般(&N)"
 
 msgctxt "ID_VIEW_FULLSCREEN"
 msgid "F&ull Screen"
@@ -380,7 +380,7 @@ msgstr "一半大小(&H)"
 
 msgctxt "ID_VIEW_VF_NORMAL"
 msgid "&Normal Size"
-msgstr "正常大小(&N)"
+msgstr "一般大小(&N)"
 
 msgctxt "ID_VIEW_VF_DOUBLE"
 msgid "&Double Size"
@@ -444,7 +444,7 @@ msgstr "修正顯示器/桌面的長寬比例差異(&C)"
 
 msgctxt "POPUP"
 msgid "P&nS Frame Adjust"
-msgstr ""
+msgstr "畫面縮放調整(&n)"
 
 msgctxt "ID_VIEW_INCSIZE"
 msgid "&Increase Size"

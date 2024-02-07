@@ -758,7 +758,7 @@ msgid "Player::Logo"
 msgstr "Lejátszó::Logó"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
+msgid "Player::User Interface"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
@@ -2770,7 +2770,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Címsor és Menüsor be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Keresősáv be- és kikapcsolása"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -3003,11 +3003,11 @@ msgid "Video Frame Rotate X+"
 msgstr ""
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Keresősáv felett"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Keresősáv alatt"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3997,6 +3997,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Online feliratok keresése sikertelen."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Online feliratok keresése megszakítva."
@@ -4863,4 +4867,12 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
 msgstr ""

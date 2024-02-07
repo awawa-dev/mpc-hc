@@ -4,14 +4,14 @@
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
 # geogeo.gr <geogeo.gr@gmail.com>, 2021
-# George Mantratzis, 2023
+# George Mantratzis, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-12-04 16:41:19+0000\n"
+"POT-Creation-Date: 2023-11-23 01:08:04+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: George Mantratzis, 2023\n"
+"Last-Translator: George Mantratzis, 2024\n"
 "Language-Team: Greek (https://app.transifex.com/mpchc/teams/106126/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,15 +105,15 @@ msgstr "Συμπερίληψη υποτίτλων"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr ""
+msgstr "Σκοτεινό"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr ""
+msgstr "Φωτεινό"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr ""
+msgstr "Προεπιλογή των Windows"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -761,7 +761,7 @@ msgid "Player::Logo"
 msgstr "Αναπαραγωγός::Λογότυπο"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
+msgid "Player::User Interface"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
@@ -1287,23 +1287,23 @@ msgstr "EDL: στην έξοδο"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "Περιστροφή Καρέ Βίντεο X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "Περιστροφή Καρέ Βίντεο Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "Περιστροφή Καρέ Βίντεο Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "Περιστροφή Καρέ Βίντεο Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "Περιστροφή Καρέ Βίντεο Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1689,7 +1689,7 @@ msgstr "Υψηλή ακρίβεια"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "Εμφάνιση ποσοστού"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -2103,15 +2103,15 @@ msgstr "Μεγέθυνση αυτόματης προσαρμογής"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "Μισό Μέγεθος Καρέ Βίντεο"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "Κανονικό Μέγεθος Καρέ Βίντεο"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "Διπλάσιο Μέγεθος Καρέ Βίντεο"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2119,27 +2119,27 @@ msgstr "Πάντα στην κορυφή"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "Αύξηση Μεγέθους Καρέ Βίντεο"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "Αύξηση Πλάτους Καρέ Βίντεο"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "Αύξηση Ύψους Καρέ Βίντεο"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "Μείωση Μεγέθους Καρέ Βίντεο"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "Μείωση Πλάτους Καρέ Βίντεο"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "Μείωση Ύψους Καρέ Βίντεο"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2213,39 +2213,39 @@ msgstr "Παρακαλώ εισάγετε έναν αριθμό μεταξύ 1 �
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "Καρέ Βίντεο στο Κέντρο"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "Καρέ Βίντεο Αριστερά"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "Καρέ Βίντεο Δεξιά"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "Καρέ Βίντεο Επάνω"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "Καρέ Βίντεο Κάτω"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "Καρέ Βίντεο Επάνω/Αριστερά"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "Καρέ Βίντεο Επάνω/Δεξιά"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "Καρέ Βίντεο Κάτω/Αριστερά"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "Καρέ Βίντεο Κάτω/Δεξιά"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2783,7 +2783,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Εναλλαγή σε λεζάντα & μενού"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Εναλλαγή σε γραμμή αναζήτησης"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2997,30 +2997,30 @@ msgstr "Επόμενη προρύθμιση AR"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "Τέντωμα Καρέ Βίντεο"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "Εσωτερικό Καρέ Βίντεο"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "Εξωτερικό Καρέ Βίντεο"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "Επαναφορά Καρέ Βίντεο"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "Περιστροφή Καρέ Βίντεο X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Πάνω από τη γραμμή αναζήτησης"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Κάτω από τη γραμμή αναζήτησης"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3073,15 +3073,15 @@ msgstr "Ζουμ Παραθύρου -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr ""
+msgstr "Zoom 1 Καρέ Βίντεο"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr ""
+msgstr "Zoom 2 Καρέ Βίντεο"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr ""
+msgstr "Εναλλαγή Zoom Καρέ Βίντεο"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -4016,6 +4016,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Η αναζήτηση υποτίτλων σε άμεση σύνδεση απέτυχε."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Η αναζήτηση υποτίτλων σε άμεση σύνδεση ματαιώθηκε."
@@ -4059,6 +4063,9 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
+"/pns \"name or values\"\tΠροσδιορίστε το όνομα του προκαθορισμένου Καρέ "
+"Βίντεο που θέλετε να χρησιμοποιήσετε ή τις ακριβείς τιμές θέσης και "
+"μεγέθυνσης σε μορφή \"px,py,zx,zy\""
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4150,6 +4157,8 @@ msgid ""
 "Use FreeType for subtitle rendering.  Enables support for per-language "
 "glyphs."
 msgstr ""
+"Χρήση του FreeType για απόδοση υποτίτλων. Ενεργοποιεί την υποστήριξη για "
+"γλυφές ανά γλώσσα."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -4840,7 +4849,7 @@ msgstr "Προσωρινή μνήμη Συσκευής:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr "Μη έλεγχος υποστήριξης μορφής"
+msgstr "Να μην γίνεται έλεγχος υποστήριξης μορφής"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
@@ -4887,14 +4896,18 @@ msgid ""
 "If possible, the audio will be sent out in its original format.\n"
 "Otherwise, the format specified in the system settings will be used."
 msgstr ""
+"Εάν είναι δυνατόν, ο ήχος θα σταλεί στην αρχική του μορφή.\n"
+"Διαφορετικά, θα χρησιμοποιηθεί η μορφή που καθορίζεται στις ρυθμίσεις συστήματος."
 
 msgctxt "IDS_ARS_TIP_ALT_CHECK_FORMAT"
 msgid "The renderer will try to initialize the device skipping some checks."
 msgstr ""
+"Ο αποδέκτης θα προσπαθήσει να προετοιμάσει τη συσκευή παρακάμπτοντας "
+"ορισμένους ελέγχους."
 
 msgctxt "IDS_FILTER_RESET_SETTINGS"
 msgid "Reset"
-msgstr ""
+msgstr "Επαναφορά"
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
@@ -4904,4 +4917,14 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
+msgstr ""
+"Φόρτωση διάρκειας αρχείου κατά την προσθήκη στοιχείων στη λίστα αναπαραγωγής"
+" (χρησιμοποιεί το MediaInfo και τα αποτελέσματα ενδέχεται να διαφέρουν)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
 msgstr ""

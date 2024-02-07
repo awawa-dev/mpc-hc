@@ -118,7 +118,8 @@ protected:
     afx_msg LRESULT OnDownloaded(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnCompleted(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnFinished(WPARAM wParam, LPARAM lParam);
-    afx_msg LRESULT OnFailed(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnFailedSearch(WPARAM wParam, LPARAM lParam);
+    afx_msg LRESULT OnFailedDownload(WPARAM wParam, LPARAM lParam);
     afx_msg LRESULT OnClear(WPARAM wParam, LPARAM lParam);
 
 public:
@@ -128,6 +129,7 @@ public:
     void DoDownloaded(SubtitlesInfo& _fileInfo);
     void DoCompleted(SRESULT _result, SubtitlesList& _subtitlesList);
     void DoFinished(BOOL _bAborted, BOOL _bShowDialog);
-    void DoFailed();
+    void DoSearchFailed();
+    void DoDownloadFailed();
     void DoClear();
 };

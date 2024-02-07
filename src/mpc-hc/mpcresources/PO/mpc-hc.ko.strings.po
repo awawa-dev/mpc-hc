@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # MPC HC <adiposegithub@gmail.com>, 2020
-# Hack茶ん, 2023
+# Hack茶ん, 2024
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
+"POT-Creation-Date: 2024-01-05 15:29:45+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Hack茶ん, 2023\n"
+"Last-Translator: Hack茶ん, 2024\n"
 "Language-Team: Korean (https://app.transifex.com/mpchc/teams/106126/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -750,8 +750,8 @@ msgid "Player::Logo"
 msgstr "재생기::로고"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
-msgstr "재생기::테마"
+msgid "Player::User Interface"
+msgstr "재생기::사용자 인터페이스"
 
 msgctxt "IDD_PPAGEOUTPUT"
 msgid "Playback::Output"
@@ -1231,23 +1231,23 @@ msgstr "EDL 종점 설정"
 
 msgctxt "IDS_AG_PNS_ROTATEX_M"
 msgid "Video Frame Rotate X-"
-msgstr ""
+msgstr "비디오 프레임 회전 X-"
 
 msgctxt "IDS_AG_PNS_ROTATEY_P"
 msgid "Video Frame Rotate Y+"
-msgstr ""
+msgstr "비디오 프레임 회전 Y+"
 
 msgctxt "IDS_AG_PNS_ROTATEY_M"
 msgid "Video Frame Rotate Y-"
-msgstr ""
+msgstr "비디오 프레임 회전 Y-"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_P"
 msgid "Video Frame Rotate Z+"
-msgstr ""
+msgstr "비디오 프레임 회전 Z+"
 
 msgctxt "IDS_AG_PNS_ROTATEZ_M"
 msgid "Video Frame Rotate Z-"
-msgstr ""
+msgstr "비디오 프레임 회전 Z-"
 
 msgctxt "IDS_AG_TEARING_TEST"
 msgid "Tearing Test"
@@ -1620,7 +1620,7 @@ msgstr "높은 정확도"
 
 msgctxt "IDS_TIMER_SHOW_PERCENTAGE"
 msgid "Show percentage"
-msgstr ""
+msgstr "비율 표시"
 
 msgctxt "IDS_AFTERPLAYBACK_REWIND"
 msgid "After Playback: Rewind current file"
@@ -2024,15 +2024,15 @@ msgstr "자동 맞춤 확대"
 
 msgctxt "IDS_AG_VIDFRM_HALF"
 msgid "Video Frame Half Size"
-msgstr ""
+msgstr "비디오 프레임 절반 크기"
 
 msgctxt "IDS_AG_VIDFRM_NORMAL"
 msgid "Video Frame Normal Size"
-msgstr ""
+msgstr "비디오 프레임 일반 크기"
 
 msgctxt "IDS_AG_VIDFRM_DOUBLE"
 msgid "Video Frame Double Size"
-msgstr ""
+msgstr "비디오 프레임 2배 크기"
 
 msgctxt "IDS_AG_ALWAYS_ON_TOP"
 msgid "Always On Top"
@@ -2040,27 +2040,27 @@ msgstr "항상 위에"
 
 msgctxt "IDS_AG_PNS_INC_SIZE"
 msgid "Video Frame Inc Size"
-msgstr ""
+msgstr "비디오 프레임 포함 크기"
 
 msgctxt "IDS_AG_PNS_INC_WIDTH"
 msgid "Video Frame Inc Width"
-msgstr ""
+msgstr "비디오 프레임 포함 너비"
 
 msgctxt "IDS_MPLAYERC_47"
 msgid "Video Frame Inc Height"
-msgstr ""
+msgstr "비디오 프레임 포함 높이"
 
 msgctxt "IDS_AG_PNS_DEC_SIZE"
 msgid "Video Frame Dec Size"
-msgstr ""
+msgstr "비디오 프레임 디코딩 크기"
 
 msgctxt "IDS_AG_PNS_DEC_WIDTH"
 msgid "Video Frame Dec Width"
-msgstr ""
+msgstr "비디오 프레임 디코딩 너비"
 
 msgctxt "IDS_MPLAYERC_50"
 msgid "Video Frame Dec Height"
-msgstr ""
+msgstr "비디오 프레임 디코딩 높이"
 
 msgctxt "IDS_SUBDL_DLG_DOWNLOADING"
 msgid "Downloading [%s] \"%s\""
@@ -2134,39 +2134,39 @@ msgstr "1~365 사이의 숫자를 입력하세요."
 
 msgctxt "IDS_AG_PNS_CENTER"
 msgid "Video Frame Center"
-msgstr ""
+msgstr "비디오 프레임 중앙"
 
 msgctxt "IDS_AG_PNS_LEFT"
 msgid "Video Frame Left"
-msgstr ""
+msgstr "비디오 프레임 좌측"
 
 msgctxt "IDS_AG_PNS_RIGHT"
 msgid "Video Frame Right"
-msgstr ""
+msgstr "비디오 프레임 우측"
 
 msgctxt "IDS_AG_PNS_UP"
 msgid "Video Frame Up"
-msgstr ""
+msgstr "비디오 프레임 상단"
 
 msgctxt "IDS_AG_PNS_DOWN"
 msgid "Video Frame Down"
-msgstr ""
+msgstr "비디오 프레임 하단"
 
 msgctxt "IDS_AG_PNS_UPLEFT"
 msgid "Video Frame Up/Left"
-msgstr ""
+msgstr "비디오 프레임 좌측상단"
 
 msgctxt "IDS_AG_PNS_UPRIGHT"
 msgid "Video Frame Up/Right"
-msgstr ""
+msgstr "비디오 프레임 우측상단"
 
 msgctxt "IDS_AG_PNS_DOWNLEFT"
 msgid "Video Frame Down/Left"
-msgstr ""
+msgstr "비디오 프레임 좌측하단"
 
 msgctxt "IDS_MPLAYERC_59"
 msgid "Video Frame Down/Right"
-msgstr ""
+msgstr "비디오 프레임 우측하단"
 
 msgctxt "IDS_AG_VOLUME_UP"
 msgid "Volume Up"
@@ -2692,8 +2692,8 @@ msgid "Toggle Caption&Menu"
 msgstr "제목 표시줄 & 메뉴 표시"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
-msgstr "검색 표시줄 전환"
+msgid "Toggle Seekbar"
+msgstr "탐색 표시줄 토글"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
 msgid "Toggle Controls"
@@ -2905,31 +2905,31 @@ msgstr "다음 AR 프리셋"
 
 msgctxt "IDS_AG_VIDFRM_STRETCH"
 msgid "Video Frame Stretch"
-msgstr ""
+msgstr "비디오 프레임 늘이기"
 
 msgctxt "IDS_AG_VIDFRM_INSIDE"
 msgid "Video Frame Inside"
-msgstr ""
+msgstr "비디오 프레임 내부"
 
 msgctxt "IDS_AG_VIDFRM_OUTSIDE"
 msgid "Video Frame Outside"
-msgstr ""
+msgstr "비디오 프레임 외부"
 
 msgctxt "IDS_AG_PNS_RESET"
 msgid "Video Frame Reset"
-msgstr ""
+msgstr "비디오 프레임 초기화"
 
 msgctxt "IDS_AG_PNS_ROTATEX_P"
 msgid "Video Frame Rotate X+"
-msgstr ""
+msgstr "비디오 프레임 회전 X+"
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
-msgstr "탐색바 위에"
+msgid "Above seekbar"
+msgstr "탐색 표시줄 위"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
-msgstr "탐색바 아래에"
+msgid "Below seekbar"
+msgstr "탐색 표시줄 아래"
 
 msgctxt "IDS_VIDEO_STREAM"
 msgid "Video: %s"
@@ -2981,15 +2981,15 @@ msgstr "확대/축소 창 -"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM1"
 msgid "Video Frame Zoom 1"
-msgstr ""
+msgstr "비디오 프레임 확대/축소 1"
 
 msgctxt "IDS_AG_VIDFRM_ZOOM2"
 msgid "Video Frame Zoom 2"
-msgstr ""
+msgstr "비디오 프레임 확대/축소 2"
 
 msgctxt "IDS_AG_VIDFRM_SWITCHZOOM"
 msgid "Video Frame Switch Zoom"
-msgstr ""
+msgstr "비디오 프레임 전환 확대/축소"
 
 msgctxt "IDS_ENABLE_ALL_FILTERS"
 msgid "&Enable all filters"
@@ -3915,6 +3915,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "온라인 자막 검색에 실패했습니다."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr "자막을 다운로드하지 못했습니다."
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "온라인 자막 검색이 중단됐습니다."
@@ -3956,6 +3960,8 @@ msgid ""
 "/pns \"name or values\"\tSpecify Video Frame preset name to use or direct "
 "position and zoom values in format \"px,py,zx,zy\""
 msgstr ""
+"/pns \"이름 또는 값\"사용할 비디오 프레임 프리셋 이름을 지정하거나 위치 및 확대/축소 값을 \"px,py,zx,zy\" 형식으로"
+" 지정합니다."
 
 msgctxt "IDS_CMD_ICONASSOC"
 msgid "/iconsassoc\tReassociate format icons"
@@ -4035,7 +4041,7 @@ msgctxt "IDS_PPAGEADVANCED_MOUSE_LEFTUP_DELAY"
 msgid ""
 "Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
 "video."
-msgstr "동영상을 클릭할 때 마우스 왼쪽 클릭 이벤트의 최대 지연 시간(밀리 초)."
+msgstr "동영상을 클릭할 때 마우스 왼쪽 클릭 이벤트의 최대 지연 시간(밀리초)."
 
 msgctxt "IDS_PPAGEADVANCED_USE_FREETYPE"
 msgid ""
@@ -4418,7 +4424,7 @@ msgstr "/unregall\t\t모든 파일 연결 끊기"
 
 msgctxt "IDS_CMD_START"
 msgid "/start ms\t\tStart playing at \"ms\" (= milliseconds)"
-msgstr "/start ms\t\t\"ms(밀리 초)\"에서 재생 시작"
+msgstr "/start ms\t\t\"ms(밀리초)\"에서 재생 시작"
 
 msgctxt "IDS_CMD_STARTPOS"
 msgid "/startpos hh:mm:ss\tStart playing at position hh:mm:ss"
@@ -4484,12 +4490,12 @@ msgid ""
 "don't show a dragger at current position, but instead are filled from left "
 "to right."
 msgstr ""
-"다크 테마가 요구됩니다. 사용 설정하면 시간 검색바 및 볼륨 표시기가 현재 위치에 드래거를 표시하지 않고 대신 왼쪽에서 오른쪽으로 "
+"다크 테마가 요구됩니다. 사용 설정하면 시간 탐색 표시줄 및 볼륨 표시기가 현재 위치에 드래거를 표시하지 않고 대신 왼쪽에서 오른쪽으로 "
 "채워집니다."
 
 msgctxt "IDS_PPAGEADVANCED_MODERNSEEKBARHEIGHT"
 msgid "Modern seekbar height (at 96dpi, otherwise scaled)"
-msgstr "현재 검색바 높이(96dpi, 다르면 크기 조정)"
+msgstr "현재 탐색 표시줄 높이(96dpi, 다르면 크기 조정)"
 
 msgctxt "IDS_PPAGEADVANCED_FULLSCREEN_DELAY"
 msgid "Delay before showing fullscreen video, to prevent visual glitches."
@@ -4530,7 +4536,7 @@ msgstr "크기 조정 후, 픽셀 셰이더 활성화"
 
 msgctxt "IDS_PPAGEADVANCED_TIME_REFRESH_INTERVAL"
 msgid "Refresh interval (in milliseconds) of time in status bar"
-msgstr "상태 표시줄의 새로 고침 간격(밀리 초)"
+msgstr "상태 표시줄의 새로 고침 간격(밀리초)"
 
 msgctxt "IDS_PPAGEADVANCED_SHOW_LANG_STATUSBAR"
 msgid "Display current audio and subtitle language in status bar"
@@ -4634,8 +4640,8 @@ msgid ""
 " a selection of files in Explorer. A too short threshold can result in only "
 "a part of your selection being added to playlist."
 msgstr ""
-"이전 파일 이후 이 밀리 초 내에 파일이 열리면 이전 파일을 교체하는 대신 재생 목록에 추가됩니다. 이 리디렉션은 탐색기에서 선택한 파일"
-" 열기를 올바르게 처리하는 데 필요합니다. 임계값이 너무 짧으면 선택 항목의 일부만 재생 목록에 추가될 수 있습니다."
+"이전 파일 이후 이 밀리초 내에 파일이 열리면 이전 파일을 교체하는 대신 재생 목록에 추가됩니다. 이 리디렉션은 탐색기에서 선택한 파일 "
+"열기를 올바르게 처리하는 데 필요합니다. 임계값이 너무 짧으면 선택 항목의 일부만 재생 목록에 추가될 수 있습니다."
 
 msgctxt "IDS_ARS_WASAPI_MODE"
 msgid "WASAPI mode:"
@@ -4741,4 +4747,12 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
-msgstr ""
+msgstr "재생 목록에 항목을 추가할 때 파일 길이 불러오기(MediaInfo 사용 결과와는 다를 수 있음)"
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr "영상 미리 보기"
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
+msgstr "탐색 시간"

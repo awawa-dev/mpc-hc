@@ -544,7 +544,7 @@ void CMPCThemeMenu::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
     if (mo->isSeparator) {
         lpMeasureItemStruct->itemWidth = 0;
         lpMeasureItemStruct->itemHeight = separatorHeight;
-    } else {
+    } else if (hDC) {
         CSize height = CMPCThemeUtil::GetTextSize(_T("W"), hDC, &font);
         if (mo->isMenubar) {
             CSize cs = CMPCThemeUtil::GetTextSize(mo->m_strCaption, hDC, &font);

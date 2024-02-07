@@ -23,6 +23,7 @@
 #include <algorithm>
 #include "StreamSwitcher.h"
 #include "../../../DSUtil/DSUtil.h"
+#include "../../../DSUtil/PathUtils.h"
 
 #ifdef STANDALONE_FILTER
 #include <InitGuid.h>
@@ -381,6 +382,7 @@ CStreamSwitcherInputPin::CStreamSwitcherInputPin(CStreamSwitcherFilter* pFilter,
     , m_evBlock(TRUE)
     , m_fCanBlock(false)
     , m_hNotifyEvent(nullptr)
+    , m_bFirstSampleReceived(false)
 {
     m_bCanReconnectWhenActive = true;
 }
@@ -562,7 +564,7 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
     m_fCanBlock = false;
     bool fForkedSomewhere = false;
 
-    CStringW fileName;
+    CStringW streamName;
     CStringW pinName;
 
     IPin* pPin = (IPin*)this;
@@ -587,15 +589,20 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
         fForkedSomewhere = fForkedSomewhere || nIn > 1 || nOut > 1;
 
         DWORD cStreams = 0;
+        CStringW streamSSName;
         if (CComQIPtr<IAMStreamSelect> pSSF = pBF) {
             hr = pSSF->Count(&cStreams);
             if (SUCCEEDED(hr)) {
                 for (int i = 0; i < (int)cStreams; i++) {
+                    CComHeapPtr<WCHAR> pszNameSS;
                     AM_MEDIA_TYPE* pmt = nullptr;
-                    hr = pSSF->Info(i, &pmt, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+                    LCID lcid = 0;
+
+                    hr = pSSF->Info(i, &pmt, nullptr, &lcid, nullptr, &pszNameSS, nullptr, nullptr);
                     if (SUCCEEDED(hr) && pmt && pmt->majortype == MEDIATYPE_Audio) {
                         m_pSSF = pSSF;
                         DeleteMediaType(pmt);
+                        streamSSName = pszNameSS;
                         break;
                     }
                     DeleteMediaType(pmt);
@@ -604,29 +611,35 @@ HRESULT CStreamSwitcherInputPin::CompleteConnect(IPin* pReceivePin)
         }
 
         if (CComQIPtr<IFileSourceFilter> pFSF = pBF) {
-            WCHAR* pszName = nullptr;
+            CComHeapPtr<WCHAR> fileName;
             AM_MEDIA_TYPE mt;
-            if (SUCCEEDED(pFSF->GetCurFile(&pszName, &mt)) && pszName) {
-                fileName = pszName;
-                CoTaskMemFree(pszName);
 
-                fileName.Replace('\\', '/');
-                CStringW fn = fileName.Mid(fileName.ReverseFind('/') + 1);
-                if (!fn.IsEmpty()) {
-                    fileName = fn;
+            if (SUCCEEDED(pFSF->GetCurFile(&fileName, &mt)) && fileName) {
+                streamName = fileName;
+                if (streamName.Find(L"googlevideo.com") || (PathUtils::IsURL(streamName) && streamName.GetLength() > 50)) { //we don't like these URLs
+                    streamName = streamSSName;
+                    if (streamName.GetLength() <= 0) {
+                        streamName = L"Online Audio Stream";
+                    }
+                } else {
+                    streamName.Replace('\\', '/');
+                    CStringW fn = streamName.Mid(streamName.ReverseFind('/') + 1);
+                    if (!fn.IsEmpty()) {
+                        streamName = fn;
+                    }
+
+                    // Haali & LAVFSplitter return only one "Audio" pin name, cause CMainFrame::OnInitMenuPopup lookup find the wrong popmenu,
+                    // add space at the end to prevent this, internal filter never return "Audio" only.
+                    if (!pinName.IsEmpty()) {
+                        streamName = pinName + L" ";
+                    }
                 }
 
-                // Haali & LAVFSplitter return only one "Audio" pin name, cause CMainFrame::OnInitMenuPopup lookup find the wrong popmenu,
-                // add space at the end to prevent this, internal filter never return "Audio" only.
-                if (!pinName.IsEmpty()) {
-                    fileName = pinName + L" ";
-                }
-
-                WCHAR* pName = DEBUG_NEW WCHAR[fileName.GetLength() + 1];
+                WCHAR* pName = DEBUG_NEW WCHAR[streamName.GetLength() + 1];
                 if (pName) {
-                    wcscpy_s(pName, fileName.GetLength() + 1, fileName);
+                    wcscpy_s(pName, streamName.GetLength() + 1, streamName);
                     if (m_pName) {
-                        delete [] m_pName;
+                        delete[] m_pName;
                     }
                     m_pName = pName;
                     if (cStreams == 1) { // Simple external track, no need to use the info from IAMStreamSelect
@@ -781,6 +794,9 @@ STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()
         return S_OK;
     }
 
+    if (!m_bFirstSampleReceived) {
+        pSSF->Stop();
+    }
     return IsActive() ? pSSF->DeliverEndOfStream() : S_OK;
 }
 
@@ -788,6 +804,7 @@ STDMETHODIMP CStreamSwitcherInputPin::EndOfStream()
 
 STDMETHODIMP CStreamSwitcherInputPin::Receive(IMediaSample* pSample)
 {
+    m_bFirstSampleReceived = true;
     AM_MEDIA_TYPE* pmt = nullptr;
     if (SUCCEEDED(pSample->GetMediaType(&pmt)) && pmt) {
         const CMediaType mt(*pmt);

@@ -38,8 +38,6 @@
 #include "../mpc-hc/SubtitlesProvidersUtils.h"
 #include "../DSUtil/ISOLang.h"
 
-#include "../mpc-hc/mplayerc.h"
-
 struct htmlcolor {
     LPCTSTR name;
     DWORD  color;
@@ -2302,7 +2300,7 @@ CSimpleTextSubtitle::CSimpleTextSubtitle()
     , m_bUsingPlayerDefaultStyle(false)
     , m_ePARCompensationType(EPCTDisabled)
     , m_dPARCompensation(1.0)
-    , m_SubRendererSettings(AfxGetAppSettings().GetSubRendererSettings())
+    , m_SubRendererSettings(GetSubRendererSettings())
 #if USE_LIBASS
     , m_LibassContext(this)
 #endif
@@ -2577,7 +2575,7 @@ STSStyle* CSimpleTextSubtitle::CreateDefaultStyle(int CharSet)
 
     if (!m_styles.Lookup(def, ret)) {
         STSStyle* style = DEBUG_NEW STSStyle();
-        *style = AfxGetAppSettings().subtitlesDefStyle;
+        *style = m_SubRendererSettings.defaultStyle;
         if (CharSet != DEFAULT_CHARSET) {
             style->charSet = CharSet;
         }
@@ -3804,27 +3802,4 @@ static bool OpenRealText(CTextFile* file, CSimpleTextSubtitle& ret, int CharSet)
     }
 
     return !ret.IsEmpty();
-}
-
-// RenderersSettings.h
-
-CRenderersData* GetRenderersData() {
-    return &AfxGetMyApp()->m_Renderers;
-}
-
-CRenderersSettings& GetRenderersSettings() {
-    return AfxGetAppSettings().m_RenderersSettings;
-}
-
-// ToDo: move these settings into CRendererSettings or make an implementation similar to CRendererSettings that holds old subtitle settings
-SubRendererSettings CAppSettings::GetSubRendererSettings() {
-    SubRendererSettings s;
-    s.defaultStyle = this->subtitlesDefStyle;
-    s.overrideDefaultStyle = this->fUseDefaultSubtitlesStyle;
-#if USE_LIBASS
-    s.renderSSAUsingLibass = this->bRenderSSAUsingLibass;
-    s.renderSRTUsingLibass = this->bRenderSRTUsingLibass;
-#endif
-    OpenTypeLang::CStringAtoHintStr(s.openTypeLangHint, this->strOpenTypeLangHint);
-    return s;
 }

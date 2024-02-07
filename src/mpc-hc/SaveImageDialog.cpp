@@ -39,7 +39,7 @@ CSaveImageDialog::CSaveImageDialog(
 
         pfdc->StartVisualGroup(IDS_IMAGE_JPEG_QUALITY, ResStr(IDS_IMAGE_JPEG_QUALITY));
         pfdc->AddText(IDS_IMAGE_QUALITY, ResStr(IDS_IMAGE_QUALITY));
-        str.Format(L"%d", std::max(0, std::min(100, m_nJpegQuality)));
+        str.Format(L"%d", std::clamp(m_nJpegQuality, 20, 100));
         pfdc->AddEditBox(IDC_EDIT1, str);
         pfdc->EndVisualGroup();
 
@@ -83,7 +83,7 @@ BOOL CSaveImageDialog::OnFileNameOK()
             m_nJpegQuality = _wtoi(result);
         }
 
-        m_nJpegQuality = std::max(0, std::min(100, m_nJpegQuality));
+        m_nJpegQuality = std::clamp(m_nJpegQuality, 20, 100);
 
         if (bSubtitleOptionSupported) {
             BOOL bChecked;

@@ -118,6 +118,8 @@ protected:
 	HWND m_hWnd;
 	bool m_bIsPreview,m_bPreviewSupportsRotation;
     CStringW m_entryRFS;
+    bool m_bIsCapture;
+
 public:
 	CFGManager(LPCTSTR pName, LPUNKNOWN pUnk, HWND hWnd = 0, bool IsPreview = false);
     virtual ~CFGManager();

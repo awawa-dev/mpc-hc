@@ -43,14 +43,11 @@ public:
     BOOL m_fRememberWindowPos;
     BOOL m_fRememberWindowSize;
     BOOL m_fSavePnSZoom;
-    BOOL m_fSnapToDesktopEdges;
     BOOL m_fUseIni;
     BOOL m_fTrayIcon;
     BOOL m_fKeepHistory;
     BOOL m_fHideCDROMsSubMenu;
     BOOL m_priority;
-    BOOL m_fShowOSD;
-    BOOL m_fLimitWindowProportions;
     BOOL m_fRememberDVDPos;
     BOOL m_fRememberFilePos;
     BOOL m_bRememberPlaylistItems;
@@ -58,16 +55,12 @@ public:
 
     ULONGLONG m_dwCheckIniLastTick;
 
-    EventClient m_eventc;
-
     // Dialog Data
     enum { IDD = IDD_PPAGEPLAYER };
 
 protected:
     CStatic m_iconSingle;
     CStatic m_iconMulti;
-    CMPCThemeComboBox m_langsComboBox;
-    int m_nPosLangEnglish;
 
     virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
     virtual BOOL OnInitDialog();

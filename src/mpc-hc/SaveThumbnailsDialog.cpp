@@ -44,17 +44,17 @@ CSaveThumbnailsDialog::CSaveThumbnailsDialog(
 
         pfdc->StartVisualGroup(IDS_THUMB_IMAGE_WIDTH, ResStr(IDS_THUMB_IMAGE_WIDTH));
         pfdc->AddText(IDS_THUMB_PIXELS, ResStr(IDS_THUMB_PIXELS));
-        str.Format(L"%d", std::max(256, std::min(3840, m_width)));
+        str.Format(L"%d", std::clamp(m_width, 256, 3840));
         pfdc->AddEditBox(IDC_EDIT4, str);
         pfdc->EndVisualGroup();
 
         pfdc->StartVisualGroup(IDS_THUMB_THUMBNAILS, ResStr(IDS_THUMB_THUMBNAILS));
         pfdc->AddText(IDS_THUMB_ROWNUMBER, ResStr(IDS_THUMB_ROWNUMBER));
-        str.Format(L"%d", std::max(1, std::min(40, m_rows)));
+        str.Format(L"%d", std::clamp(m_rows, 1, 40));
         pfdc->AddEditBox(IDC_EDIT2, str);
 
         pfdc->AddText(IDS_THUMB_COLNUMBER, ResStr(IDS_THUMB_COLNUMBER));
-        str.Format(L"%d", std::max(1, std::min(16, m_cols)));
+        str.Format(L"%d", std::clamp(m_cols, 1, 16));
         pfdc->AddEditBox(IDC_EDIT3, str);
         pfdc->EndVisualGroup();
 

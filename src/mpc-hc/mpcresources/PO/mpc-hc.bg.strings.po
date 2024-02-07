@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the MPC-HC package.
 # Translators:
 # Симеон Цветков <sicvetkov@uni-sofia.bg>, 2020
-# Андрей Станков <astankov84@gmail.com>, 2022
+# Андрей Станков <astankov84@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: MPC-HC\n"
-"POT-Creation-Date: 2022-06-24 16:57:41+0000\n"
+"POT-Creation-Date: 2023-11-03 23:11:00+0000\n"
 "PO-Revision-Date: 2020-01-02 07:46+0000\n"
-"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2022\n"
-"Language-Team: Bulgarian (https://www.transifex.com/mpchc/teams/106126/bg/)\n"
+"Last-Translator: Андрей Станков <astankov84@gmail.com>, 2023\n"
+"Language-Team: Bulgarian (https://app.transifex.com/mpchc/teams/106126/bg/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -104,15 +104,15 @@ msgstr "Включи субтитри"
 
 msgctxt "IDS_THEMEMODE_DARK"
 msgid "Dark"
-msgstr ""
+msgstr "Тъмен"
 
 msgctxt "IDS_THEMEMODE_LIGHT"
 msgid "Light"
-msgstr ""
+msgstr "Светъл"
 
 msgctxt "IDS_THEMEMODE_WINDOWS"
 msgid "Windows Default"
-msgstr ""
+msgstr "По подразбиране за Windows"
 
 msgctxt "IDS_INFOBAR_CHANNEL"
 msgid "Channel"
@@ -757,7 +757,7 @@ msgid "Player::Logo"
 msgstr "Плейър::Лого"
 
 msgctxt "IDD_PPAGETHEME"
-msgid "Player::Theme"
+msgid "Player::User Interface"
 msgstr ""
 
 msgctxt "IDD_PPAGEOUTPUT"
@@ -2764,7 +2764,7 @@ msgid "Toggle Caption&Menu"
 msgstr "Управление на &менюто за надписи"
 
 msgctxt "IDS_AG_TOGGLE_SEEKER"
-msgid "Toggle Seek Bar"
+msgid "Toggle Seekbar"
 msgstr "Управление на лентата за превъртане"
 
 msgctxt "IDS_AG_TOGGLE_CONTROLS"
@@ -2996,11 +2996,11 @@ msgid "Video Frame Rotate X+"
 msgstr ""
 
 msgctxt "IDS_TIME_TOOLTIP_ABOVE"
-msgid "Above seek bar"
+msgid "Above seekbar"
 msgstr "Над лентата за превъртане"
 
 msgctxt "IDS_TIME_TOOLTIP_BELOW"
-msgid "Below seek bar"
+msgid "Below seekbar"
 msgstr "Под лентата за превъртане"
 
 msgctxt "IDS_VIDEO_STREAM"
@@ -3990,6 +3990,10 @@ msgctxt "IDS_SUBDL_DLG_FAILED"
 msgid "Online subtitles search failed."
 msgstr "Търсенето на субтитри онлайн е неуспешно."
 
+msgctxt "IDS_SUBDL_DLG_FAILED_DL"
+msgid "Subtitle download failed."
+msgstr ""
+
 msgctxt "IDS_SUBDL_DLG_ABORTED"
 msgid "Online subtitles search aborted."
 msgstr "Търсенето на субтитри е прекратено."
@@ -4113,12 +4117,16 @@ msgid ""
 "Maximum delay in milliseconds of mouse LeftUp event when clicking on the "
 "video."
 msgstr ""
+"Максимално закъснение в милисекунди на движението на мишката наляво и нагоре"
+" при натискане върху видео."
 
 msgctxt "IDS_PPAGEADVANCED_USE_FREETYPE"
 msgid ""
 "Use FreeType for subtitle rendering.  Enables support for per-language "
 "glyphs."
 msgstr ""
+"Ползване на FreeType за субтитрите. Добавя поддръжка на специфични за езика "
+"глифове."
 
 msgctxt "IDS_SUBUL_DLG_STATUS_NOTIMPLEMENTED"
 msgid "Not implemented."
@@ -4787,7 +4795,7 @@ msgstr "Буфер на устройството:"
 
 msgctxt "IDS_ARS_ALT_CHECK_FORMAT"
 msgid "Do not check format support"
-msgstr ""
+msgstr "Да не се проверява  за поддръжка на формата"
 
 msgctxt "IDS_ARS_STATUS"
 msgid "Status"
@@ -4834,14 +4842,18 @@ msgid ""
 "If possible, the audio will be sent out in its original format.\n"
 "Otherwise, the format specified in the system settings will be used."
 msgstr ""
+"Ако е възможно аудиото ще се изпраща в оригиналния си формат.\n"
+"В противен случай ще се ползва формата посочен в системните настройки."
 
 msgctxt "IDS_ARS_TIP_ALT_CHECK_FORMAT"
 msgid "The renderer will try to initialize the device skipping some checks."
 msgstr ""
+"Рендера ще опита да инициализира устройството с пропускане на някои "
+"проверки."
 
 msgctxt "IDS_FILTER_RESET_SETTINGS"
 msgid "Reset"
-msgstr ""
+msgstr "Изчистване"
 
 msgctxt "IDS_AG_DEFAULT"
 msgid "Default"
@@ -4851,4 +4863,12 @@ msgctxt "IDS_PPAGEADVANCED_USE_MEDIAINFO_LOAD_FILE_DURATION"
 msgid ""
 "Load file duration when adding items to playlist (uses MediaInfo and results"
 " may vary)"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_PREVIEW"
+msgid "Video Preview"
+msgstr ""
+
+msgctxt "IDS_SEEKBAR_HOVER_TOOLTIP"
+msgid "Seek Time"
 msgstr ""

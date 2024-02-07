@@ -359,9 +359,14 @@ void CPPageExternalFilters::OnAddRegistered()
         while (!dlg.m_filters.IsEmpty()) {
             if (FilterOverride* f = dlg.m_filters.RemoveHead()) {
                 CAutoPtr<FilterOverride> p(f);
-
                 CString name = f->name;
 
+                if (f->type == FilterOverride::REGISTERED) {
+                    if (name == "madVR" || name == "MPC Video Renderer") {
+                        AfxMessageBox(L"You can not add video renderers as external filter. You should select your preferred video renderer on the Output settings page.", MB_OK);
+                        continue;
+                    }
+                }
                 if (f->type == FilterOverride::EXTERNAL) {
                     if (!PathUtils::Exists(MakeFullPath(f->path))) {
                         name += _T(" <not found!>");
