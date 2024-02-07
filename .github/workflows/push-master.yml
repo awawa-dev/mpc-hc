@@ -21,7 +21,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: true
@@ -34,9 +34,9 @@ jobs:
           git switch -c "github-action"
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.10'
 
       - name: Install msys2
         uses: msys2/setup-msys2@v2
@@ -58,7 +58,7 @@ jobs:
           PATH: ${{env.CLEAN_PATH}}      
         run: |
           pip install polib
-          python -c 'import sys; import polib; print(polib.escape(""Testing polib..."")); print(sys.version);' 
+          python -c 'import sys; import polib; print(polib.escape("Testing polib...")); print(sys.version);' 
 
       - name: Set up nasm
         uses: ilammy/setup-nasm@v1.4.0      
